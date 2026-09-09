@@ -22,7 +22,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-09-05 22:3x UTC**, branch `main`.
+Last updated: **2026-09-09**, branch `claude/owner-notes-2026-09-09` (owner notes only).
 
 ### Where the project stands (read this, then §6 / §7 / §8)
 
@@ -468,6 +468,8 @@ slow one.
 ---
 
 ## 6. Open work
+
+**Owner notes 2026-09-09 (awaiting ruling):** two directives recorded in `research/OWNER_NOTES_2026-09-09.md` -- (1) replace screen-side entity detection with a reverse-engineered server client; (2) play first / store samples / abstract / tokenise / track progress instead of learning against real players. Note 2 matches the Square One shape already approved above; note 1 is a product decision on the human-view premise. No code changes until the owner rules.
 
 **Parked 2026-09-06 (§5cs.61):** S1 rows carry no `deploying` flag and no spell/effect tokens, because the compact `frames` in corpus_v3 record neither and the play frames had to be reduced to that format to close the gate leak. Restoring them = re-drive both corpora with effects recorded at every `record_every` tick (~2.5 h engine time), then rebuild. Do it before S4 (the live path DOES provide spells and a deploying=None channel).
 
