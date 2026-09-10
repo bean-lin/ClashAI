@@ -2,7 +2,8 @@
 
 **Recorded:** 2026-09-09, fork `bean-lin/ClashAI`. **Status:** owner directives, not yet implemented.
 **Reviewed:** 2026-09-09 against HANDOFF.md through §5cs.99 and GAUNTLET_LOG.md through L67h (fork
-`main` = upstream `f9a86e5`). Nothing here changes the running pipeline by being written down. Each
+`main` = upstream `f9a86e5`). **Note 3 added and Note 2 corrected:** 2026-09-10. "Owner" below is the
+fork owner; the upstream owner is named as such wherever a ruling of theirs is cited. Nothing here changes the running pipeline by being written down. Each
 note is given in the owner's words, then placed against what the repo measured, with the decision it
 asks for. Tags follow the ledger: **(a)** measured in this repo, **(b)** untested or proposed,
 **(c)** contradicted by a measurement.
@@ -89,16 +90,56 @@ rebuild approved 2026-09-06 already has the shape of this note, and most of it h
 | Learn against real players | S4, last | opened 2026-09-07 for measurement only (§5cs.95): live-shift cost measured, student wired to the live path behind `play.student_ckpt` (§5cs.97), live placement collapse diagnosed (§5cs.98–99). No learning from live matches has run |
 
 **The one difference.** The samples are professional replays, not the owner's own games. The
-original pipeline did start with the owner's own games (record → label → BC; README, "The original
-pipeline"). What exists of them on disk is 4 sessions / 276 plays (§5cs.58), against 66,579 pro
-play rows in corpus_v5 icebow alone (§5cs.77) **(a)**. The owner has since ruled (2026-09-08,
-L67f / §5cs.98 G) that their own clicks are not a quality standard and are never used as placement
-labels; their sessions serve only as real detector input for label-free instruments. If that ruling
-stands, this difference is already settled. If the owner wants their matches in the corpus anyway,
-they enter the same way live matches do in S4: recorded with the replay tag, re-driven in the
-engine, then labelled (§5cs.56 prerequisite).
+original pipeline did start with the operator's own games (record → label → BC; README, "The original
+pipeline"). What exists of them upstream is 4 sessions / 276 plays (§5cs.58), against 66,579 pro
+play rows in corpus_v5 icebow alone (§5cs.77) **(a)**. The *upstream* owner ruled on 2026-09-08
+(L67f / §5cs.98 G) that their own clicks are not a quality standard and are never used as placement
+labels. That is a ruling about the upstream owner's play; it does not bind this fork. Note 3 changes
+the calculus: on a stock account there is no pro corpus for the deck, so own play is the only sample
+source until one of Note 3's routes exists. Own matches enter the same way live matches do in S4:
+recorded with the replay tag, re-driven in the engine, then labelled (§5cs.56 prerequisite) — or,
+while the engine is blocked, labelled from the screen as the original pipeline did (`run.py label`).
 
-**Decision asked.** Confirm (1) the pro corpus stays the primary sample source, i.e. the 2026-09-08
-ruling on the owner's own clicks stands, and (2) S4 stays last and stays measurement-only until the
-live placement defect (§5cs.98) is closed. No code change follows from this note unless either
-ruling changes.
+**Decision asked.** Confirm (1) the sample source per Note 3 (pro corpus where one exists for the
+deck, own play otherwise), and (2) S4 stays last and stays measurement-only until the live placement
+defect (§5cs.98) is closed. No code change follows from this note unless either ruling changes.
+
+## Note 3 — Account: a stock account instead of the icebow deck
+
+> instead of ice bow, we will be using a stock account
+
+**Recorded:** 2026-09-10. A fresh (stock) throwaway account: starter cards at starter levels, from
+Training Camp and Arena 1 onward. The first-battle deck is Arrows, Knight, Archers, Minions, Giant and
+Fireball, with Goblins and Musketeer filling the eight **(b: confirm the last two in-game)**.
+
+**What is deck-agnostic (a).** The pipeline is deck-parameterised by ruling (§6 ruling 1, 2026-09-06):
+a deck is one yaml in `pipeline/decks/` (8 card classes, config, crawl and data dirs). The contract
+encodes the hand as 8 deck slots plus a "not in my deck" bit and the model's card head is 8 slots
+(`obs_contract._slot_onehot`, `model_v3.N_SLOTS`), so any eight cards fit. All eight stock cards are
+detector classes (`vocab.DETECTOR_CLASSES`), so `from_live` needs no new class. hogeq is the folder
+recipe: clone the deck folder without `data/ runs/ .venv`, set the `config.yaml` deck and `cards.yaml`
+levels, rebuild hand templates (`run.py hand-templates`), keep the BoardWarp calibration.
+
+**What breaks.**
+- *The pro corpus* — **(a) for the filters, (b) for the count.** Every corpus filter is exact-deck
+  (`hf_to_crawl.py`'s card set; the crawler's deck match). Pros do not play the starter deck, so the
+  exact-deck corpus for it is close to empty; the HF count is unmeasured and the filter can be run
+  over the 52 parts to measure it. Three routes, none free: (i) own play as the sample source
+  (Note 2), small by the ledger's standards (276 plays vs 66,579 rows); (ii) a universal card encoder
+  so all 252k public replays train one model regardless of deck — the FirstLight mechanism, ranked
+  (B) in §5cs.95 C, a new model family; (iii) a ladder deck the account can build early, crawled as
+  icebow was — keeps the pipeline as-is, changes the deck.
+- *Live grading* — **(a).** The protocol is a 10,000-trophy ladder band (§6 ruling 2) on the upstream
+  owner's account. A stock account plays Training Camp against bots, then low arenas against
+  low-level players. The band has to be re-ruled for this account, and "learn against real players"
+  (Note 2) is partly "against bots" at first.
+- *Card levels* — **(b).** The engine re-drives replays at catalog levels and pro replays are level
+  15–16; a stock account's cards start at level 1. HP and damage scale per level, so engine states
+  and live states disagree on unit strength until the sandbox is set to the account's levels.
+  Whether the sandbox exposes per-card levels is unchecked.
+- *ToS* — a throwaway account is what the README asks for; this note removes the risk to any main
+  account.
+
+**Decision asked.** (1) Which corpus route: own play only, the universal encoder, or a buildable
+ladder deck. (2) The live grading band for the stock account. (3) The eight cards, confirmed in-game,
+so the deck yaml can be written. No deck folder or yaml is created until (3).
