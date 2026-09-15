@@ -22,7 +22,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-09-05 22:3x UTC**, branch `main`.
+Last updated: **2026-09-10**, branch `claude/owner-notes-2026-09-09` (owner notes only: note 3 added, note 2 corrected, no code).
 
 ### Where the project stands (read this, then §6 / §7 / §8)
 
@@ -468,6 +468,8 @@ slow one.
 ---
 
 ## 6. Open work
+
+**Owner notes 2026-09-09 (awaiting ruling):** two directives recorded in `research/OWNER_NOTES_2026-09-09.md` and reviewed against this ledger the same day -- (1) replace screen-side entity detection with a reverse-engineered server client: the "slow" premise is (c) on latency (detector 45-80 ms vs act_period 1.5 s, §5cs.97), the resource premise is (b) unmeasured, and the measured cost of the screen path is MISSING VALUES, not time (§5cs.98 D/E) -- so it is a product decision on the human-view premise plus a third ToS tier above the offline sandbox RE; (2) play first / store samples / abstract / tokenise / track progress instead of learning against real players: S0-S1 done, S2 measured, S3 closed, S4 measurement-only -- the Square One order already satisfies it, and the 2026-09-08 ruling that the owner's own clicks are not placement labels (§5cs.98 G) settles the one difference unless reversed. (3, added 2026-09-10) a STOCK ACCOUNT replaces the icebow deck: the pipeline is deck-agnostic and all eight stock cards are detector classes (a), but every corpus filter is exact-deck so the pro corpus for a starter deck is ~empty, the 10,000-trophy grading band is the upstream owner's and cannot apply, and engine card levels vs a level-1 account are unmeasured (b) -- three corpus routes listed, ruling asked. Also corrected: the 2026-09-08 own-clicks ruling is the UPSTREAM owner's and does not bind the fork. No code changes until the owner rules.
 
 **Parked 2026-09-06 (§5cs.61):** S1 rows carry no `deploying` flag and no spell/effect tokens, because the compact `frames` in corpus_v3 record neither and the play frames had to be reduced to that format to close the gate leak. Restoring them = re-drive both corpora with effects recorded at every `record_every` tick (~2.5 h engine time), then rebuild. Do it before S4 (the live path DOES provide spells and a deploying=None channel).
 
