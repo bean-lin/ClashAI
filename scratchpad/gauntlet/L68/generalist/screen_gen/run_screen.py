@@ -68,8 +68,11 @@ def play(a) -> int:
     frozen = json.loads(pool.with_name(pool.stem + "_split.json").read_text(encoding="utf-8"))
     if sha256_file(pool) != frozen["pool_sha256"]:
         raise SystemExit("REFUSING: pool sha256 != frozen split's")
-    heldout = select_split(load_pool_v1(pool), "heldout")
-    jobs = [(i, e, int(k)) for i, e in enumerate(heldout) for k in rc["screen_seeds"] if (e["tag"], int(k)) not in done]
+    # --split train: the pool's TRAIN entries -- never used by a LEAGUE run (it trains on self-play), so an independent,
+    # ~5x larger test set for league checkpoints (L68 league1 acceptance, 2026-09-26). Default = the RL screen's heldout.
+    heldout = select_split(load_pool_v1(pool), a.split)
+    seeds = [int(k) for k in a.seeds.split(",")] if a.seeds else rc["screen_seeds"]
+    jobs = [(i, e, int(k)) for i, e in enumerate(heldout) for k in seeds if (e["tag"], int(k)) not in done]
     model, minfo = E.load_policy(Path(a.ckpt), a.device)
     noise = E.parse_noise_off(",".join(E.NOISE_NAMES) if a.noise_off == "all" else a.noise_off)
     if a.opp_elixir:                             # the opp-elixir SOURCE; every other component stays --noise-off's
@@ -88,7 +91,7 @@ def play(a) -> int:
             "cfg": {k: v for k, v in cfg.items() if k != "noise"}, "noise_off": E.noise_off_names(cfg["noise"]),
             "opp_elixir_arg": a.opp_elixir, "action_delay_ticks": int(a.action_delay),
             "extrapolate_ticks": int(a.extrapolate),
-            "screen_seeds": rc["screen_seeds"],
+            "screen_seeds": seeds, "split": a.split,
             "jobs": len(jobs), "resumed_done": len(done), "started": time.strftime("%Y-%m-%d %H:%M:%S")}
     out.parent.mkdir(parents=True, exist_ok=True)
     out.with_suffix(".run.json").write_text(json.dumps(meta, indent=1, default=str), encoding="utf-8")
@@ -132,6 +135,9 @@ def main(argv=None) -> int:
     ap.add_argument("--threads", type=int, default=2)
     ap.add_argument("--batch", type=int, default=16, help="matches in flight sharing one forward (actors: in_flight 16)")
     ap.add_argument("--max-matches", type=int, default=0, help="smoke: stop after N matches")
+    ap.add_argument("--split", choices=("heldout", "train"), default="heldout")
+    ap.add_argument("--seeds", default="", help="comma list of k (default: rl_royale.yaml screen_seeds); clean obs "
+                    "replays identical matches across k, so --seeds 0 suffices there")
     ap.add_argument("--noise-off", default="", help="e1_eval --noise-off list, or 'all' (clean obs, as the memory reader gives); default '' = the RL screen's all-on")
     ap.add_argument("--opp-elixir", choices=("truth", "hidden", "counter", "counter_all"), default=None,
                     help="opponent-elixir SOURCE, overriding only the opp_elixir component of --noise-off: truth = exact, "
