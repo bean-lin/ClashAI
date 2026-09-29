@@ -39,6 +39,9 @@ def adb(*args: str, timeout: float = 5) -> str:
     return subprocess.run(ADB + list(args), capture_output=True, text=True, timeout=timeout, env=ENV).stdout
 
 
+EVEN_BUILDINGS = {"Tesla"}   # ponytail: the icebow deck's only 2x2 building; add Cannon etc. for other decks
+
+
 class Layout:
     """upstream native_core/mumu_live_actions.ScreenLayout.from_size, taking OUR board frame (me at the bottom,
     side 1 rotated 180 deg) instead of a canonical cell."""
@@ -50,8 +53,10 @@ class Layout:
         self.ay0, self.ay1 = h * (.105 - .685 / 32), h * (.790 - .685 / 32)
         self.hand_y, self.hand_x = h * .890, [left + vw * f for f in (.31, .50, .69, .88)]
 
-    def board(self, xy: tuple[float, float], side: int) -> tuple[int, int]:
+    def board(self, xy: tuple[float, float], side: int, even: bool = False) -> tuple[int, int]:
         fx = 1.0 - xy[0] if side == 1 else xy[0]          # screen keeps native X; our frame rotated it
+        if even:   # a 2x2 building's centre is a tile corner; a tap ON the corner snapped 1 tile left 34/35 times
+            fx += 0.25 / 18                                # (L68 hog-pull audit) -> tap a quarter tile inside
         return round(self.ax0 + fx * (self.ax1 - self.ax0)), round(self.ay0 + xy[1] * (self.ay1 - self.ay0))
 
     def hand(self, pos: int) -> tuple[int, int]:
@@ -336,7 +341,7 @@ def main() -> int:
             forced = not d["play"] and el >= a.leak and d["card"] > 0
             if not (d["play"] or forced):
                 continue
-            hand, board = lay.hand(d["hand_pos"]), lay.board(d["xy"], side)
+            hand, board = lay.hand(d["hand_pos"]), lay.board(d["xy"], side, even=d["name"] in EVEN_BUILDINGS)
             W(event="play", tick=tick, t_dev=t_dev, name=d["name"], p_play=round(d["p_play"], 4), forced=forced, elixir=el,
               hand_pos=d["hand_pos"], xy=[round(v, 4) for v in d["xy"]], tap_hand=hand, tap_board=board)
             played += 1
