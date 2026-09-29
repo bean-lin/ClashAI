@@ -55,9 +55,12 @@ class Layout:
 
     def board(self, xy: tuple[float, float], side: int, even: bool = False) -> tuple[int, int]:
         fx = 1.0 - xy[0] if side == 1 else xy[0]          # screen keeps native X; our frame rotated it
-        if even:   # a 2x2 building's centre is a tile corner; a tap ON the corner snapped 1 tile left 34/35 times
-            fx += 0.25 / 18                                # (L68 hog-pull audit) -> tap a quarter tile inside
-        return round(self.ax0 + fx * (self.ax1 - self.ax0)), round(self.ay0 + xy[1] * (self.ay1 - self.ay0))
+        fy = xy[1]
+        if even:   # a 2x2 building takes its tapped tile's ARENA lower-left corner (RoyaleSim placement.SNAP_EVEN_CORNER);
+            # a tap ON the corner snapped 1 tile left 34/35 times (L68 hog-pull audit) -> tap a quarter tile inside,
+            fx += 0.25 / 18                                # +x native on both sides
+            fy += 0.25 / 32 if side == 1 else -0.25 / 32   # +y native: side 1's screen y runs with native y, side 0's against
+        return round(self.ax0 + fx * (self.ax1 - self.ax0)), round(self.ay0 + fy * (self.ay1 - self.ay0))
 
     def hand(self, pos: int) -> tuple[int, int]:
         return round(self.hand_x[pos]), round(self.hand_y)
