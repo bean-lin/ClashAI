@@ -60,11 +60,13 @@ def to_observe(frame: Mapping[str, Any], my_side: int, names: list[str]) -> dict
 
 
 def board_state(frame: Mapping[str, Any], *, history: Optional[dict] = None,
-                unmapped: Optional[set] = None) -> BoardState:
+                unmapped: Optional[set] = None, opp_elixir: Optional[float] = None) -> BoardState:
+    """``opp_elixir``: an estimate from PUBLIC events only (pipeline.opp_elixir_count.LiveOppElixir), or None =
+    unknown. The frame's own opponent elixir is never used."""
     if not frame.get("battle_active"):
         raise ValueError(f"frame not active: {frame.get('failure')}")
     side = my_side_of(frame)
     deck, names = deck_of(frame, side)
     bs = from_engine(to_observe(frame, side, names), side, deck, history=history, engine_deck=names,
                      unmapped=set() if unmapped is None else unmapped)
-    return replace(bs, source="live_mem", opp_elixir=None)
+    return replace(bs, source="live_mem", opp_elixir=opp_elixir)

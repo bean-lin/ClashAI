@@ -4,8 +4,11 @@ Builds ONE row exactly as ``dataset_gen`` does for training (``to_tokens`` board
 7..51 zeroed, card-identity hand / next / deck arrays by the checkpoint's ``card_vocab``, past = my last PAST_K
 confirmed plays as (card, form, x, y, seconds ago)) and runs gate -> card pointer -> cell head.
 
-KNOWN train/live gap (b, measured separately): the generalist was trained on engine rows where opponent elixir is
-always known (``opp_known = 1``); the owner's rule forces it unknown live (``opp_known = 0``), a state it never saw.
+Opponent elixir: the owner's rule forbids the opponent's hidden value, so it comes from
+``pipeline.opp_elixir_count.LiveOppElixir`` -- a counter over PUBLIC board events (start 6.0, regen schedule, minus
+the cost of each opponent play it sees). ``observe(frame)`` must see EVERY active+coherent frame (not only the ones
+it decides on). RoyaleSim screen (HANDOFF L68ao, 58 matches): hidden 0.879 -> counter 0.983 for this generalist.
+``use_counter=False`` feeds None (unknown) instead.
 """
 from __future__ import annotations
 
@@ -19,6 +22,10 @@ from .dataset_gen import SC_SLOT_COLS, card_key
 from .eval_gen import load_model
 from .live_mem import board_state, deck_of, my_side_of
 from .model_v3 import cell_xy
+from collections import deque
+
+from .extrapolate import extrapolate
+from .opp_elixir_count import LiveOppElixir, regen_between
 from .obs_contract import to_tokens
 from .train_s1 import MAX_U
 
@@ -26,7 +33,8 @@ FORM_PAD = 3
 
 
 class GenPilot:
-    def __init__(self, ckpt, device: str = "cpu", gate_tau: float = 0.5):
+    def __init__(self, ckpt, device: str = "cpu", gate_tau: float = 0.5, use_counter: bool = True,
+                 extrapolate_ticks: int = 0):
         self.model, st = load_model(ckpt, torch.device(device))
         self.model.eval()
         self.gid = {k: i for i, k in enumerate(st["card_vocab"])}          # 0 = <pad>
@@ -34,10 +42,29 @@ class GenPilot:
         self.dev, self.gate_tau = torch.device(device), float(gate_tau)
         self.past: list[tuple[int, int, float, float, float]] = []       # (card gid, form, x, y, t_sec) confirmed
         self.history: dict = {}
+        self.opp = LiveOppElixir() if use_counter else None
+        self.opp_est: float | None = None
+        # Board extrapolation (pipeline/extrapolate.py, HANDOFF L68as): decide on the board H ticks ahead, where our
+        # card will land (~26 ticks after the decision frame live). Velocity window ~10 ticks, as the screen arm.
+        self.ext_h = int(extrapolate_ticks)
+        self.frames: deque = deque(maxlen=30)            # (tick, raw reader frame), fed by observe()
 
     def reset_match(self) -> None:
         self.past.clear()
         self.history.clear()
+        self.frames.clear()
+        if self.opp:
+            self.opp.reset()
+        self.opp_est = None
+
+    def observe(self, frame: Mapping[str, Any]) -> float | None:
+        """Feed the opponent-elixir counter one active+coherent frame (call on EVERY such frame)."""
+        if self.opp:
+            self.opp_est = self.opp.update(frame)
+        if self.frames and int(frame["game_tick"]) < self.frames[-1][0]:
+            self.frames.clear()                          # tick went backwards: a new match
+        self.frames.append((int(frame["game_tick"]), frame))
+        return self.opp_est
 
     def record_play(self, card: int, form: int, xy: tuple[float, float], t_sec: float) -> None:
         self.past.append((card, form, float(xy[0]), float(xy[1]), float(t_sec)))
@@ -53,7 +80,15 @@ class GenPilot:
         _, names = deck_of(frame, side)
         me = next(p for p in frame["players"] if int(p["side"]) == side)
         forms = list(me.get("deck_form_flags") or [0] * 8)                # reader 0/1/2 = base/evo/hero (as ours)
-        bs = board_state(frame, history=self.history)
+        opp = self.opp_est
+        if self.ext_h:
+            # ALWAYS advance (prev None -> clock + my elixir only), so history ages never jump by H mid-match
+            tick = int(frame["game_tick"])
+            prev = next((f for t, f in reversed(self.frames) if t <= tick - 10), None)
+            frame = extrapolate(frame, prev, self.ext_h, side)
+            if opp is not None:
+                opp = min(10.0, opp + regen_between(tick, tick + self.ext_h))
+        bs = board_state(frame, history=self.history, opp_elixir=opp)
         tok, mask, sc = to_tokens(bs, MAX_U)
         sc = sc.copy()
         sc[SC_SLOT_COLS] = 0.0
