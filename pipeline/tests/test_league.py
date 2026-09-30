@@ -410,6 +410,50 @@ class TestDeckSampling(unittest.TestCase):
         self.assertAlmostEqual(share, 0.8 * self.p[0], delta=0.006)
         self.assertEqual(len({s["tag"] for s in specs}), len(specs))
 
+    SNAPS = [{"id": "snap_u0010", "path": "a"}, {"id": "snap_u0020", "path": "b"}]
+
+    def _old_matchups(self, rng, n, update, cfg):
+        """sample_matchups as it was before league_learner_icebow_share existed (one share for both decks)."""
+        out = []
+        for i in range(n):
+            opp = RL.sample_opponent(rng, self.SNAPS, cfg["league_mix"], cfg["init"], cfg["league_specialist"])
+            ld = RL.sample_deck(rng, self.census, self.p, cfg["league_icebow_share"])
+            od = RL.ICEBOW_DECK if opp["type"] == "s1" else RL.sample_deck(rng, self.census, self.p, cfg["league_icebow_share"])
+            out.append({"tag": f"sp{update:04d}_{i:02d}", "opp": opp, "learner_deck": ld["engine"],
+                        "learner_deck_name": ld["name"], "learner_bucket": ld["bucket"], "opp_deck": od["engine"],
+                        "opp_deck_name": od["name"], "learner_side": int(rng.integers(2)),
+                        "seed": int(rng.integers(2 ** 31 - 1))})
+        return out
+
+    def test_learner_share_null_is_unchanged(self):
+        want = self._old_matchups(np.random.default_rng(7), 500, 3, self.CFG)
+        for cfg in (self.CFG, {**self.CFG, "league_learner_icebow_share": None},
+                    {**self.CFG, "league_learner_icebow_share": 0.2}):
+            rng = np.random.default_rng(7)
+            self.assertEqual(RL.sample_matchups(rng, 500, 3, self.SNAPS, cfg, self.census, self.p), want)
+
+    def test_learner_share_one_only_moves_the_learner(self):
+        cfg = {**self.CFG, "league_learner_icebow_share": 1.0}
+        specs = RL.sample_matchups(np.random.default_rng(0), 20000, 3, self.SNAPS, cfg, self.census, self.p)
+        self.assertTrue(all(s["learner_deck_name"] == "icebow" and s["learner_bucket"] == "icebow" for s in specs))
+        self.assertTrue(all(s["opp_deck"] == ICEBOW for s in specs if s["opp"]["type"] == "s1"))
+        od = np.array([s["opp_deck_name"] == "icebow" for s in specs if s["opp"]["type"] != "s1"])
+        self.assertAlmostEqual(od.mean(), 0.2, delta=0.015)                    # opponents still league_icebow_share
+        self.assertLess(od.mean(), 0.3)
+        self.assertGreater(len({s["opp_deck_name"] for s in specs}), 50)       # and still census-diverse
+
+    def test_learner_share_validated(self):
+        good = {"league_snapshot_every": 10, "league_snapshot_keep": 8, "league_icebow_share": 0.2,
+                "league_mix": {"init": 1.0}, "league_deck_alpha": 0.5, "league_deck_floor": 0.5,
+                "league_opp_policy": "sample"}
+        RL.validate_league(good)                                               # absent = fine
+        for ok in (None, 0, 0.0, 0.5, 1, 1.0):
+            RL.validate_league({**good, "league_learner_icebow_share": ok})
+        for bad in (1.2, -0.1, True, "1.0", float("nan")):
+            with self.assertRaises(SystemExit, msg=bad) as cm:
+                RL.validate_league({**good, "league_learner_icebow_share": bad})
+            self.assertIn("league_learner_icebow_share", str(cm.exception))
+
     def test_opponent_categories(self):
         mix = self.CFG["league_mix"]
         self.assertEqual(set(RL.opponent_mix(0, mix)), {"latest", "init", "s1"})
