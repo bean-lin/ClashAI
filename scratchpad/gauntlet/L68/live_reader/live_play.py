@@ -3,8 +3,8 @@
     icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py --training-camp [--dry-run]
 
 Loop: reader frame (100 ms) -> pipeline.live_gen.GenPilot (opponent hand/next/elixir never used) -> if it plays,
-two ordinary Android taps (hand slot, board) -> receipt from the NEXT frames: the tapped hand slot rotated AND my
-elixir dropped (upstream mumu_live_actions.card_receipt). No game-memory writes. Taps follow upstream's ScreenLayout
+two ordinary Android taps (hand slot, board) -> receipt from the NEXT frames: the tapped hand slot rotated (the
+elixir-drop half of upstream card_receipt is dropped: regen hid cheap plays). No game-memory writes. Taps follow upstream's ScreenLayout
 (native X kept on screen for side 1; arena shifted one tile from the Cannon read-back). Each confirmed troop's
 spawn position is compared with the intended cell -> tap-calibration error in tiles.
 Stops: battle over / tick stalled 3 s, 5 unconfirmed taps, --max-seconds. Log: live_play_<ts>.jsonl here.
@@ -299,8 +299,9 @@ def main() -> int:
                 old = pending["me"]
                 pos = pending["d"]["hand_pos"]
                 rotated = me["hand_deck_indices"][pos] != old["hand_deck_indices"][pos]
-                dropped = old["elixir_raw"] - me["elixir_raw"]
-                if rotated and dropped > 0:
+                dropped = old["elixir_raw"] - me["elixir_raw"]     # logged only: regen during the ~28-tick landing
+                if rotated:   # (~1 elixir in 2x, ~1.5 in 3x) outgrows a Skeletons' cost, so "elixir dropped" missed
+                    # 16 of 23 real plays and stopped matches (L68 2026-09-29); a slot rotates only when its card is played
                     d = pending["d"]
                     cid = me["deck_card_ids"][d["deck_index"]]
                     new = [e for e in f["entities"] if e["side"] == side and e["card_id"] == cid
