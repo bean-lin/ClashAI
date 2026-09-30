@@ -34,3 +34,8 @@ def test_stall_after_clock_ran():
 
 def test_advancing_ticks_proceed():
     assert set(run([(150 + i, i * 0.1) for i in range(100)])) == {"proceed"}
+
+
+def test_tick0_glitch_after_clock_ran_stalls():
+    assert run([(500, 0.0), (0, 1.0), (0, 3.5)]) == ["proceed", "proceed", "stall"]   # mid-match 0: same 3 s rule
+    assert clock_verdict(0, 500, 10) == "stall"

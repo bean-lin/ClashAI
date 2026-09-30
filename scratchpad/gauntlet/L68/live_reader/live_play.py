@@ -38,8 +38,9 @@ CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s)
 def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
     """wait | stall | proceed. 2026-09-30: the reader emits active+coherent frames at game_tick 0 (loading screen /
     countdown); the old guard counted that flat 0 as a stall and exited after 3 s. Tick 0 = the clock has not
-    started: keep waiting, never decide. The stall guard only applies once the clock has run (tick > 0)."""
-    if tick <= 0:
+    started: keep waiting, never decide. Only while the clock has NEVER run (last_tick < 0); a tick 0 after it ran
+    (reader glitch) is an ordinary non-advancing tick and stalls after 3 s like any other."""
+    if tick <= 0 and last_tick < 0:
         return "wait"
     return "proceed" if tick > last_tick or idle_s <= 3 else "stall"
 
