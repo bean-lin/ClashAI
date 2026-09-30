@@ -240,30 +240,53 @@ class MenuGuard:
     """In-match safety net for live_play: if the SCREEN shows a menu while the reader still says "battle", a card
     tap could land on a menu button (249/1378 past board taps fall inside the main screen's Battle button). A frame
     at least every period_s -- HeroButton's own grabs via feed(), else a screencap here -- is classified; .menu is
-    the first menu screen seen (sticky). Armed by live_play once the battle clock runs: the script may be started
-    from a menu (Training Camp flow), and no tap can happen before the clock runs anyway. 164 frames sampled from 4
-    recorded live matches all classify 'unknown'."""
+    the first menu screen seen (sticky). Armed by live_play once the battle clock runs (the script may be started
+    from a menu in the Training Camp flow; no tap can happen before the clock runs anyway). FAILS CLOSED: clear()
+    is True only after a successful, non-menu classification of a 900x1600 screenshot GRABBED after arming, at most
+    FRESH_S old; a failed grab is not a success. 194 frames sampled from recorded live matches classify 'unknown'."""
+    FRESH_S = 5.0
 
     def __init__(self, adb: list[str], period_s: float = 2.0, clf: Classifier | None = None):
         import threading
         self.adb, self.period, self.clf = adb, period_s, clf or Classifier()
         self.menu: str | None = None
         self.last_ts, self._stop, self.armed = 0.0, False, False
+        self.armed_at: float | None = None
+        self.ok_ts: float | None = None                  # grab time of the last successful non-menu classification
         threading.Thread(target=self._run, daemon=True).start()
 
-    def feed(self, img: np.ndarray | None) -> None:
+    def arm(self) -> None:
+        self.armed_at, self.armed = time.time(), True
+
+    def feed(self, img: np.ndarray | None, t_grab: float | None = None) -> None:
+        """img grabbed at t_grab (default: now). Only a grab started after arming counts."""
+        t_grab = time.time() if t_grab is None else t_grab
         self.last_ts = time.time()
-        if not self.armed:
+        if not self.armed or img is None or img.shape[:2] != (1600, 900) or t_grab < self.armed_at:
             return
         s = self.clf.classify(img)["screen"]
-        if s in MENU_SCREENS and self.menu is None:
-            self.menu = s
+        if s in MENU_SCREENS:
+            if self.menu is None:
+                self.menu = s
+        elif self.ok_ts is None or t_grab > self.ok_ts:
+            self.ok_ts = t_grab
+
+    def clear(self, now: float) -> bool:
+        """Taps allowed: armed, no menu ever seen, and a fresh successful classification."""
+        return self.armed and self.menu is None and self.ok_ts is not None and now - self.ok_ts <= self.FRESH_S
+
+    def blind_s(self, now: float) -> float:
+        """Seconds without a successful classification since arming (0 before arming)."""
+        return 0.0 if not self.armed else now - (self.ok_ts if self.ok_ts is not None else self.armed_at)
 
     def _run(self) -> None:
         while not self._stop and self.menu is None:
             if self.armed and time.time() - self.last_ts >= self.period:
-                self.last_ts = time.time()               # claim the slot before the ~0.3 s grab
-                self.feed(grab(self.adb))
+                t = self.last_ts = time.time()           # claim the slot before the ~0.3 s grab
+                try:
+                    self.feed(grab(self.adb), t)
+                except Exception:                        # noqa: BLE001 -- no success recorded: taps stay blocked
+                    pass
             time.sleep(0.2)
 
     def stop(self) -> None:

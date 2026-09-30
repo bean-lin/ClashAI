@@ -37,6 +37,7 @@ RVA, ROOT_CTX = "0x1aeef98", "0x18"
 UI_READY_MIN_TICK = 150
 CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s) without registering -- never wall clock
 READER_SILENT_S = 10.0   # no reader line at all this long after the clock ran -> stop (a reader restart takes ~1-2 s)
+GUARD_BLIND_S = 10.0     # menu guard without a successful screen classification this long -> stop (taps block at 5 s)
 
 
 def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
@@ -167,6 +168,9 @@ def main() -> int:
                          "Screen (HANDOFF L68as): +3.4 pp gen / +6.9 pp v6lat vs no extrapolation at delay 26")
     ap.add_argument("--no-opp-counter", action="store_true",
                     help="feed the model opponent elixir = unknown instead of the public-events counter")
+    ap.add_argument("--no-menu-guard", action="store_true",
+                    help="UNSAFE: run without the in-match menu guard (needed only when the screen is not 900x1600, "
+                         "the guard's template size): a stale reader could then tap menus")
     ap.add_argument("--no-ability", action="store_true",
                     help="never press the hero ability button (default: pressed by hero_button.should_press when the "
                          "deck holds a hero and the button reads ready)")
@@ -198,12 +202,19 @@ def main() -> int:
             return 2
         if a.nav_dry_run:
             return 0 if nav.run()[0] else 1
+    lay = Layout(*screen_size())
+    if a.no_menu_guard:
+        print("!" * 100 + "\n[live] WARNING: --no-menu-guard -- NO screen check during the match: a stale reader "
+              "frame could tap a menu (e.g. ranked Battle)\n" + "!" * 100, flush=True)
+    elif (lay.w, lay.h) != (900, 1600):
+        print(f"refusing: the in-match menu guard needs a 900x1600 screen (got {lay.w}x{lay.h}); fix the emulator "
+              f"resolution, or pass --no-menu-guard to run without it (unsafe)")
+        return 2
     import torch
     torch.set_num_threads(4)                         # never fight every core with the owner's other jobs
     device = ("cuda" if torch.cuda.is_available() else "cpu") if a.device == "auto" else a.device
     pilot = GenPilot(a.ckpt, device=device, gate_tau=a.tau, use_counter=not a.no_opp_counter,
                      extrapolate_ticks=a.extrapolate)
-    lay = Layout(*screen_size())
     renders: list = []                                   # background overlay renders of matches 1..N-1
     rc = 0                                               # 1 = the run stopped for any non-normal reason
     try:
@@ -226,6 +237,7 @@ def main() -> int:
         for p, name in renders:                          # stopping is safe: let the background renders finish
             if p.wait():
                 print(f"[overlay] render failed (exit {p.returncode}); re-render with overlay_replay.py {name}")
+                rc = 1
     return rc
 
 
@@ -255,10 +267,14 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     rec = None if a.no_record else ScreenRec(stamp)
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
-    guard = MenuGuard(ADB) if (lay.w, lay.h) == (900, 1600) else None
+    # It FAILS CLOSED: no input until it has classified a post-arming screenshot as not-a-menu (MenuGuard.clear).
+    guard = None if a.no_menu_guard else MenuGuard(ADB)
     if guard is None:
-        print(f"[live] WARNING: menu guard OFF (templates are 900x1600, screen {lay.w}x{lay.h})", flush=True)
         W(event="menu_guard_off", screen=[lay.w, lay.h])
+
+    def guard_clear() -> bool:
+        return guard is None or guard.clear(time.time())
+    blocked_logged = False
     button = None if a.no_ability else HeroButton(ADB, lay.w, lay.h, HERE / "ability_crops", period_s=2.0,
                                                   on_frame=guard.feed if guard else None)
     ab_pending, last_bstate = None, None
@@ -320,6 +336,9 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             if guard and guard.menu:                     # the screen shows a menu: no further taps, ever
                 print(f"[live] menu screen {guard.menu!r} during the match -- stopping it", flush=True)
                 W(event="stop", why=f"menu_screen:{guard.menu}", last_tick=last_tick); break
+            if guard and guard.blind_s(now) > GUARD_BLIND_S:  # screenshots keep failing: we cannot see the screen
+                print(f"[live] menu guard blind for {guard.blind_s(now):.0f} s -- stopping the match", flush=True)
+                W(event="stop", why="guard_blind", blind_s=round(guard.blind_s(now), 1), last_tick=last_tick); break
             if now - t0 > a.max_seconds:
                 live = last_tick >= 0 and now - last_adv <= 3        # clock still running: a cap, not an end
                 print(f"[live] --max-seconds {a.max_seconds:.0f} hit at tick {last_tick} "
@@ -351,12 +370,14 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                 continue
             if verdict == "stall":
                 W(event="stop", why="tick_stalled", tick=tick); break
-            advanced = tick > last_tick                  # only a frame whose clock MOVED may decide / tap: a frozen
-            if advanced:                                 # battle object (stale reader) can never produce an input
+            # only a frame whose clock MOVED since an earlier frame of THIS match may decide / tap: a frozen battle
+            # object (stale reader) can never produce an input -- not even its first frame (last_tick starts at -1)
+            advanced = last_tick >= 0 and tick > last_tick
+            if tick > last_tick:
                 last_tick, last_adv = tick, now
             seen_active = True
             if guard and not guard.armed:                # the clock runs: from now on any menu on screen stops us
-                guard.armed = True
+                guard.arm()
             # Both hands visible = the results / replay screen (upstream mumu_live_controller never controls then).
             # 2026-09-25: deciding on such a frame raised in my_side_of and killed the run before the overlay render.
             vis = [p["side"] for p in f["players"] if any(i >= 0 for i in p["hand_deck_indices"])]
@@ -405,12 +426,12 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                     elif tick - ab_pending["tick"] > CONFIRM_TICKS:
                         W(event="ability_unconfirmed", tick=tick, button_after=st)
                         ab_pending = None
-                elif st == "ready" and not pending and newest and advanced:
+                elif st == "ready" and not pending and newest and advanced and guard_clear():
                     press, why = should_press(f, side, hids)
                     if press:
                         W(event="ability", tick=tick, t_dev=t_dev, why=why, tap=list(button.point),
                           elixir=me["elixir_raw"] / 1e4)
-                        if not a.dry_run and not (guard and guard.menu):
+                        if not a.dry_run and guard_clear():
                             button.tap()
                             ab_pending = {"t": now, "tick": tick, "elixir_raw": me["elixir_raw"]}
             if pending:
@@ -463,11 +484,18 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             forced = not d["play"] and el >= a.leak and d["card"] > 0
             if not (d["play"] or forced):
                 continue
+            if not guard_clear():                        # the guard has not (freshly) seen a battle screen
+                if not blocked_logged:
+                    W(event="tap_blocked", tick=tick, name=d["name"], why="menu guard not clear",
+                      guard_ok_age_s=None if guard.ok_ts is None else round(time.time() - guard.ok_ts, 1))
+                    blocked_logged = True
+                continue
+            blocked_logged = False
             hand, board = lay.hand(d["hand_pos"]), lay.board(d["xy"], side, even=d["name"] in EVEN_BUILDINGS)
             W(event="play", tick=tick, t_dev=t_dev, name=d["name"], p_play=round(d["p_play"], 4), forced=forced, elixir=el,
               hand_pos=d["hand_pos"], xy=[round(v, 4) for v in d["xy"]], tap_hand=hand, tap_board=board)
             played += 1
-            if a.dry_run or (guard and guard.menu):      # re-checked right before the input
+            if a.dry_run or not guard_clear():           # re-checked right before the input
                 continue
             t_tap = time.time()
             adb("shell", f"input tap {hand[0]} {hand[1]}; sleep 0.05; input tap {board[0]} {board[1]}")

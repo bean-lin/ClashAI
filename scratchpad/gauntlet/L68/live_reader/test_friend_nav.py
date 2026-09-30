@@ -335,13 +335,23 @@ class FakeSampler:
 
 
 class FakeGuard:
+    """Always sees a battle screen once armed (isolates the reader-side fixes); tests set .menu."""
     inst = None
 
     def __init__(self, adb, *a, **k):
-        self.menu, self.armed = None, False
+        self.menu, self.armed, self.ok_ts, self.armed_at = None, False, None, None
         FakeGuard.inst = self
 
-    def feed(self, img):
+    def arm(self):
+        self.armed, self.armed_at, self.ok_ts = True, _time.time(), _time.time()
+
+    def clear(self, now):
+        return self.armed and self.menu is None
+
+    def blind_s(self, now):
+        return 0.0
+
+    def feed(self, img, t_grab=None):
         pass
 
     def stop(self):
@@ -365,8 +375,9 @@ class FakePilot:
         pass
 
 
-def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None):
+def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None, guard_cls=None):
     samplers, taps, pilot = [], [], FakePilot()
+    guard_cls = guard_cls or FakeGuard
 
     def popen(args, **kw):
         s = FakeSampler(lines if not samplers else [], on_line)
@@ -375,14 +386,17 @@ def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout
 
     def adb(*args, **kw):
         if "input tap" in args[-1]:
-            taps.append((args[-1], bool(pilot.last and pilot.last["stale"]), FakeGuard.inst.menu))
+            g = guard_cls.inst
+            taps.append((args[-1], bool(pilot.last and pilot.last["stale"]), g.menu, g.ok_ts, g.armed_at,
+                         _time.time()))
         return ""
     monkeypatch.setattr(lp.subprocess, "Popen", popen)
     monkeypatch.setattr(lp, "adb", adb)
-    monkeypatch.setattr(lp, "MenuGuard", FakeGuard)
+    monkeypatch.setattr(lp, "MenuGuard", guard_cls)
     monkeypatch.setattr(lp, "HERE", tmp_path)
     a = argparse.Namespace(tau=0.5, leak=9.5, dry_run=dry_run, ckpt="x", extrapolate=0, no_opp_counter=True,
-                           no_record=True, no_ability=True, interval_ms=100, max_seconds=400, overlay="both")
+                           no_record=True, no_ability=True, interval_ms=100, max_seconds=400, overlay="both",
+                           no_menu_guard=False)
     why = lp.play_match(a, pilot, lp.Layout(900, 1600), "cpu", None, start_timeout=start_timeout)
     return why, samplers, taps, pilot
 
@@ -396,7 +410,7 @@ def test_stale_same_tick_frames_never_decide_or_tap(monkeypatch, tmp_path):
                                                on_line=lambda i: None if i < len(lines) - 1 else
                                                setattr(FakeGuard.inst, "menu", "results"))
         assert pilot.decided and not any(f["stale"] for f in pilot.decided), dry
-        assert not any(stale for _, stale, _ in taps)
+        assert not any(t[1] for t in taps)
         assert (len(taps) > 0) == (not dry)
         assert len(samplers) == 1, "the sampler was restarted after the match's own kill"
 
@@ -413,7 +427,7 @@ def test_menu_during_match_stops_before_any_tap(monkeypatch, tmp_path):
         if i == 60:
             FakeGuard.inst.menu = "main"
     why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=menu_midway)
-    assert why == "menu_screen:main" and taps and all(menu is None for _, _, menu in taps)
+    assert why == "menu_screen:main" and taps and all(t[2] is None for t in taps)
     assert why not in lp.MATCH_OVER and "menu_screen:results" in lp.MATCH_OVER
 
 
@@ -425,25 +439,33 @@ def test_silent_reader_fires_start_and_stall_timeouts(monkeypatch, tmp_path):
     assert why == "reader_silent" and len(samplers) == 1
 
 
-def test_menu_guard_arms_only_when_the_clock_runs():
+def test_menu_guard_arms_only_when_the_clock_runs_and_fails_closed():
     g = fn.MenuGuard(["no-such-adb"], clf=CLF)
     g.stop()
     g.feed(img("after_ok_131638"))
-    assert g.menu is None                               # started from the menu (Training Camp flow): ignored
-    g.armed = True
-    g.feed(np.zeros((1600, 900, 3), np.uint8))
-    assert g.menu is None
+    assert g.menu is None and not g.clear(_time.time())  # started from the menu (Training Camp flow): ignored
+    t_before = _time.time()
+    g.arm()
+    black = np.zeros((1600, 900, 3), np.uint8)
+    g.feed(None)                                        # failed grab: NOT a success
+    g.feed(np.zeros((1920, 1080, 3), np.uint8))         # wrong size: NOT a success
+    g.feed(black, t_grab=t_before - 1)                  # grabbed before arming: NOT a success
+    assert g.ok_ts is None and not g.clear(_time.time())
+    g.feed(black)
+    assert g.clear(_time.time()) and not g.clear(_time.time() + 6)   # fresh only for FRESH_S
     g.feed(img("after_ok_131638"))
-    assert g.menu == "main"
+    assert g.menu == "main" and not g.clear(_time.time())
 
 
 def test_recorded_battle_frames_are_not_menus():
-    vids = sorted((HERE.parents[3] / "icebow" / "data" / "overlayed_replays" / "raw").glob("lp_*_0.mp4"))
-    if not vids:
-        pytest.skip("no recorded live matches on this machine")
-    cap, n = cv2.VideoCapture(str(vids[-1])), 0
+    """A recording starts on whatever screen the owner launched from (lp_20260930_150349_0: main menu at 0 s, battle
+    from 3 s) and may end on results, so sample 15-90% of a recorded match."""
+    vid = HERE.parents[3] / "icebow" / "data" / "overlayed_replays" / "raw" / "lp_20260930_122643_0.mp4"
+    if not vid.is_file():
+        pytest.skip("recorded live match not on this machine")
+    cap, n = cv2.VideoCapture(str(vid)), 0
     total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    for i in range(0, int(total * 0.9), max(1, total // 30)):  # the last 10% may be the (legit) results screen
+    for i in range(int(total * 0.15), int(total * 0.9), max(1, total // 40)):
         cap.set(cv2.CAP_PROP_POS_FRAMES, i)
         ok, im = cap.read()
         if ok:
@@ -455,3 +477,60 @@ def test_recorded_battle_frames_are_not_menus():
 def test_matches_zero_refused(monkeypatch, capsys):
     monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "0"])
     assert lp.main() == 2 and ">= 1" in capsys.readouterr().out
+
+
+def test_single_frozen_frame_never_taps(monkeypatch, tmp_path):
+    """Repair 3: the FIRST active frame of a match is never 'advanced' -- one frozen frame (stale reader) at a
+    tap-able tick, or many copies of it, yields no input even with a clear guard."""
+    monkeypatch.setattr(lp, "READER_SILENT_S", 1.5)
+    for lines in ([rframe(2000)], [rframe(2000)] * 20):
+        why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False)
+        assert taps == [] and why in ("reader_silent", "tick_stalled"), why
+
+
+class SpyGuard(fn.MenuGuard):
+    inst = None
+
+    def __init__(self, *a, **k):
+        super().__init__(*a, **k)
+        SpyGuard.inst = self
+
+
+def test_taps_wait_for_the_first_successful_post_arming_classification(monkeypatch, tmp_path):
+    t_start, black = [], np.zeros((1600, 900, 3), np.uint8)
+
+    def grab(adb):                                      # screenshots fail for the first 3 s after arming
+        t_start.append(_time.time()) if not t_start else None
+        return None if _time.time() - t_start[0] < 3.0 else black
+    monkeypatch.setattr(fn, "grab", grab)
+    lines = [rframe(t) for t in range(150, 750, 2)]      # 300 frames, ~9 s
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, guard_cls=SpyGuard)
+    SpyGuard.inst.stop()
+    assert taps, why
+    for cmd, stale, menu, ok_ts, armed_at, t in taps:
+        assert ok_ts is not None and ok_ts >= armed_at and t >= ok_ts and t - t_start[0] >= 3.0
+
+
+def test_blind_guard_blocks_taps_then_stops(monkeypatch, tmp_path):
+    monkeypatch.setattr(fn, "grab", lambda adb: None)   # every screenshot fails
+    monkeypatch.setattr(lp, "GUARD_BLIND_S", 3.0)
+    lines = [rframe(t) for t in range(150, 750, 2)]
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, guard_cls=SpyGuard)
+    SpyGuard.inst.stop()
+    assert taps == [] and why == "guard_blind" and pilot.decided   # it decided, but no input reached the device
+
+
+def test_non_900x1600_screen_refused_without_flag(monkeypatch, capsys):
+    class Loaded(Exception):
+        pass
+
+    def no_model(*a, **k):
+        raise Loaded
+    monkeypatch.setattr(lp, "screen_size", lambda: (1080, 1920))
+    monkeypatch.setattr(lp, "GenPilot", no_model)
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp"])
+    assert lp.main() == 2 and "--no-menu-guard" in capsys.readouterr().out
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--no-menu-guard"])
+    with pytest.raises(Loaded):                         # the explicit flag lets it proceed to the model load
+        lp.main()
+    assert "WARNING: --no-menu-guard" in capsys.readouterr().out

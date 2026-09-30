@@ -87,7 +87,10 @@ class HeroButton:
             except Exception:                   # noqa: BLE001 -- a missed grab is a missed reading, not a crash
                 img = None
             if img is not None and self.on_frame:
-                self.on_frame(img)
+                try:
+                    self.on_frame(img, t0)
+                except Exception:               # noqa: BLE001 -- a guard error must not kill the button thread
+                    pass                        # (the guard then records no success and blocks taps: fails closed)
             if img is not None:
                 st, b, g = ability_button_state(img, BUTTON, STATE_RADIUS, BLUE_MIN, GREY_MIN)
                 self.state, self.blue, self.grey, self.ts = st, b, g, time.time()
