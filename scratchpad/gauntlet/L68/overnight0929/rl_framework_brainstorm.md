@@ -125,6 +125,22 @@ exactly where it will be.
 
 ---
 
+### 3f. Known limitation: fast multi-card combos (owner question, 2026-09-30)
+Some situations call for a precise sequence, "X here, then Y there, within ~1-2 s". Two things block it today.
+- **Execution.** live_play and the sim both lock decisions until a play registers: ~26 ticks from decision to
+  landing, plus the 10-tick cadence, so the fastest possible pair is ~1.5-1.8 s apart. Measured: building the
+  latency-shifted dataset dropped 32,767 pro plays (~3.5% of all plays) that were the second card of a combo
+  within 35 ticks, because the lock cannot execute them.
+- **Search depth.** S0 scores one candidate with our side IDLE afterwards, so a move that is only good because of
+  its follow-up is undervalued. Greedy X-then-Y can still happen, but only when X also looks good alone.
+- **Planned remedies, one change each, after S0:**
+  - (1) our side plays its own policy inside rollouts;
+  - (2) two-move plan candidates (X, Y, delta-t) drawn from pro combo statistics, with a live "plan" mode that sends
+    both taps back to back (the game allows it; the lock is ours);
+  - (3) deeper tree search over our own moves.
+
+---
+
 ## 4. How each goal maps onto the framework
 
 | Goal | Which part delivers it | What limits it |
