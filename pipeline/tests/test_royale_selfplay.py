@@ -129,7 +129,7 @@ class TestSelfPlay(unittest.TestCase):
     def test_unloadable_deck_raises(self):
         env = RoyaleSelfPlayEnv()
         with self.assertRaises(UnsupportedDeck):
-            env.reset(STARTER, HOGEQ, seed=0)                   # GoblinHut: not in RoyaleSim's catalogue
+            env.reset(ICEBOW[:7] + ["LittlePrince"], HOGEQ, seed=0)   # refused by RoyaleSim (GoblinHut loads since 2026-09-29)
         with self.assertRaises(UnsupportedDeck):
             env.reset(ICEBOW, HOGEQ[:7] + ["Log"], seed=0)      # duplicate card
 
@@ -147,7 +147,7 @@ class TestSelfPlay(unittest.TestCase):
         env.reset(ICEBOW, HOGEQ, seed=5)
         before = (dict(env.decks), dict(env.deck_ids), env.seed, env.tick)
         with self.assertRaises(UnsupportedDeck):
-            env.reset(STARTER, HOGEQ, seed=9)
+            env.reset(ICEBOW[:7] + ["LittlePrince"], HOGEQ, seed=9)
         with self.assertRaises(UnsupportedDeck):
             env.reset(ICEBOW, HOGEQ + ["Log"], seed=9)
         self.assertEqual((dict(env.decks), dict(env.deck_ids), env.seed, env.tick), before)
