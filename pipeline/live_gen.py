@@ -20,12 +20,14 @@ import torch
 from .dataset import PAST_K
 from .dataset_gen import SC_SLOT_COLS, card_key
 from .eval_gen import load_model
+from . import vocab
+from .e1_eval import allowed_slots
 from .live_mem import board_state, deck_of, my_side_of
 from .model_v3 import cell_xy
 from collections import deque
 
 from .extrapolate import extrapolate
-from .opp_elixir_count import LiveOppElixir, regen_between
+from .opp_elixir_count import LiveOppElixir, card_cost, regen_between
 from .obs_contract import to_tokens
 from .train_s1 import MAX_U
 
@@ -106,7 +108,11 @@ class GenPilot:
              "hand_card": T([h[0] for h in hand]), "hand_form": T([h[1] for h in hand]),
              "next_card": T([nxt[0]]).squeeze(0), "next_form": T([nxt[1]]).squeeze(0),
              "deck_card": T(np.asarray(deck)[order]), "deck_form": T(np.asarray(forms)[order])}
-        info = {"bs": bs, "hand": hand, "hand_deck_indices": list(me["hand_deck_indices"]), "names": names}
+        # Affordability, as the sim's live rule (e1_eval.allowed_slots): int(elixir the model's own input shows, i.e. at
+        # tick+H when extrapolating) vs the card's cost. Unknown cost (Mirror, pad slot) -> 0 = never blocks.
+        costs = [(card_cost(vocab.engine_key(names[d])) or 0.0) if d >= 0 else 0.0 for d in me["hand_deck_indices"]]
+        info = {"bs": bs, "hand": hand, "hand_deck_indices": list(me["hand_deck_indices"]), "names": names,
+                "costs": costs, "el_int": int(bs.my_elixir)}
         return b, info
 
     @torch.no_grad()
@@ -115,9 +121,15 @@ class GenPilot:
         b, info = self.row(frame)
         out = self.model(b)
         p = float(torch.sigmoid(out["gate"][0]))
-        pos = int(out["card"][0].argmax())
+        # sim rule (e1_eval.live_decide): argmax over hand slots we can afford; none affordable -> wait
+        allowed = allowed_slots(np.array([h[0] > 0 for h in info["hand"]]), info["costs"], info["el_int"])
+        if not allowed.any():
+            return {"play": False, "no_affordable": True, "p_play": p, "hand_pos": -1, "deck_index": -1, "card": 0,
+                    "form": FORM_PAD, "bs": info["bs"], "name": None, "el_int": info["el_int"]}
+        logits = out["card"][0].masked_fill(~torch.from_numpy(allowed).to(out["card"].device), float("-inf"))
+        pos = int(logits.argmax())
         card, form = info["hand"][pos]
-        d = {"play": p > self.gate_tau and card > 0, "p_play": p, "hand_pos": pos,
+        d = {"play": p > self.gate_tau and card > 0, "p_play": p, "hand_pos": pos, "no_affordable": False,
              "deck_index": info["hand_deck_indices"][pos], "card": card, "form": form, "bs": info["bs"],
              "name": info["names"][info["hand_deck_indices"][pos]] if card > 0 else None}
         if card > 0:
