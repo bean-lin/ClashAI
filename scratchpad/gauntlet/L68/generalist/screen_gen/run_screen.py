@@ -73,11 +73,14 @@ def play(a) -> int:
     heldout = select_split(load_pool_v1(pool), a.split)
     seeds = [int(k) for k in a.seeds.split(",")] if a.seeds else rc["screen_seeds"]
     jobs = [(i, e, int(k)) for i, e in enumerate(heldout) for k in seeds if (e["tag"], int(k)) not in done]
+    if a.only_tags_from:                          # pin the match set (e.g. the old engine's 299 loadable entries)
+        keep = {json.loads(ln)["tag"] for ln in a.only_tags_from.read_text(encoding="utf-8").splitlines() if ln.strip()}
+        jobs = [j for j in jobs if j[1]["tag"] in keep]
     model, minfo = E.load_policy(Path(a.ckpt), a.device)
     noise = E.parse_noise_off(",".join(E.NOISE_NAMES) if a.noise_off == "all" else a.noise_off)
     if a.opp_elixir:                             # the opp-elixir SOURCE; every other component stays --noise-off's
         noise = replace(noise, opp_elixir=a.opp_elixir != "truth")
-    cfg = {"policy": "live", "tau": float(rc["tau"]), "afford_mask": bool(rc["afford_mask"]),
+    cfg = {"policy": "live", "tau": float(rc["tau"] if a.tau is None else a.tau), "afford_mask": bool(rc["afford_mask"]),
            "stall_elixir": rc["stall_elixir"], "stall_seconds": float(rc["stall_seconds"]), "obs": rc["obs"],
            "noise": noise, "p_random": 0.0, "random_hand_only": False, "grid": minfo["grid"], "device": a.device,
            "decide_every": int(rc["decide_every"]), "slot": 0, "port": 0, "T": float(rc["T"]), "record": False}
@@ -136,6 +139,8 @@ def main(argv=None) -> int:
     ap.add_argument("--batch", type=int, default=16, help="matches in flight sharing one forward (actors: in_flight 16)")
     ap.add_argument("--max-matches", type=int, default=0, help="smoke: stop after N matches")
     ap.add_argument("--split", choices=("heldout", "train"), default="heldout")
+    ap.add_argument("--only-tags-from", type=Path, default=None, help="JSONL screen output: run only its tags")
+    ap.add_argument("--tau", type=float, default=None, help="gate threshold (default: rl_royale.yaml tau 0.27; live_play uses 0.5)")
     ap.add_argument("--seeds", default="", help="comma list of k (default: rl_royale.yaml screen_seeds); clean obs "
                     "replays identical matches across k, so --seeds 0 suffices there")
     ap.add_argument("--noise-off", default="", help="e1_eval --noise-off list, or 'all' (clean obs, as the memory reader gives); default '' = the RL screen's all-on")
