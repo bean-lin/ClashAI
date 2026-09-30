@@ -8,6 +8,8 @@ elixir-drop half of upstream card_receipt is dropped: regen hid cheap plays). No
 (native X kept on screen for side 1; arena shifted one tile from the Cannon read-back). Each confirmed troop's
 spawn position is compared with the intended cell -> tap-calibration error in tiles.
 Stops: battle over / tick stalled 3 s, 5 unconfirmed taps, --max-seconds. Log: live_play_<ts>.jsonl here.
+--matches N --friend NAME: N matches back to back; between them friend_nav.py starts the next friendly 1v1 against
+that friend's bot (allowlisted taps only; see its docstring and --nav-dry-run). Default N = 1: no navigation.
 """
 from __future__ import annotations
 
@@ -145,7 +147,9 @@ def main() -> int:
     ap.add_argument("--tau", type=float, default=0.5)
     ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (anti-leak rule)")
     ap.add_argument("--interval-ms", type=int, default=100)
-    ap.add_argument("--max-seconds", type=float, default=260)
+    ap.add_argument("--max-seconds", type=float, default=400,
+                    help="PER-MATCH wall-clock cap (reset each match): overtime ends by 6,000 ticks = 300 s of "
+                         "game time, + loading/countdown. Hitting it stops the whole run")
     ap.add_argument("--dry-run", action="store_true", help="decide and log, never tap")
     ap.add_argument("--overlay", choices=("both", "detector", "reader"), default="both",
                     help="replay style: detector = play.py-style YOLO boxes only (cosmetic, e.g. for posts), "
@@ -164,23 +168,75 @@ def main() -> int:
     ap.add_argument("--no-ability", action="store_true",
                     help="never press the hero ability button (default: pressed by hero_button.should_press when the "
                          "deck holds a hero and the button reads ready)")
+    ap.add_argument("--matches", type=int, default=1,
+                    help="play this many matches back to back (default 1 = one match, no navigation). > 1 needs "
+                         "--friend: between matches friend_nav.py starts the next FRIENDLY 1v1 against that friend's "
+                         "bot; the previous match's overlay renders in the background")
+    ap.add_argument("--friend", help="the friend (a bot, never a ladder player) to play when --matches > 1; must be "
+                                     "the friend the nav templates were cropped for")
+    ap.add_argument("--nav-dry-run", action="store_true",
+                    help="play nothing: run ONE between-match navigation that classifies the live screens and logs "
+                         "the tap it WOULD make, never tapping (navigate by hand to test it)")
     a = ap.parse_args()
     if not a.training_camp:
         print("refusing: pass --training-camp to confirm the match is Training Camp (bot opponent)")
         return 2
+    if a.matches < 1 or ((a.matches > 1 or a.nav_dry_run) and not a.friend):
+        print("refusing: --matches > 1 and --nav-dry-run need --friend NAME (the friend's bot; never ladder)")
+        return 2
+    nav = None
+    if a.matches > 1 or a.nav_dry_run:
+        from friend_nav import FriendNav
+        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run)   # refuses a friend the templates were not cropped for
+        if screen_size() != (900, 1600):
+            print("refusing: the nav templates are 900x1600; the device screen differs")
+            return 2
+        if a.nav_dry_run:
+            return 0 if nav.run()[0] else 1
     import torch
     torch.set_num_threads(4)                         # never fight every core with the owner's other jobs
     device = ("cuda" if torch.cuda.is_available() else "cpu") if a.device == "auto" else a.device
     pilot = GenPilot(a.ckpt, device=device, gate_tau=a.tau, use_counter=not a.no_opp_counter,
                      extrapolate_ticks=a.extrapolate)
     lay = Layout(*screen_size())
+    renders: list = []                                   # background overlay renders of matches 1..N-1
+    try:
+        for k in range(a.matches):
+            if k:
+                ok, why = nav.run()                      # results -> Social -> invite/accept -> battle loading
+                if not ok:
+                    print(f"[nav] run stopped before match {k + 1}: {why}", flush=True)
+                    break
+                pilot.reset_match()                      # same loaded model, fresh history / opp counter
+            why = play_match(a, pilot, lay, device, renders if k + 1 < a.matches else None,
+                             start_timeout=60 if k else None)   # after a nav handoff only
+            if k + 1 < a.matches and why not in MATCH_OVER:
+                print(f"[live] run stopped after match {k + 1}: {why}", flush=True)
+                break
+    finally:
+        for p, name in renders:                          # stopping is safe: let the background renders finish
+            if p.wait():
+                print(f"[overlay] render failed (exit {p.returncode}); re-render with overlay_replay.py {name}")
+    return 0
+
+
+MATCH_OVER = {"battle_over_hands_visible", "battle_inactive", "tick_stalled"}   # ordinary match ends: nav may go on
+
+
+def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float | None = None) -> str:
+    """One match (the whole pre---matches main loop). renders=None: overlay rendered here before returning, as a
+    single match always was; a list: rendered in a background process appended to it. start_timeout: stop if the
+    battle clock never runs within this many seconds (after a nav handoff). -> the stop reason."""
     stamp = time.strftime('%Y%m%d_%H%M%S')
     log = open(HERE / f"live_play_{stamp}.jsonl", "w", encoding="utf-8")
     import queue
     import threading
     _wlock = threading.Lock()
+    stop: dict = {"why": "reader_stream_ended"}
 
     def W(**k):                                          # called from the main loop AND the reader thread
+        if k.get("event") == "stop":
+            stop["why"] = k["why"]
         with _wlock:
             log.write(json.dumps(k, default=str) + "\n")
             log.flush()
@@ -234,7 +290,14 @@ def main() -> int:
             newest = q.empty()                           # decide only on the newest frame available
             now = time.time()
             if now - t0 > a.max_seconds:
-                W(event="stop", why="max_seconds"); break
+                live = last_tick >= 0 and now - last_adv <= 3        # clock still running: a cap, not an end
+                print(f"[live] --max-seconds {a.max_seconds:.0f} hit at tick {last_tick} "
+                      f"({'battle clock STILL ADVANCING -- capped mid-match' if live else 'clock not advancing'}); "
+                      f"stopping the run", flush=True)
+                W(event="stop", why="max_seconds", clock_advancing=live, last_tick=last_tick,
+                  max_seconds=a.max_seconds); break
+            if start_timeout and last_tick < 0 and now - t0 > start_timeout:
+                W(event="stop", why="no_battle_start"); break
             try:
                 f = json.loads(line)
             except ValueError:
@@ -384,13 +447,20 @@ def main() -> int:
         W(event="end", played=played, confirmed=confirmed, fails=fails, seconds=round(time.time() - t0, 1))
         log.close()
         print(json.dumps({"played": played, "confirmed": confirmed, "fails": fails, "log": log.name}))
-        if rec:                                          # in `finally`: a crash above must not lose the replay
+        if rec and renders is not None:                  # a next match follows: render in a separate low-priority
+            try:                                         # process (no GIL/CPU fight with its decisions)
+                renders.append((subprocess.Popen(
+                    [sys.executable, str(HERE / "overlay_replay.py"), log.name, "--overlay", a.overlay],
+                    creationflags=getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0)), log.name))
+            except Exception as exc:                     # noqa: BLE001 -- never mask the original error
+                print(f"[overlay] render failed: {exc!r}; re-render with overlay_replay.py {log.name}")
+        elif rec:                                        # in `finally`: a crash above must not lose the replay
             try:
                 from overlay_replay import render
                 render(Path(log.name), overlay=a.overlay)
             except Exception as exc:                     # noqa: BLE001 -- never mask the original error
                 print(f"[overlay] render failed: {exc!r}; re-render with overlay_replay.py {log.name}")
-    return 0
+    return stop["why"]
 
 
 if __name__ == "__main__":
