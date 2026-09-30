@@ -25,7 +25,7 @@ EXPECT = {                               # capture -> (screen, planned target, t
     "results_131619": ("results", "results_ok", (450, 1451)),
     "after_ok_131638": ("main", "main_to_social", None),
     "test_now_125953": ("main", "main_to_social", None),
-    "friends_list_130251": ("social", "social_scroll", None),          # friend's row cut off at the list bottom
+    "friends_list_130251": ("social", "social_scroll_top", None),      # row cut off: list search starts at the top
     "friends_list_130915": ("social", "friend_row", (292, 1129)),
     "friend_entry_130350": ("popup", "popup_friendly_battle", (193, 1312)),
     "battle_type_130729": ("battle_type", "battle_type_1v1", (450, 442)),
@@ -147,17 +147,21 @@ def test_main_screen_never_yields_battle_or_quickplay_input():
 
 def test_friend_row_low_on_screen_scrolls_instead_of_tapping():
     p = plan_after_wait({"screen": "social", "row": (300, 1200), "scores": {}})   # row at the Battle button's height
-    assert p[:2] == ("act", "social_scroll")
+    assert p[:2] == ("act", "social_scroll_top")
 
 
-def test_friend_row_missing_stops_after_three_scrolls():
-    nav = fn.Nav(0.0, random.Random(0))
-    scr = {"screen": "social", "row": None, "scores": {}}
-    for i in range(3):
-        p = nav.plan(scr, 25.0 + i)
-        assert p[:2] == ("act", "social_scroll")
-        nav.acted("social_scroll", 25.0 + i)
-    assert nav.plan(scr, 30.0)[0] == "stop"
+def test_friend_search_is_bounded_top_then_scan_then_stop():
+    nav = fn.Nav(0.0, random.Random(0), friend="JinxTheCat")
+    t = 25.0
+    for target, n in (("social_scroll_top", 6), ("social_scroll", 8)):   # a list that keeps moving: limits hold
+        for i in range(n):
+            scr = {"screen": "social", "row": None, "scores": {}, "sig": np.full((66, 74), (t * 37) % 255, np.uint8)}
+            p = nav.plan(scr, t)
+            assert p[:2] == ("act", target), (i, p)
+            nav.acted(target, t)
+            t += 1
+    p = nav.plan({"screen": "social", "row": None, "scores": {}, "sig": np.zeros((66, 74), np.uint8)}, t)
+    assert p == ("stop", "friend JinxTheCat not found in the Social list (offline or not visible)")
 
 
 def test_waits_for_the_friends_invite_before_sending():
@@ -268,8 +272,8 @@ def test_end_to_end_fake_device(dry, monkeypatch, tmp_path):
     class QuickNav(fn.Nav):                                             # shorter clocks: each frame costs a real
         TRANSITION_S = 20.0                                             # full-resolution classification
 
-        def __init__(self, t0, rng=None):
-            super().__init__(t0, rng)
+        def __init__(self, t0, rng=None, **kw):
+            super().__init__(t0, rng, **kw)
             self.wait_until = t0 + 5.0
     monkeypatch.setattr(fn, "Nav", QuickNav)
     nav = fn.FriendNav(["adb"], "JinxTheCat", dry_run=dry, log_dir=tmp_path)
@@ -534,3 +538,126 @@ def test_non_900x1600_screen_refused_without_flag(monkeypatch, capsys):
     with pytest.raises(Loaded):                         # the explicit flag lets it proceed to the model load
         lp.main()
     assert "WARNING: --no-menu-guard" in capsys.readouterr().out
+
+
+# ---- friend-list search + first-match navigation ---------------------------------------------------------------------
+def _norow():
+    im = img("friends_list_130915")
+    im[1100:1160, 195:390] = im[1180, 300]                      # the friend's name painted out: someone else's row
+    return im
+
+
+class ListDevice(FakeDevice):
+    """The Social list as a stack of scroll positions; swipes move between them (clamped = list end)."""
+    def __init__(self, positions, start):
+        super().__init__()
+        self.positions, self.pos, self.screen = positions, start, "list"
+
+    def grab(self):
+        return self.positions[self.pos] if self.screen == "list" else super().grab()
+
+    def run(self, args, **kw):
+        if self.screen != "list":
+            return super().run(args, **kw)
+        cmd = args[-1]
+        self.cmds.append(cmd)
+        v = cmd.split()
+        if v[1] == "swipe":                                       # drag up = content up = further down the list
+            self.pos = max(0, min(len(self.positions) - 1, self.pos + (1 if int(v[5]) < int(v[3]) else -1)))
+        elif abs(int(v[2]) - 292) <= 3 and abs(int(v[3]) - 1129) <= 3:
+            self.screen = "friend_entry_130350"
+        return types.SimpleNamespace(stdout=b"", returncode=0)
+
+
+_orig_nav_init = fn.Nav.__init__
+
+
+def _quick_nav_init(self, t0, rng=None, **kw):
+    _orig_nav_init(self, t0, rng, **kw)
+    self.wait_until = t0 + 5.0
+
+
+def run_list(monkeypatch, tmp_path, positions, start):
+    dev = ListDevice(positions, start)
+    clock = types.SimpleNamespace(time=lambda: dev.now, strftime=_time.strftime,
+                                  sleep=lambda s: setattr(dev, "now", dev.now + s))
+    monkeypatch.setattr(fn, "time", clock)
+    monkeypatch.setattr(fn.subprocess, "run", dev.run)
+    monkeypatch.setattr(fn.Nav, "__init__", _quick_nav_init)
+    nav = fn.FriendNav(["adb"], "JinxTheCat", log_dir=tmp_path)
+    monkeypatch.setattr(nav, "grab", dev.grab)
+    return nav.run(), dev
+
+
+def test_list_search_goes_to_top_then_finds_row_below_the_fold(monkeypatch, tmp_path):
+    top, row = img("friends_list_130251"), img("friends_list_130915")
+    (ok, why), dev = run_list(monkeypatch, tmp_path, [top, row], 0)
+    assert ok, why
+    assert dev.cmds[:3] == ["input swipe 620 800 620 1100 600",    # to the top: the list did not move -> top
+                            "input swipe 620 1100 620 800 600",    # scan down one: the row comes into view
+                            "input tap 292 1129"], dev.cmds
+    for c in dev.cmds:
+        for p in touched_points(c):
+            assert not inside(p, BATTLE)
+
+
+def test_list_search_from_below_scrolls_up_to_the_row(monkeypatch, tmp_path):
+    top, row = img("friends_list_130251"), img("friends_list_130915")
+    (ok, why), dev = run_list(monkeypatch, tmp_path, [top, row, _norow()], 2)
+    assert ok and dev.cmds[:2] == ["input swipe 620 800 620 1100 600", "input tap 292 1129"], dev.cmds
+
+
+def test_friend_not_in_list_stops_cleanly(monkeypatch, tmp_path):
+    (ok, why), dev = run_list(monkeypatch, tmp_path, [img("friends_list_130251"), _norow()], 0)
+    assert not ok and why == "friend JinxTheCat not found in the Social list (offline or not visible)"
+    assert all(c.startswith("input swipe") for c in dev.cmds) and len(dev.cmds) <= fn.Nav.MAX_TOP + fn.Nav.MAX_SCAN
+
+
+def test_probe_sees_menu_or_assumes_battle(monkeypatch):
+    now = [0.0]
+    monkeypatch.setattr(fn, "time", types.SimpleNamespace(
+        time=lambda: now[0], sleep=lambda s: now.__setitem__(0, now[0] + s + 0.3)))
+    nav = fn.FriendNav(["adb"], "JinxTheCat")
+    monkeypatch.setattr(nav, "grab", lambda: img("after_ok_131638"))
+    assert nav.probe() == "main"
+    now[0] = 0.0
+    monkeypatch.setattr(nav, "grab", lambda: np.zeros((1600, 900, 3), np.uint8))   # battle / loading
+    assert nav.probe() is None and 8.0 <= now[0] <= 9.0
+
+
+@pytest.mark.parametrize("launch", ["main", None])
+def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
+    calls = []
+
+    class FakeNav:
+        def __init__(self, adb, friend, dry_run=False):
+            pass
+
+        def probe(self):
+            calls.append("probe")
+            return launch
+
+        def run(self):
+            calls.append("nav")
+            return True, "handoff"
+
+    class NoModel:
+        def __init__(self, *a, **k):
+            pass
+
+        def reset_match(self):
+            pass
+
+    def fake_play(a, pilot, lay, device, renders, start_timeout=None):
+        calls.append(("match", start_timeout))
+        return "battle_inactive"
+    monkeypatch.setattr(fn, "FriendNav", FakeNav)
+    monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
+    monkeypatch.setattr(lp, "GenPilot", NoModel)
+    monkeypatch.setattr(lp, "play_match", fake_play)
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "2", "--friend", "JinxTheCat"])
+    assert lp.main() == 0
+    if launch:                                                  # menu at launch: navigate BEFORE match 1
+        assert calls == ["probe", "nav", ("match", 60), "nav", ("match", 60)]
+    else:                                                       # battle already running: just play it
+        assert calls == ["probe", ("match", None), "nav", ("match", 60)]

@@ -34,6 +34,7 @@ TARGETS = {
     "results_ok": ("tap", (330, 1395, 570, 1505)),
     "main_to_social": ("swipe", (700, 800, 150, 800, 300)),      # swipe LEFT on the main screen -> Social tab
     "social_scroll": ("swipe", (620, 1100, 620, 800, 600)),      # slow drag up inside the list (no fling)
+    "social_scroll_top": ("swipe", (620, 800, 620, 1100, 600)),  # slow drag DOWN: content moves down, toward the top
     "friend_row": ("tap", (85, 580, 825, 1149)),
     "popup_friendly_battle": ("tap", (10, 500, 289, 1500)),
     "battle_type_1v1": ("tap", (44, 384, 858, 504)),
@@ -147,7 +148,9 @@ class Classifier:
         if ok:
             return {"screen": "results", "ok": ok, "friend": find("results_name") is not None, "scores": sc}
         if find("social_hdr"):
-            return {"screen": "social", "row": find("row_name"), "scores": sc}
+            return {"screen": "social", "row": find("row_name"), "scores": sc,     # sig: list pixels, to see
+                    "sig": cv2.resize(cv2.cvtColor(img[580:1245, 85:825], cv2.COLOR_BGR2GRAY), (74, 66),
+                                      interpolation=cv2.INTER_AREA)}                  # when a scroll stops moving
         if find("main_tab"):
             return {"screen": "main", "scores": sc}
         return {"screen": "unknown", "scores": sc}
@@ -155,15 +158,18 @@ class Classifier:
 
 # ---- invite state machine (pure: no I/O, time passed in) -----------------------------------------------------------
 class Nav:
-    UNKNOWN_S, TRANSITION_S, HANDOFF_S, GRACE_S, FOREIGN_N, MAX_SCROLLS = 20.0, 180.0, 3.0, 10.0, 3, 3
+    UNKNOWN_S, TRANSITION_S, HANDOFF_S, GRACE_S, FOREIGN_N = 20.0, 180.0, 3.0, 10.0, 3
+    MAX_TOP, MAX_SCAN, SAME_SIG = 6, 8, 2.0       # list search: swipes to the top, swipes down; "unmoved" diff
 
-    def __init__(self, t0: float, rng: random.Random | None = None):
-        self.rng = rng or random.Random()
+    def __init__(self, t0: float, rng: random.Random | None = None, friend: str = "the friend"):
+        self.rng, self.friend = rng or random.Random(), friend
+        # friend-list search: scroll to the TOP first (until the list stops moving), then scan down to the bottom
+        self.phase, self.top_n, self.scan_n, self.sig, self.sig_before = "top", 0, 0, None, None
         self.t0 = t0
         self.wait_until = t0 + self.rng.uniform(5, 20)     # time for the friend's invite before we send ours
         self.unknown_since: float | None = None
         self.commit_t: float | None = None               # last time our invite was pending / theirs accepted
-        self.scrolls = self.foreign = 0
+        self.foreign = 0
 
     def plan(self, scr: dict, now: float) -> tuple:
         """-> ("act", target, point) | ("wait", why) | ("handoff", why) | ("stop", why)."""
@@ -208,15 +214,24 @@ class Nav:
         if now < self.wait_until:
             return ("wait", f"waiting {self.wait_until - now:.1f} s more for the friend's invite")
         row = scr.get("row")
-        if row and allowed("friend_row", row):
+        if row and allowed("friend_row", row):           # visible (in any phase): tap it as before
             return ("act", "friend_row", row)
-        if self.scrolls < self.MAX_SCROLLS:
+        self.sig = scr.get("sig")
+        unmoved = (self.sig is not None and self.sig_before is not None
+                   and float(np.abs(self.sig.astype(int) - self.sig_before).mean()) < self.SAME_SIG)
+        if self.phase == "top":
+            if self.top_n < self.MAX_TOP and not unmoved:
+                return ("act", "social_scroll_top", None)
+            self.phase, self.sig_before, unmoved = "scan", None, False   # at the top / limit: now scan down
+        if self.scan_n < self.MAX_SCAN and not unmoved:
             return ("act", "social_scroll", None)
-        return ("stop", "friend's row not found in the Social list")
+        return ("stop", f"friend {self.friend} not found in the Social list (offline or not visible)")
 
     def acted(self, target: str, now: float) -> None:
-        if target == "social_scroll":
-            self.scrolls += 1
+        if target in ("social_scroll", "social_scroll_top"):
+            self.sig_before = self.sig                   # the list as it was before this swipe
+            self.top_n += target == "social_scroll_top"
+            self.scan_n += target == "social_scroll"
         elif target == "invite_accept":
             self.commit_t = now
         elif target == "invite_cancel_ours":             # crossed: a fresh random delay breaks the mirror symmetry
@@ -298,7 +313,7 @@ class FriendNav:
     POLL_S, COOLDOWN_S = 0.5, 1.5
 
     def __init__(self, adb: list[str], friend: str, dry_run: bool = False, log_dir: Path = HERE):
-        self.adb, self.dry_run, self.log_dir = adb, dry_run, log_dir
+        self.adb, self.dry_run, self.log_dir, self.friend = adb, dry_run, log_dir, friend
         self.clf = Classifier()
         if friend != self.clf.man["friend"]:
             raise SystemExit(f"refusing: --friend {friend!r} but the nav templates were cropped for "
@@ -306,6 +321,21 @@ class FriendNav:
 
     def grab(self) -> np.ndarray | None:
         return grab(self.adb)
+
+    NAV_SCREENS = {"main", "social", "popup", "battle_type", "pending", "incoming", "cross", "results"}
+
+    def probe(self, seconds: float = 8.0) -> str | None:
+        """Before match 1: the first recognised nav screen within `seconds` (-> navigate to start the match), or
+        None when only unrecognised screens (a battle / loading already running: just play it)."""
+        t_end = time.time() + seconds
+        while time.time() < t_end:
+            s = self.clf.classify(self.grab())["screen"]
+            if s in self.NAV_SCREENS:
+                print(f"[nav] launch screen: {s} -- navigating to start match 1", flush=True)
+                return s
+            time.sleep(self.POLL_S)
+        print(f"[nav] no menu screen in {seconds:.0f} s -- assuming a battle is running: playing it", flush=True)
+        return None
 
     def run(self) -> tuple[bool, str]:
         """One transition: results -> ... -> battle loading. -> (True, why) on handoff, (False, why) on stop."""
@@ -315,7 +345,7 @@ class FriendNav:
         def W(**k):
             log.write(json.dumps({"t": round(time.time(), 2), **k}, default=str) + "\n")
             log.flush()
-        nav, prev, last = Nav(time.time()), None, None
+        nav, prev, last = Nav(time.time(), friend=self.friend), None, None
         W(event="nav_start", dry_run=self.dry_run, wait_s=round(nav.wait_until - nav.t0, 1))
         print(f"[nav] {'DRY-RUN ' if self.dry_run else ''}start (log {log.name}); friend-invite wait "
               f"{nav.wait_until - nav.t0:.1f} s", flush=True)

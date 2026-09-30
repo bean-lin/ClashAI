@@ -219,7 +219,9 @@ def main() -> int:
     rc = 0                                               # 1 = the run stopped for any non-normal reason
     try:
         for k in range(a.matches):
-            if k:
+            # match 1 of a friend loop: launched on a menu -> navigate to start it; a battle already running -> play it
+            navigated = bool(k) or (nav is not None and nav.probe() is not None)
+            if navigated:
                 ok, why = nav.run()                      # results -> Social -> invite/accept -> battle loading
                 if not ok:
                     print(f"[nav] run stopped before match {k + 1}: {why}", flush=True)
@@ -227,7 +229,7 @@ def main() -> int:
                     break
                 pilot.reset_match()                      # same loaded model, fresh history / opp counter
             why = play_match(a, pilot, lay, device, renders if k + 1 < a.matches else None,
-                             start_timeout=60 if k else None)   # after a nav handoff only
+                             start_timeout=60 if navigated else None)   # after a nav handoff only
             if why not in MATCH_OVER:
                 rc = 1
                 if k + 1 < a.matches:
