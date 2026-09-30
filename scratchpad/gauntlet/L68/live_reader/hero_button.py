@@ -64,8 +64,9 @@ def should_press(f: dict, side: int, hero_card_ids: set[int], reach_tiles: float
 
 
 class HeroButton:
-    def __init__(self, adb: list[str], w: int, h: int, crops_dir: Path, period_s: float = 0.5):
+    def __init__(self, adb: list[str], w: int, h: int, crops_dir: Path, period_s: float = 0.5, on_frame=None):
         self.adb, self.w, self.h, self.period = adb, w, h, period_s
+        self.on_frame = on_frame                # e.g. friend_nav.MenuGuard.feed: one screencap serves both
         self.point = (round(BUTTON[0] * w), round(BUTTON[1] * h))
         self.crops = crops_dir
         self.want = False                       # set by the controller: a hero is decked this match
@@ -85,6 +86,8 @@ class HeroButton:
                 img = parse_raw_screencap(raw)
             except Exception:                   # noqa: BLE001 -- a missed grab is a missed reading, not a crash
                 img = None
+            if img is not None and self.on_frame:
+                self.on_frame(img)
             if img is not None:
                 st, b, g = ability_button_state(img, BUTTON, STATE_RADIUS, BLUE_MIN, GREY_MIN)
                 self.state, self.blue, self.grey, self.ts = st, b, g, time.time()

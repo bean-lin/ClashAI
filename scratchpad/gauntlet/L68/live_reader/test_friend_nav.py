@@ -291,3 +291,167 @@ def test_end_to_end_fake_device(dry, monkeypatch, tmp_path):
 def test_wrong_friend_refused():
     with pytest.raises(SystemExit):
         fn.FriendNav(["adb"], "SomeoneElse")
+
+
+# ---- live_play.play_match safety (repair 2): fake reader / adb / pilot / guard, no device ---------------------------
+import argparse  # noqa: E402
+import io  # noqa: E402
+import json  # noqa: E402
+import threading  # noqa: E402
+
+import live_play as lp  # noqa: E402
+
+
+def rframe(tick, stale=False):
+    me = {"side": 0, "hand_deck_indices": [0, 1, 2, 3], "elixir_raw": 80000, "deck_card_ids": [26000000] * 8,
+          "deck_form_flags": [0] * 8}
+    opp = dict(me, side=1, hand_deck_indices=[-1] * 4)
+    return json.dumps({"battle_active": True, "coherent": True, "game_tick": tick, "sample_monotonic_us": tick * 50000,
+                       "players": [me, opp], "entities": [], "stale": stale}) + "\n"
+
+
+class FakeSampler:
+    """adb shell live_sampler: yields its lines slowly, then stays OPEN (a live sampler) until terminate()."""
+    def __init__(self, lines, on_line=None):
+        self.lines, self.on_line, self.killed = lines, on_line, threading.Event()
+        self.stderr = io.StringIO("")
+        self.stdout = self._out()
+
+    def _out(self):
+        for i, ln in enumerate(self.lines):
+            if self.killed.is_set():
+                return
+            if self.on_line:
+                self.on_line(i)
+            yield ln
+            _time.sleep(0.03)                           # one frame at a time: the loop sees each as the newest
+        self.killed.wait(15)
+
+    def terminate(self):
+        self.killed.set()
+
+    def wait(self, timeout=None):
+        return 0
+
+
+class FakeGuard:
+    inst = None
+
+    def __init__(self, adb, *a, **k):
+        self.menu, self.armed = None, False
+        FakeGuard.inst = self
+
+    def feed(self, img):
+        pass
+
+    def stop(self):
+        pass
+
+
+class FakePilot:
+    def __init__(self):
+        self.decided, self.last = [], None
+
+    def observe(self, f):
+        return None
+
+    def decide(self, f):
+        self.decided.append(f)
+        self.last = f
+        return {"play": True, "card": 1, "form": 0, "hand_pos": 0, "deck_index": 0, "xy": (0.5, 0.6),
+                "name": "Knight", "p_play": 0.9}
+
+    def record_play(self, *a):
+        pass
+
+
+def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None):
+    samplers, taps, pilot = [], [], FakePilot()
+
+    def popen(args, **kw):
+        s = FakeSampler(lines if not samplers else [], on_line)
+        samplers.append(s)
+        return s
+
+    def adb(*args, **kw):
+        if "input tap" in args[-1]:
+            taps.append((args[-1], bool(pilot.last and pilot.last["stale"]), FakeGuard.inst.menu))
+        return ""
+    monkeypatch.setattr(lp.subprocess, "Popen", popen)
+    monkeypatch.setattr(lp, "adb", adb)
+    monkeypatch.setattr(lp, "MenuGuard", FakeGuard)
+    monkeypatch.setattr(lp, "HERE", tmp_path)
+    a = argparse.Namespace(tau=0.5, leak=9.5, dry_run=dry_run, ckpt="x", extrapolate=0, no_opp_counter=True,
+                           no_record=True, no_ability=True, interval_ms=100, max_seconds=400, overlay="both")
+    why = lp.play_match(a, pilot, lp.Layout(900, 1600), "cpu", None, start_timeout=start_timeout)
+    return why, samplers, taps, pilot
+
+
+def test_stale_same_tick_frames_never_decide_or_tap(monkeypatch, tmp_path):
+    lines = []
+    for t in range(150, 400, 2):
+        lines += [rframe(t), rframe(t, stale=True), rframe(t, stale=True)]
+    for dry in (True, False):
+        why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, dry,
+                                               on_line=lambda i: None if i < len(lines) - 1 else
+                                               setattr(FakeGuard.inst, "menu", "results"))
+        assert pilot.decided and not any(f["stale"] for f in pilot.decided), dry
+        assert not any(stale for _, stale, _ in taps)
+        assert (len(taps) > 0) == (not dry)
+        assert len(samplers) == 1, "the sampler was restarted after the match's own kill"
+
+
+def test_menu_during_match_stops_before_any_tap(monkeypatch, tmp_path):
+    lines = [rframe(t) for t in range(150, 400, 2)]
+
+    def menu_from_start(i):
+        FakeGuard.inst.menu = "main"
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=menu_from_start)
+    assert why == "menu_screen:main" and taps == [] and len(samplers) == 1
+
+    def menu_midway(i):
+        if i == 60:
+            FakeGuard.inst.menu = "main"
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=menu_midway)
+    assert why == "menu_screen:main" and taps and all(menu is None for _, _, menu in taps)
+    assert why not in lp.MATCH_OVER and "menu_screen:results" in lp.MATCH_OVER
+
+
+def test_silent_reader_fires_start_and_stall_timeouts(monkeypatch, tmp_path):
+    why, *_ = run_match(monkeypatch, tmp_path, [], True, start_timeout=1.5)          # never a line
+    assert why == "no_battle_start"
+    monkeypatch.setattr(lp, "READER_SILENT_S", 1.5)
+    why, samplers, *_ = run_match(monkeypatch, tmp_path, [rframe(t) for t in range(150, 170, 2)], True)
+    assert why == "reader_silent" and len(samplers) == 1
+
+
+def test_menu_guard_arms_only_when_the_clock_runs():
+    g = fn.MenuGuard(["no-such-adb"], clf=CLF)
+    g.stop()
+    g.feed(img("after_ok_131638"))
+    assert g.menu is None                               # started from the menu (Training Camp flow): ignored
+    g.armed = True
+    g.feed(np.zeros((1600, 900, 3), np.uint8))
+    assert g.menu is None
+    g.feed(img("after_ok_131638"))
+    assert g.menu == "main"
+
+
+def test_recorded_battle_frames_are_not_menus():
+    vids = sorted((HERE.parents[3] / "icebow" / "data" / "overlayed_replays" / "raw").glob("lp_*_0.mp4"))
+    if not vids:
+        pytest.skip("no recorded live matches on this machine")
+    cap, n = cv2.VideoCapture(str(vids[-1])), 0
+    total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    for i in range(0, int(total * 0.9), max(1, total // 30)):  # the last 10% may be the (legit) results screen
+        cap.set(cv2.CAP_PROP_POS_FRAMES, i)
+        ok, im = cap.read()
+        if ok:
+            n += 1
+            assert CLF.classify(im)["screen"] not in fn.MENU_SCREENS, i
+    assert n >= 20
+
+
+def test_matches_zero_refused(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "0"])
+    assert lp.main() == 2 and ">= 1" in capsys.readouterr().out

@@ -27,6 +27,7 @@ REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 from pipeline.live_gen import GenPilot  # noqa: E402
 from hero_button import HeroButton, hero_ids, should_press  # noqa: E402
+from friend_nav import MenuGuard  # noqa: E402
 
 # adb.exe directly (same device pin as adb.sh): from Python, "bash" resolves to WSL's System32 bash, which cannot
 # run the Windows adb -> empty output.
@@ -35,6 +36,7 @@ ENV = dict(os.environ)
 RVA, ROOT_CTX = "0x1aeef98", "0x18"
 UI_READY_MIN_TICK = 150
 CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s) without registering -- never wall clock
+READER_SILENT_S = 10.0   # no reader line at all this long after the clock ran -> stop (a reader restart takes ~1-2 s)
 
 
 def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
@@ -181,7 +183,10 @@ def main() -> int:
     if not a.training_camp:
         print("refusing: pass --training-camp to confirm the match is Training Camp (bot opponent)")
         return 2
-    if a.matches < 1 or ((a.matches > 1 or a.nav_dry_run) and not a.friend):
+    if a.matches < 1:
+        print("refusing: --matches must be >= 1")
+        return 2
+    if (a.matches > 1 or a.nav_dry_run) and not a.friend:
         print("refusing: --matches > 1 and --nav-dry-run need --friend NAME (the friend's bot; never ladder)")
         return 2
     nav = None
@@ -200,27 +205,32 @@ def main() -> int:
                      extrapolate_ticks=a.extrapolate)
     lay = Layout(*screen_size())
     renders: list = []                                   # background overlay renders of matches 1..N-1
+    rc = 0                                               # 1 = the run stopped for any non-normal reason
     try:
         for k in range(a.matches):
             if k:
                 ok, why = nav.run()                      # results -> Social -> invite/accept -> battle loading
                 if not ok:
                     print(f"[nav] run stopped before match {k + 1}: {why}", flush=True)
+                    rc = 1
                     break
                 pilot.reset_match()                      # same loaded model, fresh history / opp counter
             why = play_match(a, pilot, lay, device, renders if k + 1 < a.matches else None,
                              start_timeout=60 if k else None)   # after a nav handoff only
-            if k + 1 < a.matches and why not in MATCH_OVER:
-                print(f"[live] run stopped after match {k + 1}: {why}", flush=True)
-                break
+            if why not in MATCH_OVER:
+                rc = 1
+                if k + 1 < a.matches:
+                    print(f"[live] run stopped after match {k + 1}: {why}", flush=True)
+                    break
     finally:
         for p, name in renders:                          # stopping is safe: let the background renders finish
             if p.wait():
                 print(f"[overlay] render failed (exit {p.returncode}); re-render with overlay_replay.py {name}")
-    return 0
+    return rc
 
 
-MATCH_OVER = {"battle_over_hands_visible", "battle_inactive", "tick_stalled"}   # ordinary match ends: nav may go on
+# ordinary match ends: nav may go on (a results screen seen by the menu guard is the game's own end of match)
+MATCH_OVER = {"battle_over_hands_visible", "battle_inactive", "tick_stalled", "menu_screen:results"}
 
 
 def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float | None = None) -> str:
@@ -243,20 +253,34 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     W(event="start", screen=[lay.w, lay.h], tau=a.tau, leak=a.leak, dry_run=a.dry_run, ckpt=a.ckpt,
       extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device)
     rec = None if a.no_record else ScreenRec(stamp)
-    button = None if a.no_ability else HeroButton(ADB, lay.w, lay.h, HERE / "ability_crops", period_s=2.0)
+    # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
+    # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
+    guard = MenuGuard(ADB) if (lay.w, lay.h) == (900, 1600) else None
+    if guard is None:
+        print(f"[live] WARNING: menu guard OFF (templates are 900x1600, screen {lay.w}x{lay.h})", flush=True)
+        W(event="menu_guard_off", screen=[lay.w, lay.h])
+    button = None if a.no_ability else HeroButton(ADB, lay.w, lay.h, HERE / "ability_crops", period_s=2.0,
+                                                  on_frame=guard.feed if guard else None)
     ab_pending, last_bstate = None, None
     cmd = (f"/data/local/tmp/live_sampler $(pidof com.supercell.clashroyale) {a.interval_ms} {RVA} {ROOT_CTX} "
            f"--unified 0")
     procs: list = []
+    stopping, spawn_lock = threading.Event(), threading.Lock()
 
     def stream():
         """Reader lines; the 2026-09-25 01:55 run lost the stream silently at tick 953, so a closed stream is now
-        logged (exit code + stderr) and the reader restarted, at most 3 times."""
+        logged (exit code + stderr) and the reader restarted, at most 3 times -- never after the match's own kill
+        (it restarted a sampler that outlived the match: verifier 2026-09-30)."""
         for attempt in range(4):
-            p = subprocess.Popen(ADB + ["shell", cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                                 env=ENV)
-            procs.append(p)
+            with spawn_lock:                             # the `finally` sets `stopping` under the same lock
+                if stopping.is_set():
+                    return
+                p = subprocess.Popen(ADB + ["shell", cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                                     env=ENV)
+                procs.append(p)
             yield from p.stdout
+            if stopping.is_set():
+                return
             try:
                 rc = p.wait(timeout=5)
             except subprocess.TimeoutExpired:
@@ -281,14 +305,21 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
         for ln in stream():
             q.put(ln)
         q.put(None)
-    threading.Thread(target=pump, daemon=True).start()
+    pump_t = threading.Thread(target=pump, daemon=True)
+    pump_t.start()
     try:
         while True:
-            line = q.get()
+            try:
+                line = q.get(timeout=1.0)                # a silent reader must not hang the start / stall checks
+            except queue.Empty:
+                line = ""
             if line is None:
                 break
             newest = q.empty()                           # decide only on the newest frame available
             now = time.time()
+            if guard and guard.menu:                     # the screen shows a menu: no further taps, ever
+                print(f"[live] menu screen {guard.menu!r} during the match -- stopping it", flush=True)
+                W(event="stop", why=f"menu_screen:{guard.menu}", last_tick=last_tick); break
             if now - t0 > a.max_seconds:
                 live = last_tick >= 0 and now - last_adv <= 3        # clock still running: a cap, not an end
                 print(f"[live] --max-seconds {a.max_seconds:.0f} hit at tick {last_tick} "
@@ -298,6 +329,10 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                   max_seconds=a.max_seconds); break
             if start_timeout and last_tick < 0 and now - t0 > start_timeout:
                 W(event="stop", why="no_battle_start"); break
+            if not line:
+                if last_tick >= 0 and now - last_adv > READER_SILENT_S:
+                    W(event="stop", why="reader_silent", last_tick=last_tick); break
+                continue
             try:
                 f = json.loads(line)
             except ValueError:
@@ -316,9 +351,12 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                 continue
             if verdict == "stall":
                 W(event="stop", why="tick_stalled", tick=tick); break
-            if tick > last_tick:
+            advanced = tick > last_tick                  # only a frame whose clock MOVED may decide / tap: a frozen
+            if advanced:                                 # battle object (stale reader) can never produce an input
                 last_tick, last_adv = tick, now
             seen_active = True
+            if guard and not guard.armed:                # the clock runs: from now on any menu on screen stops us
+                guard.armed = True
             # Both hands visible = the results / replay screen (upstream mumu_live_controller never controls then).
             # 2026-09-25: deciding on such a frame raised in my_side_of and killed the run before the overlay render.
             vis = [p["side"] for p in f["players"] if any(i >= 0 for i in p["hand_deck_indices"])]
@@ -367,12 +405,12 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                     elif tick - ab_pending["tick"] > CONFIRM_TICKS:
                         W(event="ability_unconfirmed", tick=tick, button_after=st)
                         ab_pending = None
-                elif st == "ready" and not pending and newest:
+                elif st == "ready" and not pending and newest and advanced:
                     press, why = should_press(f, side, hids)
                     if press:
                         W(event="ability", tick=tick, t_dev=t_dev, why=why, tap=list(button.point),
                           elixir=me["elixir_raw"] / 1e4)
-                        if not a.dry_run:
+                        if not a.dry_run and not (guard and guard.menu):
                             button.tap()
                             ab_pending = {"t": now, "tick": tick, "elixir_raw": me["elixir_raw"]}
             if pending:
@@ -405,7 +443,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                     if fails >= 5:
                         W(event="stop", why="5_unconfirmed"); break
                 continue
-            if not newest:                               # stale frame: newer ones are already queued
+            if not newest or not advanced:               # stale frame: newer ones queued / the clock did not move
                 continue
             t_dec = time.time()
             d = pilot.decide(f)
@@ -429,7 +467,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             W(event="play", tick=tick, t_dev=t_dev, name=d["name"], p_play=round(d["p_play"], 4), forced=forced, elixir=el,
               hand_pos=d["hand_pos"], xy=[round(v, 4) for v in d["xy"]], tap_hand=hand, tap_board=board)
             played += 1
-            if a.dry_run:
+            if a.dry_run or (guard and guard.menu):      # re-checked right before the input
                 continue
             t_tap = time.time()
             adb("shell", f"input tap {hand[0]} {hand[1]}; sleep 0.05; input tap {board[0]} {board[1]}")
@@ -437,9 +475,14 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
               frame_age_backlog=q.qsize())
             pending = {"d": d, "me": me, "t": now, "tick": tick, "addrs": {e["address"] for e in f["entities"]}}
     finally:
+        with spawn_lock:
+            stopping.set()                               # the pump may not start another sampler from here on
+        if guard:
+            guard.stop()
         for p in procs:
             p.terminate()
         adb("shell", "pkill -f live_sampler")
+        pump_t.join(timeout=10)                          # no sampler / pump of this match survives into the next
         if button:
             button.stop()
         if rec:
@@ -449,8 +492,9 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
         print(json.dumps({"played": played, "confirmed": confirmed, "fails": fails, "log": log.name}))
         if rec and renders is not None:                  # a next match follows: render in a separate low-priority
             try:                                         # process (no GIL/CPU fight with its decisions)
-                renders.append((subprocess.Popen(
+                renders.append((subprocess.Popen(   # detector on the CPU (2 threads): the GPU is the next match's
                     [sys.executable, str(HERE / "overlay_replay.py"), log.name, "--overlay", a.overlay],
+                    env=dict(ENV, CUDA_VISIBLE_DEVICES="", OMP_NUM_THREADS="2"),
                     creationflags=getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0)), log.name))
             except Exception as exc:                     # noqa: BLE001 -- never mask the original error
                 print(f"[overlay] render failed: {exc!r}; re-render with overlay_replay.py {log.name}")

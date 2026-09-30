@@ -223,6 +223,53 @@ class Nav:
             self.commit_t, self.wait_until = None, now + self.rng.uniform(5, 20)
 
 
+def grab(adb: list[str]) -> np.ndarray | None:
+    from hero_button import parse_raw_screencap
+    try:
+        raw = subprocess.run(adb + ["exec-out", "screencap"], capture_output=True, timeout=5).stdout
+        return parse_raw_screencap(raw)
+    except Exception:                                    # noqa: BLE001 -- a missed grab is an unknown frame
+        return None
+
+
+# ---- in-match menu guard ------------------------------------------------------------------------------------------
+MENU_SCREENS = {"results", "main", "social", "popup", "popup_other", "battle_type", "pending", "incoming", "cross"}
+
+
+class MenuGuard:
+    """In-match safety net for live_play: if the SCREEN shows a menu while the reader still says "battle", a card
+    tap could land on a menu button (249/1378 past board taps fall inside the main screen's Battle button). A frame
+    at least every period_s -- HeroButton's own grabs via feed(), else a screencap here -- is classified; .menu is
+    the first menu screen seen (sticky). Armed by live_play once the battle clock runs: the script may be started
+    from a menu (Training Camp flow), and no tap can happen before the clock runs anyway. 164 frames sampled from 4
+    recorded live matches all classify 'unknown'."""
+
+    def __init__(self, adb: list[str], period_s: float = 2.0, clf: Classifier | None = None):
+        import threading
+        self.adb, self.period, self.clf = adb, period_s, clf or Classifier()
+        self.menu: str | None = None
+        self.last_ts, self._stop, self.armed = 0.0, False, False
+        threading.Thread(target=self._run, daemon=True).start()
+
+    def feed(self, img: np.ndarray | None) -> None:
+        self.last_ts = time.time()
+        if not self.armed:
+            return
+        s = self.clf.classify(img)["screen"]
+        if s in MENU_SCREENS and self.menu is None:
+            self.menu = s
+
+    def _run(self) -> None:
+        while not self._stop and self.menu is None:
+            if self.armed and time.time() - self.last_ts >= self.period:
+                self.last_ts = time.time()               # claim the slot before the ~0.3 s grab
+                self.feed(grab(self.adb))
+            time.sleep(0.2)
+
+    def stop(self) -> None:
+        self._stop = True
+
+
 # ---- device runner ------------------------------------------------------------------------------------------------
 class FriendNav:
     POLL_S, COOLDOWN_S = 0.5, 1.5
@@ -235,12 +282,7 @@ class FriendNav:
                              f"{self.clf.man['friend']!r} (re-crop templates for another friend)")
 
     def grab(self) -> np.ndarray | None:
-        from hero_button import parse_raw_screencap
-        try:
-            raw = subprocess.run(self.adb + ["exec-out", "screencap"], capture_output=True, timeout=5).stdout
-            return parse_raw_screencap(raw)
-        except Exception:                                # noqa: BLE001 -- a missed grab is an unknown frame
-            return None
+        return grab(self.adb)
 
     def run(self) -> tuple[bool, str]:
         """One transition: results -> ... -> battle loading. -> (True, why) on handoff, (False, why) on stop."""
