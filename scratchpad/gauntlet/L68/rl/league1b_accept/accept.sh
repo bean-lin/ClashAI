@@ -5,7 +5,7 @@
 # (last multiple of 5), each vs init on the 299 train-split tags, NEW engine, live condition, tau 0.27, seed 0, paired.
 cd /c/Users/benpe/ClashBot
 O=scratchpad/gauntlet/L68/rl/league1b_accept
-until [ "$(grep -c 'league1b exited' scratchpad/gauntlet/L68/overnight0929/driver.log)" -ge 2 ]; do sleep 60; done
+# (invoked by resume_league1b.sh once league1b has stopped)
 echo "[acc] league1b ended $(date)" > $O/accept.log
 PY=research/ext/Royale/.venv/Scripts/python.exe
 RS=scratchpad/gauntlet/L68/generalist/screen_gen/run_screen.py
