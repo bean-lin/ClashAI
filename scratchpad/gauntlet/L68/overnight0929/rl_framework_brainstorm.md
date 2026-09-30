@@ -1,4 +1,4 @@
-# An RL framework past imitation — brainstorm (2026-09-29, DRAFT until league1b reports)
+# An RL framework past imitation — brainstorm (final, 2026-09-30)
 
 Owner's goal, in three parts:
 1. **Play near-perfectly almost all the time**, enough to give real pros a fight.
@@ -20,7 +20,7 @@ that the memory reader gives the live model the exact board.
 |---|---|---|
 | PPO on the real engine, 4 arms, ~1,500 matches (HANDOFF §5cs.44-51) | With a leash to the starting policy it stayed where it started; without the leash it fell apart (placement logits railed) | A win/loss reward alone gives too weak a signal for this model at our sample budget |
 | league1: self-play league, 352 updates, ~22k matches, 16 h (old RoyaleSim) | No strength gain: ~0.50 against its own starting point in every window; acceptance +1.7 pp [-2.0, 5.4] | Same conclusion, on a far more faithful simulator |
-| league1b: league1 on the updated engine (tonight, the one change) | *pending, filled in below* | Tells us whether the old engine was the blocker |
+| league1b: league1 on the updated engine (tonight, the one change; 75 updates, ~4.8k matches) | **No gain.** vs init at u20 / u30 / u75: +0.3 / -0.3 / -0.7 pp (each CI about +-3.7). league1 on the same new-engine evaluation at u10 / u20 / u75: -0.7 / +1.7 / +0.7. Self-play vs its own start 52.3% vs league1's 52.2% | **The old engine was not the blocker.** Plain league RL gives no signal on either engine |
 | **Rollout search over a frozen policy** (HANDOFF 6-PRIORITY-B) | **37.0% -> 85.7% wins**, +20.7 sigma; six controls (heuristic, playing more, opponent oracle, perfect perception, crown weight, threshold) failed to explain it | The information for much better play is already in the policy's own ranking of moves; the policy just does not use it |
 | **Search over the S1 student** (HANDOFF N) | 25.0% -> **91.7%**, +1.714 tower, t = 4.08; force-play, random-candidate and never-play controls all fail to explain it | Replicated on the network we actually deploy |
 | Distilling the search's actions into the student (HANDOFF P) | Agreement with the teacher rose, yet it played **worse** (-0.54 / -0.39 tower) | The student copied the teacher's restraint without its judgement |
@@ -185,9 +185,23 @@ decides, something else.
 - **S4's distilled policy still loses to gen_v1 with exact inputs.** Then the privileged-teacher
   gap was not the whole story (the hidden hand, or model capacity), and the loop cannot compound.
 
-## 8. league1b result (for the brainstorm's premise)
+## 8. league1b result, and what it settles
 
-*Pending.* It is running now (200 updates on the updated engine; league1 reached ~350 on the old
-one). If league1b gains where league1 did not, the engine was the blocker and plain league RL
-belongs back in the plan next to search. If it matches league1's null, that strengthens section 2:
-the missing piece is the per-decision improvement signal, which search provides.
+league1b = league1 with one change, the updated RoyaleSim. It was stopped at update 75 (06:00): the laptop was at
+100% CPU from other programs, and a GPU out-of-memory crash at u49 was resumed. The comparison is at equal budget,
+with both runs evaluated on the new engine, against the same starting model, on the same 299 recorded matches,
+paired:
+
+| checkpoint | vs the starting model (pp, 95% CI) |
+|---|---|
+| league1b u20 / u30 / u75 | +0.3 [-3.3, 4.0] / -0.3 [-4.0, 3.3] / -0.7 [-4.3, 2.7] |
+| league1 u10 / u20 / u75 | -0.7 [-4.7, 3.3] / +1.7 [-2.0, 5.4] / +0.7 [-2.7, 4.0] |
+
+In self-play against its own starting point, league1b won 52.3% (1,368 matches) and league1 52.2% (1,392) over the
+same updates. Its held-out screen wandered 0.86-0.95 with no trend, as league1's did. Its policy drifted slightly
+more (gate KL 0.045 vs 0.028 at u74) and bought nothing with it.
+
+**Reading:** the engine update did not unlock plain league RL. This is the third independent null for win/loss policy
+gradient on this model: the real engine, league1, and league1b. The null covers this recipe at this budget; it does
+not say RL can't work here. It supports section 2's diagnosis that the missing piece is a per-decision improvement
+signal, which is what search supplies. **S0 (search over gen_v1_s0 on RoyaleSim) is the next experiment.**
