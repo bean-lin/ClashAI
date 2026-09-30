@@ -163,13 +163,18 @@ class Nav:
 
     def __init__(self, t0: float, rng: random.Random | None = None, friend: str = "the friend"):
         self.rng, self.friend = rng or random.Random(), friend
-        # friend-list search: scroll to the TOP first (until the list stops moving), then scan down to the bottom
-        self.phase, self.top_n, self.scan_n, self.sig, self.sig_before = "top", 0, 0, None, None
         self.t0 = t0
         self.wait_until = t0 + self.rng.uniform(5, 20)     # time for the friend's invite before we send ours
         self.unknown_since: float | None = None
         self.commit_t: float | None = None               # last time our invite was pending / theirs accepted
         self.foreign = 0
+        self.prev_screen: str | None = None             # last RECOGNISED screen (unknown frames ignored)
+        self._reset_search()
+
+    def _reset_search(self) -> None:
+        """Friend-list search: scroll to the TOP first (until the list stops moving), then scan down to the bottom.
+        Reset whenever Social is (re-)entered, e.g. after an expired invite (verifier 2026-09-30)."""
+        self.phase, self.top_n, self.scan_n, self.sig, self.sig_before = "top", 0, 0, None, None
 
     def plan(self, scr: dict, now: float) -> tuple:
         """-> ("act", target, point) | ("wait", why) | ("handoff", why) | ("stop", why)."""
@@ -185,6 +190,9 @@ class Nav:
                 return ("stop", f"unrecognised screen ({s}) for {self.UNKNOWN_S:.0f} s")
             return ("wait", s)
         self.unknown_since = None
+        if s == "social" and self.prev_screen != "social":
+            self._reset_search()
+        self.prev_screen = s
         if s == "results":
             if not scr["friend"]:
                 self.foreign += 1
@@ -259,7 +267,7 @@ class MenuGuard:
     from a menu in the Training Camp flow; no tap can happen before the clock runs anyway). FAILS CLOSED: clear()
     is True only after a successful, non-menu classification of a 900x1600 screenshot GRABBED after arming, at most
     FRESH_S old; a failed grab is not a success. 194 frames sampled from recorded live matches classify 'unknown'."""
-    FRESH_S = 5.0
+    FRESH_S = 8.0     # 5 -> 8 s (2026-09-30 live stop: adb saturated by a concurrent job, tap_ms 4358, backlog 48)
 
     def __init__(self, adb: list[str], period_s: float = 2.0, clf: Classifier | None = None):
         import threading

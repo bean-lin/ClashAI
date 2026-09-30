@@ -379,9 +379,11 @@ class FakePilot:
         pass
 
 
-def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None, guard_cls=None):
+def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None, guard_cls=None,
+              menu_guard=True, adb_timeout=False):
     samplers, taps, pilot = [], [], FakePilot()
     guard_cls = guard_cls or FakeGuard
+    guard_cls.inst = None
 
     def popen(args, **kw):
         s = FakeSampler(lines if not samplers else [], on_line)
@@ -390,17 +392,22 @@ def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout
 
     def adb(*args, **kw):
         if "input tap" in args[-1]:
-            g = guard_cls.inst
+            g = guard_cls.inst or types.SimpleNamespace(menu=None, ok_ts=None, armed_at=None)
             taps.append((args[-1], bool(pilot.last and pilot.last["stale"]), g.menu, g.ok_ts, g.armed_at,
                          _time.time()))
         return ""
     monkeypatch.setattr(lp.subprocess, "Popen", popen)
-    monkeypatch.setattr(lp, "adb", adb)
+    if adb_timeout:                                     # the REAL adb(): every adb call times out
+        def timeout_run(*a, **k):
+            raise lp.subprocess.TimeoutExpired("adb", 5)
+        monkeypatch.setattr(lp.subprocess, "run", timeout_run)
+    else:
+        monkeypatch.setattr(lp, "adb", adb)
     monkeypatch.setattr(lp, "MenuGuard", guard_cls)
     monkeypatch.setattr(lp, "HERE", tmp_path)
     a = argparse.Namespace(tau=0.5, leak=9.5, dry_run=dry_run, ckpt="x", extrapolate=0, no_opp_counter=True,
                            no_record=True, no_ability=True, interval_ms=100, max_seconds=400, overlay="both",
-                           no_menu_guard=False)
+                           menu_guard=menu_guard)
     why = lp.play_match(a, pilot, lp.Layout(900, 1600), "cpu", None, start_timeout=start_timeout)
     return why, samplers, taps, pilot
 
@@ -443,6 +450,10 @@ def test_silent_reader_fires_start_and_stall_timeouts(monkeypatch, tmp_path):
     assert why == "reader_silent" and len(samplers) == 1
 
 
+def test_guard_timing_values():
+    assert fn.MenuGuard.FRESH_S == 8.0 and lp.GUARD_BLIND_S == 30.0   # 2026-09-30 live stop under adb saturation
+
+
 def test_menu_guard_arms_only_when_the_clock_runs_and_fails_closed():
     g = fn.MenuGuard(["no-such-adb"], clf=CLF)
     g.stop()
@@ -456,7 +467,7 @@ def test_menu_guard_arms_only_when_the_clock_runs_and_fails_closed():
     g.feed(black, t_grab=t_before - 1)                  # grabbed before arming: NOT a success
     assert g.ok_ts is None and not g.clear(_time.time())
     g.feed(black)
-    assert g.clear(_time.time()) and not g.clear(_time.time() + 6)   # fresh only for FRESH_S
+    assert g.clear(_time.time()) and not g.clear(_time.time() + fn.MenuGuard.FRESH_S + 1)   # fresh for FRESH_S
     g.feed(img("after_ok_131638"))
     assert g.menu == "main" and not g.clear(_time.time())
 
@@ -532,12 +543,12 @@ def test_non_900x1600_screen_refused_without_flag(monkeypatch, capsys):
         raise Loaded
     monkeypatch.setattr(lp, "screen_size", lambda: (1080, 1920))
     monkeypatch.setattr(lp, "GenPilot", no_model)
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp"])
-    assert lp.main() == 2 and "--no-menu-guard" in capsys.readouterr().out
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--no-menu-guard"])
-    with pytest.raises(Loaded):                         # the explicit flag lets it proceed to the model load
-        lp.main()
-    assert "WARNING: --no-menu-guard" in capsys.readouterr().out
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--menu-guard"])
+    assert lp.main() == 2 and "900x1600" in capsys.readouterr().out     # the opt-in guard needs its template size
+    for argv in (["--training-camp"], ["--training-camp", "--no-menu-guard"]):   # guard off (default / no-op alias)
+        monkeypatch.setattr(sys, "argv", ["live_play.py"] + argv)
+        with pytest.raises(Loaded):                     # proceeds to the model load
+            lp.main()
 
 
 # ---- friend-list search + first-match navigation ---------------------------------------------------------------------
@@ -661,3 +672,147 @@ def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
         assert calls == ["probe", "nav", ("match", 60), "nav", ("match", 60)]
     else:                                                       # battle already running: just play it
         assert calls == ["probe", ("match", None), "nav", ("match", 60)]
+
+
+# ---- 2026-09-30 fixes: side-0 board mirror; list search re-armed on re-entering Social ------------------------------
+SIDE0_LOG = HERE.parent / "live_reader_stable" / "live_play_20260930_183149.jsonl"
+
+
+def test_side0_spawns_map_back_to_the_tap_that_produced_them():
+    """Replay the side-0 match: every confirmed spawn, fed through Layout.board, must give the pixel that was tapped.
+    Exact (+-3 px) for single units on a centred tile; within the placement snap for a 2x2 building (half a tile in x)
+    and the skeleton group (the logged spawn is one member, <= 1 tile off in y). The old mirrored x was 200-600 px off."""
+    if not SIDE0_LOG.is_file():
+        pytest.skip("side-0 log not on this machine")
+    ev = [json.loads(ln) for ln in SIDE0_LOG.read_text().splitlines() if ln.strip()]
+    assert all(e.get("my_side", 0) == 0 for e in ev if e["event"] == "frame")
+    lay, n_exact = lp.Layout(900, 1600), 0
+    plays = [e for e in ev if e["event"] == "play"]
+    for e in (e for e in ev if e["event"] == "confirmed" and e["spawn"]):
+        tap = [q for q in plays if q["name"] == e["name"] and q["tick"] < e["tick"]][-1]["tap_board"]
+        px = lay.board(e["spawn"][0], 0, even=e["name"] in lp.EVEN_BUILDINGS)
+        dx, dy = abs(px[0] - tap[0]), abs(px[1] - tap[1])
+        if e["name"] == "Tesla":
+            assert dx <= 23 and dy <= 3, (e["name"], px, tap)
+        elif e["name"] == "Skeletons":
+            assert dx <= 3 and dy <= 30, (e["name"], px, tap)
+        else:
+            assert dx <= 3 and dy <= 3, (e["name"], px, tap)
+            n_exact += 1
+    assert n_exact >= 5
+
+
+def test_board_side1_unchanged_and_tesla_nudge_is_native_plus_x():
+    lay = lp.Layout(900, 1600)
+    for x, y in ((0.139, 0.609), (0.5, 0.75), (0.861, 0.3)):   # side 1: the formula that was already right
+        assert lay.board((x, y), 1) == (round(lay.ax0 + (1 - x) * (lay.ax1 - lay.ax0)),
+                                        round(lay.ay0 + y * (lay.ay1 - lay.ay0)))
+        assert lay.board((x, y), 1, even=True) == (round(lay.ax0 + (1 - x + 0.25 / 18) * (lay.ax1 - lay.ax0)),
+                                                   round(lay.ay0 + (y + 0.25 / 32) * (lay.ay1 - lay.ay0)))
+    assert lay.board((0.5, 0.5), 0) == lay.board((0.5, 0.5), 1)            # screen x = 1 - our x on both sides
+    assert lay.board((0.5, 0.5), 0, even=True)[0] < lay.board((0.5, 0.5), 0)[0]   # side 0: native +x = screen -x
+    assert lay.board((0.5, 0.5), 1, even=True)[0] > lay.board((0.5, 0.5), 1)[0]   # side 1: native +x = screen +x
+
+
+class ExpireDevice(ListDevice):
+    """Like ListDevice, but the FIRST invite expires: back on the Social list at the top (row below the fold)."""
+    def __init__(self, positions, start):
+        super().__init__(positions, start)
+        self.expired = False
+
+    def grab(self):
+        if self.screen == "invite_sent_130520" and not self.expired:
+            self.pending_polls += 1
+            if self.pending_polls > 6:
+                self.expired, self.screen, self.pos, self.pending_polls = True, "list", 0, 0
+        return super().grab()
+
+
+def test_list_search_restarts_after_an_expired_invite(monkeypatch, tmp_path):
+    dev = ExpireDevice([img("friends_list_130251"), img("friends_list_130915")], 0)
+    clock = types.SimpleNamespace(time=lambda: dev.now, strftime=_time.strftime,
+                                  sleep=lambda s: setattr(dev, "now", dev.now + s))
+    monkeypatch.setattr(fn, "time", clock)
+    monkeypatch.setattr(fn.subprocess, "run", dev.run)
+    monkeypatch.setattr(fn.Nav, "__init__", _quick_nav_init)
+    nav = fn.FriendNav(["adb"], "JinxTheCat", log_dir=tmp_path)
+    monkeypatch.setattr(nav, "grab", dev.grab)
+    ok, why = nav.run()
+    assert ok, why
+    assert dev.expired and dev.cmds.count("input tap 292 1129") == 2, dev.cmds   # found the row BOTH times
+    second = dev.cmds[dev.cmds.index("input tap 292 1129") + 1:]
+    assert "input swipe 620 800 620 1100 600" in second                          # searched again from the top
+
+
+# ---- 2026-09-30: menu guard OPT-IN (its screencaps saturated adb live); adb() survives timeouts ----------------------
+def test_menu_guard_is_opt_in(monkeypatch, tmp_path):
+    lines = [rframe(t) for t in range(150, 300, 2)]
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, menu_guard=False)
+    (log,) = tmp_path.glob("live_play_*.jsonl")
+    assert FakeGuard.inst is None and taps                       # default: no guard, taps still flow
+    assert any(json.loads(ln)["event"] == "menu_guard_off" for ln in log.read_text().splitlines())
+    for old in tmp_path.glob("live_play_*.jsonl"):
+        old.unlink()
+    run_match(monkeypatch, tmp_path, lines, False, menu_guard=True)
+    assert FakeGuard.inst is not None                            # --menu-guard: created
+
+
+@pytest.mark.parametrize("argv,on", [([], False), (["--menu-guard"], True), (["--no-menu-guard"], False)])
+def test_menu_guard_flag_default_off(monkeypatch, argv, on):
+    seen = []
+
+    class NoModel:
+        def __init__(self, *a, **k):
+            pass
+    monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
+    monkeypatch.setattr(lp, "GenPilot", NoModel)
+    monkeypatch.setattr(lp, "play_match", lambda a, *r, **k: seen.append(a.menu_guard) or "battle_inactive")
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp"] + argv)
+    assert lp.main() == 0 and seen == [on]
+
+
+def test_adb_timeout_returns_empty_and_cleanup_completes(monkeypatch, tmp_path, capsys):
+    def boom(*a, **k):
+        raise lp.subprocess.TimeoutExpired("adb", 5)
+    monkeypatch.setattr(lp.subprocess, "run", boom)
+    assert lp.adb("shell", "pkill -f live_sampler") == "" and "adb timed out" in capsys.readouterr().out
+    monkeypatch.undo()
+    lines = [rframe(t) for t in range(150, 200, 2)]
+    end = lambda i: setattr(FakeGuard.inst, "menu", "results") if i == len(lines) - 1 else None
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=end, adb_timeout=True)
+    assert why == "menu_screen:results" and len(samplers) == 1     # finally ran through (pkill timed out) cleanly
+
+
+# ---- 2026-09-30: 5_unconfirmed counts CONSECUTIVE misses (slow taps under load landed late, spread over a match) -------
+def rframe_hand(tick, hand):
+    f = json.loads(rframe(tick))
+    f["players"][0]["hand_deck_indices"] = hand
+    return json.dumps(f) + "\n"
+
+
+def unconfirmed_run(monkeypatch, tmp_path, confirm_between):
+    """Each fake tap plays hand slot 0. A miss = 31 frames (62 ticks > CONFIRM_TICKS) without slot 0 rotating; with
+    confirm_between the slot rotates once after every miss, so the NEXT tap confirms."""
+    lines, t, hand = [], 150, [0, 1, 2, 3]
+    for k in range(5):
+        lines += [rframe_hand(t + 2 * i, hand) for i in range(34)]         # tap on the 2nd frame, then a miss
+        t += 68
+        if confirm_between and k < 4:
+            lines += [rframe_hand(t + 2 * i, hand) for i in range(3)]      # the next tap is made here ...
+            hand = [hand[0] + 4] + hand[1:]                                # ... and its slot rotates: confirmed
+            lines += [rframe_hand(t + 6 + 2 * i, hand) for i in range(3)]
+            t += 12
+    end = lambda i: setattr(FakeGuard.inst, "menu", "results") if FakeGuard.inst and i == len(lines) - 1 else None
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=end, menu_guard=True)
+    ev = [json.loads(ln) for ln in next(tmp_path.glob("live_play_*.jsonl")).read_text().splitlines()]
+    return why, [e["event"] for e in ev]
+
+
+def test_spread_unconfirmed_do_not_stop_but_five_in_a_row_do(monkeypatch, tmp_path):
+    why, ev = unconfirmed_run(monkeypatch, tmp_path, confirm_between=True)
+    assert ev.count("unconfirmed") >= 5 and ev.count("confirmed") >= 4 and why != "5_unconfirmed", (why, ev.count(
+        "unconfirmed"), ev.count("confirmed"))
+    for old in tmp_path.glob("live_play_*.jsonl"):
+        old.unlink()
+    why, ev = unconfirmed_run(monkeypatch, tmp_path, confirm_between=False)
+    assert why == "5_unconfirmed" and ev.count("unconfirmed") == 5 and ev.count("confirmed") == 0

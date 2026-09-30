@@ -10,6 +10,9 @@ spawn position is compared with the intended cell -> tap-calibration error in ti
 Stops: battle over / tick stalled 3 s, 5 unconfirmed taps, --max-seconds. Log: live_play_<ts>.jsonl here.
 --matches N --friend NAME: N matches back to back; between them friend_nav.py starts the next friendly 1v1 against
 that friend's bot (allowlisted taps only; see its docstring and --nav-dry-run). Default N = 1: no navigation.
+--menu-guard (OPT-IN since 2026-09-30): classify a full screencap every <= 2 s during the match and stop on any menu.
+Off by default: those PNG screencaps saturated adb live (live_play_20260930_184444: tap_ms median 3021 / max 5407,
+frame backlog 72, 5 of 17 taps unconfirmed, the bot leaked). The tick-advance gate and first-frame rule stay on.
 """
 from __future__ import annotations
 
@@ -37,7 +40,8 @@ RVA, ROOT_CTX = "0x1aeef98", "0x18"
 UI_READY_MIN_TICK = 150
 CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s) without registering -- never wall clock
 READER_SILENT_S = 10.0   # no reader line at all this long after the clock ran -> stop (a reader restart takes ~1-2 s)
-GUARD_BLIND_S = 10.0     # menu guard without a successful screen classification this long -> stop (taps block at 5 s)
+GUARD_BLIND_S = 30.0     # menu guard without a successful screen classification this long -> stop (taps block at 8 s);
+                         # 10 -> 30 s: live_play_20260930_184048 stopped guard_blind after 16 s with adb saturated
 
 
 def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
@@ -51,7 +55,11 @@ def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
 
 
 def adb(*args: str, timeout: float = 5) -> str:
-    return subprocess.run(ADB + list(args), capture_output=True, text=True, timeout=timeout, env=ENV).stdout
+    try:   # 2026-09-30: a saturated adb timed out the cleanup `pkill` and crashed the run at match end
+        return subprocess.run(ADB + list(args), capture_output=True, text=True, timeout=timeout, env=ENV).stdout
+    except subprocess.TimeoutExpired:
+        print(f"[live] adb timed out after {timeout:.0f} s: {' '.join(args)[:60]}", flush=True)
+        return ""
 
 
 EVEN_BUILDINGS = {"Tesla"}   # ponytail: the icebow deck's only 2x2 building; add Cannon etc. for other decks
@@ -69,11 +77,14 @@ class Layout:
         self.hand_y, self.hand_x = h * .890, [left + vw * f for f in (.31, .50, .69, .88)]
 
     def board(self, xy: tuple[float, float], side: int, even: bool = False) -> tuple[int, int]:
-        fx = 1.0 - xy[0] if side == 1 else xy[0]          # screen keeps native X; our frame rotated it
+        # screen x = 1 - our-frame x on BOTH sides (2026-09-30 side-0 match: every troop landed mirrored left/right,
+        # intended 0.861 -> spawned 0.139, 0.139 -> 0.861, 0.806 -> 0.194; side 1 was already right). Side 1's screen
+        # keeps native X (our frame rotated it); side 0's screen is native rotated 180 while our frame only flips y.
+        fx = 1.0 - xy[0]
         fy = xy[1]
         if even:   # a 2x2 building takes its tapped tile's ARENA lower-left corner (RoyaleSim placement.SNAP_EVEN_CORNER);
             # a tap ON the corner snapped 1 tile left 34/35 times (L68 hog-pull audit) -> tap a quarter tile inside,
-            fx += 0.25 / 18                                # +x native on both sides
+            fx += 0.25 / 18 if side == 1 else -0.25 / 18   # +x native: side 1's screen x runs with native x, side 0's against
             fy += 0.25 / 32 if side == 1 else -0.25 / 32   # +y native: side 1's screen y runs with native y, side 0's against
         return round(self.ax0 + fx * (self.ax1 - self.ax0)), round(self.ay0 + fy * (self.ay1 - self.ay0))
 
@@ -168,9 +179,12 @@ def main() -> int:
                          "Screen (HANDOFF L68as): +3.4 pp gen / +6.9 pp v6lat vs no extrapolation at delay 26")
     ap.add_argument("--no-opp-counter", action="store_true",
                     help="feed the model opponent elixir = unknown instead of the public-events counter")
+    ap.add_argument("--menu-guard", action="store_true",
+                    help="OPT-IN in-match menu guard: a screencap every <= 2 s is classified; any menu stops the match "
+                         "and taps wait for a fresh non-menu classification. Off by default: its screencaps saturated "
+                         "adb live (2026-09-30). Needs a 900x1600 screen")
     ap.add_argument("--no-menu-guard", action="store_true",
-                    help="UNSAFE: run without the in-match menu guard (needed only when the screen is not 900x1600, "
-                         "the guard's template size): a stale reader could then tap menus")
+                    help="no-op, kept for compatibility (the menu guard is off unless --menu-guard)")
     ap.add_argument("--no-ability", action="store_true",
                     help="never press the hero ability button (default: pressed by hero_button.should_press when the "
                          "deck holds a hero and the button reads ready)")
@@ -203,12 +217,9 @@ def main() -> int:
         if a.nav_dry_run:
             return 0 if nav.run()[0] else 1
     lay = Layout(*screen_size())
-    if a.no_menu_guard:
-        print("!" * 100 + "\n[live] WARNING: --no-menu-guard -- NO screen check during the match: a stale reader "
-              "frame could tap a menu (e.g. ranked Battle)\n" + "!" * 100, flush=True)
-    elif (lay.w, lay.h) != (900, 1600):
+    if a.menu_guard and (lay.w, lay.h) != (900, 1600):
         print(f"refusing: the in-match menu guard needs a 900x1600 screen (got {lay.w}x{lay.h}); fix the emulator "
-              f"resolution, or pass --no-menu-guard to run without it (unsafe)")
+              f"resolution, or run without --menu-guard")
         return 2
     import torch
     torch.set_num_threads(4)                         # never fight every core with the owner's other jobs
@@ -270,7 +281,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
     # It FAILS CLOSED: no input until it has classified a post-arming screenshot as not-a-menu (MenuGuard.clear).
-    guard = None if a.no_menu_guard else MenuGuard(ADB)
+    guard = MenuGuard(ADB) if a.menu_guard else None    # OPT-IN (module docstring: adb saturation)
     if guard is None:
         W(event="menu_guard_off", screen=[lay.w, lay.h])
 
@@ -309,6 +320,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
         W(event="stop", why="reader_closed_4x")
 
     t0, pending, fails, played, confirmed, last_tick, last_adv = time.time(), None, 0, 0, 0, -1, time.time()
+    fails_run = 0   # CONSECUTIVE unconfirmed taps: 5 in a row = real malfunction (5 slow taps over a match under load is not)
     seen_active, both_vis, warmed, waiting_logged = False, 0, False, False
     from collections import deque
     dec_times: deque = deque(maxlen=20)
@@ -455,15 +467,17 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                     # time made the model's "seconds since my play" ~1.3 s too large (T9 worker finding, 2026-09-25)
                     pilot.record_play(d["card"], d["form"], d["xy"], tick * 0.05)
                     confirmed += 1
+                    fails_run = 0
                     W(event="confirmed", tick=tick, name=d["name"], intended=d["xy"], elixir_drop=dropped / 1e4,
                       spawn=[my_frame_xy(e, side) for e in new[:1]], err_tiles=err, latency_s=round(now - pending["t"], 3))
                     pending = None
                 elif tick - pending["tick"] > CONFIRM_TICKS:
                     fails += 1
+                    fails_run += 1
                     W(event="unconfirmed", tick=tick, name=pending["d"]["name"], intended=pending["d"]["xy"],
                       p_play=pending["d"]["p_play"], elixir=old["elixir_raw"] / 1e4, fails=fails)
                     pending = None
-                    if fails >= 5:
+                    if fails_run >= 5:
                         W(event="stop", why="5_unconfirmed"); break
                 continue
             if not newest or not advanced:               # stale frame: newer ones queued / the clock did not move
