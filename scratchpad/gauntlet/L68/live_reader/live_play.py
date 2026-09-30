@@ -35,6 +35,15 @@ UI_READY_MIN_TICK = 150
 CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s) without registering -- never wall clock
 
 
+def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
+    """wait | stall | proceed. 2026-09-30: the reader emits active+coherent frames at game_tick 0 (loading screen /
+    countdown); the old guard counted that flat 0 as a stall and exited after 3 s. Tick 0 = the clock has not
+    started: keep waiting, never decide. The stall guard only applies once the clock has run (tick > 0)."""
+    if tick <= 0:
+        return "wait"
+    return "proceed" if tick > last_tick or idle_s <= 3 else "stall"
+
+
 def adb(*args: str, timeout: float = 5) -> str:
     return subprocess.run(ADB + list(args), capture_output=True, text=True, timeout=timeout, env=ENV).stdout
 
@@ -201,7 +210,7 @@ def main() -> int:
         W(event="stop", why="reader_closed_4x")
 
     t0, pending, fails, played, confirmed, last_tick, last_adv = time.time(), None, 0, 0, 0, -1, time.time()
-    seen_active, both_vis, warmed = False, 0, False
+    seen_active, both_vis, warmed, waiting_logged = False, 0, False, False
     from collections import deque
     dec_times: deque = deque(maxlen=20)
     warned_at = 0.0
@@ -234,10 +243,17 @@ def main() -> int:
                     W(event="stop", why="battle_inactive"); break
                 continue
             tick = int(f["game_tick"])
+            verdict = clock_verdict(tick, last_tick, now - last_adv)
+            if verdict == "wait":                        # battle clock still at 0: no decisions, no stall clock
+                if not waiting_logged:
+                    print("[live] battle clock at tick 0 -- waiting for the match to start", flush=True)
+                    W(event="waiting_clock", tick=tick)
+                    waiting_logged = True
+                continue
+            if verdict == "stall":
+                W(event="stop", why="tick_stalled", tick=tick); break
             if tick > last_tick:
                 last_tick, last_adv = tick, now
-            elif now - last_adv > 3:
-                W(event="stop", why="tick_stalled", tick=tick); break
             seen_active = True
             # Both hands visible = the results / replay screen (upstream mumu_live_controller never controls then).
             # 2026-09-25: deciding on such a frame raised in my_side_of and killed the run before the overlay render.
