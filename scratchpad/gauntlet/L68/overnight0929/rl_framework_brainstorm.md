@@ -141,6 +141,21 @@ Some situations call for a precise sequence, "X here, then Y there, within ~1-2 
 
 ---
 
+### 3g. Owner concern: opponent follow-ups and prediction (2026-09-30)
+"A play that makes sense for the current board may not make sense once the opponent drops new cards."
+- **Already covered.** In S0 and option 1 the opponent keeps playing through the whole 12 s rollout (the self-model on
+  its deck), so every candidate is scored on the board AFTER the opponent's responses.
+- **Real gap: one deterministic guess.** The self-model is greedy, so each candidate sees exactly one opponent future.
+  That guess is the wrong model against S1, the friend's bot or pros, and it knows the true hand (optimistic).
+- **Evidence it is not S0's bottleneck (derived).** Against gen_v1 the rollout opponent IS the real opponent's policy
+  and state; the fork-fidelity test reproduces the real continuation exactly. So prediction was perfect given our move,
+  and search still gained nothing (t -0.04). The evaluation (12 s scorer) or the idle self is the likelier limit.
+- **Remedy, queued after option 1 if search helps at all:** M sampled opponent continuations per candidate (a
+  stochastic self-model), aggregated by the mean or a pessimistic quantile, at ~M x the cost. Later, the S2 opponent
+  model conditioned on this match's history. If option 1 is null, the scorer-vs-full-playout check comes first.
+
+---
+
 ## 4. How each goal maps onto the framework
 
 | Goal | Which part delivers it | What limits it |
