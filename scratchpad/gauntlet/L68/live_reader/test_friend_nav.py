@@ -380,7 +380,7 @@ class FakePilot:
 
 
 def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout=None, guard_cls=None,
-              menu_guard=True, adb_timeout=False):
+              menu_guard=True, adb_timeout=False, tap_timeout_at=None):
     samplers, taps, pilot = [], [], FakePilot()
     guard_cls = guard_cls or FakeGuard
     guard_cls.inst = None
@@ -395,6 +395,8 @@ def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout
             g = guard_cls.inst or types.SimpleNamespace(menu=None, ok_ts=None, armed_at=None)
             taps.append((args[-1], bool(pilot.last and pilot.last["stale"]), g.menu, g.ok_ts, g.armed_at,
                          _time.time()))
+            if tap_timeout_at is not None and len(taps) >= tap_timeout_at and kw.get("strict"):
+                raise lp.subprocess.TimeoutExpired("adb", 5)
         return ""
     monkeypatch.setattr(lp.subprocess, "Popen", popen)
     if adb_timeout:                                     # the REAL adb(): every adb call times out
@@ -641,8 +643,8 @@ def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
     calls = []
 
     class FakeNav:
-        def __init__(self, adb, friend, dry_run=False):
-            pass
+        def __init__(self, adb, friend, dry_run=False, **kw):
+            calls.append(("invite_wait", kw.get("invite_wait")))
 
         def probe(self):
             calls.append("probe")
@@ -669,9 +671,9 @@ def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
     monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "2", "--friend", "JinxTheCat"])
     assert lp.main() == 0
     if launch:                                                  # menu at launch: navigate BEFORE match 1
-        assert calls == ["probe", "nav", ("match", 60), "nav", ("match", 60)]
+        assert calls == [("invite_wait", 20.0), "probe", "nav", ("match", 60), "nav", ("match", 60)]
     else:                                                       # battle already running: just play it
-        assert calls == ["probe", ("match", None), "nav", ("match", 60)]
+        assert calls == [("invite_wait", 20.0), "probe", ("match", None), "nav", ("match", 60)]
 
 
 # ---- 2026-09-30 fixes: side-0 board mirror; list search re-armed on re-entering Social ------------------------------
@@ -780,7 +782,9 @@ def test_adb_timeout_returns_empty_and_cleanup_completes(monkeypatch, tmp_path, 
     lines = [rframe(t) for t in range(150, 200, 2)]
     end = lambda i: setattr(FakeGuard.inst, "menu", "results") if i == len(lines) - 1 else None
     why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, on_line=end, adb_timeout=True)
-    assert why == "menu_screen:results" and len(samplers) == 1     # finally ran through (pkill timed out) cleanly
+    ev = [json.loads(ln)["event"] for ln in next(tmp_path.glob("live_play_*.jsonl")).read_text().splitlines()]
+    assert why == "tap_timeout" and len(samplers) == 1             # finally ran through (pkill timed out) cleanly
+    assert "sampler_kill_failed" in ev                            # F2: 5 s + 15 s retry both timed out -> logged
 
 
 # ---- 2026-09-30: 5_unconfirmed counts CONSECUTIVE misses (slow taps under load landed late, spread over a match) -------
@@ -816,3 +820,88 @@ def test_spread_unconfirmed_do_not_stop_but_five_in_a_row_do(monkeypatch, tmp_pa
         old.unlink()
     why, ev = unconfirmed_run(monkeypatch, tmp_path, confirm_between=False)
     assert why == "5_unconfirmed" and ev.count("unconfirmed") == 5 and ev.count("confirmed") == 0
+
+
+# ---- 2026-09-30 batch: late in-match taps (F1), sampler kill retry (F2), fixed invite wait (T9) ---------------------
+@pytest.fixture(autouse=True)
+def _fresh_inputs():
+    lp.INPUTS.update(in_flight=0, last_t=0.0, timed_out=False)   # module-level in-match input state
+    yield
+    lp.INPUTS.update(in_flight=0, last_t=0.0, timed_out=False)
+
+
+def test_timed_out_tap_ends_tapping_for_that_match(monkeypatch, tmp_path):
+    lines = [rframe(t) for t in range(150, 500, 2)]
+    why, samplers, taps, pilot = run_match(monkeypatch, tmp_path, lines, False, tap_timeout_at=1)
+    assert why == "tap_timeout" and len(taps) == 1 and lp.INPUTS["timed_out"]
+
+
+def test_nav_waits_for_inflight_input_and_the_quiet_period(monkeypatch):
+    sent = []
+    monkeypatch.setattr(lp, "adb", lambda *a, **k: (sent.append((a[-1], _time.time())), _time.sleep(
+        1.0 if "input tap" in a[-1] else 0))[-1] or "")
+    th = threading.Thread(target=lp.input_cmd, args=("input tap 1 2",))
+    th.start()
+    _time.sleep(0.2)
+    assert lp.INPUTS["in_flight"] == 1
+    t0 = _time.time()
+    lp.wait_inputs_quiet(quiet_s=0.5)                   # in flight: waits for it to return, then 0.5 s quiet
+    assert not th.is_alive() and _time.time() - t0 >= 0.8 + 0.5 - 0.05
+    lp.INPUTS["timed_out"] = True                      # a timed-out tap -> pkill "input tap" + the quiet again
+    t1 = _time.time()
+    lp.wait_inputs_quiet(quiet_s=0.5)
+    assert any(c == 'pkill -f "input tap"' for c, _ in sent) and _time.time() - t1 >= 0.5 - 0.05
+
+
+def test_main_starts_nav_only_after_the_quiet_period(monkeypatch):
+    events = []
+    monkeypatch.setattr(lp, "NAV_QUIET_S", 1.0)
+    monkeypatch.setattr(lp, "adb", lambda *a, **k: "")
+
+    class FakeNav:
+        def __init__(self, *a, **k):
+            pass
+
+        def probe(self):
+            return None                                 # a battle is running at launch: play it
+
+        def run(self):
+            events.append(("nav", _time.time()))
+            return True, "handoff"
+
+    class NoModel:
+        def __init__(self, *a, **k):
+            pass
+
+        def reset_match(self):
+            pass
+
+    def fake_play(a, *r, **k):
+        lp.input_cmd("input tap 1 2")                   # the match's last input
+        events.append(("tap", _time.time()))
+        return "battle_inactive"
+    monkeypatch.setattr(fn, "FriendNav", FakeNav)
+    monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
+    monkeypatch.setattr(lp, "GenPilot", NoModel)
+    monkeypatch.setattr(lp, "play_match", fake_play)
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "2", "--friend", "JinxTheCat"])
+    assert lp.main() == 0
+    (k1, t_tap), (k2, t_nav) = events[0], events[1]
+    assert (k1, k2) == ("tap", "nav") and t_nav - t_tap >= 1.0 - 0.05
+
+
+def test_invite_wait_fixed_20s_and_random_only_after_a_cross():
+    nav = fn.Nav(0.0, random.Random(0))
+    social = CLF.classify(img("friends_list_130915"))
+    assert nav.plan(social, 19.9)[0] == "wait"                               # no invite of ours before 20 s
+    assert nav.plan(social, 20.1)[:2] == ("act", "friend_row")
+    nav = fn.Nav(0.0, random.Random(0))
+    assert nav.plan(CLF.classify(img("invite_incoming_131227")), 15.0)[:2] == ("act", "invite_accept")
+    delays = set()
+    for seed in range(5):                                                      # crossed: random 5-20 s re-delay
+        nav = fn.Nav(0.0, random.Random(seed))
+        nav.acted("invite_cancel_ours", 30.0)
+        assert 35.0 <= nav.wait_until <= 50.0
+        delays.add(round(nav.wait_until, 3))
+    assert len(delays) == 5
+    assert fn.Nav(0.0, random.Random(0), invite_wait=7.5).wait_until == 7.5  # --invite-wait

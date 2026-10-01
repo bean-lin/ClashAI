@@ -6,7 +6,7 @@ on `adb exec-out screencap` frames against scratchpad/gauntlet/L69/nav/templates
 through command_for() -- the one place that builds an `input` command. The main screen's yellow Battle button,
 Quickplay and Add Friends are FORBIDDEN rectangles no target may reach (see EXEMPT for the one documented overlap).
 
-Invite protocol ("accept, else invite after delay"): after a match wait a random 5-20 s on the Social tab for the
+Invite protocol ("accept, else invite after delay"): after a match wait --invite-wait (20 s) on the Social tab for the
 friend's invite; if none, send ours; if both are up (crossed) cancel ours, accept theirs. Stops (never taps blindly):
 unrecognised screen > 20 s, results screen whose opponent is not the friend, > 180 s for the whole transition.
 
@@ -161,10 +161,11 @@ class Nav:
     UNKNOWN_S, TRANSITION_S, HANDOFF_S, GRACE_S, FOREIGN_N = 20.0, 180.0, 3.0, 10.0, 3
     MAX_TOP, MAX_SCAN, SAME_SIG = 6, 8, 2.0       # list search: swipes to the top, swipes down; "unmoved" diff
 
-    def __init__(self, t0: float, rng: random.Random | None = None, friend: str = "the friend"):
-        self.rng, self.friend = rng or random.Random(), friend
+    def __init__(self, t0: float, rng: random.Random | None = None, friend: str = "the friend",
+                 invite_wait: float = 20.0):
+        self.rng, self.friend, self.invite_wait = rng or random.Random(), friend, invite_wait
         self.t0 = t0
-        self.wait_until = t0 + self.rng.uniform(5, 20)     # time for the friend's invite before we send ours
+        self.wait_until = t0 + invite_wait                # owner: wait 20 s for the friend's invite before ours
         self.unknown_since: float | None = None
         self.commit_t: float | None = None               # last time our invite was pending / theirs accepted
         self.foreign = 0
@@ -218,7 +219,7 @@ class Nav:
         if self.commit_t is not None:
             if now - self.commit_t < self.GRACE_S:
                 return ("wait", "invite accepted/pending: waiting for the battle")
-            self.commit_t, self.wait_until = None, now + self.rng.uniform(5, 20)   # the invite died: start over
+            self.commit_t, self.wait_until = None, now + self.invite_wait   # the invite died: start over
         if now < self.wait_until:
             return ("wait", f"waiting {self.wait_until - now:.1f} s more for the friend's invite")
         row = scr.get("row")
@@ -320,8 +321,10 @@ class MenuGuard:
 class FriendNav:
     POLL_S, COOLDOWN_S = 0.5, 1.5
 
-    def __init__(self, adb: list[str], friend: str, dry_run: bool = False, log_dir: Path = HERE):
+    def __init__(self, adb: list[str], friend: str, dry_run: bool = False, log_dir: Path = HERE,
+                 invite_wait: float = 20.0):
         self.adb, self.dry_run, self.log_dir, self.friend = adb, dry_run, log_dir, friend
+        self.invite_wait = invite_wait
         self.clf = Classifier()
         if friend != self.clf.man["friend"]:
             raise SystemExit(f"refusing: --friend {friend!r} but the nav templates were cropped for "
@@ -353,7 +356,7 @@ class FriendNav:
         def W(**k):
             log.write(json.dumps({"t": round(time.time(), 2), **k}, default=str) + "\n")
             log.flush()
-        nav, prev, last = Nav(time.time(), friend=self.friend), None, None
+        nav, prev, last = Nav(time.time(), friend=self.friend, invite_wait=self.invite_wait), None, None
         W(event="nav_start", dry_run=self.dry_run, wait_s=round(nav.wait_until - nav.t0, 1))
         print(f"[nav] {'DRY-RUN ' if self.dry_run else ''}start (log {log.name}); friend-invite wait "
               f"{nav.wait_until - nav.t0:.1f} s", flush=True)

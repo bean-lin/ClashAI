@@ -54,12 +54,55 @@ def clock_verdict(tick: int, last_tick: int, idle_s: float) -> str:
     return "proceed" if tick > last_tick or idle_s <= 3 else "stall"
 
 
-def adb(*args: str, timeout: float = 5) -> str:
+def adb(*args: str, timeout: float = 5, strict: bool = False) -> str:
     try:   # 2026-09-30: a saturated adb timed out the cleanup `pkill` and crashed the run at match end
         return subprocess.run(ADB + list(args), capture_output=True, text=True, timeout=timeout, env=ENV).stdout
     except subprocess.TimeoutExpired:
         print(f"[live] adb timed out after {timeout:.0f} s: {' '.join(args)[:60]}", flush=True)
+        if strict:                                        # the caller must know (in-match input, sampler kill)
+            raise
         return ""
+
+
+# In-match inputs (2026-09-30 verifier F1): a slow `adb shell input tap` can still EXECUTE on the device seconds
+# after the host call returned or timed out (live_play_20260930_185829: one landed ~6 s late, tap_ms up to 7059). A
+# late board tap after the nav tapped results-OK could hit the main menu (249/1378 board taps fall inside the Battle
+# button). So: a timed-out input ends that match's tapping (why=tap_timeout), and the nav starts only after every
+# input call returned + NAV_QUIET_S of quiet (+ a best-effort `pkill -f "input tap"` when one timed out).
+NAV_QUIET_S = 10.0
+INPUTS = {"in_flight": 0, "last_t": 0.0, "timed_out": False}
+
+
+def input_cmd(cmd: str, timeout: float = 5) -> bool:
+    """One in-match `input` shell command. False = it timed out (it may still run on the device later)."""
+    INPUTS["in_flight"] += 1
+    INPUTS["last_t"] = time.time()
+    try:
+        adb("shell", cmd, timeout=timeout, strict=True)
+        return True
+    except subprocess.TimeoutExpired:
+        INPUTS["timed_out"] = True
+        return False
+    finally:
+        INPUTS["last_t"] = time.time()                    # quiet counts from the LATER of issue / return
+        INPUTS["in_flight"] -= 1
+
+
+def wait_inputs_quiet(quiet_s: float | None = None) -> None:
+    """Before the nav's first tap: no in-match input in flight, NAV_QUIET_S since the last one; after a timed-out
+    input also a best-effort `pkill -f "input tap"` and the quiet period again."""
+    quiet_s = NAV_QUIET_S if quiet_s is None else quiet_s
+    while INPUTS["in_flight"]:
+        time.sleep(0.1)
+    if INPUTS["timed_out"]:
+        print('[live] an in-match tap timed out -- killing any pending `input tap` on the device', flush=True)
+        adb("shell", 'pkill -f "input tap"')
+        INPUTS["timed_out"], INPUTS["last_t"] = False, time.time()
+    wait = INPUTS["last_t"] + quiet_s - time.time()
+    if wait > 0:
+        print(f"[live] waiting {wait:.1f} s after the last in-match input before navigating (NAV_QUIET_S)",
+              flush=True)
+        time.sleep(wait)
 
 
 EVEN_BUILDINGS = {"Tesla"}   # ponytail: the icebow deck's only 2x2 building; add Cannon etc. for other decks
@@ -185,6 +228,9 @@ def main() -> int:
                          "adb live (2026-09-30). Needs a 900x1600 screen")
     ap.add_argument("--no-menu-guard", action="store_true",
                     help="no-op, kept for compatibility (the menu guard is off unless --menu-guard)")
+    ap.add_argument("--invite-wait", type=float, default=20.0,
+                    help="friend loop: seconds to wait on the Social tab for the friend's invite before sending ours "
+                         "(owner 2026-09-30: 20 s); a random 5-20 s re-delay is used only after crossed invites")
     ap.add_argument("--no-ability", action="store_true",
                     help="never press the hero ability button (default: pressed by hero_button.should_press when the "
                          "deck holds a hero and the button reads ready)")
@@ -210,7 +256,8 @@ def main() -> int:
     nav = None
     if a.matches > 1 or a.nav_dry_run:
         from friend_nav import FriendNav
-        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run)   # refuses a friend the templates were not cropped for
+        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run,   # refuses a friend the templates were not cropped for
+                        invite_wait=a.invite_wait)
         if screen_size() != (900, 1600):
             print("refusing: the nav templates are 900x1600; the device screen differs")
             return 2
@@ -233,6 +280,7 @@ def main() -> int:
             # match 1 of a friend loop: launched on a menu -> navigate to start it; a battle already running -> play it
             navigated = bool(k) or (nav is not None and nav.probe() is not None)
             if navigated:
+                wait_inputs_quiet()                      # no late in-match tap may land during the nav
                 ok, why = nav.run()                      # results -> Social -> invite/accept -> battle loading
                 if not ok:
                     print(f"[nav] run stopped before match {k + 1}: {why}", flush=True)
@@ -446,7 +494,8 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                         W(event="ability", tick=tick, t_dev=t_dev, why=why, tap=list(button.point),
                           elixir=me["elixir_raw"] / 1e4)
                         if not a.dry_run and guard_clear():
-                            button.tap()
+                            if not input_cmd(f"input tap {button.point[0]} {button.point[1]}"):
+                                W(event="stop", why="tap_timeout", tick=tick, input="ability"); break
                             ab_pending = {"t": now, "tick": tick, "elixir_raw": me["elixir_raw"]}
             if pending:
                 old = pending["me"]
@@ -514,7 +563,9 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             if a.dry_run or not guard_clear():           # re-checked right before the input
                 continue
             t_tap = time.time()
-            adb("shell", f"input tap {hand[0]} {hand[1]}; sleep 0.05; input tap {board[0]} {board[1]}")
+            if not input_cmd(f"input tap {hand[0]} {hand[1]}; sleep 0.05; input tap {board[0]} {board[1]}"):
+                print("[live] an input tap timed out -- no more taps this match (it may still land late)", flush=True)
+                W(event="stop", why="tap_timeout", tick=tick, tap_ms=round((time.time() - t_tap) * 1000)); break
             W(event="tap_timing", tick=tick, decide_ms=decide_ms, tap_ms=round((time.time() - t_tap) * 1000),
               frame_age_backlog=q.qsize())
             pending = {"d": d, "me": me, "t": now, "tick": tick, "addrs": {e["address"] for e in f["entities"]}}
@@ -525,7 +576,13 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             guard.stop()
         for p in procs:
             p.terminate()
-        adb("shell", "pkill -f live_sampler")
+        for i, to in enumerate((5, 15)):                 # F2: a saturated adb timed this out -> one longer retry
+            try:
+                adb("shell", "pkill -f live_sampler", timeout=to, strict=True)
+                break
+            except subprocess.TimeoutExpired:
+                if i:
+                    W(event="sampler_kill_failed", why="pkill -f live_sampler timed out twice (5 s, 15 s)")
         pump_t.join(timeout=10)                          # no sampler / pump of this match survives into the next
         if button:
             button.stop()
