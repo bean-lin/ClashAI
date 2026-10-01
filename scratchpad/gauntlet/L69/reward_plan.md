@@ -54,6 +54,22 @@ potential). It gets its own step R3 only if R2 is clean, with spell pricing fixe
    policies: IL policy, never-play, spend-immediately, hold-to-9, spam-one-card, never-buildings, never-spells.
    No degenerate policy may have a HIGHER mean advantage than the IL policy. If one does, stop and redesign.
 
+## 3b. Correction after building the tools (2026-09-30 night, R2 builder's findings, accepted)
+- **Check 2 as written cannot fail.** The per-match sum of F is -Phi(s_0) = 0 at a symmetric start, whatever the
+  weights. Replacement: bound the per-decision potential, which is exactly the shaping part of every return-to-go
+  (-Phi(s_t)). |phi_tower| < 1 and |phi_crown| <= 2/3 before the end, so |Phi| < (5/3) w. **w_tower = w_crown = 0.3**
+  keeps |Phi| <= 0.5 x terminal on every reachable state. The IL-only measurement (max |Phi| 0.357 at w=1) is looser,
+  because IL matches never reach the extremes.
+- **Check 3 is biased without a critic.** Under pure returns-to-go the shaping adds -Phi(s_t), a state-only term: it
+  adds no gradient bias in expectation, but it shifts the audit's means in favour of losing policies (smoke at w=1:
+  IL ranked last on the shaping part). The clean audit needs R1's critic (lambda < 1). Until then a flag is a STOP
+  only if the same policy is also flagged under terminal-only (R1) returns.
+- **What R2 can actually do.** With a critic, potential shaping is equivalent to starting the critic from Phi
+  (Wiewiora 2003). R2 therefore gives the value function a hand-made prior: ahead on towers and crowns is good. That
+  is useful exactly because our critic is weak (outcome accuracy 0.70 at init). It also means R2 can only matter on
+  top of R1 (lambda < 1). With pure Monte-Carlo returns it changes the variance, not the expected gradient.
+- Gamma is per decision (~450 a match; 0.999^450 ~ 0.64). R1 and R2 must use the same gamma unit (checked in tests).
+
 ## 4. Collapse alarms during training (automatic stop rules)
 
 The existing guards stay: entropy floor per head, plays/min band, KL stop, screen exploit guards, pro-agreement
