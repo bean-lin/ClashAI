@@ -93,7 +93,7 @@ def play(a) -> int:
     meta = {"ckpt": str(a.ckpt), "ckpt_sha256": sha256_file(Path(a.ckpt)), "model": minfo,
             "cfg": {k: v for k, v in cfg.items() if k != "noise"}, "noise_off": E.noise_off_names(cfg["noise"]),
             "opp_elixir_arg": a.opp_elixir, "action_delay_ticks": int(a.action_delay),
-            "extrapolate_ticks": int(a.extrapolate),
+            "extrapolate_ticks": int(a.extrapolate), "forms_mode": a.forms_mode,
             "screen_seeds": seeds, "split": a.split,
             "jobs": len(jobs), "resumed_done": len(done), "started": time.strftime("%Y-%m-%d %H:%M:%S")}
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -119,7 +119,7 @@ def play(a) -> int:
             fed += 1
             yield j
 
-    E.run_batch(lambda: RoyalePoolEnv(decision_ticks=int(rc["decide_every"])), model, load_deck("icebow"), feed(), cfg,
+    E.run_batch(lambda: RoyalePoolEnv(decision_ticks=int(rc["decide_every"]), forms_mode=a.forms_mode), model, load_deck("icebow"), feed(), cfg,
                 max(1, min(int(a.batch), len(jobs))), on_result=emit, skip=(UnsupportedDeck,),
                 on_skip=lambda e, exc: skipped.append({"tag": e["tag"], "why": str(exc)}))
     out.with_suffix(".skipped.json").write_text(json.dumps(skipped, indent=1), encoding="utf-8")
@@ -155,6 +155,9 @@ def main(argv=None) -> int:
                     help="each decision sees the raw board advanced TICKS ticks (pipeline/extrapolate.py: units by "
                          "their velocity over the previous decision round, clock + my elixir regen; opp-elixir "
                          "counter read at tick + TICKS). 0 = today")
+    ap.add_argument("--forms-mode", default="base", choices=("base", "deck"),
+                    help="RoyaleSim card forms: base = every card as its base card (today); deck = decked evolutions / "
+                         "heroes the engine loads, refused forms fall back to base (pipeline/royale_env.py docstring)")
     ap.add_argument("--resume", action="store_true", help="append to --out, skipping (tag, k) already in it")
     a = ap.parse_args(argv)
     if a.pair:
