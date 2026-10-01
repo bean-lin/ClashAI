@@ -115,6 +115,24 @@ class TestScorerV2(unittest.TestCase):
         self.assertEqual(len(scs), len(cands))
         self.assertTrue(np.all(np.isfinite([ws] + scs)))
 
+    def test_ylines_need_both_princesses(self):
+        """y lines come from a team's princess towers only when BOTH are present; otherwise the arena constants, never
+        the king tower's y; once cached they stay."""
+        from royalegym.protocol import EntityKind as EK
+
+        def towers(p0, p1):            # princess y's present per team; kings always at 54000 / 522000
+            t = lambda team, kind, y: SimpleNamespace(team=team, kind=kind, hp=P, max_hp=P, card_id=-1, y=y)
+            return SimpleNamespace(entities=[t(0, EK.PRINCESS_TOWER, y) for y in p0] + [t(1, EK.PRINCESS_TOWER, y) for y in p1]
+                                   + [t(0, EK.KING_TOWER, 54000), t(1, EK.KING_TOWER, 522000)])
+
+        self.assertEqual(S.ARENA_PRINCESS_Y, (float(Y0), float(Y1)))
+        v2 = self.sc("v2")
+        self.assertEqual(v2.ylines(towers([100000, 100000], [])), {0: 100000.0, 1: float(Y1)})   # team 1: constant
+        self.assertEqual(v2.ylines(towers([90000], [400000, 400000])), {0: 100000.0, 1: 400000.0})  # cached / now both
+        fresh = self.sc("v2")
+        self.assertEqual(fresh.ylines(towers([90000], [400000])), {0: float(Y0), 1: float(Y1)})   # one each: constants
+        self.assertEqual(fresh.ylines(towers([90000, 95000], [])), {0: float(Y0), 1: float(Y1)})  # disagreeing ys
+
 
 def load_validate():
     p = REPO / "scratchpad/gauntlet/L69/scorer_val/validate.py"
@@ -157,11 +175,36 @@ class TestValidateAggregation(unittest.TestCase):
         self.assertAlmostEqual(b["regret_mean"], (1.0 + 0.75 + 0.0) / 3, places=4)
         self.assertEqual(agg["v1_idle|hp"]["rho_mean"], 1.0)                    # hp = 100 x win here
         self.assertNotIn("v1_policy|win", agg)                                   # scorers absent from the input
-        sh = agg["split_half|win"]                                               # even-k vs odd-k win rates per cand
-        self.assertEqual(sh["n"], 2)
-        self.assertAlmostEqual(sh["rho_mean"], (1.0 + 0.8660254037844387) / 2, places=4)   # dec 2: ranks tie once
-        self.assertEqual(V.eval_indices("gen", 3, 5, 300), V.eval_indices("gen", 3, 5, 300))
-        self.assertEqual(len(V.eval_indices("gen", 3, 5, 300)), 5)
+        rel = agg["reliability|win"]                                             # even-k vs odd-k win rates per cand
+        self.assertEqual((rel["n"], rel["undefined"]), (2, 1))                   # dec 3: even-k half is constant
+        r_half = (1.0 + 0.8660254037844387) / 2                                  # dec 2: ranks tie once
+        self.assertAlmostEqual(rel["r_half"], r_half, places=4)
+        self.assertAlmostEqual(rel["r_K"], 2 * r_half / (1 + r_half), places=4)  # Spearman-Brown step-up to K
+        self.assertAlmostEqual(rel["ceiling"], (2 * r_half / (1 + r_half)) ** 0.5, places=4)
+        self.assertEqual(agg["n_matches"], 3)                                    # no opp/seed: each its own cluster
+        idx = V.eval_indices("gen", 3, 5, 1000)
+        self.assertEqual(idx, V.eval_indices("gen", 3, 5, 1000))
+        self.assertEqual(len(idx), 5)
+        self.assertEqual(V.eval_indices("gen", 3, 5, 3), frozenset({0, 1, 2}))  # short match: all of it
+        many = set().union(*(V.eval_indices("gen", s, 5, 1000) for s in range(40)))
+        self.assertGreater(max(many), 900)                                      # the whole match, not the first 300
+        with self.assertRaises(ValueError):                                      # odd K is refused
+            V.per_decision({"scores": {}, "outcome_k": {"win": [[0, 1, 1]] * 2, "hp": [[0, 1, 1]] * 2}})
+
+    def test_cluster_bootstrap_and_spearman_brown(self):
+        """Whole matches are resampled: 3 identical decisions of one match + 1 of another is 2 clusters, so the CI
+        spans 0 .. 1; the plain bootstrap (4 independent items) never reaches 0 at the 2.5th percentile."""
+        V = load_validate()
+        x = [1.0, 1.0, 1.0, 0.0]
+        self.assertEqual(V.boot_ci(x, ["a", "a", "a", "b"]), [0.0, 1.0])
+        self.assertGreater(V.boot_ci(x)[0], 0.0)
+        recs = [{"opp": "gen", "seed": s, "scores": {"v1_idle": [0.0, 1.0]},
+                 "outcome_k": {"win": [[0, 0], [1, 1]], "hp": [[0, 0], [1, 1]]}} for s in (1, 1, 2)]
+        self.assertEqual(V.aggregate(recs, n_boot=50)["n_matches"], 2)
+        self.assertAlmostEqual(V.spearman_brown(0.5), 2 / 3)
+        self.assertEqual(V.spearman_brown(-0.5), -1.0)                          # clamped
+        self.assertIsNone(V.spearman_brown(None))
+        self.assertEqual((V.ceiling(-0.2), V.ceiling(0.81)), (0.0, 0.9))
 
 
 if __name__ == "__main__":
