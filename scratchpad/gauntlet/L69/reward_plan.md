@@ -101,3 +101,32 @@ screen cannot provide. A matched no-shaping control is always the previous step'
 - R3 (elixir potential): only if R2 is clean.
 
 Nothing here is implemented until the owner approves the plan.
+
+## 7. Roadmap after the outside review (owner: "go with whatever order you suggest", 2026-09-30)
+
+Principles: (1) every simulator or policy change gets its own short re-baseline (the pinned 299 screen, ~15 min of
+GPU), so each effect is attributable; (2) the R-series keeps gen_v1_s0 as its init until it finishes, so R0'/R1/R2
+compare cleanly; better imitation models (gen_v2) are trained alongside and the winning RL recipe is re-applied to
+them afterwards; (3) one GPU: league runs at night, imitation retrains in daytime slots the owner frees.
+
+**Day 1 (2026-10-01)**
+1. 07:00 league1c stops -> evaluate vs league1b at equal updates on the CURRENT engine.
+2. Royale update + rebuild + tests -> re-baseline.
+3. Evolutions on (Evo Tesla, Evo Knight via reset forms) -> re-baseline.
+4. Placement legality mask (sim via RoyaleSim's deploy-legality query; live via the same rules from the reader's
+   board) -> re-baseline; live: fewer refused taps.
+5. Live acceptance protocol v1 (below) run by the owner after 2-4 deploy.
+6. Pre-flight measurements on CPU (telescope, magnitude, scripted audit).
+7. League training pool re-census with the new cards (eval stays the pinned 299).
+**Night 1:** R0' = league1c settings on the new setup (the control for R1).
+**Day 2:** scorer upgrade (current HP + a position term) + scorer-vs-full-match validation (CPU); label fix (wait
+rows on own play ticks) -> gen_v2 retrain (GPU slot, ~4 h) -> re-baseline + live acceptance.
+**Night 2:** R1 (per-decision credit). **Night 3:** R2 (shaping + critic warm-up), each vs the previous run.
+**Later, gated on results:** opponent cycle/history features (gen_v3 retrain); exploiters in the league once an RL
+step shows a real gain; search again only after the scorer validates.
+
+**Live acceptance protocol v1** (every deployed change): 20 friendlies vs JinxTheCat's bot (or Training Camp),
+logged per match: tap latency (median/max), confirmation rate, placement error (tiles), refused/unconfirmed taps,
+plays/min, elixir-leak share, outcome. Pass = no regression in the mechanics metrics vs the previous deployment
+(these are tight with 20 matches); win rate is reported with its interval (about +-20 pp at n=20) and is a
+tripwire, not a gate.
