@@ -92,7 +92,7 @@ class ShapeRunner(S.Runner):
         raise ValueError(f"policy {policy!r} not in {POLICIES}")
 
     def play_policy(self, policy: str, m) -> dict:
-        t0, states = time.perf_counter(), []
+        t0, states, keep = time.perf_counter(), [], []
         while True:
             ds = m.due()
             if not ds:
@@ -106,6 +106,8 @@ class ShapeRunner(S.Runner):
                 p, enc, heads, hand = S.forward(s)
                 if s is m.learner:
                     d = self.decide(policy, s, p, enc, heads, hand)
+                    _, allowed, stalled = s.pre(hand)        # training's keep rule (e1_eval sample_decide_batch +
+                    keep.append(bool((allowed.any() and not stalled) or d["play"]))   # rl_royale.collate)
                 else:
                     _, allowed, stalled = s.pre(hand)
                     d = E.live_decide_batch(s.model, enc, heads, [p], allowed[None], np.array([stalled]),
@@ -123,9 +125,10 @@ class ShapeRunner(S.Runner):
                 "decisions": len(states), "plays_attempted": r["plays_attempted"],
                 "plays_accepted": r["plays_accepted"], "opp_plays_accepted": r["opp_side"]["plays_accepted"],
                 "crowns_derivation_mismatch": int(mism),
-                # unweighted potentials at each of our decisions (terminal NOT included: Phi(s_T) = 0)
-                "phi_tower": [RS.phi_tower(x, L) for x in states], "phi_crown": [RS.phi_crown(x, L) for x in states],
-                "final_phi_tower": RS.phi_tower(final, L), "final_phi_crown": RS.phi_crown(final, L),
+                # KEPT rows = training's rows (gate_sampled | played); keep[i] for decision i
+                "kept_rows": int(sum(keep)), "keep": keep,
+                # reward_shaping.phi_record per decision (what e1_eval records under record_phi); final for reference
+                "phi_rows": [RS.phi_record(x, L) for x in states], "final_phi_row": RS.phi_record(final, L),
                 "wall_s": round(time.perf_counter() - t0, 1), "_states": states}
 
 
@@ -210,6 +213,7 @@ def play_all(a, policies, reduce) -> list[dict]:
             fh.flush()
             print(f"[rshape] {rec['policy']:17s} seed {rec['seed']} " + (rec.get("skipped") or
                   f"{rec['outcome']:4s} {rec['crowns_for']}-{rec['crowns_against']} dec {rec['decisions']} "
+                  f"kept {rec['kept_rows']} "
                   f"plays {rec['plays_accepted']}/{rec['plays_attempted']} wall {rec['wall_s']}s"), flush=True)
         if a.workers <= 1:
             init_worker(wargs)
@@ -221,6 +225,21 @@ def play_all(a, policies, reduce) -> list[dict]:
                 for rec in pool.imap_unordered(run_job, jobs):
                     emit(rec)
     return rows
+
+
+def kept_shaping(rec: dict, gamma: float, w_tower: float, w_crown: float) -> dict:
+    """Training's R2 rewards for one match record: rl_royale.terminal_rewards (z on the LAST kept row) + rl_royale.
+    shaping_rewards over the KEPT rows' phi_record rows (gamma per kept row, Phi = 0 after the last kept row). ->
+    shaping_rewards' dict + ``r`` (terminal + F per kept row) + ``rows`` (phi_record rows of the kept decisions)."""
+    from pipeline import rl_royale as RL
+    rows = np.asarray(rec["phi_rows"], dtype=np.float64)[np.asarray(rec["keep"], dtype=bool)]
+    if not len(rows):
+        z = np.zeros(0)
+        return {"F": z, "tower": z, "crown": z, "phi": z, "phi_tower": z, "phi_crown": z, "r": z, "rows": rows}
+    sh = RL.shaping_rewards(rows, {"gamma": gamma, "w_tower": w_tower, "w_crown": w_crown})
+    sh["r"] = RL.terminal_rewards([len(rows)], [rec["outcome"]])[0] + sh["F"]
+    sh["rows"] = rows
+    return sh
 
 
 def write(out: Path, name: str, obj: dict) -> None:
