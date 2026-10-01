@@ -136,6 +136,10 @@ tripwire, not a gate.
 - Shaped critic: with potential shaping the exact shaped value is V(s) - Phi(s) (Wiewiora). Keep the critic on the
   UNSHAPED win/loss value (bounded [-1, 1] is then correct) and form shaped advantages with V'(s) = V(s) - Phi(s).
   Fixes the "target 1.2-1.5 unreachable" problem without a new head (also R2 verifier F4).
+  **CORRECTED 2026-10-01 (builder's algebra, verified):** with the same gamma_t in F and GAE, V' = V - Phi gives
+  delta' = delta for ANY V, i.e. R2 == R1 (no-op). Implemented instead (303f3bc): residual critic V_eff = Phi + s*v_net,
+  A = GAE(r, V_eff) on the unshaped r (== the shaped-critic method), v_net target (ret - Phi)/s, s = 1.5 >= 1 + |Phi|max;
+  critic warm-up mandatory (enforced).
 - Time-based discount: gamma per TICK, gamma_row = gamma_tick^(ticks between consecutive kept rows), in both GAE and
   the shaping F (the potential identity requires the same per-step discount).
 **Acceptance instrument:** every R-step and every new imitation model (gen_v2+) is accepted on COMPLETE REACTIVE PLAY:
