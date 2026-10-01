@@ -68,7 +68,8 @@ potential). It gets its own step R3 only if R2 is clean, with spell pricing fixe
   (Wiewiora 2003). R2 therefore gives the value function a hand-made prior: ahead on towers and crowns is good. That
   is useful exactly because our critic is weak (outcome accuracy 0.70 at init). It also means R2 can only matter on
   top of R1 (lambda < 1). With pure Monte-Carlo returns it changes the variance, not the expected gradient.
-- Gamma is per decision (~450 a match; 0.999^450 ~ 0.64). R1 and R2 must use the same gamma unit (checked in tests).
+- Gamma is per KEPT decision row (gate sampled or played; ~290 of ~350 decisions a match; 0.999^290 ~ 0.75), the same unit in R1 and R2 (verified 2026-09-30).
+- R2 run: start with a critic warm-up (critic_warmup_updates > 0). Switching an R1 critic to the shaped target moves its target by -Phi at once, and V is limited to [-1, 1] while the shaped target can reach about 1.5 (R2 verifier F4, untested; measure explained variance in the first updates).
 
 ## 4. Collapse alarms during training (automatic stop rules)
 
