@@ -3,12 +3,21 @@
     research/ext/Royale/.venv/Scripts/python.exe -m pipeline.search_s0 --out scratchpad/gauntlet/L69/s0/run1 \
         --seeds 0:8 --opps gen,s1 --arms plain,search,force_play,random,never [--horizon 12] [--interval 1] \
         [--topk 4] [--cells 3] [--threads 2] [--workers 1] [--tail-cap 7200] [--max-wall-min 0]
-        [--device cpu] [--search-min-p 0]
+        [--device cpu] [--search-min-p 0] [--gen CKPT] [--opp-gen CKPT]
     ... -m pipeline.search_s0 --summarise scratchpad/gauntlet/L69/s0/run1       (re-read matches.jsonl)
 
 Writes ``<out>/matches.jsonl`` (one line per (arm, opponent, seed), flushed as each ends), ``<out>/summary.json``
 (per arm x opponent: W/L/D, mean crowns diff, mean crown-tower HP diff; per seed PAIRED deltas of every arm against
 ``plain``) and ``<out>/run.json`` (args, checkpoint shas). CPU by default: CUDA only behind --device cuda.
+
+WHICH MODEL PLAYS WHICH ROLE
+  ``--gen``      OUR policy (every arm), AND the rollout self-model: inside a fork the opponent is simulated by this same
+                 model (``Runner.learner``), whatever the real opponent is.
+  ``--opp-gen``  ONLY the real, frozen ``gen`` opponent (``--opps gen``). Default None = ``--gen`` (the old behaviour: a
+                 separate object loaded from the same file). Lets a candidate checkpoint (e.g. an RL
+                 ``league1c_u*.pt``) be ours while the opponent stays the frozen gen_v1_s0. Its path and sha256 go in
+                 run.json (``opp_gen``, ``opp_gen_sha256``) and in every match line. The ``s1`` opponent is ``--s1``.
+  The candidate's grid must equal ``--opp-gen``'s (Runner checks it).
 
 DESIGN (lead-fixed, L69 ticket S0)
   Our side: icebow, ``gen_v1_s0`` on CPU, under the measured live condition (clean obs, opp-elixir counter, action
@@ -495,8 +504,9 @@ def _init_worker(args: dict) -> None:
     dev = args["device"]
     gen, gi = E.load_policy(REPO / args["gen"], dev)
     opps = {}
+    _W["opp_meta"] = {"opp_gen": args.get("opp_gen") or args["gen"], "opp_gen_sha256": args.get("opp_gen_sha256")}
     if "gen" in args["opps"]:
-        og, oi = E.load_policy(REPO / args["gen"], dev)          # its own object (no shared state with ours)
+        og, oi = E.load_policy(REPO / _W["opp_meta"]["opp_gen"], dev)   # its own object (no shared state with ours)
         opps["gen"] = (og, live_cfg(TAU_OPP, oi["grid"], dev))
     if "s1" in args["opps"]:
         s1, si = E.load_policy(REPO / args["s1"], dev)
@@ -533,6 +543,7 @@ def _run_job(job: tuple) -> dict:
             return {"arm": arm, "opp": opp_id, "seed": seed, "skipped": "no loadable deck"}
     rec = run.play(arm, m, deadline or None)
     rec["opp_deck_name"] = name
+    rec.update(_W.get("opp_meta") or {})
     return rec
 
 
@@ -596,6 +607,9 @@ def main(argv=None) -> int:
     ap.add_argument("--opps", default="gen,s1")
     ap.add_argument("--arms", default=",".join(ARMS))
     ap.add_argument("--gen", default=GEN_CKPT)
+    ap.add_argument("--opp-gen", default=None,
+                    help="checkpoint of the frozen 'gen' OPPONENT only (default None = --gen); --gen stays our policy "
+                         "and the rollout self-model")
     ap.add_argument("--s1", default=S1_CKPT)
     ap.add_argument("--horizon", type=float, default=12.0, help="rollout horizon, seconds")
     ap.add_argument("--interval", type=int, default=1, help="search every Nth affordable decision")
@@ -628,12 +642,16 @@ def main(argv=None) -> int:
     bad = [x for x in arms if x not in ARMS] + [x for x in opps if x not in ("gen", "s1")]
     if bad:
         raise SystemExit(f"unknown arm/opponent {bad}")
+    if a.opp_gen is None:
+        a.opp_gen = a.gen
     deadline = time.time() + 60.0 * a.max_wall_min if a.max_wall_min else 0.0
-    wargs = {"gen": a.gen, "s1": a.s1, "opps": opps, "threads": a.threads, "tail_cap": a.tail_cap, "horizon": a.horizon,
+    opp_sha = sha256(REPO / a.opp_gen)
+    wargs = {"gen": a.gen, "opp_gen": a.opp_gen, "opp_gen_sha256": opp_sha, "s1": a.s1, "opps": opps, "threads": a.threads, "tail_cap": a.tail_cap, "horizon": a.horizon,
              "interval": a.interval, "topk": a.topk, "cells": a.cells,
              "device": a.device, "search_min_p": a.search_min_p, "rollout_self": a.rollout_self}
     (a.out / "run.json").write_text(json.dumps({**vars(a), "out": str(a.out), "summarise": None,
-                                                "gen_sha256": sha256(REPO / a.gen), "s1_sha256": sha256(REPO / a.s1),
+                                                "gen_sha256": sha256(REPO / a.gen), "opp_gen_sha256": opp_sha,
+                                                "s1_sha256": sha256(REPO / a.s1),
                                                 "tau_plain": TAU_PLAIN, "tau_opp": TAU_OPP, "crown_w": CROWN_W,
                                                 "started": time.strftime("%Y-%m-%d %H:%M:%S")}, indent=1),
                                     encoding="utf-8")
