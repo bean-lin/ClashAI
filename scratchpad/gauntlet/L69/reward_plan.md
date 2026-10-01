@@ -130,3 +130,23 @@ logged per match: tap latency (median/max), confirmation rate, placement error (
 plays/min, elixir-leak share, outcome. Pass = no regression in the mechanics metrics vs the previous deployment
 (these are tight with 20 matches); win rate is reported with its interval (about +-20 pp at n=20) and is a
 tripwire, not a gate.
+
+## 7b. Second outside review (2026-10-01) — accepted changes
+**Before R1 runs (Night 2), learner fixes (one ticket, default-identical, verified):**
+- Shaped critic: with potential shaping the exact shaped value is V(s) - Phi(s) (Wiewiora). Keep the critic on the
+  UNSHAPED win/loss value (bounded [-1, 1] is then correct) and form shaped advantages with V'(s) = V(s) - Phi(s).
+  Fixes the "target 1.2-1.5 unreachable" problem without a new head (also R2 verifier F4).
+- Time-based discount: gamma per TICK, gamma_row = gamma_tick^(ticks between consecutive kept rows), in both GAE and
+  the shaping F (the potential identity requires the same per-step discount).
+**Acceptance instrument:** every R-step and every new imitation model (gen_v2+) is accepted on COMPLETE REACTIVE PLAY:
+the S0 harness plain arm (candidate vs frozen gen_v1 and vs S1, 24 fixed seeds, paired, greedy live rule), plus the
+pinned 299 ghost screen for continuity. An RL gain only counts if it appears under the GREEDY live rule (training
+samples; deployment is greedy). Imitation checkpoint selection must stop relying on cell accuracy with the expert's
+card supplied: select gen_v2 on the joint gate+card+cell metric and the reactive-play arm.
+**Live (with a live acceptance round):** decide only on the sim's 10-tick grid (today live decides every ~100 ms; the
+gate's per-decision probability assumes the 500 ms cadence). Cost: ~0.25 s mean extra latency vs the existing 1.3 s.
+**Later:** opponent memory as an ordered-sequence model; a snapshot curriculum (restart episodes from saved states
+where the policy lost; RoyaleSim save/load); search with sampled opponent hands/responses and extra rollouts on
+close decisions (after the scorer validates).
+**Measured, for the record:** sampling-vs-greedy does not explain league1's null (its SAMPLED self-play vs init was
+~52%); our screens already measure the greedy rule.
