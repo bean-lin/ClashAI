@@ -80,3 +80,6 @@ scratchpad/gauntlet/L68/generalist/pilot/bytediff/
 
 # personal Claude Code permission rules
 .claude/settings.local.json
+
+# live memory-reader binary (not ours to redistribute)
+scratchpad/gauntlet/L68/live_reader/live_sampler
