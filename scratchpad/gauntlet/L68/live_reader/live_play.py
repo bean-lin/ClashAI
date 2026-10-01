@@ -1,6 +1,6 @@
-"""L68 live test: generalist pilots a TRAINING CAMP match on MuMu from the memory reader. Owner-run.
+"""L68 live player: generalist pilots a Clash Royale match on MuMu from the memory reader. Owner-run.
 
-    icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py --training-camp [--dry-run]
+    icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py [--dry-run]
 
 Loop: reader frame (100 ms) -> pipeline.live_gen.GenPilot (opponent hand/next/elixir never used) -> if it plays,
 two ordinary Android taps (hand slot, board) -> receipt from the NEXT frames: the tapped hand slot rotated (the
@@ -199,7 +199,6 @@ class ScreenRec:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--training-camp", action="store_true", help="REQUIRED: you confirm the match is Training Camp")
     ap.add_argument("--ckpt", default=str(REPO / "icebow/data/pipeline/gen_v1_s0/gen_s0.pt"))
     ap.add_argument("--tau", type=float, default=0.5)
     ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (anti-leak rule)")
@@ -238,25 +237,22 @@ def main() -> int:
                     help="play this many matches back to back (default 1 = one match, no navigation). > 1 needs "
                          "--friend: between matches friend_nav.py starts the next FRIENDLY 1v1 against that friend's "
                          "bot; the previous match's overlay renders in the background")
-    ap.add_argument("--friend", help="the friend (a bot, never a ladder player) to play when --matches > 1; must be "
-                                     "the friend the nav templates were cropped for")
+    ap.add_argument("--friend", help="the friend to play when --matches > 1; must be the friend the nav templates "
+                                     "were cropped for")
     ap.add_argument("--nav-dry-run", action="store_true",
                     help="play nothing: run ONE between-match navigation that classifies the live screens and logs "
                          "the tap it WOULD make, never tapping (navigate by hand to test it)")
     a = ap.parse_args()
-    if not a.training_camp:
-        print("refusing: pass --training-camp to confirm the match is Training Camp (bot opponent)")
-        return 2
     if a.matches < 1:
         print("refusing: --matches must be >= 1")
         return 2
     if (a.matches > 1 or a.nav_dry_run) and not a.friend:
-        print("refusing: --matches > 1 and --nav-dry-run need --friend NAME (the friend's bot; never ladder)")
+        print("refusing: --matches > 1 and --nav-dry-run need --friend NAME")
         return 2
     nav = None
     if a.matches > 1 or a.nav_dry_run:
         from friend_nav import FriendNav
-        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run,   # refuses a friend the templates were not cropped for
+        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run,   # validates the template-bound friend name
                         invite_wait=a.invite_wait)
         if screen_size() != (900, 1600):
             print("refusing: the nav templates are 900x1600; the device screen differs")

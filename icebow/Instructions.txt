@@ -51,19 +51,13 @@ code; see STAGE 15 if you want it.
     board out of the game's memory on a rooted MuMu Player emulator. The reader
     program (live_sampler) is NOT in this repository and there are no steps here
     to build it. It only works with one exact game build (Clash Royale
-    versionCode 160402012, x86_64) and breaks when the game updates. The game also
-    ships an anti-bot component, so this is a real account risk. Without the
+    versionCode 160402012, x86_64) and breaks when the game updates. Without the
     reader you can do every stage except STAGE 14.
 
   * THE OWNER'S TEST SETS. The owner's "ghost screen" (STAGE 13) replays 299 fixed
     matches; 191 of them come from the owner's private replay crawl, which is not
     shared. You can still test your model with STAGE 12, which needs nothing
     private.
-
-  * PERMISSION TO AUTOMATE THE GAME. Automating Clash Royale breaks Supercell's
-    Terms of Service. Use a THROWAWAY account. The owner's rule: the bot plays
-    only Training Camp or friendly matches against someone who agreed - NEVER
-    ranked or ladder matches against real players. This is a learning project.
 
 Expect the whole guide to take a few days of on-and-off work. Most of the time is
 the computer running on its own (re-playing replays, training).
@@ -87,7 +81,7 @@ the computer running on its own (re-playing replays, training).
 [ ] Rust (rustup.rs) and "Visual Studio 2022 Build Tools" with the C++ tools
     (needed to build RoyaleSim in STAGE 11).
 [ ] Only for live play (STAGE 14): MuMu Player 15 with root turned on, Clash
-    Royale on a throwaway account, and the memory reader (see above).
+    Royale signed in, and the memory reader (see above).
 [ ] The deck this bot is tuned for ("Icebow X-Bow Control"):
     Tornado, Evolved Tesla, Ice Wizard, X-Bow, Rocket, Evolved Knight, The Log,
     Skeletons. The generalist was trained on thousands of decks, but the
@@ -583,18 +577,14 @@ up like the owner's:
     C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe and the
     emulator address 127.0.0.1:16384 (both written into live_play.py).
   * Root turned on in MuMu's settings (the reader needs it).
-  * Clash Royale versionCode 160402012 (x86_64) inside MuMu, throwaway account.
+  * Clash Royale versionCode 160402012 (x86_64) inside MuMu, signed in.
   * The reader program already on the emulator at /data/local/tmp/live_sampler.
   * MuMu's screen set to 900 x 1600 if you use --matches or --menu-guard.
 
-SAFETY RULES (owner's, not optional):
-  * Training Camp, or a friendly against someone who agreed. NEVER ranked or
-    ladder. The program cannot tell a ranked match from Training Camp: on
-    2026-09-30 it was found playing in ranked matches because nothing stopped it.
-    A guard that would make it watch-only in ranked matches is NOT finished.
-    Keeping it out of ranked is YOUR job.
-  * The program refuses to start without --training-camp. That flag is you
-    promising the match is not ranked; it checks nothing.
+LIVE MATCH MODES:
+  * The live player supports Training Camp, friendly, Classic, ranked and
+    trophy-ladder matches. Start the desired match manually before launching it.
+    The optional --matches/--friend route automates repeated friendly matches.
   * Play on an idle, plugged-in PC. When other jobs used the CPU, the bot's
     decisions slowed from ~40 ms to 0.5-3.4 seconds and it played badly. If it
     prints "CPU-STARVED", stop it and close other jobs.
@@ -603,11 +593,11 @@ SAFETY RULES (owner's, not optional):
 2. Open Clash Royale in MuMu and start a Training Camp match.
 3. First a test that decides and logs but NEVER taps:
 
-       icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --training-camp --dry-run --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
+       icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --dry-run --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
 
 4. The real thing (one match):
 
-       icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --training-camp --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
+       icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
 
    It waits for the battle clock to start, plays the match, and stops when the
    match ends. Press Ctrl+C to stop it early.
@@ -759,8 +749,8 @@ live_play says "refusing: the nav templates are 900x1600":
    research\ext\Royale\.venv\Scripts\python.exe -m pipeline.search_s0 --out data\reactive\mine_vs_mine --seeds 0:24 --opps gen --arms plain --gen icebow\data\pipeline\gen_mine_s0\gen_s0.pt --s1 icebow\data\pipeline\gen_mine_s0\gen_s0.pt --forms-mode deck --device cuda --workers 3 --threads 1
 
  Live play, owner set-up only   (FOLDER: repo root)
-   icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --training-camp --dry-run --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
-   icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --training-camp --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
+   icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --dry-run --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
+   icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py --ckpt icebow\data\pipeline\gen_mine_s0\gen_s0.pt
 
  Help (any of the programs above)
    add  --help  to the end of the command

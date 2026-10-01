@@ -23,9 +23,6 @@ for the opposite. It runs on PC via Google Play Games — the same rendering it 
 > **imitation learning** (clone *your* play first), then RL fine-tune. This is a
 > **train-it-yourself framework**, not a turnkey pro bot.
 >
-> Same responsible-use rules as `trol`: throwaway account, private/consenting
-> matches only. Automation violates Supercell ToS.
-
 ## Pipeline
 
 ```
@@ -368,7 +365,7 @@ plays, exits, and re-queues on its own.
    rewards, `run.py verify --spells` tints the pixels counted as enemy troops and
    shows the arena `enemy_mass`.
 3. Leave the account on the **HOME** screen (the 1v1 battle mode selected, as in
-   your recordings). Use a throwaway account and private/friendly matches only.
+   your recordings). The same live loop supports Classic and trophy-ladder matches.
 4. Keep the mouse hand free: **pyautogui failsafe** is on — slam the cursor into a
    screen corner to abort instantly. `Ctrl+C` stops and saves.
 

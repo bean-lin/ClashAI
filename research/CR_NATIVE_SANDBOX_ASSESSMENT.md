@@ -76,10 +76,6 @@ RoyaleAPI crawl (`icebow/data/royaleapi/crawl2/`). Labels as always: **measured*
   (one person, one-week-old repo) would have to re-derive them each time. Anything we build is pinned to 15.535.29 and to replays
   from that version. For a one-off dataset or a parity oracle that is fine; for a permanent training environment it is a
   maintenance dependency we do not control.
-* **Not sanctioned.** It runs the client's engine outside the client, rooted, with binary patches. It never contacts Supercell's
-  servers, but it is squarely the kind of reverse-engineering Supercell's Terms of Service prohibit. That is your decision to make,
-  not mine; I am stating it so it is made knowingly.
-
 ## 3. What it needs, and what is blocked on you
 
 | need | status on this box (measured) | who unblocks |

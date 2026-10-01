@@ -492,7 +492,7 @@ def test_recorded_battle_frames_are_not_menus():
 
 
 def test_matches_zero_refused(monkeypatch, capsys):
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "0"])
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--matches", "0"])
     assert lp.main() == 2 and ">= 1" in capsys.readouterr().out
 
 
@@ -545,9 +545,9 @@ def test_non_900x1600_screen_refused_without_flag(monkeypatch, capsys):
         raise Loaded
     monkeypatch.setattr(lp, "screen_size", lambda: (1080, 1920))
     monkeypatch.setattr(lp, "GenPilot", no_model)
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--menu-guard"])
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--menu-guard"])
     assert lp.main() == 2 and "900x1600" in capsys.readouterr().out     # the opt-in guard needs its template size
-    for argv in (["--training-camp"], ["--training-camp", "--no-menu-guard"]):   # guard off (default / no-op alias)
+    for argv in ([], ["--no-menu-guard"]):   # guard off (default / no-op alias)
         monkeypatch.setattr(sys, "argv", ["live_play.py"] + argv)
         with pytest.raises(Loaded):                     # proceeds to the model load
             lp.main()
@@ -668,7 +668,7 @@ def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
     monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
     monkeypatch.setattr(lp, "GenPilot", NoModel)
     monkeypatch.setattr(lp, "play_match", fake_play)
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "2", "--friend", "JinxTheCat"])
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--matches", "2", "--friend", "JinxTheCat"])
     assert lp.main() == 0
     if launch:                                                  # menu at launch: navigate BEFORE match 1
         assert calls == [("invite_wait", 20.0), "probe", "nav", ("match", 60), "nav", ("match", 60)]
@@ -769,7 +769,7 @@ def test_menu_guard_flag_default_off(monkeypatch, argv, on):
     monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
     monkeypatch.setattr(lp, "GenPilot", NoModel)
     monkeypatch.setattr(lp, "play_match", lambda a, *r, **k: seen.append(a.menu_guard) or "battle_inactive")
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp"] + argv)
+    monkeypatch.setattr(sys, "argv", ["live_play.py"] + argv)
     assert lp.main() == 0 and seen == [on]
 
 
@@ -884,7 +884,7 @@ def test_main_starts_nav_only_after_the_quiet_period(monkeypatch):
     monkeypatch.setattr(lp, "screen_size", lambda: (900, 1600))
     monkeypatch.setattr(lp, "GenPilot", NoModel)
     monkeypatch.setattr(lp, "play_match", fake_play)
-    monkeypatch.setattr(sys, "argv", ["live_play.py", "--training-camp", "--matches", "2", "--friend", "JinxTheCat"])
+    monkeypatch.setattr(sys, "argv", ["live_play.py", "--matches", "2", "--friend", "JinxTheCat"])
     assert lp.main() == 0
     (k1, t_tap), (k2, t_nav) = events[0], events[1]
     assert (k1, k2) == ("tap", "nav") and t_nav - t_tap >= 1.0 - 0.05

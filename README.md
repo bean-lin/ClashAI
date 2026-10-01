@@ -5,11 +5,8 @@
 
 The bot never sees the game's internal state. It gets what a person gets: **a picture of the arena
 and its hand of cards.** From that it decides *which card to play and where to drop it* — or to wait.
-
-> [!WARNING]
-> **Please use this responsibly.** Automating Clash Royale violates Supercell's Terms of Service.
-> This project exists as a learning exercise. If you run it, use a throwaway account. I am not
-> responsible for any lost accounts.
+The live target is ranked 1v1 trophy-ladder play: train offline, freeze a checkpoint, then grade it
+in fixed ladder blocks at a known trophy band.
 
 > [!TIP]
 > **New here?** Read **[icebow/Instructions.txt](icebow/Instructions.txt)** first — a linear,

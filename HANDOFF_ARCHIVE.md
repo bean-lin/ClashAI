@@ -11336,7 +11336,8 @@ not an arm.
 
 **Teacher A -- the doctrine. Spec (arm D1):**
 - **Where it teaches: DRILL episodes only** (`info["drill"]` set; `drill_frac` 0.3 in c2r_run.yaml so ~30% of
-  episodes). NEVER on ladder-match states -- whole-match it is a 14.6% player and would teach the passivity above.
+  episodes). This teacher remains drill-specific because its whole-match rate is 14.6% and would teach the
+  passivity above; live ladder deployment uses the selected full-match policy.
 - **Mechanism: the existing search-imitation plumbing with the doctrine as the "searcher".** A
   `DoctrineSearcher(env)` whose `act(t)` returns `(doctrine_policy(None, env), True)` on drill envs and
   `(None, False)` on match envs, plugged into `_searchers` / the worker `searchers` list

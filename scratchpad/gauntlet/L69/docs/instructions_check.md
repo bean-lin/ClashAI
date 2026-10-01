@@ -27,7 +27,7 @@ Nothing was trained, no engine match, no live play, no adb call.
 | 11 | Royale-venv test `pytest pipeline/tests/test_royale_forms.py` | run, STOPPED by me at 12/14 passed (slow engine tests, CPU contended, not a guide step) | 12 dots, 0 failures before stop |
 | 12 | Royale venv `-m pipeline.search_s0` | --help | OK: --gen --opp-gen --s1 --opps --arms --forms-mode {base,deck} --device --workers --threads |
 | 13 | Royale venv `run_screen.py` | --help | OK: --only-tags-from --tau --forms-mode --pair --split --noise-off --opp-elixir --action-delay --extrapolate |
-| 14 | icebow venv `live_play.py` | --help | OK (live_play.txt): --training-camp --ckpt --tau --max-seconds --dry-run --overlay --no-record --device --menu-guard --invite-wait --no-ability --matches --friend --nav-dry-run |
+| 14 | icebow venv `live_play.py` | --help | OK (live_play.txt): --ckpt --tau --max-seconds --dry-run --overlay --no-record --device --menu-guard --invite-wait --no-ability --matches --friend --nav-dry-run |
 | 15 | `git show afa2db3:icebow/Instructions.txt` | git cat-file -t | blob (the old S1 guide; content = HEAD copy, CRLF only) |
 | 11 | RoyaleSim commit 369fe33 | git cat-file -t | commit |
 
@@ -94,5 +94,5 @@ Paths the guide CREATES (do not exist yet by design): `data\hf_crawl\{icebow,hog
 - Reactive play 48 matches 687.9 s, gen_v1 12/24 vs gen: scratchpad/gauntlet/L69/rebase_1001_evo/reactive_genv1/summary.json.
 - Ghost screen 0.926, 299 matches 732.8 s: rebase_1001_evo/train_tau0.27.out + HANDOFF.md:187; 191/299 tags from crawl2 (pool_env_v1.jsonl "source").
 - search_s0 hashes --s1 unconditionally: pipeline/search_s0.py:717 (`sha256(REPO / a.s1)`), default s1_icebow_v6aug_s1.pt (:124).
-- Live: reader needs root (/proc/PID/mem), sampler at /data/local/tmp/live_sampler not pushed by any script (live_play.py:142-146, :342); build 160402012 x86_64 + anti-bot SDK: HANDOFF.md:164; ranked incident + unfinished T6 guard: .foreman/s0-search/ledger.md (2026-09-30T20:01, T6 paused 21:55); CPU starvation: HANDOFF.md:166 (LIVE LAG ROOT CAUSE).
+- Live: reader needs root (/proc/PID/mem), sampler at /data/local/tmp/live_sampler not pushed by any script (live_play.py:142-146, :342); build 160402012 x86_64: HANDOFF.md:167; ranked ladder path confirmed: HANDOFF.md:182; CPU starvation: HANDOFF.md:169 (LIVE LAG ROOT CAUSE).
 - run.py play --student loads S1Model only: icebow/src/clashrl/student_live.py:44-52.

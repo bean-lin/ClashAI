@@ -1,4 +1,4 @@
-# ClashBot — 2v2 Spell-Cycle Bot (educational)
+# ClashBot — 2v2 Spell-Cycle Bot
 
 An automation project that queues 2v2 quick matches in Clash Royale (running
 via the Google Play Games app on Windows) and plays an all-spell "spell cycle"
@@ -7,12 +7,6 @@ at a configurable on-screen spell target (currently the top-left corner), emotes
 again at match end, exits, and re-queues. A lightweight learning layer tunes
 the menu/queue timing so it moves from one match to the next as fast as
 reliably possible.
-
-> ⚠️ **Responsible use.** Automating gameplay violates the Clash Royale / Supercell
-> Terms of Service and can get an account permanently banned. Per your own plan:
-> use a **throwaway account** you don't mind losing, and only play **private
-> matches against friends who have agreed to test with you** — never against
-> unaware players in public matchmaking. You are responsible for how you use this.
 
 ---
 

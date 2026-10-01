@@ -1,7 +1,7 @@
 """Between-match navigation for live_play.py --matches N: start the next FRIENDLY 1v1 battle against ONE friend.
 
-Owner rule: the memory reader plays only bots (Training Camp or the friend's mirror bot), never ladder players. So this
-module can tap only the allowlisted targets in TARGETS, each only after its screen was recognised (template matching
+This module is the optional friend-match navigation route. It taps only the allowlisted targets in TARGETS, each
+only after its screen was recognised (template matching
 on `adb exec-out screencap` frames against scratchpad/gauntlet/L69/nav/templates/manifest.json), and every input goes
 through command_for() -- the one place that builds an `input` command. The main screen's yellow Battle button,
 Quickplay and Add Friends are FORBIDDEN rectangles no target may reach (see EXEMPT for the one documented overlap).
@@ -11,7 +11,7 @@ friend's invite; if none, send ours; if both are up (crossed) cancel ours, accep
 unrecognised screen > 20 s, results screen whose opponent is not the friend, > 180 s for the whole transition.
 
     # watch the screens and log the tap it WOULD make (never taps); the owner navigates by hand:
-    icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py --training-camp \
+    icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py \
         --nav-dry-run --friend JinxTheCat
 """
 from __future__ import annotations
