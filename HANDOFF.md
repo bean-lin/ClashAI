@@ -22,7 +22,42 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-01** (live ladder intent cleanup), branch `main`.
+Last updated: **2026-10-01 17:00 EDT** (session context cleared at the owner's request; restart note below), branch `main`.
+
+> ## ⟳ RESTART NOTE — 2026-10-01 17:00 EDT (context cleared on purpose; rebuild from this file)
+> The owner asked for this session's context to be wiped and rebuilt from the repo. Everything needed to continue:
+> * **Owner status:** travelling until Sun 10-04 evening / Mon 10-05 morning. Continuous SIM-side compute approved
+>   until then (the shared-laptop rule is waived for that window only). **No live testing** until they are back.
+>   Anything needing an owner decision is parked here, not decided. Standing rules are in the auto-memory index
+>   (`~/.claude/projects/C--Users-benpe-ClashBot/memory/MEMORY.md`): never ranked vs real players, never stage
+>   `icebow/data/` (secrets: `discord_webhook.txt`), one change per experiment, push only accepted commits, use the
+>   fable-foreman protocol (ledger `.foreman/s0-search/ledger.md`), never two GPU jobs at once.
+> * **Running now (detached; they survive the clear, but no completion alerts reach the new context -- poll the logs):**
+>   1. **R0'** `rseries_r0p` (bash `scratchpad/gauntlet/L69/rl/run_r0p.sh`; train log
+>      `scratchpad/gauntlet/L68/rl/rseries_r0p/train_log.jsonl`, 106/150 updates at 16:55, ~3 min/update -> ends ~19:15;
+>      driver log `scratchpad/gauntlet/L69/rl/r0p_driver.log` gets "[drv] done").
+>   2. **R1 driver** (bash `scratchpad/gauntlet/L69/rl/run_r1.sh`, log `scratchpad/gauntlet/L69/rl/r1_driver.log`): waits for
+>      R0' "[drv] done", then R0' ghost screens u0075 + final (vs `scratchpad/gauntlet/L69/rebase_1001_evo/train_tau0.27.jsonl`;
+>      outputs `scratchpad/gauntlet/L69/rl/r0p_accept/`), then R0' reactive play (plain arm, 24 seeds, vs gen_v1 and S1,
+>      cuda), then **R1** `rseries_r1` (= R0' + advantage gae + tick gamma + critic warm-up 5; max_updates 155; yaml copy
+>      `scratchpad/gauntlet/L69/rl/r1_rl_royale.yaml`), ~8 h. Writes "[r1drv] all done".
+>   3. **gen_v2 chain** (bash `scratchpad/gauntlet/L69/gen_v2/chain_after_r1.sh`, log `.../gen_v2/chain.log`): waits for
+>      "[r1drv] all done", then trains gen_v2 (gen_v1 recipe on gen_dataset_v2.npz, ~4-6 h) and runs `select.sh --top 4`.
+> * **Daily Discord summary at ~20:47 local** (owner-approved, one per day until 10-05): write a short plain-language
+>   message file (what ran, measured results with numbers, what is next, anything parked for the owner) and post it with
+>   `research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL).
+>   The old session's cron was session-only: **recreate it** in the new context (CronCreate, "47 20 * * *").
+> * **Next steps, in order:** (a) when R0' screens + reactive land: compare u0075/final vs the evolutions re-baseline
+>   (screen 0.926 tau 0.27; reactive gen_v1 12/24 vs gen, 20/24 vs S1), record in HANDOFF; (b) R1 eval at matched policy
+>   updates (R1 u0080 / u0155 vs R0' u0075 / u0150; same two instruments); (c) gen_v2 selection results vs gen_v1 on one
+>   eval set + reactive play; (d) Night 3 (10-02): **R2** = R1 + `shaping=tower_crown` (residual critic, warm-up > 0
+>   enforced), control = R1; (e) parked for later: opponent cycle/history features (gen_v3), exploiters, snapshot curriculum;
+>   search stays parked (scorer pilot below); live items (league1c_u0075 live test, live acceptance v1, 10-tick decision
+>   grid, ranked observe-only guard) wait for the owner.
+> * **Pending one-click task chip** for the owner: fix `pipeline/search_s0.py:717` hashing `--s1` when S1 is not an opponent.
+> * Today's accepted work (details in the 2026-10-01 entries of §3): wait-label fix + gen_dataset_v2 (3153fa4), learner
+>   fixes / residual critic (303f3bc), scorer v2 + validator (502a26c, 76fab94), scorer pilot verdict (d3e7b17), pre-flight
+>   3/3 PASS (97689b0), Instructions.txt rewrite for the generalist workflow (cad1dfd).
 
 ### Where the project stands (read this, then §6 / §7 / §8)
 
