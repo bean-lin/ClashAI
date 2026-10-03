@@ -24,6 +24,16 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 
 Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission blockers; VM/daily helpers running), branch `main`.
 
+> ## 2026-10-03 14:45 -- AUTOPILOT CONTINUATION IN PROGRESS
+> LIVE W51 L41 D0, still u0155/reader v2; VM4976/14818 recordings at14:44, zero failures, marker absent.
+> Shared public observation work for gen_v3.1 uses feature_version=4 (old checkpoints retain their path).
+> Ten detector tests pass, including equivalent reader/native/SIM inputs and the real 288-frame public sample.
+> Dataset/model/live/SIM integration is under test; do not train or deploy it until the continuation gates pass.
+> Public cycle = eight observed distinct cards with subsequent observed-play counts and age, never hidden hand/readiness.
+> New privacy audit: generic dataset rows retain recorded opponent elixir; v3.1 now replaces those scalars with the
+> public counter. Older training inputs need a separate audit; current live counter is unchanged.
+> Contract and current gates: `L70/gen_v31/CONTRACT.md`, `.foreman/codex_autopilot/GATES_v31.md`.
+
 > ## 2026-10-03 14:27 -- AUTOPILOT CHECKPOINT
 > Final14:29 refresh: LIVE W49 L39 D0, restarts1/10, STOP absent, no CPU-STARVED lines since reader-v2 launch;
 > VM3920/14818 files, zero failures, marker absent. Detailed final snapshot `runs/final_health.json` under autopilot.
@@ -159,6 +169,10 @@ Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission bloc
 >   Caveat: gen_v3's evo tags were reconstructed and conservative; gen_v3.1 (exact native ids) is the real test.
 > Codex autopilot: `.foreman/codex_autopilot/` (TICKET / JOURNAL / BLOCKERS / runs). The 3-hourly scheduler was
 > blocked by the permission system (owner travelling); the lead re-launches one long run when the current one ends.
+> **14:55 -- R1t from gen_v3 RUNNING** (relaunched by the lead; ~7 h + acceptance, log `L70/rl/night3.log`). The 13:59
+>   launch exited in 5 s (cause lost: the next attempt overwrote the log); Codex's 14:06 retry inside its SANDBOX died
+>   on WinError 5 (multiprocessing pipes) -> CODEX CANNOT RUN rl_royale / search_s0 multiprocessing from its sandbox
+>   (R1e will hit this too). Failed dirs kept as `*_failed_1003`. Codex also edited run_r1t_v3.sh (failure guard).
 > **OWNER PRIORITY for Tuesday (14:4x):** overtime losses = X-Bow attempts thwarted instead of Rocket finishes. (1)
 >   PROJECTILE INPUT (card, x, y, target, time-to-impact tokens) in train (re-drive --record-full), sim (RoyaleSim
 >   PROJECTILE_FIELDS) and live (reader v2 `projectiles`) -> learnable preemptive Logs on Goblin/Skeleton Barrel landing

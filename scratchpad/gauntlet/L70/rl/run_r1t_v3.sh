@@ -19,7 +19,9 @@ CFG=scratchpad/gauntlet/L69/rl/r1_rl_royale.yaml
 OVR="init=$V3 proagree_data_gen=icebow/data/pipeline/gen_dataset_v3.npz league=true noise_off=all opp_elixir=counter action_delay_ticks=26 extrapolate_ticks=26 max_updates=155 screen_seeds=[0] league_learner_icebow_share=1.0 forms_mode=deck league_decks=scratchpad/gauntlet/L69/pool/loadable_decks.json advantage=gae gae_gamma_unit=tick critic_warmup_updates=5 gae_terminal_gap=true"
 log "R1t_v3 start"
 $PY -m pipeline.rl_royale --config $CFG --run rseries_r1t_v3 $OVR > $O/r1t_v3_gpu.out 2> $O/r1t_v3_gpu.out.err
-log "R1t_v3 gpu exited $? -- $(grep -a 'STOP after' $O/r1t_v3_gpu.out | tail -1)"
+rc=$?
+log "R1t_v3 gpu exited $rc -- $(grep -a 'STOP after' $O/r1t_v3_gpu.out | tail -1)"
+if [ "$rc" -ne 0 ]; then log "TRAINING FAILED -- acceptance not run"; exit "$rc"; fi
 B=$O/r1t_v3_accept; mkdir -p $B
 for u in 0080 0155; do
   t=rseries_r1t_v3_u$u; ck=$CKB/rseries_r1t_v3/$t.pt
