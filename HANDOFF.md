@@ -174,7 +174,7 @@ Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission bloc
 >   on WinError 5 (multiprocessing pipes) -> CODEX CANNOT RUN rl_royale / search_s0 multiprocessing from its sandbox
 >   (R1e will hit this too). Failed dirs kept as `*_failed_1003`. Codex also edited run_r1t_v3.sh (failure guard).
 > **15:0x -- Codex brief updated + run restarted** (`.foreman/codex_autopilot/TICKET.md`): item 5 gen_v3.1 now MUST
->   include projectile input (preemptive Logs) and Rocket-finish decisive-state weighting + behaviour acceptance metrics
+>   include projectile input (preemptive Logs) and Rocket-on-tower weighting LEARNED FROM PRO tower-Rocket contexts (owner: multi-Rocket finishes + tiebreak Rocket cycling, not just <=497 HP) + behaviour acceptance metrics
 >   (Rocket share, finish-off conversion, preemptive-Log rate); the stopped run's uncommitted pipeline edits are to be
 >   finished or reverted first. **Tuesday TODO (owner): live is too trigger-happy with Hero Ice Wizard's ability** --
 >   look at `scratchpad/gauntlet/L68/live_reader/hero_button.py` should_press (a rule, not the model) vs how pros press
