@@ -101,6 +101,15 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   saturation 0.0 throughout, value_mae 0.126 -> 0.093, explained var 0.79-0.88, phi_share 0.11-0.13, adv_r1_diff
 >   0.074 -> 0.060 (shaping moves A by ~0.06 vs R1's estimator). Train winrate vs league 0.44-0.66 (noisy, n 64).
 >   Live at 02:53: W47 L48, no stops since 21:59.
+> * **R2 STOPPED ITSELF after u59 (03:09, exit 0): `HARD pro agreement: gate_bal_acc 0.7119 < init 0.7669 - 0.05`.**
+>   The gate drifted away from the pros under shaping, R1 did not: gate_bal R2 0.767 -> 0.754 (u19) -> 0.744 (u29) ->
+>   0.720 (u34) -> 0.712 (u59); R1 stayed 0.755-0.773 all run. Critic monitors stayed clean to the end (outside 0.0002
+>   max, saturation 0.0005 max). Matched u0060 acceptance (`r2_accept/`, `run_r2_accept_u60.sh`): ghost screen R1
+>   +2.7 [-0.3, 5.7] and R2 +2.0 [-1.3, 5.4] vs the evo base; **R2 - R1 -0.7 pp [-4.0, 2.7]**; reactive R1 gen 14/24
+>   S1 23/24, R2 gen 13/24 S1 21/24. **Verdict: tower_crown shaping (w 0.3/0.3) adds nothing over R1 and costs gate
+>   fidelity.** Not resumed (overriding the guard is the owner's call; no reason to).
+> * **R1u RUNNING (05:09 ->, ~7 h):** R1 + ONE change `gae_gamma_tick=1.0` (undiscounted; review point 2), then
+>   acceptance u0080/u0155 paired vs R1 + base + reactive (`scratchpad/gauntlet/L70/rl/run_r1u.sh`, log night3.log).
 > * **Live:** W31 L30 since 20:31 (league1c_u0075). The game-day rollover was caught by the 30-min probe (wins 25 -> 0);
 >   the new day's 4th win ran the chest flow again (18 tap-throughs -> Battle). No stops since 21:59.
 >
