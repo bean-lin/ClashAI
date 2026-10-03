@@ -14,6 +14,9 @@ SPEC = {
     "red_x":      ("promo_pass_x.png", (782, 197, 833, 248), (560, 60, 900, 600), 0.85),
     "modes_hdr":  ("trophy_btn.png", (240, 330, 660, 400), (150, 250, 750, 500), 0.85),
     "logo":       ("queue1.png", (180, 60, 710, 260), (100, 0, 800, 360), 0.80),
+    # Trophy Road rewards screen (opened by the game when a milestone is passed; stuck the run 2026-10-02 21:26)
+    "collect":    ("trophy_road.png", (280, 1292, 425, 1350), (0, 150, 900, 1480), 0.85),
+    "bottom_ok":  ("trophy_road.png", (365, 1508, 535, 1578), (250, 1460, 650, 1600), 0.85),
 }
 man = {}
 for n, (src, b, reg, thr) in SPEC.items():

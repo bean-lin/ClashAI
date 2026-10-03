@@ -139,6 +139,40 @@
     360
    ],
    "threshold": 0.8
+  },
+  "collect": {
+   "file": "collect.png",
+   "source": "trophy_road.png",
+   "box": [
+    280,
+    1292,
+    425,
+    1350
+   ],
+   "region": [
+    0,
+    150,
+    900,
+    1480
+   ],
+   "threshold": 0.85
+  },
+  "bottom_ok": {
+   "file": "bottom_ok.png",
+   "source": "trophy_road.png",
+   "box": [
+    365,
+    1508,
+    535,
+    1578
+   ],
+   "region": [
+    250,
+    1460,
+    650,
+    1600
+   ],
+   "threshold": 0.85
   }
  }
 }

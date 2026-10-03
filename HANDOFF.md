@@ -63,6 +63,14 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   chest -- inferred, not checked). Each chest: star-upgrade taps then "Tap to open", then the reward card. Then a
 >   stable main screen whose Battle button had LOST its "Daily Bonus" label (bonus false = the count re-sync logic is
 >   right), Battle, next match. No purchase screen appeared.
+> * **21:26 STOP -> fixed 21:38: Trophy Road reward tree.** Passing a milestone (10,325; trophies 10,364) makes the game
+>   open the Trophy Road screen on the way to main; the tap-through point hit a locked tile ("Reward unlocks at 10400")
+>   40 times -> stop; the restart then waited 600 s for a battle (unknown screen at launch = "battle running").
+>   Fix: `trophy_road` screen (templates collect / bottom_ok): tap every green Collect (owner: collect ALL collectible
+>   rewards), else drag down the tree (<= 8 swipes, stops when the list stops moving) looking for more, then OK.
+>   Ladder launch now always has a 180-s battle-start timeout, so an unknown launch screen goes back to the nav.
+>   Verified live 21:38: collected 200 gems + a Trophy Road chest (1->2 stars, Gold x4000), 8 scan swipes found no
+>   more, OK -> main -> Battle. Not independently reviewed (live-observed only).
 > * **Measured cost of training + live together:** median decision 102-108 ms (normal ~40) while gen_v2 trains.
 > * **Traps found today:** (1) CR on launch opens the Play Store forced-update activity; Back dismissed it and the game
 >   loaded on 160402012 -- do NOT accept an APK update (the reader is build-specific). (2) MuMu's `com.mumu.store`

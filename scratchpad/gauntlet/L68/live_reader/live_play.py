@@ -314,7 +314,8 @@ def main() -> int:
                                f"{Path(a.ckpt).stem}, tau {a.tau} -- session W{st.get('W', 0)} L{st.get('L', 0)} "
                                f"D{st.get('D', 0)} before this match")
             why = play_match(a, pilot, lay, device, renders if k + 1 < a.matches else None,
-                             start_timeout=(180 if a.ladder else 60) if navigated else None,   # ladder: matchmaking
+                             start_timeout=180 if a.ladder else (60 if navigated else None),   # ladder: matchmaking;
+                             # also on launch: an unrecognised screen then goes back to the nav, not a 600-s wait
                              record=record, clip_caption=caption)
             if why not in MATCH_OVER and caption is not None:
                 last_clip = prev_clip                    # no match was played: the clip stays due (Codex review F9)

@@ -6,6 +6,7 @@ Screens (template matching on `adb exec-out screencap` frames vs scratchpad/gaun
   main     the yellow Battle button. "Daily Bonus" under it = the game still pays a daily-win bonus today.
   popup_x  any popup with the red X close button (promos like "Upgrade your Pass Royale" -- never its GO! button).
   modes    the Game Modes sheet (opened by a stray tap) -> its close arrow.
+  trophy_road  the Trophy Road rewards screen the game opens at a milestone: Collect (free reward), then its OK.
   loading  the Clash Royale logo screen (app start / battle loading).
 Policy: after a results screen tap Play Again, EXCEPT after the day's 4th win (counted here, persisted in
 ladder_state.json): tap OK, tap through the chest-opening screens until the main screen is stable, tap Battle. The
@@ -39,9 +40,12 @@ TARGETS = {                                     # rectangle the tap point must l
     "battle": (300, 1150, 610, 1340),
     "close_x": (560, 60, 900, 600),
     "modes_close": (380, 200, 520, 290),
-    "tap_through": (440, 440, 460, 460),        # neutral point: top-centre art on every popup seen so far
+    "tap_through": (440, 440, 460, 460),
+    "collect": (0, 150, 900, 1480),             # Trophy Road: claim a free reward (green Collect)
+    "bottom_ok": (340, 1490, 560, 1595),        # Trophy Road: close (blue OK in the bottom bar)        # neutral point: top-centre art on every popup seen so far
 }
 FORBIDDEN = {"shop_tab": (0, 1440, 170, 1600)}
+SWIPES = {"tr_scroll": (450, 1150, 450, 550, 700)}   # Trophy Road: slow drag up = show LOWER (already reached) rewards
 TAP_THROUGH_PT = (450, 450)
 
 
@@ -55,6 +59,10 @@ def _inside(pt, r) -> bool:
 
 def command_for(target: str, pt) -> str:
     """The ONLY builder of an `input` command in this module."""
+    if target in SWIPES:
+        if pt is not None:
+            raise NavViolation(f"{target} is a fixed swipe")
+        return "input swipe {} {} {} {} {}".format(*SWIPES[target])
     if target not in TARGETS:
         raise NavViolation(f"target {target!r} is not allowlisted")
     x, y = round(pt[0]), round(pt[1])
@@ -94,6 +102,10 @@ class Classifier:
             return {"screen": "popup_x", "x": hit["red_x"], "scores": sc}
         if "modes_hdr" in hit:
             return {"screen": "modes", "scores": sc}
+        if "bottom_ok" in hit or "collect" in hit:     # Trophy Road: Collect each free reward, then OK
+            return {"screen": "trophy_road", "collect": hit.get("collect"), "ok": hit.get("bottom_ok"), "scores": sc,
+                    "sig": cv2.resize(cv2.cvtColor(img[150:1450], cv2.COLOR_BGR2GRAY), (45, 65),
+                                      interpolation=cv2.INTER_AREA)}
         if "battle" in hit:
             return {"screen": "main", "battle": hit["battle"], "bonus": "daily_bonus" in hit, "scores": sc,
                     "sig": cv2.resize(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), (45, 80), interpolation=cv2.INTER_AREA)}
@@ -111,7 +123,8 @@ def load_state(path: Path = STATE) -> dict:
 
 class LadderNav:
     """Pure planner for ONE transition (results -> ... -> battle loading). No I/O; time passed in."""
-    UNKNOWN_S, TRANSITION_S, HANDOFF_S, TAP_WAIT_S, TAP_MAX, STABLE_N, PROBE_S = 60.0, 240.0, 3.0, 2.5, 40, 3, 1800.0
+    UNKNOWN_S, TRANSITION_S, HANDOFF_S, TAP_WAIT_S, TAP_MAX, STABLE_N, PROBE_S = 60.0, 300.0, 3.0, 2.5, 40, 3, 1800.0
+    TR_SWIPES = 8                                 # Trophy Road scan: at most this many drags down the tree
 
     def __init__(self, t0: float, state: dict):
         self.t0, self.st = t0, state
@@ -121,6 +134,7 @@ class LadderNav:
         self.unknown_since: float | None = None
         self.results_since: float | None = None
         self.nograb_since: float | None = None
+        self.tr_swipes, self.tr_sig, self.tr_sig_before = 0, None, None
         self.taps, self.main_n, self.main_sig = 0, 0, None
 
     def plan(self, scr: dict, now: float) -> tuple:
@@ -151,6 +165,15 @@ class LadderNav:
             return ("act", "close_x", scr["x"])
         if s == "modes":
             return ("act", "modes_close", (450, 245))
+        if s == "trophy_road":   # owner 2026-10-02: collect EVERY collectible reward (lower ones may be off-screen)
+            if scr["collect"]:
+                return ("act", "collect", scr["collect"])
+            self.tr_sig = scr.get("sig")
+            unmoved = (self.tr_sig is not None and self.tr_sig_before is not None
+                       and float(np.abs(self.tr_sig.astype(int) - self.tr_sig_before).mean()) < 2.0)
+            if self.tr_swipes < self.TR_SWIPES and not unmoved:
+                return ("act", "tr_scroll", None)
+            return ("act", "bottom_ok", scr["ok"]) if scr["ok"] else ("wait", "trophy road: no OK button visible")
         if s == "results":
             if self.committed:
                 return ("wait", "Play Again tapped: waiting for the queue")
@@ -187,6 +210,9 @@ class LadderNav:
     def acted(self, target: str, now: float) -> None:
         if target in ("play_again", "battle"):
             self.committed = True
+        elif target == "tr_scroll":
+            self.tr_swipes += 1
+            self.tr_sig_before = self.tr_sig
         elif target == "tap_through":
             self.taps += 1
             self.unknown_since = now              # wait TAP_WAIT_S again before the next one
@@ -204,7 +230,7 @@ def grab(adb: list[str]):
 class LadderNavRunner:
     """Device side, same interface as friend_nav.FriendNav: probe() before match 1, run() between matches."""
     POLL_S, COOLDOWN_S = 0.5, 1.5
-    NAV_SCREENS = {"results", "main", "popup_x", "modes"}
+    NAV_SCREENS = {"results", "main", "popup_x", "modes", "trophy_road"}
 
     def __init__(self, adb: list[str], dry_run: bool = False, log_dir: Path = HERE, state_path: Path = STATE,
                  wins_today: int | None = None):
@@ -267,7 +293,8 @@ class LadderNavRunner:
                     self.save()
                     return p[0] == "handoff", p[1]
                 if p[0] == "act":
-                    same = prev and prev[1] == p[1] and max(abs(prev[2][0] - p[2][0]), abs(prev[2][1] - p[2][1])) <= 8
+                    same = prev and prev[1] == p[1] and (p[2] is None or max(abs(prev[2][0] - p[2][0]),
+                                                                          abs(prev[2][1] - p[2][1])) <= 8)
                     if same:
                         cmd = command_for(p[1], p[2])
                         if (p[1] == "tap_through" or (p[1] == "battle" and nav.via_main)) and img is not None:

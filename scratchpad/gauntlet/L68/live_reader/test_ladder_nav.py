@@ -12,6 +12,18 @@ clf = Classifier()
 want = {"res_1": "results", "res_8": "results", "main2": "main", "main4": "main", "promo_pass_x": "popup_x",
         "trophy_btn": "modes", "queue1": "loading", "queue2": "unknown", "tab_left": "unknown", "s_c": "unknown"}
 assert clf.classify(None)["screen"] == "nograb"
+tr = clf.classify(cv2.imread(str(RAW / "trophy_road.png")))
+assert tr["screen"] == "trophy_road" and tr["collect"] is not None, tr["scores"]
+assert LadderNav(0, {}).plan(tr, 1)[1] == "collect" and command_for("collect", tr["collect"]).startswith("input tap")
+nav = LadderNav(0, {})                                    # no Collect visible: scan down, then OK when unmoved/at cap
+assert nav.plan(dict(tr, collect=None), 1)[1] == "tr_scroll"
+nav.acted("tr_scroll", 2)
+assert nav.plan(dict(tr, collect=None), 3)[1] == "bottom_ok"          # same signature = the list did not move
+assert command_for("tr_scroll", None).startswith("input swipe 450 1150 450 550")
+nav = LadderNav(0, {})
+nav.tr_swipes = nav.TR_SWIPES
+assert nav.plan(dict(tr, collect=None), 1)[1] == "bottom_ok"
+assert command_for("bottom_ok", tr["ok"]).startswith("input tap")
 for n, s in want.items():
     got = clf.classify(cv2.imread(str(RAW / f"{n}.png")))
     assert got["screen"] == s, (n, got["screen"], got["scores"])
