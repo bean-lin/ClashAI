@@ -157,6 +157,19 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   ~400 logs them `_invalid` with skipped="ability plays not driven by this version"; all 40,421 recorded presses
 >   skipped. The 11:1x note above saying abilities were replayed is WRONG. IL boards lack every ability's effect while
 >   the pros' later actions answered games where it fired. Parked: re-drive with abilities (RoyaleSim supports them).
+> * **12:4x -- gen_v3 live-path review (Claude verifier, PASS_WITH_NOTES) + a BLOCKER found by the lead:**
+>   **LIVE READER NEVER REPORTS EVOLVED UNITS AS EVOLVED.** 66,475 recorded live frames (10-02/03): 19,111 hero-form-id
+>   sightings (Tombstone, EliteArcher, Knight, Musketeer...), 0 evolution-form ids (13000xxx); unknown ids only -1
+>   (towers) and 203000023. => live gen_v3 would see every evolved unit as base while trained with evo tags. gen_v3 must
+>   NOT go live until fixed: (A) map the evolved-unit flag in the reader (owner's reader work) or (B) live cycle
+>   reconstruction from detected plays (needs opponent deck evo slots = hidden info -> owner's call). Verifier notes:
+>   (1) training opp_past includes bodyless spells (12.9% of plays: Tornado 178, Rocket 100 in the smoke) that live
+>   cannot detect -> restrict training/sim opp_past to live-detectable plays; (2) training evo tags are conservative
+>   (Skeleton Army 1,734 ambiguous vs 378 tagged) -- no stable ids in recordings; (3) RoyaleSim evo_cycles vs live
+>   catalog evolution_cycles disagree for 23/41 cards (unresolved); (4) live opp-play position = body centroid at first
+>   sighting vs training tap point. Verifier reproduced: tagging rule = engine on 81/81 plays; v1 byte-identity of
+>   live_gen with rseries_r1_u0155; 71 + 1 tests. FIX for 2/3: the cloud re-drive records native per-entity card ids
+>   (form ids) + entity ids + projectiles (`--record-full`) -> exact labels for gen_v3.1.
 > * **12:1x -- HOW BIG the skipped-ability problem is (2,500 random corpus replays, `grade.skipped` ability entries):**
 >   re-drive crowns == real: 0 skipped presses 0.779 (n 290), 1: 0.668, 2: 0.609, 3: 0.567, 4: 0.578, 5: 0.488, 6+:
 >   0.548; winner == real 0.841 -> 0.800 -> 0.736 -> 0.694 -> 0.682 -> 0.611 -> 0.635. 88% of replays skip >= 1 press;
