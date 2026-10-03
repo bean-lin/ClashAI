@@ -19,7 +19,7 @@ import torch
 
 from .dataset import PAST_K
 from .dataset_gen import SC_SLOT_COLS, card_key
-from .eval_gen import load_model
+from .model_gen import load_model
 from . import vocab
 from .e1_eval import allowed_slots
 from .live_mem import board_state, deck_of, my_side_of
@@ -39,12 +39,14 @@ class GenPilot:
                  extrapolate_ticks: int = 0):
         self.model, st = load_model(ckpt, torch.device(device))
         self.model.eval()
+        self.feature_version = int(st["args"].get("feature_version", 1))
         self.gid = {k: i for i, k in enumerate(st["card_vocab"])}          # 0 = <pad>
         self.grid = str(st["args"].get("grid", "lattice"))
         self.dev, self.gate_tau = torch.device(device), float(gate_tau)
         self.past: list[tuple[int, int, float, float, float]] = []       # (card gid, form, x, y, t_sec) confirmed
         self.history: dict = {}
-        self.opp = LiveOppElixir() if use_counter else None
+        self.use_counter = use_counter
+        self.opp = LiveOppElixir() if use_counter or self.feature_version >= 3 else None
         self.opp_est: float | None = None
         # Board extrapolation (pipeline/extrapolate.py, HANDOFF L68as): decide on the board H ticks ahead, where our
         # card will land (~26 ticks after the decision frame live). Velocity window ~10 ticks, as the screen arm.
@@ -90,7 +92,16 @@ class GenPilot:
             frame = extrapolate(frame, prev, self.ext_h, side)
             if opp is not None:
                 opp = min(10.0, opp + regen_between(tick, tick + self.ext_h))
-        bs = board_state(frame, history=self.history, opp_elixir=opp)
+        if getattr(self, "feature_version", 1) >= 3:
+            from dataclasses import replace
+            from .live_mem import to_observe
+            from .obs_contract import from_engine
+            live_deck, live_names = deck_of(frame, side)
+            bs = from_engine(to_observe(frame, side, live_names), side, live_deck, history=self.history,
+                             engine_deck=live_names, unmapped=set(), feature_version=3)
+            bs = replace(bs, source="live_mem", opp_elixir=opp if self.use_counter else None)
+        else:
+            bs = board_state(frame, history=self.history, opp_elixir=opp)
         tok, mask, sc = to_tokens(bs, MAX_U)
         sc = sc.copy()
         sc[SC_SLOT_COLS] = 0.0
@@ -108,6 +119,11 @@ class GenPilot:
              "hand_card": T([h[0] for h in hand]), "hand_form": T([h[1] for h in hand]),
              "next_card": T([nxt[0]]).squeeze(0), "next_form": T([nxt[1]]).squeeze(0),
              "deck_card": T(np.asarray(deck)[order]), "deck_form": T(np.asarray(forms)[order])}
+        if getattr(self, "feature_version", 1) >= 3:
+            from .dataset_gen import opponent_past
+            from .obs_contract import to_unit_forms
+            b["unit_form"] = T(to_unit_forms(bs, MAX_U))
+            b["opp_past"] = T(opponent_past(self.opp.detected_plays, int(frame["game_tick"]), side, self.gid), torch.float32)
         # Affordability, as the sim's live rule (e1_eval.allowed_slots): int(elixir the model's own input shows, i.e. at
         # tick+H when extrapolating) vs the card's cost. Unknown cost (Mirror, pad slot) -> 0 = never blocks.
         costs = [(card_cost(vocab.engine_key(names[d])) or 0.0) if d >= 0 else 0.0 for d in me["hand_deck_indices"]]
