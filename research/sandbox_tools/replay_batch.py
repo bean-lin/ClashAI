@@ -92,6 +92,8 @@ def main() -> int:
     ap.add_argument("--out", default="", help="L63e: output dir (default scratchpad/gauntlet/ext/batch)")
     ap.add_argument("--record-every", type=int, default=0, help="L63e: compact frame every N ticks")
     ap.add_argument("--record-plays", action="store_true", help="L63e: full observation before every driven play")
+    ap.add_argument("--drive-abilities", action="store_true", help="drive attributed ability presses (default: skip)")
+    ap.add_argument("--record-native", action="store_true", help="append native card_id + entity id to entity rows")
     ap.add_argument("--plays-file", default="", help="L64h: plays csv inside the crawl dir (default plays_ext.csv; plays_ext_i1.csv = re-fetched seat-flagged half, rotated on load)")
     args = ap.parse_args()
 
@@ -123,12 +125,14 @@ def main() -> int:
             try:
                 res = replay_drive.drive(tag, port=args.port, seed=args.seed, level=args.level, elixir_slack=args.elixir_slack,
                                          tail_cap=args.tail_cap, run_label="batch", verbose=False,
-                                         record_every=args.record_every, record_plays=args.record_plays)
+                                         record_every=args.record_every, record_plays=args.record_plays,
+                                         drive_abilities=args.drive_abilities, record_native=args.record_native)
                 (OUT / f"replay_{tag}.json").write_text(json.dumps(res, indent=None if args.record_plays else 1, default=str), encoding="utf-8")
                 row = summarize(tag, res, time.perf_counter() - t0)
                 if args.determinism_every and i % args.determinism_every == 0:
                     res2 = replay_drive.drive(tag, port=args.port, seed=args.seed, level=args.level, elixir_slack=args.elixir_slack,
-                                              tail_cap=args.tail_cap, run_label="batch-rerun", verbose=False)
+                                              tail_cap=args.tail_cap, run_label="batch-rerun", verbose=False,
+                                              drive_abilities=args.drive_abilities, record_native=args.record_native)
                     row["determinism"] = "SAME" if res2["final"]["state_hash"] == res["final"]["state_hash"] else "DIFFERENT"
                     row["rerun_state_hash"] = res2["final"]["state_hash"]
                 msg = (f"acc {row['accepted']}/{row['plays_driven']} rej {row['rejected_by_reason']} crowns {row['crowns']} "

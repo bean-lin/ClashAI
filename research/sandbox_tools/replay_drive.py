@@ -107,6 +107,10 @@ SIDE_OF = {"red": 0, "blue": 1}
 DECK_COL_OF_SIDE = {0: "opponent_deck", 1: "team_deck"}
 CROWN_COL_OF_SIDE = {0: "opponent_crowns", 1: "team_crowns"}
 RESULT_CODE_NAMES = {0: "accepted", 9: "card_not_in_hand", 1014: "ability_exhausted", 1050: "not_enough_elixir"}
+# Phase-1 mine_abilities.py: CHAMPIONS / is_ability. Keep this small rule local:
+# importing the mining script loads parquet tooling and changes global CPU settings.
+ABILITY_CHAMPIONS = {"archer-queen", "golden-knight", "skeleton-king", "mighty-miner",
+                     "monk", "little-prince", "goblinstein", "boss-bandit"}
 
 
 def split_slug(token: str) -> tuple[str, str]:
@@ -153,7 +157,7 @@ def load_battle(tag: str) -> tuple[dict, list[dict]]:
         row["tick"] = int(row["tick"]); row["side"] = SIDE_OF[row["attr_s"]]
         if row["ability"]:
             # hero/evolution ability presses carry no card and no position in the crawl (attr_card "_invalid");
-            # they are logged as skipped by drive(), not driven
+            # drive() resolves these from side/deck attribution only when opted in.
             row["x"] = row["y"] = None
             continue
         for key in ("x_units", "y_units"):
@@ -264,9 +268,95 @@ def deck_spec(order: list[dict], level: int) -> list[dict]:
     return [{"card_id": item["card_id"], "form": item["form"], "level": level} for item in order]
 
 
+def ability_candidates(row: dict, deck: list[dict]) -> list[str]:
+    """Reuse phase-1 candidate rules, retaining explicit replay attribution when supplied.
+
+    Legacy crawl CSVs discard ability_source_candidates. Reconstruct that set from
+    the side's champion/hero deck slots, exactly as phase 1 identifies ability cards.
+    An explicitly empty candidate list stays empty (no guessed attribution).
+    """
+    raw = row.get("ability_source_candidates")
+    if raw not in (None, ""):
+        raw = json.loads(raw) if isinstance(raw, str) else raw
+        if not isinstance(raw, list) or not all(isinstance(c, str) for c in raw):
+            raise ValueError("ability_source_candidates must be a JSON list of card slugs")
+        return list(dict.fromkeys(split_slug(c)[0] for c in raw))
+    if row.get("attr_card") not in (None, "", "_invalid"):
+        return [split_slug(row["attr_card"])[0]]
+    return [c["slug"] for c in deck if c["form"] == "hero" or c["slug"] in ABILITY_CHAMPIONS]
+
+
+def ability_target(state: dict, side: int, candidates: list[str], deck: list[dict]
+                   ) -> tuple[str | None, dict | None, str | None]:
+    """Phase-1 single/unique-plausible resolution, using observed life instead of age windows.
+
+    Multiple live candidate cards remain ambiguous even if only one button is ready.
+    Once attributed, select the newest eligible entity by native creation ordinal.
+    """
+    ids = {c["slug"]: c["card_id"] for c in deck}
+    live = {c: [] for c in candidates}
+    for e in state.get("entities", []):
+        if int(e.get("side", -1)) != side or int(e.get("hp", 0)) <= 0:
+            continue
+        base_id = e.get("base_card_id")
+        if base_id is None:
+            base_id = observed_card(int(e.get("card_id", -1)))["base_card_id"]
+        for c in candidates:
+            if c in ids and int(base_id) == ids[c]:
+                live[c].append(e)
+    if not candidates:
+        return None, None, "ability attribution: no candidates"
+    plausible = [c for c in candidates if live[c]]
+    card = candidates[0] if len(candidates) == 1 else plausible[0] if len(plausible) == 1 else None
+    if card is None:
+        why = "multiple live candidates" if plausible else "no live candidate"
+        return None, None, "ability attribution: " + why
+    eligible = [e for e in live[card] if e.get("ability_available") and e.get("entity_id") is not None]
+    if not eligible:
+        return card, None, "ability: no eligible live entity for attributed card"
+    newest = max(eligible, key=lambda e: int(e.get("creation_ordinal", int(e["entity_id"]) - 5_000_000)))
+    return card, newest, None
+
+
+def press_ability(env, row: dict, deck: list[dict], elixir_slack: int) -> tuple[dict, int, bool]:
+    """Issue at the current timeline tick; retry only native insufficient-elixir rejections."""
+    state = env.observe()  # ids must come from the CURRENT full observation, never recorded frames
+    candidates = ability_candidates(row, deck)
+    card, entity, reason = ability_target(state, row["side"], candidates, deck)
+    entry = {"play_index": row["play_index"], "tick": row["tick"], "side": row["side"],
+             "kind": "ability", "ability": True, "card": card, "candidates": candidates,
+             "entity_id": None, "x": None, "y": None, "accepted": False, "result_code": None,
+             "result_name": None, "delay_ticks": 0, "placement_valid": None,
+             "engine_tick": int(state["tick"])}
+    tick = int(state["tick"])
+    while True:
+        if state.get("episode", {}).get("terminated"):
+            entry["skipped"] = "ability: episode already terminal at tick %d" % tick
+            return entry, tick, True
+        if reason:
+            entry["skipped"] = reason
+            return entry, tick, False
+        entry["entity_id"] = int(entity["entity_id"])
+        result = env.use_ability(side=row["side"], entity_id=entry["entity_id"])
+        code = int(result["result_code"])
+        entry.update(accepted=bool(result["accepted"]), result_code=code,
+                     result_name=RESULT_CODE_NAMES.get(code, "native_rejected"), engine_tick=result.get("tick", tick))
+        if entry["accepted"] or code != 1050 or entry["delay_ticks"] >= elixir_slack:
+            return entry, tick, False
+        step = env.step(1)
+        tick = int(step["tick_after"])
+        entry["delay_ticks"] += 1
+        if step["episode"].get("terminated"):
+            entry["skipped"] = "ability: episode terminal during elixir delay"
+            return entry, tick, True
+        state = env.observe()
+        # Re-read IDs after stepping, but never switch the attributed card on a retry.
+        _, entity, reason = ability_target(state, row["side"], [card], deck)
+
+
 def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail_cap: int,
           run_label: str, verbose: bool, record_every: int = 0, record_full: bool = False,
-          record_plays: bool = False) -> dict:
+          record_plays: bool = False, drive_abilities: bool = False, record_native: bool = False) -> dict:
     """Drive one replay.  record_every=N (>0) additionally stores an observation every N ticks in
     out["frames"] (each: tick, players' elixir, every entity's side/x/y/name/hp) for a viewer;
     record_full=True uses the full observation (adds entity kind, projectiles and spell effects).
@@ -351,6 +441,8 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
                  "elixir": [player(state, s).get("elixir_exact", player(state, s).get("elixir")) for s in (0, 1)],
                  "entities": [[int(e["side"]), int(e["x"]), int(e["y"]), e.get("name", str(e.get("card_id"))),
                                int(e["hp"]), int(e["max_hp"])] + ([int(e.get("kind", -1))] if record_full_ else [])
+                              + ([int(e.get("card_id", -1)), int(e.get("entity_id", e.get("id", -1)))]
+                                 if record_native else [])   # gen_v3.1: raw native id (evo/hero FORM id) + body id
                               for e in state.get("entities", [])],
                  "towers": [[int(t["side"]), t.get("type"), t.get("lane"), int(t["x"]), int(t["y"]), int(t["hp"]),
                              int(t["max_hp"])] for t in state["episode"].get("crown_towers", [])]}
@@ -394,10 +486,23 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
             tick = int(step["tick_after"])
             if step["episode"].get("terminated"):
                 terminated = True
+                if drive_abilities and row["ability"]:
+                    entry, tick, _ = press_ability(env, row, decks[side], elixir_slack)
+                    log.append(entry)
+                    break
                 log.append({"play_index": row["play_index"], "tick": row["tick"], "side": side, "card": slug,
                             "skipped": "episode already terminal at tick %d" % tick})
                 break
         if row["ability"]:
+            if drive_abilities:
+                entry, tick, terminated = press_ability(env, row, decks[side], elixir_slack)
+                log.append(entry)
+                if verbose:
+                    print(f"  t={row['tick']:5d} s{side} ability {entry['card']} entity={entry['entity_id']} "
+                          f"-> {entry.get('skipped') or entry['result_name']} delay={entry['delay_ticks']}", flush=True)
+                if terminated:
+                    break
+                continue
             log.append({"play_index": row["play_index"], "tick": row["tick"], "side": side, "card": slug,
                         "skipped": "ability plays not driven by this version"})
             continue
@@ -448,7 +553,7 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
                     "elixir": {side: player(final_state, side).get("elixir_exact") for side in (0, 1)}}
 
     # --- 6. grade -----------------------------------------------------------------------------------
-    driven = [e for e in log if "accepted" in e]
+    driven = [e for e in log if "accepted" in e and e.get("result_code") is not None]
     out["grade"] = {
         "plays_total": len(plays), "plays_driven": len(driven),
         "accepted": sum(e["accepted"] for e in driven),
@@ -462,6 +567,10 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
         "terminal_vs_last_play_ticks": (int(out["final"]["terminal_tick"]) - plays[-1]["tick"]) if out["final"].get("terminal_tick") else None,
     }
     out["log"] = log
+    if drive_abilities:
+        out["drive_abilities"] = True
+    if record_native:
+        out["record_native"] = True       # entity rows end with [native card_id, entity_id]
     if record_every > 0:
         out["frames"] = frames
         out["record_every"] = record_every
@@ -485,6 +594,10 @@ def main() -> int:
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--crawl", default="", help="deck name (icebow|hogeq) or crawl dir; default icebow crawl2")
     parser.add_argument("--record-plays", action="store_true", help="full observation before every driven play (both sides)")
+    parser.add_argument("--drive-abilities", action="store_true", help="drive attributed ability presses (default: skip)")
+    parser.add_argument("--record-native", action="store_true",
+                        help="append each entity's raw native card_id (evolution/hero FORM id) and entity id to every "
+                             "recorded entity row (after kind under --record-full); default off = unchanged rows")
     parser.add_argument("--record-every", type=int, default=0,
                         help="store an observation every N ticks in the result JSON (for replay_view.py)")
     parser.add_argument("--record-full", action="store_true",
@@ -503,7 +616,8 @@ def main() -> int:
         result = drive(args.tag, port=args.port, seed=args.seed, level=args.level, elixir_slack=args.elixir_slack,
                        tail_cap=args.tail_cap, run_label=f"run{run}", verbose=not args.quiet,
                        record_every=args.record_every, record_full=args.record_full,
-                       record_plays=args.record_plays)
+                       record_plays=args.record_plays, drive_abilities=args.drive_abilities,
+                       record_native=args.record_native)
         path = OUT_DIR / f"replay_{args.tag}_run{run}.json"
         path.write_text(json.dumps(result, indent=1, default=str), encoding="utf-8")
         hashes.append(result["final"]["state_hash"])
