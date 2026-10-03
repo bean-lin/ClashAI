@@ -46,7 +46,7 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   live_play `--clip-every 1800`: record the first match and then one match per 30 min; others unrecorded.
 >   live_play also gained `--ladder`, `--wins-today`, `--stop-file`; backup of the old file
 >   `scratchpad/gauntlet/L70/ladder_nav/live_play_backup_373f06f.py`.
-> * **RUNNING:** `scratchpad/gauntlet/L70/live/run_overnight.sh` (supervisor: up to 5 restarts, Discord post on every
+> * **RUNNING:** `scratchpad/gauntlet/L70/live/run_overnight.sh` (supervisor: up to MAX_RESTARTS=10 restarts (owner 21:42; was 5; the 21:42 swap adopted the running live_play with the counter reset), Discord post on every
 >   stop, ends 09:00 or on `touch scratchpad/gauntlet/L70/live/STOP`). Log `overnight.out`, `supervisor.log`.
 > * **First results (live, 20:31-20:41):** W2 L1 via the nav (3-crown win read as WIN, checked on tower HP); the
 >   first Discord clip posted 20:37 (2.07 MB, HTTP 200) ~3 min after its match (render at low priority).
