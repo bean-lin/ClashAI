@@ -31,6 +31,13 @@
 ## only finish when every item is done or blocked or your context is nearly exhausted. Before finishing, ALWAYS write
 ## the JOURNAL entry and commit+push.
 
+## FIRST, THIS RUN ONLY (lead, 2026-10-03 ~15:00): the previous run was STOPPED by the lead mid-work to deliver this
+## updated brief. Run `git status` / `git diff`: it left UNCOMMITTED edits in pipeline/{dataset_gen,e1_eval,eval_gen,
+## live_gen,model_gen,rl_royale,train_gen}.py and scratchpad/gauntlet/L69/rl/r1_rl_royale.yaml. Read the last JOURNAL
+## entries + the stopped run's log (newest-but-one in runs/), then FINISH or cleanly REVERT those edits (tests must pass;
+## every v1/v2/v3 default path byte-identical). CAUTION: R1t from gen_v3 is TRAINING NOW (started 14:55) and imported
+## rl_royale.py at its start -- do not change behaviour R1t depends on; never touch its run dirs.
+
 ## THE PLAN (priority order; skip what is blocked or already done per JOURNAL)
 1. Live run health check every run (supervisor.log, overnight.out results tally, restarts used); keep it alive.
 2. VM re-drive (ssh -i ~/.ssh/clashbot_gcp clashbot-gauntlet@136.108.166.193): when `~/cb/ABIL_DONE` exists, fetch the
@@ -40,7 +47,22 @@
 3. gen_v3 results: `scratchpad/gauntlet/L70/gen_v3/chain.log` (ghost screen vs gen_v1 base, reactive) -> HANDOFF.
    gen_v3 live = OWNER decision (blocker) even if it looks better.
 4. R1t from gen_v3 (`scratchpad/gauntlet/L70/rl/run_r1t_v3.sh`, log night3.log): record its acceptance when done.
-5. gen_v3.1 data (needs step 2): dataset_gen must read the re-drive's native ids (entity rows end
+5. gen_v3.1 = THE major gap-closer retrain (owner 2026-10-03: "major gap closers, get this done soon"). It MUST
+   include, besides the items below: (a) PROJECTILE INPUT -- tokens for projectiles in flight (card, side, x, y,
+   target_x, target_y, time-to-impact) and spell area effects (card, x, y, remaining ms), consistently in TRAINING (the
+   re-drive's --record-full frames), SIM (RoyaleSim PROJECTILE_FIELDS / SPELL_FIELDS in research/ext/Royale/RoyaleSim/
+   crates/royalesim/src/py.rs) and LIVE (reader v2 `projectiles` / `effects`, scratchpad/gauntlet/L70/reader/
+   FINDINGS.md) -- so the model can learn the pros' PREEMPTIVE LOG on a Goblin Barrel / Skeleton Barrel near the end of
+   its flight; parity tests across the three paths. (b) ROCKET FINISHES -- give decisive states more weight in the IL
+   loss (rows where an enemy princess tower's HP <= Rocket crown damage (measured 497) and the side holds >= 6 elixir;
+   a weight knob, default chosen by a small sweep on a held-out set, report it), and keep the elixir-banking signal
+   (median elixir at a Rocket play: bot 6.8 vs pros 8.7, scratchpad/gauntlet/L70/audit/audit.md). (c) ACCEPTANCE adds
+   two behaviour metrics next to the ghost screen and reactive play, for gen_v3.1 AND every later RL run: Rocket share
+   of plays (pros 5.8%) and FINISH-OFF CONVERSION (enemy princess <= 497 HP with >= 6 elixir for >= 2 s -> our Rocket
+   on it within the window; audit.md method; baseline 0/14), plus a preemptive-Log metric vs Goblin/Skeleton Barrel
+   (Log cast while the barrel is in flight or within 0.5 s of landing, as a share of opponent barrels). Measure them for
+   gen_v1, u0155 and gen_v3 first as baselines.
+   gen_v3.1 data (needs step 2): dataset_gen must read the re-drive's native ids (entity rows end
    [native card_id, entity_id]; evolution-form ids 13000xxx = evolved, hero_form_id = hero) for EXACT per-unit forms with
    stable ids; opp_past = live-detectable plays only (bodies + spells seen as projectiles/effects by reader v2); add the
    derived full-cycle opponent input (public plays only); tests + parity with the reader v2 live path

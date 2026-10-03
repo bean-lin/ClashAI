@@ -173,6 +173,12 @@ Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission bloc
 >   launch exited in 5 s (cause lost: the next attempt overwrote the log); Codex's 14:06 retry inside its SANDBOX died
 >   on WinError 5 (multiprocessing pipes) -> CODEX CANNOT RUN rl_royale / search_s0 multiprocessing from its sandbox
 >   (R1e will hit this too). Failed dirs kept as `*_failed_1003`. Codex also edited run_r1t_v3.sh (failure guard).
+> **15:0x -- Codex brief updated + run restarted** (`.foreman/codex_autopilot/TICKET.md`): item 5 gen_v3.1 now MUST
+>   include projectile input (preemptive Logs) and Rocket-finish decisive-state weighting + behaviour acceptance metrics
+>   (Rocket share, finish-off conversion, preemptive-Log rate); the stopped run's uncommitted pipeline edits are to be
+>   finished or reverted first. **Tuesday TODO (owner): live is too trigger-happy with Hero Ice Wizard's ability** --
+>   look at `scratchpad/gauntlet/L68/live_reader/hero_button.py` should_press (a rule, not the model) vs how pros press
+>   it (`L70/abilities/abilities.md` has no ice-wizard-hero row: check the mining for it) and the live 'ability' events.
 > **OWNER PRIORITY for Tuesday (14:4x):** overtime losses = X-Bow attempts thwarted instead of Rocket finishes. (1)
 >   PROJECTILE INPUT (card, x, y, target, time-to-impact tokens) in train (re-drive --record-full), sim (RoyaleSim
 >   PROJECTILE_FIELDS) and live (reader v2 `projectiles`) -> learnable preemptive Logs on Goblin/Skeleton Barrel landing
