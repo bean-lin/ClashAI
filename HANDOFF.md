@@ -125,7 +125,7 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   RoyaleSim for press context (nearby enemies, own HP, elixir, towers); (3) fit one press model per ability on pro
 >   data; (4) the `hero_abilities` plumbing (Codex job in flight) calls those per-ability models. R1e waits for this.
 > * **11:1x -- WHY THE MODEL CAN'T ANSWER EVOS (owner question):** the IL data DID contain evo/hero/champion opponents
->   (pro replays re-driven in the real engine; `research/sandbox_tools/replay_drive.py` replays ability presses), but
+>   (pro replays re-driven in the real engine -- WITHOUT their ability presses, see the 11:5x CORRECTION), but
 >   the model's INPUT erases form: unit tokens fold evo/hero to the base card in training AND live
 >   (`pipeline/obs_contract.py` 184-193 catalog fold, 419-439 `_fold_evo`; measured there: 0 of 1,434,428 training unit
 >   tokens are evo classes -- the engine names bodies by base card). `past` (card, form, x, y, dt) = the model's OWN
@@ -147,6 +147,22 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   fp32 244.5 ms/step (1,047 rows/s, 3.5 GB) | TF32 230.4 (1,111) | **bf16 autocast 149.8 ms (1,709 rows/s, 2.7 GB),
 >   1.63x** | bf16+TF32 148.6 (1,723). gen_v3 trains with bf16 autocast + TF32 (numerics change slightly; disclosed),
 >   bs 256 / lr 3e-4 unchanged (a bigger batch would change the recipe).
+> * **gen_v3 TRAINING (11:5x ->, ~2 h):** dataset `icebow/data/pipeline/gen_dataset_v3.npz` built in 317 s (8 workers):
+>   3,321,147 rows = exactly v2's rows + the new features (smoke: 9.7% of unit tokens evolved, 7.5% hero, opp_past on
+>   94% of rows; evo rule = RoyaleSim's per-side per-card cycle counter; Goblin Barrel evo untaggable -> base). Train:
+>   `_train_every_epoch.py` (per-epoch ckpts) gen_v1 recipe (4 epochs, seed 0, bs 256, lr 3e-4, val 30000, lattice)
+>   + `--feature-version 3 --amp bf16`, out `icebow/data/pipeline/gen_v3_s0`, log `L70/gen_v3/train.out`; 1,750
+>   rows/s with the live bot running. SIM integration (screens / reactive / RL for v3) = Codex job in flight.
+> * **CORRECTION (11:5x): the real-engine IL data NEVER drove ability presses** -- `research/sandbox_tools/replay_drive.py`
+>   ~400 logs them `_invalid` with skipped="ability plays not driven by this version"; all 40,421 recorded presses
+>   skipped. The 11:1x note above saying abilities were replayed is WRONG. IL boards lack every ability's effect while
+>   the pros' later actions answered games where it fired. Parked: re-drive with abilities (RoyaleSim supports them).
+> * **Ability press models phase 2** (`L70/abilities/abilities_phase2.md`, `ability_models.json`, `ability_policy.py`,
+>   numpy): 24 per-ability models on 35,301 contextual pro presses (22 logistic, 2 depth-3 GBT), AUC 0.64-0.85, signs
+>   sensible (e.g. Archer Queen: near crown tower + enemies; Monk: near buildings, enemy half). NOT CALIBRATED: they
+>   over-press by 7-25 pp vs pros (e.g. Golden Knight 90% vs 71%), partly because those boards lack ability effects.
+>   Next: per-ability intercept calibration to the phase-1 pressed share + delay, then wire into `hero_abilities`
+>   (heroes + champions; Boss Bandit charges; others one use) after the gen_v3 SIM job frees royale_env.py.
 > * **Ability mining phase 1 DONE** (`L70/abilities/abilities.md`): 52 files, 252,238 battles, 854,195 presses (794k
 >   attributed). Share of deployments pressed: Archer Queen 79.6%, Golden Knight 71.4% (repeat 0.1% -- one use in
 >   practice), Boss Bandit 61.8% (repeat 30.4%), Monk 59.2%, Skeleton King 51.3%, Wizard-hero 51.3%, Berserker-hero
