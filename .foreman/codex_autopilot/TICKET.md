@@ -25,6 +25,12 @@
   `icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL), plus a
   post for anything that needs the owner urgently (live run dead and not recoverable).
 
+## RUN LENGTH (owner, 2026-10-03 14:00): nobody can re-launch you until Tuesday 2026-10-06 (the scheduler was not
+## allowed and the owner is travelling). So DO NOT stop after one step: keep working through the plan in this single
+## run -- check the live run between steps, wait for long jobs (training / VM) by polling at sensible intervals, and
+## only finish when every item is done or blocked or your context is nearly exhausted. Before finishing, ALWAYS write
+## the JOURNAL entry and commit+push.
+
 ## THE PLAN (priority order; skip what is blocked or already done per JOURNAL)
 1. Live run health check every run (supervisor.log, overnight.out results tally, restarts used); keep it alive.
 2. VM re-drive (ssh -i ~/.ssh/clashbot_gcp clashbot-gauntlet@136.108.166.193): when `~/cb/ABIL_DONE` exists, fetch the

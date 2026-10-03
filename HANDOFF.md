@@ -100,6 +100,12 @@ Last updated: **2026-10-03 13:45 EDT** (lead out of usage -- RESTART NOTE below)
 >    spells once live reads them); derived full-cycle opponent input; rebuild + train (bf16, `--amp bf16`). (d) ability
 >    press models: calibrate per-ability intercepts to phase-1 rates, wire into royale_env hero_abilities (heroes +
 >    champions; Boss Bandit charges, others one use) -> R1e from gen_v3(.1) on the evo census.
+> **gen_v3 RESULT (13:57): NO GAIN.** v3val cell 0.1973 / card 0.6444 / gate_bal 0.7626 (gen_v1 0.2071 / 0.6457 / 0.7669;
+>   n_play 3,796); ghost screen vs gen_v1 base -2.3 pp [-6.4, 1.7]; reactive gen 13/24, S1 20/24 (base 12 / 20). u0155
+>   (+3.0 [-0.3, 6.4], S1 24/24) stays the best -> NO live change (owner rule: deploy the best at the lead's 100%).
+>   Caveat: gen_v3's evo tags were reconstructed and conservative; gen_v3.1 (exact native ids) is the real test.
+> Codex autopilot: `.foreman/codex_autopilot/` (TICKET / JOURNAL / BLOCKERS / runs). The 3-hourly scheduler was
+> blocked by the permission system (owner travelling); the lead re-launches one long run when the current one ends.
 > Cron check-ins (every 2 h :23, daily 20:47 summary) are SESSION-ONLY -- recreate after a restart.
 >
 > ## ▶ 2026-10-03 09:10 -- LIVE = rseries_r1_u0155 (open-ended), play-quality AUDIT, evo census, R1e queued
