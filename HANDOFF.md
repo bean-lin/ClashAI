@@ -109,7 +109,23 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   paired tower-HP diff). SECONDARY (may drop, recorded as the cost, no veto): pinned-299 ghost screen and old-census
 >   reactive. Worse than R1 on the PRIMARY = failure (evo training did not help vs evos -- every model faces the same
 >   evo decks there, so "evos are harder" cannot explain it). If accepted -> live test vs R1 u0155's live record.
->   Caveat: the sim never presses hero abilities, so R1e cannot learn to answer them.
+>   **AMENDED 10:4x (owner): hero abilities folded into R1e** -- RoyaleSim models every hero ability (frame-checked
+>   tests, ability-button command slots in py.rs) but `royale_env` never pressed them. New `hero_abilities` option
+>   (default off) presses an opponent hero OR CHAMPION ability button (owner: champions too) when pressable, affordable and an enemy is within range + 1.5 tiles.
+>   R1e = evo/hero census + opponents' hero abilities (owner accepted losing the evo-vs-ability attribution). The
+>   PRIMARY instrument (evo-census reactive) also runs with `--hero-abilities`, for the baselines AND R1e.
+> * **10:5x -- ABILITIES REDONE PER ABILITY (owner):** owner: champion abilities are ONE use except Boss Bandit, and
+>   each hero/champion ability must be pressed the way PROS press it, not one shared "enemy in range" rule.
+>   Engine check: `charge_recovers` is true ONLY for DashChain (Golden Knight recharges), `charges_left` for WarpBack
+>   (Boss Bandit); every other champion and every hero is one use (state.rs ~23232-23245) -- the owner is right except
+>   Golden Knight. Pro data: replays log `activate_ability` events (~3.6 / battle; 2 of 52 files: 38,650 presses, 79%
+>   single-candidate attribution; Berserker-hero 8,007, Golden Knight 4,027, Mighty Miner 2,781, Valkyrie-hero 2,212,
+>   Skeleton King 1,876, Goblinstein 1,318, Boss Bandit 1,099, ... Little Prince 159). gen_v1's vocab has NO ability
+>   actions. Plan: (1) mine all 52 files per ability (Codex, `L70/abilities/`, running); (2) re-drive a sample through
+>   RoyaleSim for press context (nearby enemies, own HP, elixir, towers); (3) fit one press model per ability on pro
+>   data; (4) the `hero_abilities` plumbing (Codex job in flight) calls those per-ability models. R1e waits for this.
+> * **R1t QUEUED (10:53, waits for R1u):** R1 + ONE change `gae_terminal_gap=true` (`L70/rl/run_r1t.sh`), ~7 h, keeps
+>   the GPU busy during the ability research. NB the relaunched R1e chain must wait for "[r1t] all done".
 > * **R1e QUEUED** (`L70/rl/run_r1e.sh`, waits for R1u): evo-census reactive baselines (gen_v1, R1 u0155) -> R1e = R1 +
 >   league_decks=pool_forms (ONE change), 155 updates -> acceptance (ghost vs R1, reactive old + evo census).
 >

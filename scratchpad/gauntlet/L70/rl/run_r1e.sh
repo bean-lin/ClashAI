@@ -1,5 +1,7 @@
 #!/bin/bash
-# R1e = R1 with ONE change: league opponents from the census WITH evolution / hero forms
+# R1e = R1 with ONE (owner-folded) change: REALISTIC OPPONENTS = league decks from the census WITH evolution / hero forms
+# AND opponents pressing their hero abilities (hero_abilities=true; owner 2026-10-03 chose to fold this in, accepting
+# that evo vs hero-ability effects cannot be separated)
 # (scratchpad/gauntlet/L70/pool_forms/loadable_decks.json: 999/1000 decks carry forms; 99.9% of census deck-sides have an
 # evo or hero; 0 form fallbacks). Owner 2026-10-03: "the model doesn't really know how to counter evos in live matches".
 # Waits for the R1u chain (one GPU job at a time). Then:
@@ -27,10 +29,10 @@ reactive() {   # $1 ckpt, $2 out name, $3 opps, $4 extra args
 log "waiting for the R1u chain"
 until grep -q "\[r1u\] all done" $LOG; do sleep 120; done
 B=$O/r1e_accept; mkdir -p $B
-reactive $GEN1 evo_base_gen_v1 gen "--census $EVO"
-reactive $CKB/rseries_r1/rseries_r1_u0155.pt evo_rseries_r1_u0155 gen "--census $EVO"
+reactive $GEN1 evo_base_gen_v1 gen "--census $EVO --hero-abilities"
+reactive $CKB/rseries_r1/rseries_r1_u0155.pt evo_rseries_r1_u0155 gen "--census $EVO --hero-abilities"
 CFG=scratchpad/gauntlet/L69/rl/r1_rl_royale.yaml
-OVR="init=$GEN1 league=true noise_off=all opp_elixir=counter action_delay_ticks=26 extrapolate_ticks=26 max_updates=155 screen_seeds=[0] league_learner_icebow_share=1.0 forms_mode=deck league_decks=$EVO advantage=gae gae_gamma_unit=tick critic_warmup_updates=5"
+OVR="init=$GEN1 league=true noise_off=all opp_elixir=counter action_delay_ticks=26 extrapolate_ticks=26 max_updates=155 screen_seeds=[0] league_learner_icebow_share=1.0 forms_mode=deck league_decks=$EVO advantage=gae gae_gamma_unit=tick critic_warmup_updates=5 hero_abilities=true"
 log "R1e start"
 $PY -m pipeline.rl_royale --config $CFG --run rseries_r1e $OVR > $O/r1e_gpu.out 2> $O/r1e_gpu.out.err
 log "R1e gpu exited $? -- $(grep -a 'STOP after' $O/r1e_gpu.out | tail -1)"
@@ -44,6 +46,6 @@ for u in 0080 0155; do
   $PY $RS --pair $O/r1_accept/train_rseries_r1_u$u.jsonl $B/train_$t.jsonl > $B/pair_${t}_vs_r1.out 2>&1
   log "screen $t vs r1_u$u $(grep -E '"delta_pp"|"ci_lo_pp"|"ci_hi_pp"' $B/pair_${t}_vs_r1.out | tr -d ' \n')"
   reactive $ck $t gen,s1 ""
-  reactive $ck evo_$t gen "--census $EVO"
+  reactive $ck evo_$t gen "--census $EVO --hero-abilities"
 done
 log "all done"
