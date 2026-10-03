@@ -134,6 +134,17 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   evo EXPERIENCE but not evo PERCEPTION. Proposed gen_v3 input change: a per-unit form flag (base/evo/hero; derivable
 >   from each play's recorded form in training, from the reader's form ids live) + opponent recent plays with forms;
 >   retrain IL, re-baseline. Not started (owner decision).
+> * **11:3x -- PRIORITIES (owner): gen_v3 FIRST** (per-unit evo/hero form tag + opponent's last 3 plays with forms;
+>   Codex building the contract, `.foreman/scratch/gen-v3-contract.md`), then live with gen_v3, then R1t and R1e FROM
+>   gen_v3 (R1t chain cancelled 11:1x). Training as fast as possible: GenRows already gathers vectorised (a faster
+>   batcher would gain nothing -- deleted); the step is GPU-bound -> bf16 / TF32 / fewer host syncs being profiled
+>   (`L70/speed/profile_gen.py`, runs after R1u's acceptance).
+> * **Ability mining phase 1 DONE** (`L70/abilities/abilities.md`): 52 files, 252,238 battles, 854,195 presses (794k
+>   attributed). Share of deployments pressed: Archer Queen 79.6%, Golden Knight 71.4% (repeat 0.1% -- one use in
+>   practice), Boss Bandit 61.8% (repeat 30.4%), Monk 59.2%, Skeleton King 51.3%, Wizard-hero 51.3%, Berserker-hero
+>   28.6%, Knight-hero 13.4%, Ice Golem-hero 11.4%; median delay after deploy 3.5-12.4 s; presses concentrate in
+>   2x/3x elixir. Phase 2 (per-ability press models from board context in the real-engine corpora, numpy logistic --
+>   no sklearn installed) running.
 > * **R1t QUEUED (10:53, waits for R1u):** R1 + ONE change `gae_terminal_gap=true` (`L70/rl/run_r1t.sh`), ~7 h, keeps
 >   the GPU busy during the ability research. NB the relaunched R1e chain must wait for "[r1t] all done".
 > * **R1e QUEUED** (`L70/rl/run_r1e.sh`, waits for R1u): evo-census reactive baselines (gen_v1, R1 u0155) -> R1e = R1 +
