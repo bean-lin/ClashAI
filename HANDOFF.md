@@ -139,6 +139,14 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   gen_v3 (R1t chain cancelled 11:1x). Training as fast as possible: GenRows already gathers vectorised (a faster
 >   batcher would gain nothing -- deleted); the step is GPU-bound -> bf16 / TF32 / fewer host syncs being profiled
 >   (`L70/speed/profile_gen.py`, runs after R1u's acceptance).
+> * **R1u (undiscounted, gae_gamma_tick 1.0) = NO GAIN over R1 (11:37):** ghost screen u0080 vs R1 u0080 +0.0 pp
+>   [-3.0, 3.0], u0155 vs R1 u0155 -1.7 [-4.7, 1.3]; vs base u0080 +2.7 [-0.7, 6.0], u0155 +1.3 [-2.0, 4.7]; reactive
+>   u0080 gen 14/24 S1 21/24, u0155 gen 11/24 S1 24/24 (R1: 13 & 14 / 24 & 24). The per-tick discount is not hurting;
+>   keep R1's setting. Review point 2 answered (contradicted as a needed fix, at n = 299 / 24).
+> * **Training speed (profile, `L70/speed/profile.out`, real gen_dataset_v2 rows, gen_v1 config, live bot running):**
+>   fp32 244.5 ms/step (1,047 rows/s, 3.5 GB) | TF32 230.4 (1,111) | **bf16 autocast 149.8 ms (1,709 rows/s, 2.7 GB),
+>   1.63x** | bf16+TF32 148.6 (1,723). gen_v3 trains with bf16 autocast + TF32 (numerics change slightly; disclosed),
+>   bs 256 / lr 3e-4 unchanged (a bigger batch would change the recipe).
 > * **Ability mining phase 1 DONE** (`L70/abilities/abilities.md`): 52 files, 252,238 battles, 854,195 presses (794k
 >   attributed). Share of deployments pressed: Archer Queen 79.6%, Golden Knight 71.4% (repeat 0.1% -- one use in
 >   practice), Boss Bandit 61.8% (repeat 30.4%), Monk 59.2%, Skeleton King 51.3%, Wizard-hero 51.3%, Berserker-hero
