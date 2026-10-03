@@ -42,6 +42,10 @@ ADB = [r"C:\Program Files\Netease\MuMuPlayer\nx_device\15.0\shell\adb.exe", "-s"
 ENV = dict(os.environ)
 RVA, ROOT_CTX = "0x1aeef98", "0x18"
 UI_READY_MIN_TICK = 150
+# 2026-10-03 reader v2 (scratchpad/gauntlet/L70/reader/FINDINGS.md): v1 DROPPED evolved bodies (evolution-form card
+# ids); v2 --extended keeps them (+ per-entity evo, projectiles, effects). v1 checkpoints fold the form id to the base
+# card via the catalog. Rollback: --reader v1.
+READERS = {"v1": ("/data/local/tmp/live_sampler", ""), "v2": ("/data/local/tmp/re_live_sampler2", " --extended")}
 CONFIRM_TICKS = 60       # a tap is "unconfirmed" only after 60 GAME ticks (3 s) without registering -- never wall clock
 READER_SILENT_S = 10.0   # no reader line at all this long after the clock ran -> stop (a reader restart takes ~1-2 s)
 GUARD_BLIND_S = 30.0     # menu guard without a successful screen classification this long -> stop (taps block at 8 s);
@@ -211,6 +215,8 @@ def main() -> int:
                     help="PER-MATCH wall-clock cap (reset each match): overtime ends by 6,000 ticks = 300 s of "
                          "game time, + loading/countdown. Hitting it stops the whole run")
     ap.add_argument("--dry-run", action="store_true", help="decide and log, never tap")
+    ap.add_argument("--reader", choices=tuple(READERS), default="v2",
+                    help="memory reader: v2 (default since 2026-10-03: evolved units, projectiles, effects) or v1")
     ap.add_argument("--overlay", choices=("both", "detector", "reader"), default="both",
                     help="replay style: detector = play.py-style YOLO boxes only (cosmetic, e.g. for posts), "
                          "reader = memory-reader markers + taps, both")
@@ -388,8 +394,9 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     button = None if a.no_ability else HeroButton(ADB, lay.w, lay.h, HERE / "ability_crops", period_s=2.0,
                                                   on_frame=guard.feed if guard else None)
     ab_pending, last_bstate = None, None
-    cmd = (f"/data/local/tmp/live_sampler $(pidof com.supercell.clashroyale) {a.interval_ms} {RVA} {ROOT_CTX} "
-           f"--unified 0")
+    sampler, extra = READERS[a.reader]
+    cmd = (f"{sampler} $(pidof com.supercell.clashroyale) {a.interval_ms} {RVA} {ROOT_CTX} "
+           f"--unified 0{extra}")
     procs: list = []
     stopping, spawn_lock = threading.Event(), threading.Lock()
 
