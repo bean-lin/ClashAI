@@ -157,6 +157,15 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   ~400 logs them `_invalid` with skipped="ability plays not driven by this version"; all 40,421 recorded presses
 >   skipped. The 11:1x note above saying abilities were replayed is WRONG. IL boards lack every ability's effect while
 >   the pros' later actions answered games where it fired. Parked: re-drive with abilities (RoyaleSim supports them).
+> * **12:1x -- HOW BIG the skipped-ability problem is (2,500 random corpus replays, `grade.skipped` ability entries):**
+>   re-drive crowns == real: 0 skipped presses 0.779 (n 290), 1: 0.668, 2: 0.609, 3: 0.567, 4: 0.578, 5: 0.488, 6+:
+>   0.548; winner == real 0.841 -> 0.800 -> 0.736 -> 0.694 -> 0.682 -> 0.611 -> 0.635. 88% of replays skip >= 1 press;
+>   11.7% of 1-s rows lie within 10 s after one. Dose-response = REAL and LARGE (other drift sources exist: 0 presses is
+>   still 78%). The native sandbox ALREADY has an `ability` command (`use_ability(side, entity_id)`, README ~366-380,
+>   docs/API.md 5.11) -- only replay_drive never sends it. Owner: rebuild now. Codex: `--drive-abilities` in
+>   replay_drive (ticket `.foreman/scratch/drive-abilities.md`). Then validate on 50 replays with a local slot after
+>   gen_v3 training ends (RAM 6.7 GB free / CPU 100% now), re-drive all 14,661 (~8 h on 2 laptop slots, or the S3 VM =
+>   owner's cost call), rebuild v3 data, retrain = gen_v3.1. Interim gen_v3 (no abilities, like gen_v1) may go live first.
 > * **Ability press models phase 2** (`L70/abilities/abilities_phase2.md`, `ability_models.json`, `ability_policy.py`,
 >   numpy): 24 per-ability models on 35,301 contextual pro presses (22 logistic, 2 depth-3 GBT), AUC 0.64-0.85, signs
 >   sensible (e.g. Archer Queen: near crown tower + enemies; Monk: near buildings, enemy half). NOT CALIBRATED: they
