@@ -90,6 +90,16 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 > (3) R2 acceptance paired vs R1 at the same update. Live ladder run continues beside it until 09:00.
 > TRAP (fixed in the driver): search_s0 logs `plain      s1  seed` with TWO spaces -- count with `plain +s1 +seed`.
 >
+> ## ▶ 2026-10-02 23:xx -- the three cheap review fixes LANDED (Codex gpt-6-astra built; lead reviewed + reran tests)
+> * `gae_terminal_gap` (rl_royale + rl_royale.yaml, default **false** = byte-identical): the terminal outcome is also
+>   discounted by gae_gamma_tick ** (end_tick - last kept tick); end_tick already comes from e1_eval (`int(env.tick)`).
+>   Needs gae + tick. Test it as its OWN arm (not inside R2).
+> * Critic monitors in the gae stats / train_log (logging only): `value_target_outside_share`, `value_saturation_share`
+>   (|v_net| > 0.95), `value_mae`. R2 (night 3) logs them -- read them before reading R2's outcome numbers.
+> * select_gen_v2: adds `joint_gct_p035` / `gate_tnr_p035` / `joint_bal_p035` at P(play) > `--gate-p` (0.35); old keys and
+>   ranking unchanged. Tests: 116 RL + 12 selector pass (lead run, CPU); two HEAD-identity tests now drop the three
+>   log-only keys before comparing (weights / RNG / beta still compared exactly).
+>
 > ## ▶ 2026-10-02 22:xx -- outside review points, checked against the code (no code changed)
 > * **Census strips evo/hero (owner asked why):** `L69/pool/loadable_decks.py:24` FORM regex drops `-ev1/-hero`. Reason
 >   was L68 (09-2x): RoyaleSim had NO forms then, so a form deck could not load. Since 10-01 RoyaleSim loads 51 forms

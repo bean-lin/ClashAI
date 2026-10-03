@@ -20,6 +20,9 @@ METRICS (eval_gen.evaluate unchanged, plus the gate it already computes, tapped 
   gate_tnr     wait rows: gate does not fire.
   joint_bal    0.5 * (joint_gct + gate_tnr)  -- default rank key (balanced like gate_bal_acc, so "always play"
                cannot win). --rank-key picks any other key.
+  joint_gct_p035 / gate_tnr_p035 / joint_bal_p035: the same metrics at P(play) > --gate-p (default 0.35, deployed).
+               Names stay *_p035 even when overridden; joint.json records gate_p. Only reporting uses --gate-p;
+               the default rank key and reactive plain arm's play rule are unchanged.
 REACTIVE = search_s0 --arms plain --opps gen,s1 --seeds 0:24 --forms-mode deck --opp-gen gen_v1 (the
 rebase_1001_evo / league1c acceptance protocol); gen_v1 is re-run in the same session as the paired baseline
 (per (opp, seed): tower-HP diff delta mean / t, win delta, via search_s0.summarise), and gen_v1's fresh run is paired
@@ -28,6 +31,7 @@ against the stored rebase_1001_evo/reactive_genv1 as an engine-drift check.
 import argparse
 import glob
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -43,14 +47,17 @@ from pipeline.eval_gen import GenRows, evaluate, load_model, val_rows  # noqa: E
 GEN_V1 = "icebow/data/pipeline/gen_v1_s0/gen_s0.pt"
 STORED_BASE = "scratchpad/gauntlet/L69/rebase_1001_evo/reactive_genv1"
 KEYS = ("joint_bal", "joint_gct", "gate_tnr", "joint_top1", "card_top1", "cell_tile_top1", "cell_half_top1",
-        "gate_bal_acc", "wait_top1", "n_play", "n")
+        "gate_bal_acc", "wait_top1", "joint_gct_p035", "gate_tnr_p035", "joint_bal_p035", "n_play", "n")
 
 
 class GateTap:
-    """The model, recording (gate logit > 0) for every row evaluate() feeds it, in evaluate's row order."""
+    """The model, recording both gate thresholds for every row evaluate() feeds it, in evaluate's row order."""
 
-    def __init__(self, m):
+    def __init__(self, m, gate_p=0.35):
+        if not 0.0 < gate_p < 1.0:
+            raise ValueError("gate_p must be in (0, 1)")
         self.m, self.g = m, []
+        self.g_deployed, self.gate_logit = [], math.log(gate_p / (1.0 - gate_p))
 
     def eval(self):
         self.m.eval()
@@ -59,11 +66,12 @@ class GateTap:
     def __call__(self, b, **kw):
         out = self.m(b, **kw)
         self.g.append((out["gate"] > 0).cpu().numpy())
+        self.g_deployed.append((out["gate"] > self.gate_logit).cpu().numpy())
         return out
 
 
-def score(model, arrs, rows, grid) -> dict:
-    tap, log = GateTap(model), []
+def score(model, arrs, rows, grid, gate_p=0.35) -> dict:
+    tap, log = GateTap(model, gate_p), []
     r = evaluate(tap, rows, grid=grid, rowlog=log)
     gate, play = np.concatenate(tap.g), arrs["y_gate"][rows.idx] == 1
     ids = np.concatenate([x[0] for x in log])
@@ -72,6 +80,10 @@ def score(model, arrs, rows, grid) -> dict:
     r["joint_gct"] = float((gate[play] & tile & card).mean())
     r["gate_tnr"] = float((~gate[~play]).mean())
     r["joint_bal"] = 0.5 * (r["joint_gct"] + r["gate_tnr"])
+    deployed = np.concatenate(tap.g_deployed)
+    r["joint_gct_p035"] = float((deployed[play] & tile & card).mean())
+    r["gate_tnr_p035"] = float((~deployed[~play]).mean())
+    r["joint_bal_p035"] = 0.5 * (r["joint_gct_p035"] + r["gate_tnr_p035"])
     return {k: r[k] for k in KEYS}
 
 
@@ -105,6 +117,7 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--val-sample", type=int, default=0, help="0 = every v2 val row; N = a fixed seed-0 sample")
     ap.add_argument("--rank-key", default="joint_bal", choices=KEYS[:-2])
+    ap.add_argument("--gate-p", type=float, default=0.35, help="second reporting threshold; keys stay *_p035")
     ap.add_argument("--rank-on", default="val", choices=("val", "v3val"))
     ap.add_argument("--top", type=int, default=2)
     ap.add_argument("--device", default="cuda", choices=("cpu", "cuda"))
@@ -114,6 +127,8 @@ def main() -> int:
     ap.add_argument("--threads", type=int, default=1)
     ap.add_argument("--skip-reactive", action="store_true")
     a = ap.parse_args()
+    if not 0.0 < a.gate_p < 1.0:
+        ap.error("--gate-p must be in (0, 1)")
     a.out.mkdir(parents=True, exist_ok=True)
     cands = sorted(glob.glob(str(REPO / a.ckpts) if not Path(a.ckpts).is_absolute() else a.ckpts))
     if not cands:
@@ -122,14 +137,15 @@ def main() -> int:
     arrs, meta = load_ds(REPO / a.data)
     va, v3 = val_rows(arrs, a.val_sample), np.where(arrs["v3val"] == 1)[0]
     rows = GenRows(arrs, va, dev)
-    res = {"data": a.data, "val_sample": a.val_sample, "rank_key": a.rank_key, "rank_on": a.rank_on, "ckpts": {}}
+    res = {"data": a.data, "val_sample": a.val_sample, "rank_key": a.rank_key, "rank_on": a.rank_on,
+           "gate_p": a.gate_p, "ckpts": {}}
     for ck in [a.base] + cands:
         model, st = load_model(REPO / ck, dev)
         if st["card_vocab"] != meta["card_vocab"]:
             raise SystemExit(f"{ck}: card_vocab differs from {a.data}")
         grid = st["args"]["grid"]
-        res["ckpts"][str(ck)] = {"epoch": st.get("epoch"), "val": score(model, arrs, rows, grid),
-                                 "v3val": score(model, arrs, rows.view(v3), grid)}
+        res["ckpts"][str(ck)] = {"epoch": st.get("epoch"), "val": score(model, arrs, rows, grid, a.gate_p),
+                                 "v3val": score(model, arrs, rows.view(v3), grid, a.gate_p)}
         print(json.dumps({"ckpt": str(ck), **{p: {k: round(v, 4) if isinstance(v, float) else v
                                                   for k, v in res["ckpts"][str(ck)][p].items()}
                                               for p in ("val", "v3val")}}), flush=True)
