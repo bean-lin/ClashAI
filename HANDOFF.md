@@ -57,6 +57,12 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   if chests wait on the main screen as tappable items rather than popping up, it re-queues without opening them;
 >   the win count can be off by one around the game's daily reset (cost: an OK at a wrong time, harmless); a STOP
 >   file touched during a nav allows one more match.
+> * **CHEST FLOW VERIFIED LIVE (20:51-20:53):** 4th win of the day -> OK -> 30 tap-throughs at (450,450) opened
+>   5 chests (frames in `live_reader/ladder_unknown/20261002_205316_*.png`, sheet `sheet_205316.png`): Minion Horde
+>   x125, Goblin Cage x100, Gold x1000, Royal Recruits x31, Legendary Wild Card x2 (the 5th is probably the "Catch Up"
+>   chest -- inferred, not checked). Each chest: star-upgrade taps then "Tap to open", then the reward card. Then a
+>   stable main screen whose Battle button had LOST its "Daily Bonus" label (bonus false = the count re-sync logic is
+>   right), Battle, next match. No purchase screen appeared.
 > * **Measured cost of training + live together:** median decision 102-108 ms (normal ~40) while gen_v2 trains.
 > * **Traps found today:** (1) CR on launch opens the Play Store forced-update activity; Back dismissed it and the game
 >   loaded on 160402012 -- do NOT accept an APK update (the reader is build-specific). (2) MuMu's `com.mumu.store`
