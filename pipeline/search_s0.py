@@ -122,6 +122,7 @@ from pipeline import e1_eval as E                                               
 
 GEN_CKPT = "icebow/data/pipeline/gen_v1_s0/gen_s0.pt"
 S1_CKPT = "icebow/data/pipeline/s1_icebow_v6aug_s1.pt"
+CENSUS = "scratchpad/gauntlet/L68/selfplay/loadable_decks.json"
 ARMS = ("plain", "search", "force_play", "random", "never")
 ROLLOUT_SELF = ("idle", "policy")      # our side inside a fork after its candidate: nothing (S0) / its live rule
 TAU_PLAIN, TAU_OPP = 0.35, 0.27
@@ -569,7 +570,7 @@ def _init_worker(args: dict) -> None:
                           horizon_s=args["horizon"], interval=args["interval"], topk=args["topk"], cells=args["cells"],
                           search_min_p=args["search_min_p"], rollout_self=args.get("rollout_self", "idle"),
                           scorer_version=args.get("scorer", "v1"))
-    _W["census"] = league_decks(REPO / "scratchpad/gauntlet/L68/selfplay/loadable_decks.json")
+    _W["census"] = league_decks(REPO / args.get("census", CENSUS))
 
 
 def setup_job(run, census, opp_id: str, seed: int):
@@ -668,6 +669,7 @@ def main(argv=None) -> int:
                     help="checkpoint of the frozen 'gen' OPPONENT only (default None = --gen); --gen stays our policy "
                          "and the rollout self-model")
     ap.add_argument("--s1", default=S1_CKPT)
+    ap.add_argument("--census", default=CENSUS, help="loadable opponent deck census JSON path (relative to repo or absolute)")
     ap.add_argument("--horizon", type=float, default=12.0, help="rollout horizon, seconds")
     ap.add_argument("--interval", type=int, default=1, help="search every Nth affordable decision")
     ap.add_argument("--topk", type=int, default=4)
@@ -711,8 +713,8 @@ def main(argv=None) -> int:
     wargs = {"gen": a.gen, "opp_gen": a.opp_gen, "opp_gen_sha256": opp_sha, "s1": a.s1, "opps": opps, "threads": a.threads, "tail_cap": a.tail_cap, "horizon": a.horizon,
              "interval": a.interval, "topk": a.topk, "cells": a.cells,
              "device": a.device, "search_min_p": a.search_min_p, "rollout_self": a.rollout_self,
-             "forms_mode": a.forms_mode, "scorer": a.scorer}
-    (a.out / "run.json").write_text(json.dumps({**vars(a), "out": str(a.out), "summarise": None,
+             "forms_mode": a.forms_mode, "scorer": a.scorer, "census": a.census}
+    (a.out / "run.json").write_text(json.dumps({**{k: v for k, v in vars(a).items() if k != "census" or a.census != CENSUS}, "out": str(a.out), "summarise": None,
                                                 "gen_sha256": sha256(REPO / a.gen), "opp_gen_sha256": opp_sha,
                                                 "s1_sha256": sha256(REPO / a.s1),
                                                 "tau_plain": TAU_PLAIN, "tau_opp": TAU_OPP, "crown_w": CROWN_W,

@@ -22,7 +22,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), branch `main`.
+Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u running; R1e queued), branch `main`.
 
 > ## ▶ 2026-10-02 evening -- overnight LADDER run + ladder nav / daily chests / Discord clips (owner present, travelling)
 > * **15:07 reboot killed gen_v2** mid-epoch 4 (log stopped at the boot time). No resume in train_gen and no optimizer
@@ -82,6 +82,29 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   draws an ad overlay over the game after a MuMu start: `adb shell am force-stop com.mumu.store`. (3) After a MuMu
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
+>
+> ## ▶ 2026-10-03 09:10 -- LIVE = rseries_r1_u0155 (open-ended), play-quality AUDIT, evo census, R1e queued
+> * **Live swap (owner):** the overnight league1c_u0075 run ended at the 09:00 stop between matches; FINAL W101 L97
+>   (`L70/live/ladder_state_league1c_u0075_final.json`). New launcher `L70/live/run_live.sh`: CKPT env (default
+>   rseries_r1_u0155), tau 0.35, NO end time -- **owner: do not stop it unless told**. Started 09:02; W/L reset to 0.
+> * **Play-quality audit** (`L70/audit/audit.md`, Codex-built, lead-extended; league1c_u0075, 201 live matches, 27 with
+>   frames). (1) Rocket **1.0%** of plays (72/7,024), none in 144/201 matches; pros (S1 icebow replays) **5.8%**, median
+>   elixir at a Rocket 6.8 (bot) vs 8.7 (pros). Finish-off: Rocket crown damage MEASURED 497 HP (3 hits); 14 windows
+>   (6 matches) with an enemy princess <= 497 HP and >= 6 elixir for >= 2 s: **0 Rocket conversions**, 6 died to
+>   something else, 8 survived to the end. CONFIRMED, small n. Win rate with >= 1 Rocket 37/57 vs 63/140 without --
+>   descriptive only (confounded). (2) Damage spread: median concentration 72% on one princess (n 26); both below half
+>   and neither destroyed in 3/26 -- **mostly CONTRADICTED** as a habit, real in a minority. (3) X-Bow: the bot uses 2
+>   rows only (y 0.6094 x746, 0.7031 x24, all matches). Overall 10/117 recorded X-Bows in a dead lane, BUT once a
+>   princess is down, 10 of 18 went to the dead lane (states 1-0: 3 dead / 5 alive; 1-1: 5 dead / 3 alive; 2-0: 2 dead)
+>   -- **lane choice ignores which tower is down: CONFIRMED** (n 18, 27 recordings).
+> * **Census with forms** (`L70/pool_forms/loadable_decks.py` -> `loadable_decks.json`, Codex-built, lead-verified via
+>   rl_royale.league_decks): 1000/1000 loadable, 999 carry `@evolution`/`@hero` (old pool: 0); 99.9% of census
+>   deck-sides have an evo/hero; 0 form fallbacks. Top forms: AngryBarbarians@evo, Berserker@hero, Zap@evo,
+>   BattleRam@evo, InfernoDragon@evo. Limits: heroes load but the sim wrapper never presses their ability; an evolved
+>   icebow (rank 93) stays in the pool (exclusion compares base names). `search_s0 --census PATH` added (default = the
+>   old L68 file, byte-identical).
+> * **R1e QUEUED** (`L70/rl/run_r1e.sh`, waits for R1u): evo-census reactive baselines (gen_v1, R1 u0155) -> R1e = R1 +
+>   league_decks=pool_forms (ONE change), 155 updates -> acceptance (ghost vs R1, reactive old + evo census).
 >
 > ## ▶ 2026-10-03 00:5x RESULTS (night 3, check-in)
 > * **R1 BEATS R0' at both matched updates -- first measured gain for per-decision credit (gae + per-tick discount +
