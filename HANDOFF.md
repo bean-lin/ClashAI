@@ -22,7 +22,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u running; R1e queued), branch `main`.
+Last updated: **2026-10-03 13:45 EDT** (lead out of usage -- RESTART NOTE below), branch `main`.
 
 > ## ▶ 2026-10-02 evening -- overnight LADDER run + ladder nav / daily chests / Discord clips (owner present, travelling)
 > * **15:07 reboot killed gen_v2** mid-epoch 4 (log stopped at the boot time). No resume in train_gen and no optimizer
@@ -82,6 +82,25 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   draws an ad overlay over the game after a MuMu start: `adb shell am force-stop com.mumu.store`. (3) After a MuMu
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
+>
+> ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
+> RUNNING (all detached, survive a context clear):
+> 1. LIVE ladder `scratchpad/gauntlet/L70/live/run_live.sh` (rseries_r1_u0155, tau 0.35, OLD reader, no end time --
+>    owner: never stop unless told; STOP file = stop). Logs `L70/live/overnight.out`, `supervisor.log`.
+> 2. gen_v3 training (`L70/gen_v3/train.out`, ~13:50 end) -> `L70/gen_v3/accept_v3.sh` (ghost + reactive, GPU) ->
+>    `L70/rl/run_r1t_v3.sh` (R1t from gen_v3, ~7 h, then acceptance). Logs `L70/gen_v3/chain.log`, `L70/rl/night3.log`.
+> 3. VM re-drive (136.108.166.193, `~/cb/run_abil.py`, ETA ~19-20 EDT). Done when `~/cb/ABIL_DONE` exists. THEN: fetch
+>    the 6 `<corpus>_abil` dirs (tar|gzip over ssh, see pilot_drive.md "Fetch"), check counts vs summary.jsonl, and
+>    `sudo poweroff` the VM (bills while up). Old VM clashbot-s3 (us-central1-a) is stopped: owner deletes it.
+> NEXT, in order: (a) wire reader v2 into live: live_play.py runs `/data/local/tmp/re_live_sampler2 ... --extended`
+>    (v1 checkpoints fold evo form ids to base via the catalog -> they finally SEE evolved units); test --dry-run on a
+>    match, swap at a match boundary, tally before/after separately. (b) gen_v3 results -> HANDOFF; gen_v3 goes live
+>    only WITH reader v2. (c) gen_v3.1 data: dataset_gen must read the re-drive's native ids (entity rows end
+>    [native card_id, entity_id]) for exact evo/hero tags; opp_past = live-detectable plays only (+ projectile-detected
+>    spells once live reads them); derived full-cycle opponent input; rebuild + train (bf16, `--amp bf16`). (d) ability
+>    press models: calibrate per-ability intercepts to phase-1 rates, wire into royale_env hero_abilities (heroes +
+>    champions; Boss Bandit charges, others one use) -> R1e from gen_v3(.1) on the evo census.
+> Cron check-ins (every 2 h :23, daily 20:47 summary) are SESSION-ONLY -- recreate after a restart.
 >
 > ## ▶ 2026-10-03 09:10 -- LIVE = rseries_r1_u0155 (open-ended), play-quality AUDIT, evo census, R1e queued
 > * **Live swap (owner):** the overnight league1c_u0075 run ended at the 09:00 stop between matches; FINAL W101 L97
