@@ -97,6 +97,10 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   (t -1.59), S1 +2 (t +0.62). Keep gen_v1. The cautious-gate hypothesis (label noise) is NOT supported.
 > * **R2 started 00:49** (rseries_r2, shaping tower_crown). u0000 (critic warm-up): value_target_outside_share 0.0,
 >   value_saturation_share 0.0, value_mae 0.126, explained var 0.814, |F| 0.0014, |Phi| 0.052.
+> * **R2 @ 02:53: u52/155 (~2.3 min/update, ends ~06:50).** Critic monitors u0 -> u52: target-outside 0.0 throughout,
+>   saturation 0.0 throughout, value_mae 0.126 -> 0.093, explained var 0.79-0.88, phi_share 0.11-0.13, adv_r1_diff
+>   0.074 -> 0.060 (shaping moves A by ~0.06 vs R1's estimator). Train winrate vs league 0.44-0.66 (noisy, n 64).
+>   Live at 02:53: W47 L48, no stops since 21:59.
 > * **Live:** W31 L30 since 20:31 (league1c_u0075). The game-day rollover was caught by the 30-min probe (wins 25 -> 0);
 >   the new day's 4th win ran the chest flow again (18 tap-throughs -> Battle). No stops since 21:59.
 >
