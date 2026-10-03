@@ -10,6 +10,10 @@ spawn position is compared with the intended cell -> tap-calibration error in ti
 Stops: battle over / tick stalled 3 s, 5 unconfirmed taps, --max-seconds. Log: live_play_<ts>.jsonl here.
 --matches N --friend NAME: N matches back to back; between them friend_nav.py starts the next friendly 1v1 against
 that friend's bot (allowlisted taps only; see its docstring and --nav-dry-run). Default N = 1: no navigation.
+--ladder --matches N: N Trophy Road matches back to back; between them ladder_nav.py taps Play Again (or, after the
+day's 4th win, OK -> opens the daily chests -> Battle). --clip-every S: record only one match every S seconds and post a
+60-s overlaid clip of it to Discord (discord_clip.py); the other matches are not recorded. --stop-file: stop between
+matches once that file exists.
 --menu-guard (OPT-IN since 2026-09-30): classify a full screencap every <= 2 s during the match and stop on any menu.
 Off by default: those PNG screencaps saturated adb live (live_play_20260930_184444: tap_ms median 3021 / max 5407,
 frame backlog 72, 5 of 17 taps unconfirmed, the bot leaked). The tick-advance gate and first-frame rule stay on.
@@ -239,6 +243,15 @@ def main() -> int:
                          "bot; the previous match's overlay renders in the background")
     ap.add_argument("--friend", help="the friend to play when --matches > 1; must be the friend the nav templates "
                                      "were cropped for")
+    ap.add_argument("--ladder", action="store_true",
+                    help="with --matches > 1: re-queue Trophy Road matches via ladder_nav.py (Play Again; after the "
+                         "day's 4th win OK -> open the chests -> Battle) instead of friendlies")
+    ap.add_argument("--wins-today", type=int, default=None,
+                    help="ladder: set today's win count (daily chests come with wins 1-4); default = ladder_state.json")
+    ap.add_argument("--clip-every", type=float, default=0.0,
+                    help="seconds; > 0: record ONLY the first match and then one match every this many seconds, and post "
+                         "a 60-s overlaid clip of it to Discord (discord_clip.py) -- all other matches unrecorded")
+    ap.add_argument("--stop-file", type=Path, help="stop the run between matches once this file exists")
     ap.add_argument("--nav-dry-run", action="store_true",
                     help="play nothing: run ONE between-match navigation that classifies the live screens and logs "
                          "the tap it WOULD make, never tapping (navigate by hand to test it)")
@@ -246,14 +259,18 @@ def main() -> int:
     if a.matches < 1:
         print("refusing: --matches must be >= 1")
         return 2
-    if (a.matches > 1 or a.nav_dry_run) and not a.friend:
-        print("refusing: --matches > 1 and --nav-dry-run need --friend NAME")
+    if (a.matches > 1 or a.nav_dry_run) and not (a.friend or a.ladder):
+        print("refusing: --matches > 1 and --nav-dry-run need --friend NAME or --ladder")
         return 2
     nav = None
     if a.matches > 1 or a.nav_dry_run:
-        from friend_nav import FriendNav
-        nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run,   # validates the template-bound friend name
-                        invite_wait=a.invite_wait)
+        if a.ladder:
+            from ladder_nav import LadderNavRunner
+            nav = LadderNavRunner(ADB, dry_run=a.nav_dry_run, wins_today=a.wins_today)
+        else:
+            from friend_nav import FriendNav
+            nav = FriendNav(ADB, a.friend, dry_run=a.nav_dry_run,   # validates the template-bound friend name
+                            invite_wait=a.invite_wait)
         if screen_size() != (900, 1600):
             print("refusing: the nav templates are 900x1600; the device screen differs")
             return 2
@@ -271,8 +288,12 @@ def main() -> int:
                      extrapolate_ticks=a.extrapolate)
     renders: list = []                                   # background overlay renders of matches 1..N-1
     rc = 0                                               # 1 = the run stopped for any non-normal reason
+    last_clip, no_start = -1e18, 0
     try:
         for k in range(a.matches):
+            if a.stop_file and a.stop_file.exists():
+                print(f"[live] stop file {a.stop_file} found -- ending the run before match {k + 1}", flush=True)
+                break
             # match 1 of a friend loop: launched on a menu -> navigate to start it; a battle already running -> play it
             navigated = bool(k) or (nav is not None and nav.probe() is not None)
             if navigated:
@@ -283,8 +304,25 @@ def main() -> int:
                     rc = 1
                     break
                 pilot.reset_match()                      # same loaded model, fresh history / opp counter
+            record, caption, prev_clip = not a.no_record, None, last_clip
+            if a.clip_every > 0:                         # owner 2026-10-02: replays off, one clip per --clip-every
+                record = time.time() - last_clip >= a.clip_every
+                if record:
+                    last_clip = time.time()
+                    st = getattr(nav, "st", {})
+                    caption = (f"ClashAI live ladder clip -- match {k + 1}, {time.strftime('%H:%M')} -- "
+                               f"{Path(a.ckpt).stem}, tau {a.tau} -- session W{st.get('W', 0)} L{st.get('L', 0)} "
+                               f"D{st.get('D', 0)} before this match")
             why = play_match(a, pilot, lay, device, renders if k + 1 < a.matches else None,
-                             start_timeout=60 if navigated else None)   # after a nav handoff only
+                             start_timeout=(180 if a.ladder else 60) if navigated else None,   # ladder: matchmaking
+                             record=record, clip_caption=caption)
+            if why not in MATCH_OVER and caption is not None:
+                last_clip = prev_clip                    # no match was played: the clip stays due (Codex review F9)
+            if why == "no_battle_start" and a.ladder and k + 1 < a.matches and no_start < 2:
+                no_start += 1                            # the queue never started: let the nav find the screen
+                print(f"[live] no battle start after match {k} ({no_start}) -- re-navigating (max 2 in a row)", flush=True)
+                continue
+            no_start = 0
             if why not in MATCH_OVER:
                 rc = 1
                 if k + 1 < a.matches:
@@ -292,7 +330,11 @@ def main() -> int:
                     break
     finally:
         for p, name in renders:                          # stopping is safe: let the background renders finish
-            if p.wait():
+            try:
+                p.wait(timeout=900)                      # a hung renderer must not hold the supervisor forever
+            except subprocess.TimeoutExpired:
+                p.kill()
+            if p.returncode:
                 print(f"[overlay] render failed (exit {p.returncode}); re-render with overlay_replay.py {name}")
                 rc = 1
     return rc
@@ -302,7 +344,8 @@ def main() -> int:
 MATCH_OVER = {"battle_over_hands_visible", "battle_inactive", "tick_stalled", "menu_screen:results"}
 
 
-def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float | None = None) -> str:
+def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float | None = None,
+               record: bool = True, clip_caption: str | None = None) -> str:
     """One match (the whole pre---matches main loop). renders=None: overlay rendered here before returning, as a
     single match always was; a list: rendered in a background process appended to it. start_timeout: stop if the
     battle clock never runs within this many seconds (after a nav handoff). -> the stop reason."""
@@ -321,7 +364,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             log.flush()
     W(event="start", screen=[lay.w, lay.h], tau=a.tau, leak=a.leak, dry_run=a.dry_run, ckpt=a.ckpt,
       extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device)
-    rec = None if a.no_record else ScreenRec(stamp)
+    rec = ScreenRec(stamp) if record else None
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
     # It FAILS CLOSED: no input until it has classified a post-arming screenshot as not-a-menu (MenuGuard.clear).
@@ -587,7 +630,19 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
         W(event="end", played=played, confirmed=confirmed, fails=fails, seconds=round(time.time() - t0, 1))
         log.close()
         print(json.dumps({"played": played, "confirmed": confirmed, "fails": fails, "log": log.name}))
-        if rec and renders is not None:                  # a next match follows: render in a separate low-priority
+        if rec and clip_caption is not None:             # clip match: render + cut + post in the background
+            try:
+                p = subprocess.Popen([sys.executable, str(HERE / "discord_clip.py"), log.name, "--caption", clip_caption,
+                                      "--overlay", a.overlay],
+                                     env=dict(ENV, CUDA_VISIBLE_DEVICES="", OMP_NUM_THREADS="2"),
+                                     creationflags=getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0))
+                if renders is not None:
+                    renders.append((p, log.name))
+                elif p.wait():
+                    print(f"[clip] failed (exit {p.returncode}); retry: discord_clip.py {log.name}")
+            except Exception as exc:                     # noqa: BLE001 -- never mask the original error
+                print(f"[clip] could not start: {exc!r}")
+        elif rec and renders is not None:                # a next match follows: render in a separate low-priority
             try:                                         # process (no GIL/CPU fight with its decisions)
                 renders.append((subprocess.Popen(   # detector on the CPU (2 threads): the GPU is the next match's
                     [sys.executable, str(HERE / "overlay_replay.py"), log.name, "--overlay", a.overlay],

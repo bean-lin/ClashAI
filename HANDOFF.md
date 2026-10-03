@@ -22,14 +22,54 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-01 17:00 EDT** (session context cleared at the owner's request; restart note below), branch `main`.
+Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), branch `main`.
 
+> ## ▶ 2026-10-02 evening -- overnight LADDER run + ladder nav / daily chests / Discord clips (owner present, travelling)
+> * **15:07 reboot killed gen_v2** mid-epoch 4 (log stopped at the boot time). No resume in train_gen and no optimizer
+>   state -> relaunched FROM SCRATCH 20:06 (`scratchpad/gauntlet/L69/gen_v2/chain_relaunch_1002.sh`, NO_GPU_WAIT=1 because
+>   the 2048-MiB gpu_wait threshold had blocked 10 h on the desktop's own ~2.2 GB); partial run kept in
+>   `icebow/data/pipeline/gen_v2_s0_partial_reboot1002`. Select (reactive, GPU) runs after it.
+> * **R0' accept (landed 10-01 19:29, now recorded):** ghost screen vs the evo re-baseline u0075 -2.3 pp [-6.0, 1.3],
+>   u0150 -1.7 [-5.4, 2.0]; reactive vs gen_v1 11/24 and 9/24 wins (baseline 12/24). R0' does NOT reproduce league1c's
+>   gain on the new engine. **R1 (finished 02:02) is NOT evaluated yet** (needs the GPU; queued behind gen_v2).
+> * **Live checkpoint chosen: league1c_u0075** (the only RL checkpoint with a measured gain, old engine, +3.0 pp
+>   [-0.3, 6.4] ghost / 23 vs 16 of 24 reactive vs S1), tau 0.35 as every live run since 09-30. One change vs the 09-30
+>   live runs: the checkpoint. Caveat: R0' failed to reproduce its recipe, so "best" is provisional.
+> * **New: `ladder_nav.py`** (live_reader/): results -> Play Again; the day's 4th win -> OK -> tap through chest screens
+>   -> stable main -> Battle; red-X promos closed; Game Modes sheet closed; Shop tab forbidden. Win/loss = y of the
+>   WINNER! banner (checked: a 3-crown win, opp king 0 HP, read as WIN). Win count in `live_reader/ladder_state.json`,
+>   re-synced from the "Daily Bonus" label under Battle (rollover probe via OK every 30 min once 4 are done). The
+>   win results screen and the chest screens were NOT seen when it was written: tap-through saves every unknown frame
+>   to `live_reader/ladder_unknown/` -- build templates from them. Self-check `test_ladder_nav.py`. Templates:
+>   `scratchpad/gauntlet/L70/ladder_nav/templates/` (_build.py). The "4" badge on the trophy button = Game Modes count.
+> * **New: `discord_clip.py`** (Codex gpt-6-astra wrote it): render overlay -> last 60 s -> <= 9.5 MB -> webhook.
+>   live_play `--clip-every 1800`: record the first match and then one match per 30 min; others unrecorded.
+>   live_play also gained `--ladder`, `--wins-today`, `--stop-file`; backup of the old file
+>   `scratchpad/gauntlet/L70/ladder_nav/live_play_backup_373f06f.py`.
+> * **RUNNING:** `scratchpad/gauntlet/L70/live/run_overnight.sh` (supervisor: up to 5 restarts, Discord post on every
+>   stop, ends 09:00 or on `touch scratchpad/gauntlet/L70/live/STOP`). Log `overnight.out`, `supervisor.log`.
+> * **First results (live, 20:31-20:41):** W2 L1 via the nav (3-crown win read as WIN, checked on tower HP); the
+>   first Discord clip posted 20:37 (2.07 MB, HTTP 200) ~3 min after its match (render at low priority).
+> * **Codex gpt-6-astra review (read-only) of the nav/clip code: 12 findings.** Fixed (restart 20:41): a failed
+>   screenshot is now `nograb` (never a tap/handoff); unread WINNER banner waits 8 s before 'draw'; atomic state
+>   save; the clip slot is refunded when no match was played; final render waits time out (900 s); the main screen
+>   after the 4th-win OK is saved to ladder_unknown/. Accepted (open): the chest flow has NO chest recognition --
+>   if chests wait on the main screen as tappable items rather than popping up, it re-queues without opening them;
+>   the win count can be off by one around the game's daily reset (cost: an OK at a wrong time, harmless); a STOP
+>   file touched during a nav allows one more match.
+> * **Measured cost of training + live together:** median decision 102-108 ms (normal ~40) while gen_v2 trains.
+> * **Traps found today:** (1) CR on launch opens the Play Store forced-update activity; Back dismissed it and the game
+>   loaded on 160402012 -- do NOT accept an APK update (the reader is build-specific). (2) MuMu's `com.mumu.store`
+>   draws an ad overlay over the game after a MuMu start: `adb shell am force-stop com.mumu.store`. (3) After a MuMu
+>   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
+>   `gpt-6-astra` works.
+>
 > ## ⟳ RESTART NOTE — 2026-10-01 17:00 EDT (context cleared on purpose; rebuild from this file)
 > The owner asked for this session's context to be wiped and rebuilt from the repo. Everything needed to continue:
 > * **Owner status:** travelling until Sun 10-04 evening / Mon 10-05 morning. Continuous SIM-side compute approved
 >   until then (the shared-laptop rule is waived for that window only). **No live testing** until they are back.
 >   Anything needing an owner decision is parked here, not decided. Standing rules are in the auto-memory index
->   (`~/.claude/projects/C--Users-benpe-ClashBot/memory/MEMORY.md`): never ranked vs real players, never stage
+>   (`~/.claude/projects/C--Users-benpe-ClashBot/memory/MEMORY.md`): ranked/trophy-ladder play IS authorized (memory live-play-authorized; owner ran it 10-02), never stage
 >   `icebow/data/` (secrets: `discord_webhook.txt`), one change per experiment, push only accepted commits, use the
 >   fable-foreman protocol (ledger `.foreman/s0-search/ledger.md`), never two GPU jobs at once.
 > * **Running now (detached; they survive the clear, but no completion alerts reach the new context -- poll the logs):**
