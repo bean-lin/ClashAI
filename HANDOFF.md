@@ -124,6 +124,16 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   actions. Plan: (1) mine all 52 files per ability (Codex, `L70/abilities/`, running); (2) re-drive a sample through
 >   RoyaleSim for press context (nearby enemies, own HP, elixir, towers); (3) fit one press model per ability on pro
 >   data; (4) the `hero_abilities` plumbing (Codex job in flight) calls those per-ability models. R1e waits for this.
+> * **11:1x -- WHY THE MODEL CAN'T ANSWER EVOS (owner question):** the IL data DID contain evo/hero/champion opponents
+>   (pro replays re-driven in the real engine; `research/sandbox_tools/replay_drive.py` replays ability presses), but
+>   the model's INPUT erases form: unit tokens fold evo/hero to the base card in training AND live
+>   (`pipeline/obs_contract.py` 184-193 catalog fold, 419-439 `_fold_evo`; measured there: 0 of 1,434,428 training unit
+>   tokens are evo classes -- the engine names bodies by base card). `past` (card, form, x, y, dt) = the model's OWN
+>   last 3 plays (no opponent forms). Abilities are seen only by their effects. Sim ghost replays DROP ability commands
+>   (`pipeline/royale_env.py` 179, 188), so the pinned-299 ghost opponents never press abilities. => R1e can give
+>   evo EXPERIENCE but not evo PERCEPTION. Proposed gen_v3 input change: a per-unit form flag (base/evo/hero; derivable
+>   from each play's recorded form in training, from the reader's form ids live) + opponent recent plays with forms;
+>   retrain IL, re-baseline. Not started (owner decision).
 > * **R1t QUEUED (10:53, waits for R1u):** R1 + ONE change `gae_terminal_gap=true` (`L70/rl/run_r1t.sh`), ~7 h, keeps
 >   the GPU busy during the ability research. NB the relaunched R1e chain must wait for "[r1t] all done".
 > * **R1e QUEUED** (`L70/rl/run_r1e.sh`, waits for R1u): evo-census reactive baselines (gen_v1, R1 u0155) -> R1e = R1 +
