@@ -20,6 +20,9 @@ NAMES = ['Knight@evolution','Tesla@evolution','MiniPekka@hero','Skeletons','IceS
 
 def policy(version=3):
     torch.manual_seed(17)
+    if version == 0:
+        from pipeline.model_v3 import S1Model
+        return S1Model(d=16,layers=1).eval()
     return E.GenPolicy(GenModel(d=16,layers=1,d_c=8,n_cards=9,feature_version=version).eval(),
                        ['<pad>']+[D.card_key(n) for n in NAMES])
 
@@ -39,7 +42,7 @@ def test_public_log_acceptance_landing_coordinates_reset():
     st=m.env.core.state().players[1]
     idx=min((m.env.deck_ids[1].index(c) for c in st.hand),key=lambda i:m.env.costs(1)[i])
     slot=next(k for k,v in s.deck_index_of_slot.items() if v==idx)
-    s.apply(.9,dict(play=True,slot=slot,cell=500,why='test'))
+    s.apply(.9,dict(play=True,slot=slot,cell=1600,why='test'))
     assert not m.env.public_plays
     while m.env.tick < 116:
         for side in m.due():
@@ -47,8 +50,7 @@ def test_public_log_acceptance_landing_coordinates_reset():
     assert len(m.env.public_plays)==1
     e=m.env.public_plays[0]
     assert e['tick']==116 and e['side']==1
-    play=s.plays[0]
-    assert e['x']==int(play['x']*1000) and e['y']==int(play['y']*1000)
+    assert (e['x'],e['y'])==s.ep.cell_to_engine(1600,True,'lattice')
     assert not D.opponent_past(m.env.public_plays,116,0,m.learner.model.gid)[:,0].any()
     assert D.opponent_past(m.env.public_plays,117,0,m.learner.model.gid)[0,4]==np.float32(.05)
     # Rejected commands and ability presses do not create card-play events.
@@ -81,7 +83,7 @@ def test_noise_preserves_true_form_zeros_substitutions_and_rng(noise):
     assert {u.form for u in seen}=={0,1,2}
 
 
-@pytest.mark.parametrize('lv,ov',[(3,1),(1,3),(3,3),(2,3)])
+@pytest.mark.parametrize('lv,ov',[(3,1),(1,3),(3,3),(2,3),(3,0),(0,3)])
 def test_mixed_versions_prepare_extrapolation_and_fork(lv,ov):
     from pipeline.search_s0 import forward,fork_into
     m=match(policy(lv),policy(ov),obs='live',noise=V.ALL_NOISE_OFF,extrapolate_ticks=26)
@@ -101,7 +103,7 @@ def test_mixed_versions_prepare_extrapolation_and_fork(lv,ov):
                 np.testing.assert_array_equal(row['unit_form'],O.to_unit_forms(s._cur[2]))
                 np.testing.assert_array_equal(row['opp_past'],D.opponent_past(m.env.public_plays,
                                               tick+(26 if tick==100 else 0),s.side,s.model.gid))
-            else:assert not set(E.GEN_V3_KEYS)&row.keys()
+            elif row is not None:assert not set(E.GEN_V3_KEYS)&row.keys()
     f=fork_into(m,RoyaleSelfPlayEnv(),m.env.core.save_state())
     f.env.public_plays.append(dict(tick=100,side=0,card='Zap',form=0,x=1,y=2))
     assert len(f.env.public_plays)==len(m.env.public_plays)+1
@@ -118,6 +120,20 @@ def test_shared_batches_and_proagreement_repacking_match_trainer():
     a=GenRows(packed,np.arange(4),'cpu').batch(np.arange(4))
     b=GenRows(arrs,original,'cpu').batch(original)
     assert all(torch.equal(a[k],b[k]) for k in a)
+
+
+def test_eval_loader_v3_and_empty_unit_batch():
+    p=policy()
+    path=HERE/'eval_loader_v3.pt'
+    torch.save(dict(gen=True,args=dict(d=16,layers=1,feature_version=3),d_c=8,
+                    card_vocab=list(p.gid),model=p.model.state_dict()),path)
+    model,_=load_model(path,'cpu')
+    assert model.feature_version==3
+    assert all(torch.equal(v,model.state_dict()[k]) for k,v in p.model.state_dict().items())
+    packed,_=RL.gen_v3val_arrays(HERE/'gen_dataset_v3.npz',1)
+    packed['tok']=packed['tok'][:0];packed['unit_form']=packed['unit_form'][:0];packed['off'][:]=0
+    b=GenRows(packed,np.array([0]),'cpu').batch(np.array([0]))
+    assert not b['mask'].any() and not b['unit_form'].any() and not b['tok'].any()
 
 
 def tiny_rollout():
@@ -140,3 +156,27 @@ def tiny_rollout():
 
 def test_rl_collate_policy_terms_and_gae():
     tiny_rollout()
+
+
+def test_actor_constructs_v3_and_loads_weights_without_training():
+    import queue
+    cfg=RL.load_config(RL.REPO/'pipeline/rl_royale.yaml',[],smoke=False)
+    learner=RL.Learner.__new__(RL.Learner)
+    learner.cfg=cfg|dict(actor_device='cpu',actor_threads=2)
+    learner.init_meta={'args':dict(d=16,layers=1,feature_version=3)}
+    learner.grid='lattice'
+    p=policy()
+    learner.gen=dict(d_c=8,card_vocab=list(p.gid),feature_version=3)
+    base=learner.actor_base()
+    class Out(list):
+        def cancel_join_thread(self):pass
+        def put(self,m):self.append(m)
+    iq=queue.Queue();oq=Out()
+    iq.put(('screen',0,RL.state_bytes(p.model),[]));iq.put(None)
+    seen=[]
+    def inspect(make_env,model,*a,**kw):
+        assert model.model.feature_version==3
+        assert all(torch.equal(v,model.model.state_dict()[k]) for k,v in p.model.state_dict().items())
+        seen.append(True)
+    with patch.object(E,'run_batch',inspect):RL.actor_main(0,0,iq,oq,base)
+    assert seen and not [m for m in oq if m[0]=='error'],oq

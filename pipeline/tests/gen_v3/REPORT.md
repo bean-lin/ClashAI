@@ -1,6 +1,6 @@
 # gen_v3 smoke and pending integration
 
-Status: NEEDS_CONTEXT. Dataset, model, trainer and memory-reader v3 features are implemented. Production SIM/RL integration needs the write-set extension requested from the owner.
+Status: DONE_WITH_CONCERNS. The approved continuation completed production SIM/RL integration. See SIM_REPORT.md for exact parity, smoke evidence, 274 passing CPU tests, one Windows pipe skip, five no-git exclusions and launch commands. Original dataset smoke results below are preserved.
 
 50 replays; 12,448 rows; 50,440 tokens; 0 failures. Unit-form shape (50440,), opponent-history shape (12448, 3, 5). Evolved tokens 9.7304%; hero tokens 7.5139%; rows with opponent plays 94.0071%.
 
@@ -60,7 +60,7 @@ Recording checks: all Hero Goblins bodies include both 202-HP goblins and the 25
 
 The seven-column play-frame field is kind, not entity identity; all 37,560 play-frame entity observations in these 50 files use kind 12/13/14/15. No unique-body counts are claimed. Explicit ids are supported when a recording supplies entity_ids or entity_fields.
 
-Remaining integration requiring scope extension:
+Previously missing integration (now completed by the approved SIM continuation; details in SIM_REPORT.md):
 
 - pipeline/eval_gen.py: checkpoint args must reach GenModel(feature_version=...); shared GenRows must batch unit_form and opp_past. The implemented trainer currently uses its own versioned GenRows subclass.
 - pipeline/royale_env.py: preserve entity status_flags and expose accepted public plays including landing tick, coordinates and actual form from pre-command evo/hero state; reset per match.
