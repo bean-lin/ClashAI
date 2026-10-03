@@ -38,6 +38,16 @@
 ## every v1/v2/v3 default path byte-identical). CAUTION: R1t from gen_v3 is TRAINING NOW (started 14:55) and imported
 ## rl_royale.py at its start -- do not change behaviour R1t depends on; never touch its run dirs.
 
+## DISCORD REPORTS (owner, 2026-10-03 15:2x) -- post with `icebow/.venv/Scripts/python.exe
+## scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL) after EVERY MAJOR MILESTONE (e.g. stopped-run
+## edits reconciled, VM data fetched + VM off, pro tower-Rocket mining report, behaviour baselines, gen_v3.1 code done,
+## dataset built, training done, acceptance results, ability models wired): plain language, <= ~1500 chars: what was
+## achieved, the measured results AND what they mean, the next steps. Plus the daily summary at ~20:47.
+## BETTER CHECKPOINT: if any checkpoint beats the LIVE one (rseries_r1_u0155: ghost +3.0 pp [-0.3, 6.4] vs the gen_v1
+## evo base, reactive gen 14/24, S1 24/24) on the acceptance instruments (paired ghost screen CI and reactive play, plus
+## the behaviour metrics), post a Discord message headed "APPROVAL NEEDED: deploy <checkpoint> live?" with the evidence.
+## NEVER deploy it yourself -- the owner approves.
+
 ## THE PLAN (priority order; skip what is blocked or already done per JOURNAL)
 1. Live run health check every run (supervisor.log, overnight.out results tally, restarts used); keep it alive.
 2. VM re-drive (ssh -i ~/.ssh/clashbot_gcp clashbot-gauntlet@136.108.166.193): when `~/cb/ABIL_DONE` exists, fetch the
