@@ -30,7 +30,7 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   the 2048-MiB gpu_wait threshold had blocked 10 h on the desktop's own ~2.2 GB); partial run kept in
 >   `icebow/data/pipeline/gen_v2_s0_partial_reboot1002`. Select (reactive, GPU) runs after it.
 > * **R0' accept (landed 10-01 19:29, now recorded):** ghost screen vs the evo re-baseline u0075 -2.3 pp [-6.0, 1.3],
->   u0150 -1.7 [-5.4, 2.0]; reactive vs gen_v1 11/24 and 9/24 wins (baseline 12/24). R0' does NOT reproduce league1c's
+>   u0150 -1.7 [-5.4, 2.0]; reactive vs gen_v1 11/24 and 9/24 wins (baseline 12/24), vs S1 20/24 and 20/24 (baseline 20/24). R0' does NOT reproduce league1c's
 >   gain on the new engine. **R1 (finished 02:02) is NOT evaluated yet** (needs the GPU; queued behind gen_v2).
 > * **Live checkpoint chosen: league1c_u0075** (the only RL checkpoint with a measured gain, old engine, +3.0 pp
 >   [-0.3, 6.4] ghost / 23 vs 16 of 24 reactive vs S1), tau 0.35 as every live run since 09-30. One change vs the 09-30
@@ -82,6 +82,13 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   draws an ad overlay over the game after a MuMu start: `adb shell am force-stop com.mumu.store`. (3) After a MuMu
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
+>
+> ## ▶ NIGHT 3 RUNNING (2026-10-02 23:16 ->): `scratchpad/gauntlet/L70/rl/run_night3.sh`, log `night3.log` there
+> Waits for the gen_v2 chain's select, then ONE GPU job at a time: (1) R1 acceptance -- ghost screen u0080 / u0155 vs the
+> evo re-baseline AND vs R0' u0075 / u0150 (matched policy updates; R1 had 5 critic-only updates), reactive play both
+> (gen_v1 + S1, 24 seeds); (2) R2 = R1 + shaping=tower_crown (one change; critic monitors logging-only), 155 updates;
+> (3) R2 acceptance paired vs R1 at the same update. Live ladder run continues beside it until 09:00.
+> TRAP (fixed in the driver): search_s0 logs `plain      s1  seed` with TWO spaces -- count with `plain +s1 +seed`.
 >
 > ## ▶ 2026-10-02 22:xx -- outside review points, checked against the code (no code changed)
 > * **Census strips evo/hero (owner asked why):** `L69/pool/loadable_decks.py:24` FORM regex drops `-ev1/-hero`. Reason
