@@ -157,6 +157,23 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   ~400 logs them `_invalid` with skipped="ability plays not driven by this version"; all 40,421 recorded presses
 >   skipped. The 11:1x note above saying abilities were replayed is WRONG. IL boards lack every ability's effect while
 >   the pros' later actions answered games where it fired. Parked: re-drive with abilities (RoyaleSim supports them).
+> * **12:5x -- OWNER DECISIONS:** (A) the lead takes over the live READER (owner cannot map it; upstream author's
+>   code): add the evolved marker, projectiles in flight (Goblin Barrel: just SEE it -- the barrel flies seconds, Log
+>   in its last < 1 s; no cycle prediction needed), spell area effects, and other train/live gap closers. NO R1v3
+>   control: R1t + R1e start from gen_v3 (confounding accepted) -- `L70/rl/run_r1t_v3.sh` queued after gen_v3's
+>   acceptance. gen_v3.1 gets a derived full-cycle opponent input (public plays only) and EXACT evo labels from stable
+>   entity ids (re-drive --record-native). VM: zone out of resources; owner authorised gcloud -> installed
+>   `~/tools/google-cloud-sdk` (587.0.0, zip, no admin); auth needs the OWNER (the OAuth code is a credential the lead
+>   must not paste) -- or the owner recreates the VM from a machine image in another zone via the console.
+> * **READER RE project (`scratchpad/gauntlet/L70/reader/`):** sources found -- `research/ext/cr_live/upstream/
+>   native_core/mumu_live_private_sampler.c` = our live_sampler (526 lines, args PID INTERVAL RVA ROOT [--unified]),
+>   upstream scanners, the live x86_64 `libg.so` (stripped, no 'projectile' strings -> dynamic RE). Engine sandbox
+>   bridge `cr-native-sandbox/android_probe/native/jni_bridge.cpp` already exports projectiles (vtable RVA 0x1969B38 in
+>   build 150535029) / effects / buffs = layout guide. Codex cannot run WSL (E_ACCESSDENIED) but can run adb ->
+>   the lead built `re_peek` (read-only batch /proc/PID/mem reader, `L70/reader/re_peek.c`, on device
+>   /data/local/tmp/re_peek; verified: libg ELF magic). Codex phase 1 (`.foreman/scratch/reader-re-1b.md`) probes in
+>   Python over adb, labels with OUR plays (Rocket/Log/Tornado casts, evo Knight/Tesla cycle), writes live_sampler2.c
+>   for the lead to compile. Git Bash TRAP: `MSYS_NO_PATHCONV=1` before adb with /data/... paths.
 > * **12:4x -- gen_v3 live-path review (Claude verifier, PASS_WITH_NOTES) + a BLOCKER found by the lead:**
 >   **LIVE READER NEVER REPORTS EVOLVED UNITS AS EVOLVED.** 66,475 recorded live frames (10-02/03): 19,111 hero-form-id
 >   sightings (Tombstone, EliteArcher, Knight, Musketeer...), 0 evolution-form ids (13000xxx); unknown ids only -1
