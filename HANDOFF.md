@@ -83,6 +83,19 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
 >
+> ## ▶ 2026-10-02 23:5x -- owner's three play-quality complaints (no hardcoding wanted) -- status
+> 1. **Rocket rarely used / never finishes a low tower.** MEASURED tonight (league1c_u0075, 49 live ladder matches):
+>    Rocket 0.29 per match, 36/49 matches with none (Knight 6.2, Skeletons 6.2, Log 5.9, IceWiz 5.8, Tesla 4.7, Xbow 3.7,
+>    Tornado 2.1). Pros: Rocket 4-8% of plays by phase (v6 table, §run16) ~ 2 per match -> an imitation/learning GAP,
+>    same as 09-18 (128 chances, 4 rockets). Finish-off conversion (enemy tower HP <= Rocket damage) NOT measured yet.
+> 2. **Damage spread over both princess towers** -- plausible, UNMEASURED (needs concentration metric model vs pros).
+> 3. **X-Bow in a dead lane; few defensive X-Bows; at 1-1 should chip the other princess** -- plausible, UNMEASURED for
+>    the current model (09-18 doctrine memory: 1-1 -> the OTHER princess, never the king).
+> Proposed (not started; CPU audit after the 09:00 live stop so live decisions are not starved): a decisive-moments
+> audit, model (RoyaleSim reactive play) vs pros (engine-driven replays): Rocket rate + elixir at play, finish-off
+> conversion, damage concentration, X-Bow lane vs tower state, defensive X-Bow share. Then add these as acceptance
+> metrics for every RL arm (R2 first: its crown term rewards FINISHING a tower, its tower term rewards damage).
+>
 > ## ▶ NIGHT 3 RUNNING (2026-10-02 23:16 ->): `scratchpad/gauntlet/L70/rl/run_night3.sh`, log `night3.log` there
 > Waits for the gen_v2 chain's select, then ONE GPU job at a time: (1) R1 acceptance -- ghost screen u0080 / u0155 vs the
 > evo re-baseline AND vs R0' u0075 / u0150 (matched policy updates; R1 had 5 critic-only updates), reactive play both
