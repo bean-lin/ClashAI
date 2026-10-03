@@ -103,6 +103,13 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   BattleRam@evo, InfernoDragon@evo. Limits: heroes load but the sim wrapper never presses their ability; an evolved
 >   icebow (rank 93) stays in the pool (exclusion compares base names). `search_s0 --census PATH` added (default = the
 >   old L68 file, byte-identical).
+> * **R1e ACCEPTANCE RULE (pre-registered 2026-10-03 09:1x, owner + lead, BEFORE any R1e number):** owner: lower
+>   numbers vs non-evo opponents are an acceptable tradeoff for better play vs evos. PRIMARY = reactive play vs the EVO
+>   census (`--census pool_forms`, `--opps gen`), R1e u0155 vs R1 u0155, same seeds: accept if R1e >= R1 (wins and
+>   paired tower-HP diff). SECONDARY (may drop, recorded as the cost, no veto): pinned-299 ghost screen and old-census
+>   reactive. Worse than R1 on the PRIMARY = failure (evo training did not help vs evos -- every model faces the same
+>   evo decks there, so "evos are harder" cannot explain it). If accepted -> live test vs R1 u0155's live record.
+>   Caveat: the sim never presses hero abilities, so R1e cannot learn to answer them.
 > * **R1e QUEUED** (`L70/rl/run_r1e.sh`, waits for R1u): evo-census reactive baselines (gen_v1, R1 u0155) -> R1e = R1 +
 >   league_decks=pool_forms (ONE change), 155 updates -> acceptance (ghost vs R1, reactive old + evo census).
 >
