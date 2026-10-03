@@ -157,6 +157,23 @@ Last updated: **2026-10-03 09:10 EDT** (live swapped to rseries_r1_u0155; R1u ru
 >   ~400 logs them `_invalid` with skipped="ability plays not driven by this version"; all 40,421 recorded presses
 >   skipped. The 11:1x note above saying abilities were replayed is WRONG. IL boards lack every ability's effect while
 >   the pros' later actions answered games where it fired. Parked: re-drive with abilities (RoyaleSim supports them).
+> * **13:3x -- READER RE PHASE 1 DONE (Codex, re_peek + our own casts as labels; `L70/reader/FINDINGS.md`):**
+>   projectiles = objects with vtable RVA 0x19f7370 (x/y +0x7c/+0x80, target +0x120/+0x124; 1 Rocket + 28 Logs matched);
+>   area effects = vtable 0x19f6a28 (+0x100 remaining ms; Tornado: 101/101 timer pairs agree); EVOLVED bodies carry
+>   EVOLUTION-FORM ids at +0xac (13000000 / 13000102) and the v1 sampler FILTERS THEM OUT -- live has never seen an
+>   evolved unit at all (24 base / 6 evo Knights, 15 base / 5 evo Teslas validated). `live_sampler2.c` (lead-compiled,
+>   on device /data/local/tmp/re_live_sampler2): default output = v1 semantics (4-min side-by-side, 559 common ticks:
+>   24 differ only by applied_replay_tick / 2 mid-update HP reads -- sampling races, no format diff); `--extended`
+>   adds per-entity evo, `projectiles` (card ids incl. spells, e.g. 28000011 x116; towers -1) and `effects`
+>   (remaining_ms). 4-min capture: 709 evolved-unit sightings, +0.73 units/frame visible vs v1, 715 projectile and
+>   313 effect sightings. NOT yet wired into live_play.
+> * **gen_v3.1 RE-DRIVE RUNNING ON THE VM** (n2-standard-16 clashbot-s3 copy, us-east1-c, IP 136.108.166.193, 4 slots
+>   37031-34): `~/cb/run_abil.py` (copy `L70/reader/run_abil.py`), 77 jobs / 14,818 recordings ->
+>   `<corpus>_abil` dirs, flags --drive-abilities --record-full --record-native (+ the original seed 424242 / level 11 /
+>   slack 40 / tail 7200 / record-every 20 / record-plays); ~4-5 s per replay per slot, ETA ~19:00-20:00 EDT.
+>   50-replay paired check (icebow): abilities driven 78 accepted / 11 skipped; final state differs in 27/44, but crowns
+>   vs real 37/44 off == 37/44 on (3 fixed, 3 broken): driving abilities does NOT raise outcome fidelity on this sample
+>   -- the earlier dose-response was confounded. Native ids work: 6,815 evo-form entity rows in 44 games.
 > * **12:5x -- OWNER DECISIONS:** (A) the lead takes over the live READER (owner cannot map it; upstream author's
 >   code): add the evolved marker, projectiles in flight (Goblin Barrel: just SEE it -- the barrel flies seconds, Log
 >   in its last < 1 s; no cycle prediction needed), spell area effects, and other train/live gap closers. NO R1v3
