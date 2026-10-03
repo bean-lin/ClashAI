@@ -7,6 +7,8 @@ Screens (template matching on `adb exec-out screencap` frames vs scratchpad/gaun
   popup_x  any popup with the red X close button (promos like "Upgrade your Pass Royale" -- never its GO! button).
   modes    the Game Modes sheet (opened by a stray tap) -> its close arrow.
   trophy_road  the Trophy Road rewards screen the game opens at a milestone: Collect (free reward), then its OK.
+  conn_lost  "Connection lost" dialog: "Another device is connecting" -> STOP the run (never kick the owner's phone);
+           any other connection loss -> RELOAD.
   loading  the Clash Royale logo screen (app start / battle loading).
 Policy: after a results screen tap Play Again, EXCEPT after the day's 4th win (counted here, persisted in
 ladder_state.json): tap OK, tap through the chest-opening screens until the main screen is stable, tap Battle. The
@@ -42,7 +44,8 @@ TARGETS = {                                     # rectangle the tap point must l
     "modes_close": (380, 200, 520, 290),
     "tap_through": (440, 440, 460, 460),
     "collect": (0, 150, 900, 1480),             # Trophy Road: claim a free reward (green Collect)
-    "bottom_ok": (340, 1490, 560, 1595),        # Trophy Road: close (blue OK in the bottom bar)        # neutral point: top-centre art on every popup seen so far
+    "bottom_ok": (340, 1490, 560, 1595),        # Trophy Road: close (blue OK in the bottom bar)
+    "reload": (100, 700, 400, 1100),            # "Connection lost" dialog, NOT the another-device kind        # neutral point: top-centre art on every popup seen so far
 }
 FORBIDDEN = {"shop_tab": (0, 1440, 170, 1600)}
 SWIPES = {"tr_scroll": (450, 1150, 450, 550, 700)}   # Trophy Road: slow drag up = show LOWER (already reached) rewards
@@ -93,6 +96,9 @@ class Classifier:
             sc[n] = round(s, 3)
             if s >= e["threshold"]:
                 hit[n] = c
+        if "conn_lost" in hit:                          # a system dialog over everything: check it first
+            return {"screen": "conn_lost", "other_device": "another_device" in hit, "reload": hit.get("reload"),
+                    "scores": sc}
         if "play_again" in hit and "results_ok" in hit:
             w = hit.get("winner")
             won = None if w is None else w[1] > 600            # loss: banner at y ~174 above the opponent's name
@@ -161,6 +167,10 @@ class LadderNav:
         self.unknown_since = None
         if s != "main":
             self.main_n, self.main_sig = 0, None
+        if s == "conn_lost":   # owner's phone took the account: never kick it -- pause the run (live_play: STOP + Discord)
+            if scr["other_device"]:
+                return ("stop", "ANOTHER_DEVICE: the account was opened on another device (Connection lost)")
+            return ("act", "reload", scr["reload"]) if scr["reload"] else ("wait", "connection lost: no RELOAD seen")
         if s == "popup_x":
             return ("act", "close_x", scr["x"])
         if s == "modes":
@@ -230,7 +240,7 @@ def grab(adb: list[str]):
 class LadderNavRunner:
     """Device side, same interface as friend_nav.FriendNav: probe() before match 1, run() between matches."""
     POLL_S, COOLDOWN_S = 0.5, 1.5
-    NAV_SCREENS = {"results", "main", "popup_x", "modes", "trophy_road"}
+    NAV_SCREENS = {"results", "main", "popup_x", "modes", "trophy_road", "conn_lost"}
 
     def __init__(self, adb: list[str], dry_run: bool = False, log_dir: Path = HERE, state_path: Path = STATE,
                  wins_today: int | None = None):

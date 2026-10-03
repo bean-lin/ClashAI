@@ -15,6 +15,12 @@ assert clf.classify(None)["screen"] == "nograb"
 tr = clf.classify(cv2.imread(str(RAW / "trophy_road.png")))
 assert tr["screen"] == "trophy_road" and tr["collect"] is not None, tr["scores"]
 assert LadderNav(0, {}).plan(tr, 1)[1] == "collect" and command_for("collect", tr["collect"]).startswith("input tap")
+cl = clf.classify(cv2.imread(str(RAW / "conn_lost.png")))
+assert cl["screen"] == "conn_lost" and cl["other_device"] and cl["reload"] is not None, cl["scores"]
+p = LadderNav(0, {}).plan(cl, 1)
+assert p[0] == "stop" and p[1].startswith("ANOTHER_DEVICE")                 # never kick the owner's other device
+assert LadderNav(0, {}).plan(dict(cl, other_device=False), 1)[1] == "reload"
+assert command_for("reload", cl["reload"]).startswith("input tap")
 nav = LadderNav(0, {})                                    # no Collect visible: scan down, then OK when unmoved/at cap
 assert nav.plan(dict(tr, collect=None), 1)[1] == "tr_scroll"
 nav.acted("tr_scroll", 2)

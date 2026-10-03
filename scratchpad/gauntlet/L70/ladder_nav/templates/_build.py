@@ -17,6 +17,10 @@ SPEC = {
     # Trophy Road rewards screen (opened by the game when a milestone is passed; stuck the run 2026-10-02 21:26)
     "collect":    ("trophy_road.png", (280, 1292, 425, 1350), (0, 150, 900, 1480), 0.85),
     "bottom_ok":  ("trophy_road.png", (365, 1508, 535, 1578), (250, 1460, 650, 1600), 0.85),
+    # "Connection lost" dialog (the account was opened on another device, 2026-10-02 21:46)
+    "conn_lost":  ("conn_lost.png", (145, 702, 368, 748), (0, 400, 900, 1200), 0.85),
+    "another_device": ("conn_lost.png", (145, 757, 610, 795), (0, 400, 900, 1200), 0.85),
+    "reload":     ("conn_lost.png", (145, 860, 235, 893), (0, 600, 900, 1300), 0.85),
 }
 man = {}
 for n, (src, b, reg, thr) in SPEC.items():

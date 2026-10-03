@@ -71,6 +71,11 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   Ladder launch now always has a 180-s battle-start timeout, so an unknown launch screen goes back to the nav.
 >   Verified live 21:38: collected 200 gems + a Trophy Road chest (1->2 stars, Gold x4000), 8 scan swipes found no
 >   more, OK -> main -> Battle. Not independently reviewed (live-observed only).
+> * **21:46 STOP: "Connection lost -- Another device is connecting to this game. RELOAD"** mid-match (the account was
+>   opened elsewhere, probably the owner's phone). 40 tap-throughs on the dimmed arena, stop. Resumed 21:52 at the
+>   owner's request (RELOAD pressed by hand; supervisor restart 1/10). Now wired: `conn_lost` screen; the
+>   another-device kind STOPS the run (touches STOP + Discord "PAUSED ... ask Claude to resume") and never presses
+>   RELOAD (it would kick the owner's phone); any other connection loss -> RELOAD. Active from the next live_play start.
 > * **Measured cost of training + live together:** median decision 102-108 ms (normal ~40) while gen_v2 trains.
 > * **Traps found today:** (1) CR on launch opens the Play Store forced-update activity; Back dismissed it and the game
 >   loaded on 160402012 -- do NOT accept an APK update (the reader is build-specific). (2) MuMu's `com.mumu.store`

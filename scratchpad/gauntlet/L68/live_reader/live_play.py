@@ -302,6 +302,15 @@ def main() -> int:
                 if not ok:
                     print(f"[nav] run stopped before match {k + 1}: {why}", flush=True)
                     rc = 1
+                    if why.startswith("ANOTHER_DEVICE"):    # owner's phone has the account: pause, don't restart
+                        if a.stop_file:
+                            a.stop_file.touch()
+                        msg = HERE / "_pause_msg.txt"
+                        msg.write_text(f"ClashAI live run PAUSED {time.strftime('%H:%M')}: Clash Royale was opened on "
+                                       f"another device (Connection lost). The bot will not kick it. Ask Claude to "
+                                       f"resume (press RELOAD, delete the STOP file, restart the supervisor).")
+                        subprocess.run([sys.executable, str(REPO / "scratchpad/gauntlet/L69/discord/post.py"), str(msg)],
+                                       capture_output=True, timeout=60)
                     break
                 pilot.reset_match()                      # same loaded model, fresh history / opp counter
             record, caption, prev_clip = not a.no_record, None, last_clip

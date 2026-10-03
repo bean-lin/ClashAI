@@ -173,6 +173,57 @@
     1600
    ],
    "threshold": 0.85
+  },
+  "conn_lost": {
+   "file": "conn_lost.png",
+   "source": "conn_lost.png",
+   "box": [
+    145,
+    702,
+    368,
+    748
+   ],
+   "region": [
+    0,
+    400,
+    900,
+    1200
+   ],
+   "threshold": 0.85
+  },
+  "another_device": {
+   "file": "another_device.png",
+   "source": "conn_lost.png",
+   "box": [
+    145,
+    757,
+    610,
+    795
+   ],
+   "region": [
+    0,
+    400,
+    900,
+    1200
+   ],
+   "threshold": 0.85
+  },
+  "reload": {
+   "file": "reload.png",
+   "source": "conn_lost.png",
+   "box": [
+    145,
+    860,
+    235,
+    893
+   ],
+   "region": [
+    0,
+    600,
+    900,
+    1300
+   ],
+   "threshold": 0.85
   }
  }
 }
