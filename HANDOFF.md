@@ -83,6 +83,23 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
 >
+> ## ▶ 2026-10-03 00:5x RESULTS (night 3, check-in)
+> * **R1 BEATS R0' at both matched updates -- first measured gain for per-decision credit (gae + per-tick discount +
+>   critic warm-up; 3 changes, so not attributable to one).** Ghost screen (pinned 299, tau 0.27, paired):
+>   u0080 vs R0' u0075 **+5.0 pp [1.7, 8.7]**, u0155 vs R0' u0150 **+4.7 [1.3, 8.4]**; vs the evo re-baseline (gen_v1)
+>   u0080 +2.7 [-0.3, 6.0], u0155 +3.0 [-0.3, 6.4] (CIs touch 0). Reactive play (24 seeds, wins; paired HP not logged):
+>   u0080 gen 13/24, S1 24/24; u0155 gen 14/24, S1 24/24 -- vs gen_v1 12/24 and 20/24, R0' 11 & 9 / 20 & 20.
+>   Files `scratchpad/gauntlet/L70/rl/r1_accept/`. Candidate for the next live test: rseries_r1_u0155 (not yet live).
+> * **gen_v2 (wait-label fix) = NO GAIN over gen_v1** (1 seed). v3val vs gen_v1: joint_bal ep1-4 0.477/0.474/0.479/0.480
+>   vs 0.481; at the deployed P > 0.35: 0.434/0.432/0.438/0.439 vs 0.445; ep4 cell 0.2005 vs 0.2071 (-0.7 pp, ~1 SE),
+>   card 0.648 vs 0.646, gate_tnr 0.883 vs 0.886 (n_play 3,796). Reactive vs gen_v1 (paired, 24 seeds, win delta /
+>   tower-HP t): ep1 gen -7 (t -2.91), S1 -2; ep2 gen +2 (t -1.80), S1 -1; ep3 gen -2, S1 -3 (t -1.51); ep4 gen -3
+>   (t -1.59), S1 +2 (t +0.62). Keep gen_v1. The cautious-gate hypothesis (label noise) is NOT supported.
+> * **R2 started 00:49** (rseries_r2, shaping tower_crown). u0000 (critic warm-up): value_target_outside_share 0.0,
+>   value_saturation_share 0.0, value_mae 0.126, explained var 0.814, |F| 0.0014, |Phi| 0.052.
+> * **Live:** W31 L30 since 20:31 (league1c_u0075). The game-day rollover was caught by the 30-min probe (wins 25 -> 0);
+>   the new day's 4th win ran the chest flow again (18 tap-throughs -> Battle). No stops since 21:59.
+>
 > ## ▶ 2026-10-02 23:5x -- owner's three play-quality complaints (no hardcoding wanted) -- status
 > 1. **Rocket rarely used / never finishes a low tower.** MEASURED tonight (league1c_u0075, 49 live ladder matches):
 >    Rocket 0.29 per match, 36/49 matches with none (Knight 6.2, Skeletons 6.2, Log 5.9, IceWiz 5.8, Tesla 4.7, Xbow 3.7,
