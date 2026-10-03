@@ -83,6 +83,28 @@ Last updated: **2026-10-02 20:45 EDT** (overnight LADDER run live; note below), 
 >   start adbd is not root: `adb root`. (4) Codex `gpt-6.1-sol` is rejected for this ChatGPT login on codex-cli 0.153.4;
 >   `gpt-6-astra` works.
 >
+> ## ▶ 2026-10-02 22:xx -- outside review points, checked against the code (no code changed)
+> * **Census strips evo/hero (owner asked why):** `L69/pool/loadable_decks.py:24` FORM regex drops `-ev1/-hero`. Reason
+>   was L68 (09-2x): RoyaleSim had NO forms then, so a form deck could not load. Since 10-01 RoyaleSim loads 51 forms
+>   (not Hero Ice Wizard), but the 10-01 re-census reused the script -> a stale holdover. Cost: league + reactive census
+>   opponents never evolve, the learner and S1 do, and ladder opponents mostly do. Fix = re-census keeping forms (base
+>   fallback for unsupported ones), ONE change, re-baseline.
+> * **Terminal interval (CONFIRMED in code, magnitude unmeasured):** `rl_royale.row_gammas` ends at the last KEPT row
+>   (entry 1.0); the gap to the true match end is not discounted. ~15.5 ticks/row (league1c) -> typically ~1%
+>   (0.99994^g), larger when the last kept row is early. Fix: record the end tick, discount the terminal reward by
+>   gamma_tick^(end - last).
+> * **Discounted vs undiscounted (valid, untested):** gamma_tick 0.99994 over a ~4,300-tick match scales the first row's
+>   return to 0.77 of the last row's -> a time preference (win fast, lose slowly) that winning does not need. R1 vs R0'
+>   cannot isolate it (3 changes). Cheapest test: R1 with gae_gamma_tick 1.0 (one change vs R1).
+> * **Selector gate threshold (CONFIRMED, low impact this run):** `select_gen_v2.py:61` gate = logit > 0 = P > 0.5; live
+>   and the reactive plain arm use 0.35 (`search_s0` live rule). With `--top 4` every epoch gets reactive play, so the
+>   joint metric does not filter the gen_v2 pick; it is mis-calibrated as a reported number (logit > -0.619 = 0.35).
+> * **search_s0 census path (CONFIRMED):** `search_s0.py:572` loads `L68/selfplay/loadable_decks.json` (183 loadable,
+>   old engine) while R-series training uses `L69/pool` (1000). Keeping it preserves comparability with every reactive
+>   baseline (run1 / run2 / rebase); switching = a new baseline. Make it an explicit flag either way.
+> * **Critic diagnostics (agree, untested):** rl_royale logs explained variance only. The R2 v_net target (ret - Phi)/s
+>   can leave [-1, 1] (verifier note 10-01). Log out-of-range target share, |v| > 0.95 share and value MAE before reading R2.
+>
 > ## ⟳ RESTART NOTE — 2026-10-01 17:00 EDT (context cleared on purpose; rebuild from this file)
 > The owner asked for this session's context to be wiped and rebuilt from the repo. Everything needed to continue:
 > * **Owner status:** travelling until Sun 10-04 evening / Mon 10-05 morning. Continuous SIM-side compute approved
