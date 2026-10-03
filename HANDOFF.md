@@ -22,7 +22,60 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-03 13:45 EDT** (lead out of usage -- RESTART NOTE below), branch `main`.
+Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission blockers; VM/daily helpers running), branch `main`.
+
+> ## 2026-10-03 14:27 -- AUTOPILOT CHECKPOINT
+> Final14:29 refresh: LIVE W49 L39 D0, restarts1/10, STOP absent, no CPU-STARVED lines since reader-v2 launch;
+> VM3920/14818 files, zero failures, marker absent. Detailed final snapshot `runs/final_health.json` under autopilot.
+> * LIVE verified W48 L39 D0 at 14:26, same u0155/reader v2, 1/10 restarts; Trophy Road collection returned to
+>   battle without intervention. No live source/config changes made. GPU training is idle: R1t permission blocker below.
+> * Native-id preparation: `pipeline/native_recording.py` and dataset_gen's explicit `record_native=true` branch
+>   read exact form IDs and retain body IDs, without consulting opponent deck slots or play history. 15 tests pass
+>   (native + existing v3 contract). Real VM sample: 288 frames, 902 base / 118 evolved / 100 hero observations,
+>   zero unknown IDs; compact vs raw unit/tower features match on all 576 side/frame pairs. This is NOT completed
+>   gen_v3.1: public spell-play deduplication, shared live/train opponent history/full-cycle input, full build/train/
+>   acceptance remain pending. Bulk data dependency still running.
+> * VM watcher corrected for VM Python 3.10 (streaming SHA256 verified remotely; file_digest is unavailable).
+>   Current wrapper/worker PIDs 16844/36232; log `.foreman/codex_autopilot/runs/vm_fetch_py310.out`, lock
+>   `runs/vm_fetch.lock`. Latest 14:23 count 3571/14818 files (882/890/886/913; icebow/hogeq0), zero failed rows.
+>   Seven tests include corruption/remote-change rejection. ABIL_DONE not present; no bulk fetch or shutdown yet.
+> * Daily Discord helper wrapper/worker33996/30712 waits for20:47 local Oct3-5; log `runs/daily_summary_py310.out`.
+>   Three tests verify timing and single-claim behavior even after a failed/uncertain response. No daily message
+>   sent yet (existing live clips still post independently). This is a running helper, not an installed OS task.
+> * Reader next-field source findings recorded in `L70/reader/NEXT_FIELDS_AUTOPILOT.md`: new buff/ability/deploy
+>   offsets remain UNTESTED on the live build. Opponent ability readiness is an owner public-observability decision.
+> * 61 tests passed across this run; initial Windows temp-ACL failures are documented below, then passed with
+>   inherited-ACL fixture directories. Ability candidate report remained byte-identical on repeat.
+> * PUBLISH BLOCKED: `.git/index.lock` creation denied (read-only Git metadata). No autopilot commit or push.
+>   Explicit delivery file list and hashes: `.foreman/codex_autopilot/delivery_manifest.json`; reviewable patch:
+>   `delivery.patch`. Never stage icebow/data. Required commit trailer remains in BLOCKERS. Unrelated changes preserved.
+
+> ## 2026-10-03 14:08 -- CODEX AUTOPILOT (current status overrides older running lists)
+> * LIVE continues rseries_r1_u0155, reader v2 since 13:42; W44 L39 D0 at 14:06; supervisor restarts 1/10.
+>   No live/checkpoint change. No CPU-STARVED lines since the reader-v2 launch at the 13:51 check.
+> * gen_v3 finished epoch 4 at 13:49; acceptance complete 13:57. Ghost paired n=299: -2.341 pp
+>   [-6.355, +1.672], accepted plays/min 10.943 vs gen_v1 10.548. Reactive paired n=24 each:
+>   gen 13 vs 12 wins, +4.167 pp [-16.667, +25.000], paired tower HP -98.625 [-1315.715, +1282.844];
+>   S1 20 vs 20, +0 pp [-20.833, +20.833], HP -252.333 [-1166.024, +682.798]. No demonstrated gain.
+>   `L70/gen_v3/paired_reactive_autopilot.json`: fixed 10,000 seed-paired bootstrap; baseline dates/threads differ.
+> * R1t DID NOT TRAIN: 13:59 shell launch rejected missing `gae_terminal_gap` in copied R1 YAML. Added its false
+>   default (launcher still explicitly sets true), plus shell failure guard. 31 CPU tests pass with inherited-ACL
+>   temp folders (original attempt: 26 passed, 5 Windows temp-permission failures). Native equivalent launcher
+>   `.foreman/codex_autopilot/r1t_chain.py` reached startup at 14:06, then failed creating a multiprocessing Pipe
+>   (WinError 5). No updates; crash u0000 preserved. Owner/lead must relaunch corrected shell chain outside sandbox.
+> * Ability intercept candidates: all 24 fitted on 11,728 non-test replay tags, evaluated on 2,933 held-out tags;
+>   1,000 paired replay-cluster bootstraps. Fit press-share error <=0.1241 pp; heldout residual -5.8175 to +6.7104 pp.
+>   Timing still misses phase 1: Archer Queen 7.60 vs 10.65 s; Tombstone hero 13.45 vs 10.575 s.
+>   `L70/abilities/calibration_report.json`, 5 tests; repeated report byte-identical SHA256
+>   `237bdef46af8aaa185d9005347fc00a6b079436bf7a624fad145d0280867eebb`.
+>   OFFLINE ONLY: no runtime model replacement/R1e. See BLOCKERS for timing-calibration decision and limitations.
+> * VM re-drive 14:06: s0/s1/s2/s3 = 586/603/594/604 files; hogeq/icebow = 0/0, no failures yet; ABIL_DONE absent.
+>   Native SSH watcher `.foreman/codex_autopilot/vm_fetch.py --watch --fetch --poweroff --hours 48` started (launcher
+>   PID 32640); log `runs/vm_fetch.out`. It checks every 5 min, requires all 6 expected tag sets and exact ok/file
+>   identity, fetches binary tar/gzip, verifies SHA256 for every file and stable remote manifest, THEN requests
+>   shutdown. Conflicts/incomplete data retain the VM and files. Six fixture tests pass. No shutdown yet.
+> * Next: VM retrieval -> exact native/public-play gen_v3.1 features and training; R1t permissions and ability timing
+>   remain blocked. Live selection remains owner-only. Daily Discord summary due ~20:47, not sent yet today.
 
 > ## ▶ 2026-10-02 evening -- overnight LADDER run + ladder nav / daily chests / Discord clips (owner present, travelling)
 > * **15:07 reboot killed gen_v2** mid-epoch 4 (log stopped at the boot time). No resume in train_gen and no optimizer
@@ -106,6 +159,12 @@ Last updated: **2026-10-03 13:45 EDT** (lead out of usage -- RESTART NOTE below)
 >   Caveat: gen_v3's evo tags were reconstructed and conservative; gen_v3.1 (exact native ids) is the real test.
 > Codex autopilot: `.foreman/codex_autopilot/` (TICKET / JOURNAL / BLOCKERS / runs). The 3-hourly scheduler was
 > blocked by the permission system (owner travelling); the lead re-launches one long run when the current one ends.
+> **OWNER PRIORITY for Tuesday (14:4x):** overtime losses = X-Bow attempts thwarted instead of Rocket finishes. (1)
+>   PROJECTILE INPUT (card, x, y, target, time-to-impact tokens) in train (re-drive --record-full), sim (RoyaleSim
+>   PROJECTILE_FIELDS) and live (reader v2 `projectiles`) -> learnable preemptive Logs on Goblin/Skeleton Barrel landing
+>   (fold into gen_v3.1 or the next contract). (2) ROCKET FINISHES: decisive-state upweighting in IL (enemy princess HP
+>   <= 497, elixir >= 6), finish-off conversion as an acceptance metric, elixir banking for 6-cost cards (bot median 6.8
+>   vs pros 8.7). Not in the Codex brief (written before reader v2 could read projectiles).
 > Cron check-ins (every 2 h :23, daily 20:47 summary) are SESSION-ONLY -- recreate after a restart.
 >
 > ## ▶ 2026-10-03 09:10 -- LIVE = rseries_r1_u0155 (open-ended), play-quality AUDIT, evo census, R1e queued
@@ -440,6 +499,11 @@ Earthquake 13, Skeletons 15, Ice Spirit 13. Average elixir **2.75**.
 
 ## 2. Running things
 
+Autopilot 2026-10-03 environment findings: use native Windows OpenSSH; Git Bash fails CreateFileMapping in this
+sandbox. Python 3.13 mode-0700 temporary directories can exclude the sandbox principal; test harnesses use normal
+inherited workspace ACLs. R1t multiprocessing Pipe creation and Git index writes remain permission-blocked. VM
+Python is 3.10.12, so remote hashing must use streaming hashlib rather than file_digest.
+
 Each deck has **its own venv**: `icebow/.venv`, `hogeq/.venv` (both Python 3.13, torch 2.11.0+cu128,
 CUDA available). Always use the venv python of the folder you are in.
 
@@ -519,6 +583,10 @@ cd C:\Users\benpe\ClashBot\hogeq
 ---
 
 ## 3. What is running RIGHT NOW
+
+**2026-10-03 14:27 override:** live u0155/reader v2; VM ability re-drive + native fetch/verify/shutdown watcher;
+dated 20:47 Discord helper. gen_v3 acceptance finished. R1t failed before updates on Windows IPC permissions.
+See the newest autopilot block above and `.foreman/codex_autopilot/JOURNAL.md` for PIDs/evidence.
 
 **2026-09-24 -- LIVE STATE READER (owner-requested, all live match modes, opponent hand/next/elixir never fed to the model): upstream IMAX9D/cr-native-sandbox ships a MuMu read-only memory reader (docs/MUMU_LIVE_QUICKSTART.zh-CN.md, bindings/mumu-live-160402002-arm64.json). It reads tick, both players' hand/next/elixir, and per-entity side/x/y/card_id/level/behavior/HP; NO status effects, targeting, projectiles or ability cooldowns in its verified contract. The owner mapped and verified the x86_64 live build used by this project; the live path consumes own-side state plus public opponent events and is intended for ranked and trophy-ladder evaluation.**
 
@@ -660,6 +728,12 @@ configured but **have never run** — BC has not been retrained since the soft-t
 ---
 
 ## 5. Bug ledger (this session, with measurements)
+
+- **2026-10-03 autopilot, uncommitted (Git index permission denied):** copied R1 config rejected the already
+  implemented `gae_terminal_gap` flag; add default false and stop the shell chain on nonzero training exit.
+  Exact launcher + terminal/gamma regressions:31 pass. Native relaunch then exposed an independent multiprocessing
+  Pipe permission failure at startup (0 updates). Native recording tails decoded exactly:15 tests and576 real
+  side/frame parity checks. Ability offsets measured on24 models but timing targets remain unmet; no runtime adoption.
 
 | commit | fix | measured |
 |---|---|---|
@@ -868,6 +942,11 @@ slow one.
 ---
 
 ## 6. Open work
+
+**2026-10-03 autopilot:** complete VM retrieval (watcher active), then gen_v3.1 public spell/history/full-cycle parity,
+dataset/train/acceptance; resolve R1t IPC permission and Git publication; owner decides ability timing calibration
+and live checkpoint changes. Native body decoder and offline ability candidate measurements are available; they do
+not close the remaining integration gates. See `.foreman/codex_autopilot/BLOCKERS.md`.
 
 **Parked 2026-09-06 (§5cs.61):** S1 rows carry no `deploying` flag and no spell/effect tokens, because the compact `frames` in corpus_v3 record neither and the play frames had to be reduced to that format to close the gate leak. Restoring them = re-drive both corpora with effects recorded at every `record_every` tick (~2.5 h engine time), then rebuild. Do it before S4 (the live path DOES provide spells and a deploying=None channel).
 
