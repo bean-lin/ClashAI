@@ -22,7 +22,178 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission blockers; VM/daily helpers running), branch `main`.
+Last updated: **2026-10-03 20:29 EDT** (Codex autopilot; X-Bow census running; waiting for R1t acceptance), branch `main`.
+
+> ## 2026-10-03 20:29 -- X-BOW PUBLIC PLACEMENT CENSUS STARTED
+> Re-read current brief/records and stopped1552 log. Existing interrupted edits remain isolated behind version4;
+> 10 legacy/R1t-config regression checks pass again, including HEAD dataset/model/live/SIM byte parity.
+> New `L70/gen_v31/mine_xbows.py` has8 passing tests for orientation, missing/stale towers, delayed casts,
+> privacy and same-side10s Rocket candidate sequences. Full hash-checked native census running below-normal,
+> 50ms pacing, wrapper35276; outputs `native_xbows_2020`, logs `runs/native_xbows_2020.out/.err`.
+> Exact placement rows and river distance are primary; inherited y>0.58 is only a geometric bucket, not proof
+> of strategic defense. Forward means decreasing normalized y for both sides; no new action/acceptance rule.
+> LIVE W99 L87,STOP absent,1/10 restarts; R1t135 at20:27. No live/R1t process, run directory or GPU job changed.
+> All previous source timing/area, hit-label, calibration and publication blockers remain; no retrain claimed.
+>20:35: reconciled the X-Bow amendment in version4 weighting preflight and future acceptance coverage:
+> Rocket-only artifact metadata now refuses training; eight behaviour metrics remain unmeasured, including
+> three X-Bow metrics omitted by the earlier report.12 contract/audit tests and5+5 reporting tests pass.
+> Updated only reporting helpers (daily wrapper22132, completion wrapper35476); logs `*_2035.out/.err`.
+> Existing Discord claims preserved. X-Bow worker23412 confirmed BELOW_NORMAL; no live/R1t change.
+>20:35: paired saved-ghost X-Bow geometry added in `L70/gen_v31/XBOW_BASELINES.md` and
+> `xbow_baselines_2020.json`. Same299 matches:854/1040/778 X-Bows for gen_v1/u0155/gen_v3;
+> shares9.022/11.554/8.366%, accepted plays/min10.322/10.036/10.327. Gen_v3-live share difference
+> -3.188pp CI[-3.657,-2.774]. Exact rows concentrate at y=.609375. Any-Rocket10s sequences5/854,
+> 5/1040,3/778 are proxies, not tower-Rocket cycles. Missing tower/intent metrics remain null.9 tests pass.
+
+> ## 2026-10-03 19:20 -- NATIVE ABILITY COVERAGE MEASURED
+> `L70/abilities/NATIVE_EVIDENCE.md`: all14661 unique tags/source hashes verified,45040 logged events,
+> 40496 accepted,4 rejected,4540 skipped. Every accepted activation has a matching living native controller
+> ID in a fresh earlier/current frame.24 attributed abilities;2731 additional skipped intents unattributed.
+> Three tests pass. This closes accepted-controller coverage, not eligible lifetime/readiness or exact
+> deployment delay. No fitted policy/runtime wiring; share/delay calibration and R1e blockers remain.
+> The paced audit has finished; only required live/R1t plus completion/daily reporting remain active.
+> Last19:18 health:LIVE W91 L76,1/10 restarts,STOP absent;R1t109. VM already verified stopped.
+>19:44 health-report correction: completed fetch counts now come from the VERIFIED receipt (14818), not
+> an empty count map in the final poweroff event. Snapshots retain the dated cloud observation separately.
+> Source corpus/receipts and running jobs were unchanged; this fixes the read-only status projection.
+
+> ## 2026-10-03 19:05 -- NATIVE BARREL AUDIT COMPLETE
+> `L70/gen_v31/NATIVE_BARREL_REPORT.md`: 23,004 driven barrels,865 exact recorded in-flight opposite-side Logs;
+> lower bound3.76% with replay-bootstrap CI[3.27,4.28]%, deliberately loose upper bound33.24%.
+> Full metric remains null: landing, Skeleton Barrel and Mirror coverage unresolved. These are pro-replay
+> bounds, not baseline-policy measurements.1634 equivalent public-projectile duplicate observations collapsed;
+> all14661 unique tags/hashes verified, eight tests passed, no conflicting projectile duplicates accepted.
+> Receipt `runs/native_audits_1552.receipt.json`; final Barrel directory native_barrels_1846. Milestone posted19:02.
+> Sequential ability-event/controller audit now runs from native_evidence.py, output native_evidence_1903,
+> logs `runs/native_ability_1903.out/.err`; no model or runtime policy change. R1t/live remain active.
+>19:08: daily-summary helper replaced (only its previous worker15948/wrapper29744) with wrapper28992;
+> logs daily_summary_1910.out/.err. Five tests pass;607-character dry-run uses dated confirmed VM stop,
+> live-comparator results and completed R1t reports when present. Existing date claims retained; no daily post
+> sent yet. Ability audit wrapper15252 is running sequentially after Barrel; live/R1t untouched.
+
+> ## 2026-10-03 18:40 -- FULL NATIVE ROCKET CONTEXT REPORT
+> `L70/gen_v31/NATIVE_ROCKET_REPORT.md`:14661 unique native/full replay tags,1012450 accepted plays,
+> 10045 Rockets,6307 tower candidates,1552 multi-Rocket tower sequences.5786/6307 candidates above497HP;
+> median candidateHP1967/elixir8.39/repeat gap32.5s.2808 candidates in native-tiebreak-labelled re-drives.
+> Full data DOES contain native tiebreak labels, correcting the early small-sample coverage limitation;
+> neither these labels nor geometric/HP-drop evidence prove original human intent or causal Rocket hits.
+> All requested context distributions/source hashes in native_rocket_contexts_1839.json. Classifier remains unfitted.
+> First Barrel audit failed on an identical duplicate tick; source data retained. Exact identical frames now
+> collapse once; conflicting duplicates still error.7 tests pass. Explicit retry worker35300 uses new
+> native_barrels_1837 output, reuses the hash-verified Rocket audit, and retains original failure logs.
+> LIVE W83 L73,STOP absent,1/10 restarts; R1t94. Current HEADbb1d250 is the lead's15:52 ticket-only commit;
+> no autopilot commit. Existing live/R1t defaults and run directories unchanged.
+>18:50 continuation: second Barrel retry exposed same-tick elixir-only changes after an ability. The audit
+> now compares only its public projectile inputs;8 tests pass, including private-field invariance and rejection
+> of conflicting projectile observations. Worker29780 retries into native_barrels_1846; both earlier failures
+> retained. A separate native ability-event/controller-coverage audit is prepared (3 tests), queued for a
+> sequential run after Barrel; it is not a calibrated policy or exact deployment-delay estimate. LIVE W85 L74,R1t98.
+
+> ## 2026-10-03 18:20 -- NATIVE DATA VERIFIED / VM STOPPED
+> All six corpora fetched with replay/summary identity and remote/local SHA256 checks: s0 2922,s1 2890,
+> s2 2852,s3 2751,hogeq1162,icebow2241; total14818,zero failures. Independent local identity/count recheck passed.
+> Receipt `runs/vm_fetch_20261003_181106.receipt.json`; archive SHA256
+> `81e47c09b9e68eb48a4044f3369ca53ca27f04b70942ce8c23ea11e707c7dddf`.
+> Poweroff SSH disconnected with4294967295 (NOT exit0); authenticated Google Cloud console18:19 independently
+> showed clashbot-s3b/us-east1-c and old clashbot-s3/us-central1-a both **Stopped**. Evidence
+> `runs/vm_cloud_status_1819.json`. Neither VM deleted. Discord fetch milestone and shutdown-confirmation
+> follow-up posted; earlier nonzero-command alert is resolved. Native Rocket audit started18:15,then Log/Barrel;
+> output directories `L70/gen_v31/native_mining_1552` / `native_barrels_1552`. LIVE W80 L70,R1t86 at18:19.
+> Full gen_v3.1 remains blocked on retained-source/timing and verified hit labels, not on corpus retrieval.
+
+> ## 2026-10-03 18:03 -- R1t MIDPOINT / FETCH STILL WAITING
+> R1t saved u0080 (u0079 log line); internal screen +0.9pp CI[-3.8,+6.0], not final acceptance or a
+> live-checkpoint comparison. Trainer/three actors remain running; existing chain evaluates u0080/u0155 after
+> training. LIVE last W79 L66 D0,1/10 restarts,STOP absent,CPU-STARVED101ms persists. VM14650/14818 at18:00,
+> zero failures,168 Icebow replays remain. Fetch/audit/completion/daily helpers alive. No additional GPU job.
+
+> ## 2026-10-03 17:23 -- PACED NATIVE AUDITS QUEUED
+> `native_audits.py --watch --hours24` wrapper37568/worker9376 is waiting for a verified VM receipt and
+> requested shutdown. Worker priority is verified BELOW_NORMAL; no GPU or live/training source change.
+> It runs Rocket then conservative Log/Barrel mining with50ms pause per replay, checks full unique-tag
+> coverage and source SHA256 against the retrieved manifest, then posts one authorized milestone and appends
+> evidence here/JOURNAL. Two verifier tests pass, including Windows path normalization and omitted-tag refusal.
+> The paced three-replay Rocket report is byte-identical to the prior unpaced report. Outputs will be
+> `L70/gen_v31/native_mining_1552` and `native_barrels_1552`; these remain candidate/bounded evidence,
+> not true Rocket hits or complete behaviour metrics. Log: `runs/native_audits_1719.out/.err`.
+> Denominator audit17:28:5.8% is the separate493-replay S1 Icebow reference;0.989% is the mixed-deck corpus
+> rate. The three paired ghost baselines use fixed Icebow. Details in `L70/gen_v31/AUDIT_1510.md`.
+
+> ## 2026-10-03 17:05 -- DEPENDENCY REPORTER RUNNING
+> LIVE W71 L59 D0,1/10 restarts; R1t u0055; VM13296/14818 at17:00,zero failures,marker absent.
+> `completion_reports.py --watch --hours24` runs as wrapper38816/worker26160, confirmed below-normal priority;
+> logs `runs/completion_reports_1703.out/.err`. Five tests passed. It reads verified VM receipts and completed
+> R1t299 ghost +24/24 reactive artifacts, posts each authorized milestone once, and appends JOURNAL/HANDOFF.
+> If newer automated results appear, consult the JOURNAL tail and HANDOFF footer; the helper only appends.
+> The helper does not launch training/agents, install a scheduler, deploy a checkpoint, control the VM, or write Git.
+> Initial reporter launch failed on absent psutil; replaced with standard Windows priority call and verified alive.
+> Health helper now verifies PID command roles; its brief naming-collision defect was fixed and smoke-checked.
+> Fetch helper36232 is below-normal priority; daily wrapper29744 remains active for20:47 Oct3-5. Live/R1t unchanged.
+
+> ## 2026-10-03 16:12 -- GEN_V3 DIRECTLY VS LIVE / R1T REPORTER PREPARED
+> At16:24 LIVE W63 L56,1/10 restarts; R1t u0039; VM11770/14818 at16:19,zero failures. Both jobs progressing.
+> Conservative Log/Barrel source audit prepared (`mine_barrel_logs.py`),6 tests pass. Diagnostic native replay
+> has7 driven Goblin Barrels/7 Logs, but full-metric bounds remain0..100%: UNMEASURED, not a0% result.
+> Exact-frame sightings, attribution/overlap gaps, absent landing and unvalidated Skeleton/Mirror coverage are
+> explicit. `barrel_diagnostic_1552_v2/` supersedes the earlier single-cluster CI output; no single-cluster CI claimed.
+> MEASURED paired299 ghost gen_v3 vs u0155:-5.351pp [-9.365,-1.672], accepted plays/min10.327 vs10.036.
+> Paired reactive gen13/24 vs14/24:-4.167pp [-33.333,+25.000], tower HP -495.5 [-1839.882,+842.919].
+> S1 20/24 vs24/24:-16.667pp [-33.333,-4.167], tower HP -705.208 [-1436.300,-18.770].
+> Gen_v3 is lower on this ghost instrument and S1 comparison; no live change. Historical date/thread/source
+> limitations remain. `L70/gen_v31/gen_v3_vs_live_report.json` pins source hashes and paired CIs.
+> `.foreman/codex_autopilot/acceptance_report.py` can report R1t when its299 ghost +24/24 reactive records finish;
+> refuses incomplete/mismatched sets, retains five missing behaviour metrics, never selects/deploys a checkpoint.
+
+> ## 2026-10-03 16:05 -- PUBLIC SOURCE RECORDER PREPARED (OFFLINE ONLY)
+> `replay_drive.py` / `replay_batch.py` add opt-in `--record-public-objects` (requires full/native/positive cadence).
+> Preserves actual area exports separately from projectile aliases, source object identities and raw timer evidence;
+> private player/target/ability fields excluded. Timers stay UNVALIDATED_NOT_MODEL_INPUT, missing differs from empty.
+> Default snapshots equal HEAD;26 recorder tests pass. Runbook `research/sandbox_tools/PUBLIC_OBJECT_RECORDING.md`.
+> NOT an engine validation or replacement corpus. No VM/live/R1t process or remote source changed; no paid rerun.
+
+> ## 2026-10-03 16:00 -- REVERIFICATION / AUTHORIZED REPORTING
+> 41 checks passed:10 legacy/R1t-config +31 public-feature/audit checks; logs `runs/1552_*tests.out` under autopilot.
+> Tested v1/v2/v3 dataset/model/loss/live/SIM outputs remain identical to HEAD. No current live/R1t changes.
+> Reconciliation milestone posted to Discord (receipt `discord_milestone_reconciled_20261003.receipt.json`).
+> Daily helper's stale R1t permission-failure message is replaced with current process/latest-launch status;
+> four daily tests and two milestone tests pass. Only daily helper30712/33996 was replaced; new wrapper29744,
+> log `runs/daily_summary_1552.out`; existing date claims retained. Still one daily post at20:47 through Oct5.
+> At15:57 live W60 L52 D0,1/10 restarts, R1t u0028; VM10189/14818, zero failed rows, ABIL_DONE absent.
+> CPU-STARVED continues during inherited R1t. No additional GPU job; checks remain short and single-threaded.
+> Native timing/area, hit-label, calibration and Git publication blockers remain open. Work continues.
+
+> ## 2026-10-03 15:38 -- SOURCE AUDIT / ROCKET BASELINES (supersedes earlier effect assumptions)
+> Version4 now ignores native generic `effects`: bridge `area_effects` is the real area list, which the re-driver
+> discards. Three completed native samples verify the alias defect; `L70/gen_v31/native_source_audit.json`.
+> Training refuses absent areas and impact timing. Synthetic adapter parity is NOT complete source parity.
+> 38 focused tests now pass; 34 additional regression-test executions previously passed (overlap exists), including
+> v1/v2/v3 HEAD SIM rows/actions/trajectories/RNG and R1t launch parsing. No active R1t recipe/run-dir modification.
+> Legacy Rocket audit (`L70/gen_v31/legacy_mining_1510/`):14661 unique replays,9176 accepted Rockets,5557 near-tower
+> candidates,1349 multi-Rocket tower sequences. Candidate tower HP median1956; elixir median8.6732;5091/5557 have
+> HP>497. In native diagnostic samples,6 candidate flights align with342-HP drops. Geometry/HP loss is not hit
+> attribution;157 duplicate-tag variants are listed/excluded. Full verified native corpus mining remains pending.
+> Paired299 ghost Rocket-share baselines (`behavior_baselines.json`):gen_v1 72/9466=0.761% [0.592,0.942],
+> u0155 50/9001=0.555% [0.405,0.713], gen_v3 83/9299=0.893% [0.696,1.106]. Pooled accepted plays/min10.322,
+> 10.036,10.327 respectively (ratio of total plays to total duration, not mean match rate). Paired Rocket-share
+> differences vs gen_v1: u0155 -0.205pp [-0.392,-0.018]; gen_v3 +0.132pp [-0.090,+0.363]. Remaining five behaviour
+> metrics are UNMEASURED because saved telemetry lacks their denominators/context; no acceptance threshold invented.
+> Last live check W58 L48,1/10 restarts; R1t u0018; VM8699/14818 at15:34,zero failures,ABIL_DONE absent.
+> Git retry denied index.lock; nothing staged, no autopilot commit/push. Owner blockers contain options/evidence.
+
+> ## 2026-10-03 15:20 -- INTERRUPTED FEATURE PATH REPAIRED, NOT TRAINING-READY
+> LIVE continues u0155/reader v2, W56 L45 at last check; R1t reached u0010. CPU-STARVED warnings appeared
+> while the externally launched R1t ran; no other GPU job started, no live/R1t process changed.
+> Version-4 projectile tokens now handle empty observations, normalize multiword card identities, and retain
+> causal public object history (past queries cannot see future projectiles). Finish-only Rocket weighting was
+> removed per the 15:10 brief; loss weighting now accepts continuous learned public-context probabilities.
+> Training refuses missing replay-disjoint fit/tune/test and held-out weight evidence. No classifier is fitted yet.
+> 30 feature/privacy/parity/legacy tests pass (`runs/1510_feature_tests.out` under autopilot), including HEAD
+> dataset/model/loss equality for v1/v2/v3 and real u0155/gen_v3 live rows. Additional regression checks follow.
+> Native record-full projectiles omit time-to-impact and effects omit remaining time; SIM export also lacks
+> flight time-to-impact. Reader v2 has effect remaining_ms but no projectile time-to-impact. Unknown timing
+> stays explicit; complete gen_v3.1 training remains blocked, not silently reduced to position-only features.
+> Full Rocket mining, contextual classifier/weight selection, behaviour baselines and build/train/acceptance
+> remain in progress/unmet. Gates: `.foreman/codex_autopilot/GATES_1510.md`. Current changes are uncommitted.
 
 > ## 2026-10-03 14:45 -- AUTOPILOT CONTINUATION IN PROGRESS
 > LIVE W51 L41 D0, still u0155/reader v2; VM4976/14818 recordings at14:44, zero failures, marker absent.
@@ -179,6 +350,11 @@ Last updated: **2026-10-03 14:30 EDT** (Codex autopilot; R1t/Git permission bloc
 >   finished or reverted first. **Tuesday TODO (owner): live is too trigger-happy with Hero Ice Wizard's ability** --
 >   look at `scratchpad/gauntlet/L68/live_reader/hero_button.py` should_press (a rule, not the model) vs how pros press
 >   it (`L70/abilities/abilities.md` has no ice-wizard-hero row: check the mining for it) and the live 'ability' events.
+> **TUESDAY TODO (owner, 20:2x): OFFENSIVE X-BOW PLACEMENT DIVERSITY.** Several placements let an X-Bow lock onto an
+>   enemy tower, but the model uses only a couple (audit: every recorded X-Bow at y 0.6094 (746) or 0.7031 (24), all
+>   matches). Check (a) pro X-Bow placement spread vs the model's (Codex's 5(b2) mining has the pro side), (b) whether
+>   the lattice grid / cell head / tile snap can even express the other lock-on spots (siege range ~11.5 tiles), (c)
+>   mode collapse in IL. Measure before any fix.
 > **OWNER PRIORITY for Tuesday (14:4x):** overtime losses = X-Bow attempts thwarted instead of Rocket finishes. (1)
 >   PROJECTILE INPUT (card, x, y, target, time-to-impact tokens) in train (re-drive --record-full), sim (RoyaleSim
 >   PROJECTILE_FIELDS) and live (reader v2 `projectiles`) -> learnable preemptive Logs on Goblin/Skeleton Barrel landing
@@ -5433,3 +5609,12 @@ earlier in the loop; (2) never rewrite HANDOFF.md wholesale (read-modify-write) 
 append only; a scripted `write_text` would have silently destroyed the other session's work, and in this loop only
 an assertion failure prevented exactly that; (3) `git add <named files>` then check `git log --oneline -3` for
 commits you did not make before committing.**
+
+
+### 2026-10-03T18:15:21.440010-04:00 automated dependency report
+
+ClashBot milestone: all six native corpora were fetched and verified against replay/summary identities and source SHA256 hashes (14818 replay files). s0_abil: 2922 ok, 0 failed; s1_abil: 2890 ok, 0 failed; s2_abil: 2852 ok, 0 failed; s3_abil: 2751 ok, 0 failed; hogeq_abil: 1162 ok, 0 failed; icebow_abil: 2241 ok, 0 failed. URGENT: shutdown command returned a nonzero result; VM power state needs checking. This records the command result, not an independent cloud power-state measurement. Next: native Rocket/Barrel audits and source validation. Missing verified timing/area data still blocks gen_v3.1 training. Live deployment remains owner-only. Receipt: .foreman\codex_autopilot\runs\vm_fetch_20261003_181106.receipt.json
+
+Notification: posted; evidence `.foreman\codex_autopilot\runs\vm_fetch_20261003_181106.receipt.json`.
+
+- 2026-10-03T19:02:28.692331-04:00 native audit completion: ClashBot milestone: full native corpus audits completed on 14661 unique replay tags. 10045 accepted Rockets / 1012450 accepted plays; 6307 geometric tower candidates and 1552 multi-Rocket tower sequences. Median pre-cast elixir for candidates: 8.39. These are candidates, not verified hits or evidence of player intent; classifier fitting remains blocked on labels. Log audit: 865/23004 driven barrels have a uniquely linked opponent Log at an exact recorded in-flight moment. This is a conservative lower bound, not the full preemptive-Log rate; landing, Skeleton Barrel and Mirror coverage remain unresolved. Next: owner review of timing/area and hit-label validation before gen_v3.1 training. Evidence: L70/gen_v31/native_mining_1552 and native_barrels_1846; source hashes match the VM manifest. Notification:posted; receipt `.foreman\codex_autopilot\runs\native_audits_1552.receipt.json`.
