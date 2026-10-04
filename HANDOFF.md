@@ -672,6 +672,11 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   updates, latency 26 + R8) + evo/hero census opponents (pool_forms) + hero_abilities=true ability_policy=v2, pro
 >   agreement on gen_dataset_v31_public. Config load validated. Acceptance u0080/u0155: ghost vs base (R8 screen) and
 >   vs u0155; reactive old census + evo census with abilities (base measured the same way); Discord at the end.
+> * **13:37 -- LIVE STOPPED + MuMu shut down (owner: "stop live if it slows training").** Measured: 3.1c 1,605 rows/s
+>   with live vs 3.1a 1,755 without (~9%); RL actors are CPU-heavier. chain_v31c_r8's CKPT_OVERRIDE swap therefore only
+>   records the winner; restart live later with: `MuMuManager.exe control -v 0 launch`, adb connect 127.0.0.1:16384,
+>   `monkey -p com.supercell.clashroyale`, clear any Play Store update overlay (force-stop com.mumu.store + Back),
+>   `rm STOP; nohup bash scratchpad/gauntlet/L70/live/run_live.sh` (CKPT_OVERRIDE picks the model).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
