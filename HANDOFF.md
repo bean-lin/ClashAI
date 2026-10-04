@@ -648,6 +648,12 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   77 = 0.82%, tower Rockets 8 vs 8, finish-offs 0/0, cycles 0/0, defensive Rockets 36 vs 26, R->T 1 vs 0; X-Bows 804
 >   vs 807 (def 226 vs 222), offensive cells 4/4; PRE-EMPTIVE LOG 126/274 = 46% vs 64/272 = 23.5% (pros 39.1%) --
 >   mechanism untested (one seed; the weighting has no barrel target). Live switched 3.1a -> 3.1b (CKPT_OVERRIDE) 12:2x.
+> * **12:4x -- owner: go-ahead for calibrated ability models in the sim; gen_v3.1c = stronger weight (lead chose 4.0);
+>   start R1e from gen_v3.1b; refresh the README.** gen_v3.1c TRAINING since 12:4x (`L71/gen_v31/train_v31c.sh`, weight
+>   4.0 via `.foreman/codex_autopilot/runs/public_context_w4/` = the C2 artifact with ONLY selected_weight changed --
+>   the loader binds the weight to the artifact). Ability v2 wiring into royale_env/e1_eval/rl_royale (`ability_policy:
+>   generic|v2`) dispatched to a worker. R1e waits for R8 (else it trains on the old look-ahead and deploys on the new)
+>   AND for the GPU (3.1c ends ~15:00). README rewritten (916e3a8).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
