@@ -621,6 +621,15 @@ Last updated: **2026-10-04 09:33 EDT** (C2 complete under R2c; verified six-targ
 >   BlockingUpdateFlowActivity overlay -> force-stop com.mumu.store + Back (never update), new supervisor 10:31
 >   (0/10). Live decisions ~100-113 ms (CPU-STARVED; normal ~40). Supervisor's Discord stop reason after a checkpoint
 >   switch is stale (last_stop pattern lacks "new checkpoint deployed"); fix only when the supervisor is not running.
+> * **12:0x -- LATE BARREL RESPONSES: cause found (code).** Owner (live gen_v3.1a): responses to Goblin Barrel always
+>   late. `pipeline/extrapolate.py` (the 26-tick latency look-ahead used live and in SIM screens) advances units only,
+>   NOT spells/effects/projectiles (its own docstring), while IL rows pair the pro action with the board at EXECUTION.
+>   So the model sees projectiles 1.3 s "young" and fires the pro response 1.3 s late. Fix = R8 (Codex, running):
+>   advance projectiles to target by catalog speed x H, TTI -= 1.3 s (clamp at target, TTI 0), effect timers -= 1.3 s;
+>   inference-only, then a SIM A/B vs the 3.1a screen. Rocket diagnosis (`L71/rocket_diag/`): model P(Rocket) at pro
+>   Rocket moments .24 (AUC .84, calibrated .093 vs pro .103) but argmax picks it 22%; tower-Rocket argmax cell hits a
+>   tower 28.5% (OT-behind 6.9%); gate not the blocker (87% pass). Dead-lane X-Bow: pros' dead-lane plays are mostly
+>   pocket (23.9 of 40.3 pts); the model's are mostly own-half (n=30, weak).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
