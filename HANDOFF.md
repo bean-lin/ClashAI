@@ -22,7 +22,23 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead R1 validation), branch `main`.
+Last updated: **2026-10-04 03:21 EDT** (Codex R6 timing parity verified; C2 revised calibration still fails), branch `main`.
+
+> ## 2026-10-04 03:21 -- R6 READY; REVISED C2 NEEDS LEAD DECISION / FULL CORPUS
+> R6 uses common distance/catalog-speed TTI every frame, causal motion for ambiguous stages,
+> and identical area-clock capability masks/50ms rounding.46 focused tests pass, including legacy
+> byte parity. Rebuilt20-recording sample6118 rows passes training preflight; no GPU job launched.
+> Projectile timing known: nativeK10 71.57%, SIM72.78%, reader73.77%; area83.17%/91.48%/100%
+> (different card mixtures). Evidence `runs/r6/report.json`; full build must use current code and
+> metadata `R6_catalog_distance_speed_all_frames_v1`. C1's old source-hash report is historical.
+> Revised X-Bow calibration: best overall-error threshold12.0406 tiles has39.29% overlap and
+> modal cell defensive. Best modal-compatible13.0384 tiles has42.86% overlap, above15% gate.
+> All12 in-range misses had nearby enemy troops; distraction is possible, not proven.
+> `LEAD_QUESTIONS.md` and `runs/public_xbow_calibration_sample.json` hold the decision/evidence.
+> Six-target fitter passes synthetic integration/provenance tests, but NO real weighting artifact
+> exists. BUILD_V31.txt contains prepared calibration/fit/train commands and a fail-closed verifier.
+> Full local inventory03:25:14818 files and successful summary rows reconcile,14661 unique tags.
+> Full calibration running below-normal CPU, worker13280. Lead retains build/train/deploy/live/Git.
 
 > ## 2026-10-04 01:02 -- PUBLIC C1/C3 READY; C2 NEEDS LEAD R1 REVIEW
 > Current TICKET/LEAD_RULINGS supersede the proxy/fallback notes below. Lead owns full re-drive,
@@ -553,6 +569,14 @@ Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead
 >   Codex R6 (one TTI definition across native/SIM/live: SIM currently sets every projectile TTI unknown).
 >   Codex 00:14 run ended 01:03 (C1+C3 done, C2 stopped on the OLD R1); relaunched 02:5x.
 >   live_play now feeds confirmed own presses to GenPilot.record_ability (b6642c1).
+> * **03:40 -- RE-DRIVE DONE + DATASET BUILT.** VM finished 03:16 (14,818 recordings, 0 failed; 750 MB zstd fetched, all
+>   14,818 verified locally; VM poweroff requested 03:20). Live STOPPED 03:22 (owner allowed; restart at deploy).
+>   `icebow/data/pipeline/gen_dataset_v31_public.npz`: 14,661 unique replays, 3,517,863 rows (1,012,450 play / 2,505,413
+>   wait), val 349,264, v3val 12,237, 4,283 decks, 987 s with 8 workers. Projectiles 3,388,595 (TTI: 2,222,343 catalog,
+>   415,004 motion, 751,248 unknown); effects 1,719,918 (251,082 timing masked). gen_v3.1a training started 03:40.
+> * **X-Bow reach FINAL (R1-FINAL):** 13.0384 tiles centre-to-centre. Full corpus: 3,517 of 3,583 tower-hitting X-Bows
+>   (98.2%) within it; the pros' modal cell is offensive. In-reach X-Bows that never hit (2,260) are distraction /
+>   destruction, not reach -- my 15% hit/no-hit gate mixed the two and was withdrawn.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
