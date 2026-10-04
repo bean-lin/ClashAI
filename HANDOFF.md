@@ -691,6 +691,15 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   CONFOUNDED with R8 (3.1a ran pre-R8) -- plausibly R8, untested; (3) the true R8 A/B = 3.1a+R8 vs 3.1a, now the first
 >   step of `L71/rl/run_r1e_v3.sh` (replaces v2; ~10 min GPU before R1e). The chain's Discord line "R8 alone on 3.1b:
 >   0.0 pp" is wrong for this reason.
+> * **15:4x -- 3.1c WON; R1e RUNNING from 3.1c; Codex hand-off READY (not started).** 3.1c vs 3.1b+R8 +1.2 [-2.2, +4.5],
+>   vs u0155 -1.7 [-4.7, +1.3], vs gen_v1 +1.3 [-2.0, +4.7]; reactive gen 13/24 S1 19/24. TRUE R8 A/B (3.1a+R8 vs 3.1a):
+>   +1.0 [-1.7, +3.7]; pre-emptive Log 64/272 = 23.5% -> 137/275 = 49.8% (pros 39.1%) -- the 3.1b "jump" was R8.
+>   Behaviour 3.1c: Rocket 87 = 0.93%, tower 10, finish-offs 0, cycles 0, defensive 28, R->T 1; pre-log 49.5%.
+>   R1e (`L71/rl/run_r1e_v3.sh`, base 3.1c, 5 actors) since 15:06, ~96 s/update (R1t 144) -> train ends ~19:15, own
+>   acceptance + Discord ~20:15. LIVE stays STOPPED; CKPT_OVERRIDE = gen_v3.1c. OWNER starts live with
+>   `bash scratchpad/gauntlet/L70/live/start_live.sh` (stop: stop_live.sh). Codex brief = TICKET.md "HANDOFF 2026-10-04
+>   ~15:40" (Q1 card sampling flag, Q2 area-aware spell aim, Q3 GPU A/Bs after R1e, Q4 R1e approval ping, Q5 fixes);
+>   launcher `.foreman/codex_autopilot/codex_loop.sh` (back-to-back runs to 10-06; STOP_LOOP file stops it).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
