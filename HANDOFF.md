@@ -22,7 +22,19 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 09:33 EDT** (C2 complete under R2c; verified six-target artifact and gen_v3.1b command handed to lead), branch `main`.
+Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired A/B command handed to lead), branch `main`.
+
+> ## 2026-10-04 11:59 -- R8 VERIFIED; LEAD RUNS PAIRED ACCEPTANCE
+> V4 SIM/live inputs now advance projectiles and effect clocks with the shared extrapolate function.
+> Catalog speed/TTI, target landing clamp, unique past-motion fallback and effect expiry are covered;
+> no spawned units are invented. Advanced object tokens override cached history only for inference.
+>65 tests pass, including H=0 and v1-v3 byte parity. All20 corrected recordings pass R8 invariants
+> at K1/K10 (108402/10848 frames); trained v3.1a reader smoke995 decisions,387 projectile/206 effect
+> nonempty frames. Readiness is wiring evidence; gameplay improvement remains UNTESTED.
+> `BUILD_V31.txt` has the exact separate R8 A/B block: original checkpoint and299 paired keys,
+> behaviour telemetry on. Lead owns GPU acceptance, live integration/restart and Git publication.
+> Codex changed no live_play file, live process, checkpoint override, VM, dataset or training run.
+> Traces/receipt/commit paths: LEAD_QUESTIONS.md and JOURNAL.md; runs/r8_completion.json.
 
 > ## 2026-10-04 09:33 -- C2 DONE; LEAD CAN TRAIN GEN_V3.1B
 > R2c approves the missing-area Rocket landing reconstruction; now default in labels and telemetry.
@@ -630,6 +642,12 @@ Last updated: **2026-10-04 09:33 EDT** (C2 complete under R2c; verified six-targ
 >   Rocket moments .24 (AUC .84, calibrated .093 vs pro .103) but argmax picks it 22%; tower-Rocket argmax cell hits a
 >   tower 28.5% (OT-behind 6.9%); gate not the blocker (87% pass). Dead-lane X-Bow: pros' dead-lane plays are mostly
 >   pocket (23.9 of 40.3 pts); the model's are mostly own-half (n=30, weak).
+> * **12:2x -- gen_v3.1b ACCEPTANCE** (pick epoch 3; v3val cell .2039 / card .6497 / joint .1357 / gate_bal .7638):
+>   ghost paired vs u0155 -2.8 [-6.4, +0.7]; vs 3.1a +0.5 [-3.0, +3.8]; vs gen_v1 +0.2 [-3.7, +4.0]. Reactive gen
+>   15/24 (3.1a 11, u0155 14), S1 16/24 (3.1a 15, u0155 24). Behaviour (299 games) 3.1b vs 3.1a: Rocket 93 = 1.00% vs
+>   77 = 0.82%, tower Rockets 8 vs 8, finish-offs 0/0, cycles 0/0, defensive Rockets 36 vs 26, R->T 1 vs 0; X-Bows 804
+>   vs 807 (def 226 vs 222), offensive cells 4/4; PRE-EMPTIVE LOG 126/274 = 46% vs 64/272 = 23.5% (pros 39.1%) --
+>   mechanism untested (one seed; the weighting has no barrel target). Live switched 3.1a -> 3.1b (CKPT_OVERRIDE) 12:2x.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
