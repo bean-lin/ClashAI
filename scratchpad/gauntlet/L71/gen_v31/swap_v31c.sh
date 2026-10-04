@@ -5,7 +5,7 @@
 # next match boundary) and records the R1e base in R1E_BASE.txt.
 cd /c/Users/benpe/ClashBot; G=scratchpad/gauntlet/L71/gen_v31; LOG=$G/chain.log
 log() { echo "[v31c-swap] $* $(date '+%F %T')" >> $LOG; }
-until grep -q -E "\[v31c-acc\] (ACCEPT_DONE|SCREEN FAILED|TRAIN FAILED)" <(grep -A99 "v31c\] train start 2026-10-04 12:37" $LOG); do sleep 30; done
+until [ $(grep -c "\[v31c-acc\] ACCEPT_DONE" $LOG) -ge 1 ] || [ $(grep -c -E "\[v31c-acc\] (SCREEN|TRAIN) FAILED" $LOG) -ge 2 ]; do sleep 30; done   # 1 stale TRAIN FAILED from 12:46
 grep -q "\[v31c-acc\] ACCEPT_DONE" $LOG || { log "no acceptance -> R1e base 3.1b, live unchanged"; echo icebow/data/pipeline/gen_v31b_s0/gen_s0.pt > $G/R1E_BASE.txt; exit 0; }
 D=$(python -c "import json,re;s=open('$G/pair_v31c_vs_v31b.out').read();print(re.search(r'\"delta_pp\": *(-?[0-9.e-]+)',s).group(1))")
 log "3.1c vs 3.1b ghost delta $D pp"
