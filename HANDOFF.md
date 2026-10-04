@@ -529,6 +529,14 @@ Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead
 >   whose fallback pressed on ANY enemy on my half. `hero_form_ids` fixes the lookup for every hero. Pro-data model is
 >   BLOCKED: RoyaleAPI now shows a Cloudflare human check (we may not click it; owner must, at the laptop). Deployed by a
 >   same-checkpoint restart via CKPT_OVERRIDE (absolute u0155 path) at 01:06.
+> * **01:2x -- X-Bow placement diversity DIAGNOSED** (`L70/xbow_diversity/REPORT.md`, val 1,046 offensive pro X-Bows /
+>   332 replays): the "pros use 12 rows" census counted ALL X-Bows; offensive pros use 2 rows (91%/9%) but ~24 cells.
+>   The model's own distribution is SPREAD (effective cells 10.6 gen_v3 / 8.5 u0155; mass on lock-capable cells .80);
+>   ARGMAX collapses it (93-94% of choices on the two modal lane cells vs pros 74%). Argmax = pro cell .49-.51.
+>   Sampling adds cells but costs agreement (top-p .9: .35, T .7: .41) and puts 11-19% outside lock-capable cells ->
+>   NOT adopted. Pro lane choice is contextual (weaker princess lane 65.3% [63.8, 66.8]); enemy buildings barely
+>   matter. ALSO: lead ruling R1's strict reach labelled 98% of pro X-Bows defensive -> R1-REVISED (calibrate reach from
+>   recorded tower hits) in LEAD_RULINGS.md.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
