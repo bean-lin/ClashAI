@@ -657,6 +657,16 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 > * **R1e BASE RULE (owner 12:5x: "if gen_v3.1c beats gen_v3.1b, R1e starts from gen_v3.1c"; lead's pre-registered
 >   test):** 3.1c wins iff ghost paired vs 3.1b delta >= 0 AND reactive (gen + S1) >= 31/48 (3.1b's); if the two
 >   disagree, the ghost screen decides. `L71/gen_v31/accept_v31c.sh` queued (waits for "[v31c] train exit").
+> * **13:0x -- R8 DONE (Codex) + ability v2 WIRED (worker) + code committed.** R8: `extrapolate.advance_public_objects`
+>   moves projectiles to target by catalog speed x H and counts effect timers down; DEFAULT-ON for v4 with
+>   --extrapolate (so every new v4 screen includes it; saved 3.1a/3.1b screens do not). Ability v2: `ability_policy:
+>   generic|v2` (royale_env / e1_eval / rl_royale / search_s0 `--ability-policy`), per-ability press p ->
+>   1-(1-p)^dt seeded draw, one press per deployment (Boss Bandit 2 charges >= 3 s apart), champions included,
+>   no-model abilities keep the range rule + `ability_fallback_generic` counter; default byte-identical (27 tests).
+>   125 gen_v3.1/R6/R8/ability tests pass; KNOWN FAIL: test_dataset_spool (mmap path, KeyError own_ability -- unused
+>   by our trainings). Live 3.1b process started 12:22 = BEFORE R8 (runs without it until restart).
+>   `L71/gen_v31/chain_v31c_r8.sh` (replaces accept_v31c/swap_v31c): after 3.1c training -> R8 A/B on 3.1b -> 3.1c+R8
+>   vs 3.1b+R8 (decides R1e base + live swap, owner 13:0x) -> reactive -> CKPT_OVERRIDE / R1E_BASE.txt -> Discord.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)

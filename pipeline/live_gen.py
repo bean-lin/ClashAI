@@ -48,6 +48,8 @@ class GenPilot:
         self.use_counter = use_counter
         self.opp = LiveOppElixir() if use_counter or self.feature_version >= 3 else None
         self.opp_est: float | None = None
+        self.public = None
+        self.public_battle = None
         # Board extrapolation (pipeline/extrapolate.py, HANDOFF L68as): decide on the board H ticks ahead, where our
         # card will land (~26 ticks after the decision frame live). Velocity window ~10 ticks, as the screen arm.
         self.ext_h = int(extrapolate_ticks)
@@ -60,10 +62,23 @@ class GenPilot:
         if self.opp:
             self.opp.reset()
         self.opp_est = None
+        if getattr(self, 'public', None) is not None:
+            self.public.reset()
+        self.public_battle = None
 
     def observe(self, frame: Mapping[str, Any]) -> float | None:
         """Feed the opponent-elixir counter one active+coherent frame (call on EVERY such frame)."""
-        if self.opp:
+        if getattr(self, 'feature_version', 1) >= 4:
+            from .public_observation import PublicObserver
+            side = my_side_of(frame)
+            battle = (frame.get('chain') or {}).get('battle')
+            if (getattr(self, 'public', None) is None or self.public.side != side or
+                    (battle is not None and self.public_battle is not None and battle != self.public_battle)):
+                self.public = PublicObserver(side)
+            if battle is not None:
+                self.public_battle = battle
+            self.opp_est = self.public.update(frame, source='reader')
+        elif self.opp:
             self.opp_est = self.opp.update(frame)
         if self.frames and int(frame["game_tick"]) < self.frames[-1][0]:
             self.frames.clear()                          # tick went backwards: a new match
@@ -72,6 +87,14 @@ class GenPilot:
 
     def record_play(self, card: int, form: int, xy: tuple[float, float], t_sec: float) -> None:
         self.past.append((card, form, float(xy[0]), float(xy[1]), float(t_sec)))
+        if getattr(self,'feature_version',1)>=4 and self.public is not None:
+            name=next(k for k,v in self.gid.items() if v==card)
+            self.public.own_events.append(dict(card=name,tick=round(t_sec/.05),side=self.public.side,accepted=True,ability=False))
+
+    def record_ability(self, card: str, tick: int, *, accepted: bool=True) -> None:
+        """Feed the confirmed OWN live press log; never call on an attempted tap."""
+        if getattr(self,'feature_version',1)>=4 and self.public is not None and accepted:
+            self.public.own_events.append(dict(card=card,tick=int(tick),side=self.public.side,accepted=True,ability=True))
 
     def _card(self, name: str) -> int:
         k = card_key(name)
@@ -89,9 +112,13 @@ class GenPilot:
             # ALWAYS advance (prev None -> clock + my elixir only), so history ages never jump by H mid-match
             tick = int(frame["game_tick"])
             prev = next((f for t, f in reversed(self.frames) if t <= tick - 10), None)
-            frame = extrapolate(frame, prev, self.ext_h, side)
+            object_context = (self.public.object_context(tick)
+                              if getattr(self, 'feature_version', 1) >= 4 and self.public is not None else {})
+            frame = extrapolate(frame, prev, self.ext_h, side, **object_context)
             if opp is not None:
                 opp = min(10.0, opp + regen_between(tick, tick + self.ext_h))
+        if getattr(self, 'feature_version', 1) >= 4 and getattr(self, 'public', None) is not None:
+            opp = self.public.estimate_at(int(frame['game_tick'])) if self.use_counter else None
         if getattr(self, "feature_version", 1) >= 3:
             from dataclasses import replace
             from .live_mem import to_observe
@@ -102,6 +129,9 @@ class GenPilot:
             bs = replace(bs, source="live_mem", opp_elixir=opp if self.use_counter else None)
         else:
             bs = board_state(frame, history=self.history, opp_elixir=opp)
+        if getattr(self, 'feature_version', 1) >= 4:
+            from .public_observation import body_only_board
+            bs = body_only_board(bs)
         tok, mask, sc = to_tokens(bs, MAX_U)
         sc = sc.copy()
         sc[SC_SLOT_COLS] = 0.0
@@ -123,31 +153,42 @@ class GenPilot:
             from .dataset_gen import opponent_past
             from .obs_contract import to_unit_forms
             b["unit_form"] = T(to_unit_forms(bs, MAX_U))
-            b["opp_past"] = T(opponent_past(self.opp.detected_plays, int(frame["game_tick"]), side, self.gid), torch.float32)
+            if self.feature_version >= 4:
+                if self.public is None:
+                    raise ValueError('observe() must receive reader frames before gen_v3.1 row()')
+                for key, value in self.public.features(int(frame['game_tick']), self.gid,
+                        objects_override=frame.get('extrapolated_public_objects')).items():
+                    b[key] = T(value, torch.float32)
+            else:
+                b["opp_past"] = T(opponent_past(self.opp.detected_plays, int(frame["game_tick"]), side, self.gid), torch.float32)
         # Affordability, as the sim's live rule (e1_eval.allowed_slots): int(elixir the model's own input shows, i.e. at
         # tick+H when extrapolating) vs the card's cost. Unknown cost (Mirror, pad slot) -> 0 = never blocks.
         costs = [(card_cost(vocab.engine_key(names[d])) or 0.0) if d >= 0 else 0.0 for d in me["hand_deck_indices"]]
         info = {"bs": bs, "hand": hand, "hand_deck_indices": list(me["hand_deck_indices"]), "names": names,
                 "costs": costs, "el_int": int(bs.my_elixir)}
+        if 'public_lookahead_counts' in frame:
+            info['public_lookahead_counts'] = frame['public_lookahead_counts']
         return b, info
 
     @torch.no_grad()
     def decide(self, frame: Mapping[str, Any]) -> dict:
         """{'play': bool, 'p_play', 'hand_pos', 'deck_index', 'card', 'form', 'xy' (my board frame), 'bs'}."""
         b, info = self.row(frame)
+        lookahead = ({'public_lookahead_counts': info['public_lookahead_counts']}
+                     if 'public_lookahead_counts' in info else {})
         out = self.model(b)
         p = float(torch.sigmoid(out["gate"][0]))
         # sim rule (e1_eval.live_decide): argmax over hand slots we can afford; none affordable -> wait
         allowed = allowed_slots(np.array([h[0] > 0 for h in info["hand"]]), info["costs"], info["el_int"])
         if not allowed.any():
             return {"play": False, "no_affordable": True, "p_play": p, "hand_pos": -1, "deck_index": -1, "card": 0,
-                    "form": FORM_PAD, "bs": info["bs"], "name": None, "el_int": info["el_int"]}
+                    "form": FORM_PAD, "bs": info["bs"], "name": None, "el_int": info["el_int"], **lookahead}
         logits = out["card"][0].masked_fill(~torch.from_numpy(allowed).to(out["card"].device), float("-inf"))
         pos = int(logits.argmax())
         card, form = info["hand"][pos]
         d = {"play": p > self.gate_tau and card > 0, "p_play": p, "hand_pos": pos, "no_affordable": False,
              "deck_index": info["hand_deck_indices"][pos], "card": card, "form": form, "bs": info["bs"],
-             "name": info["names"][info["hand_deck_indices"][pos]] if card > 0 else None}
+             "name": info["names"][info["hand_deck_indices"][pos]] if card > 0 else None, **lookahead}
         if card > 0:
             enc_card = torch.tensor([card], device=self.dev)
             logits = self.model(b, card=enc_card, form=torch.tensor([form], device=self.dev))["cell"][0]

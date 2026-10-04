@@ -94,10 +94,14 @@ def main() -> int:
     ap.add_argument("--record-plays", action="store_true", help="L63e: full observation before every driven play")
     ap.add_argument("--drive-abilities", action="store_true", help="drive attributed ability presses (default: skip)")
     ap.add_argument("--record-native", action="store_true", help="append native card_id + entity id to entity rows")
+    ap.add_argument('--record-public-objects', action='store_true',
+                    help='retain public projectile/area source evidence, with unvalidated timer labels')
     ap.add_argument("--record-full", action="store_true",
                     help="record the full observation per frame (entity kind, projectiles, spell effects)")
     ap.add_argument("--plays-file", default="", help="L64h: plays csv inside the crawl dir (default plays_ext.csv; plays_ext_i1.csv = re-fetched seat-flagged half, rotated on load)")
     args = ap.parse_args()
+    if args.record_public_objects and not (args.record_full and args.record_native and args.record_every > 0):
+        ap.error('--record-public-objects requires --record-full --record-native --record-every > 0')
 
     global OUT
     if args.crawl:
@@ -128,7 +132,8 @@ def main() -> int:
                 res = replay_drive.drive(tag, port=args.port, seed=args.seed, level=args.level, elixir_slack=args.elixir_slack,
                                          tail_cap=args.tail_cap, run_label="batch", verbose=False,
                                          record_every=args.record_every, record_plays=args.record_plays, record_full=args.record_full,
-                                         drive_abilities=args.drive_abilities, record_native=args.record_native)
+                                         drive_abilities=args.drive_abilities, record_native=args.record_native,
+                                         record_public_objects=args.record_public_objects)
                 (OUT / f"replay_{tag}.json").write_text(json.dumps(res, indent=None if args.record_plays else 1, default=str), encoding="utf-8")
                 row = summarize(tag, res, time.perf_counter() - t0)
                 if args.determinism_every and i % args.determinism_every == 0:

@@ -354,15 +354,55 @@ def press_ability(env, row: dict, deck: list[dict], elixir_slack: int) -> tuple[
         _, entity, reason = ability_target(state, row["side"], [card], deck)
 
 
+def public_object_evidence(state: dict) -> dict:
+    """Retain visible-object source evidence without asserting timer semantics.
+
+    The bridge's generic effects alias projectiles. Its real areas are separate,
+    and its area timer interpretation is unverified on this build. Preserve those
+    raw values under source_* names, never as validated model timing. Exclude
+    player blocks, entity targets, owner slots, damage and ability internals.
+    """
+    base = ('side', 'card_id', 'x', 'y')
+    fields = {'projectiles': base+('id', 'generation_key', 'target_x', 'target_y'),
+              'area_effects': base+('id', 'category')}
+    out = dict(schema='native_public_object_evidence_v1',
+               timing_status='UNVALIDATED_NOT_MODEL_INPUT')
+    for kind, allowed in fields.items():
+        # Missing export and a present empty list have different meanings.
+        if kind not in state:
+            out[kind] = None
+            continue
+        rows = []
+        for row in state[kind]:
+            safe = {key: row[key] for key in allowed if key in row}
+            if kind == 'area_effects':
+                for key in ('elapsed_ms', 'life_ms', 'remaining_ms'):
+                    if key in row:
+                        safe['source_'+key] = row[key]
+            rows.append(safe)
+        out[kind] = rows
+    # Label-side source evidence only. A missing bridge ledger is unavailable,
+    # never an empty list of verified misses. Never infer causality from HP loss.
+    hits = state.get('causal_hit_events')
+    out['causal_hit_events'] = None if hits is None else [
+        {key: row[key] for key in ('tick', 'source_projectile_id', 'source_card_id',
+         'source_side', 'target_entity_id', 'target_kind', 'damage') if key in row}
+        for row in hits]
+    return out
+
+
 def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail_cap: int,
           run_label: str, verbose: bool, record_every: int = 0, record_full: bool = False,
-          record_plays: bool = False, drive_abilities: bool = False, record_native: bool = False) -> dict:
+          record_plays: bool = False, drive_abilities: bool = False, record_native: bool = False,
+          record_public_objects: bool = False) -> dict:
     """Drive one replay.  record_every=N (>0) additionally stores an observation every N ticks in
     out["frames"] (each: tick, players' elixir, every entity's side/x/y/name/hp) for a viewer;
     record_full=True uses the full observation (adds entity kind, projectiles and spell effects).
     record_plays=True (L63e, from L61's replay_drive_rec) stores a FULL observation immediately BEFORE every
     driven play of both sides in out["play_frames"] (with play_index, side, card, x, y and both players'
     hand/cycle/next/elixir)."""
+    if record_public_objects and not (record_full and record_native and record_every > 0):
+        raise ValueError('public object evidence requires --record-full --record-native --record-every > 0')
     battle, plays = load_battle(tag)
     decks = {side: deck_for_side(battle, side) for side in (0, 1)}
     template = json.loads((SANDBOX / "examples" / "full-card-bootstrap.json").read_text(encoding="utf-8-sig"))
@@ -434,6 +474,10 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
     frames: list[dict] = []
 
     play_frames: list[dict] = []
+    public_motion = None
+    if record_public_objects:
+        from pipeline.projectile_motion import ProjectileMotion
+        public_motion = ProjectileMotion()
 
     def snapshot(state: dict, full: bool = False, extra: dict | None = None, into: list | None = None) -> None:
         record_full_ = record_full or full
@@ -451,6 +495,16 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
                                      card_name(q["card_id"])] for q in state.get("projectiles", [])]
             frame["effects"] = [[int(q["side"]), int(q["x"]), int(q["y"]), card_name(q["card_id"])]
                                 for q in state.get("effects", [])]
+        if record_public_objects:
+            frame['public_objects'] = public_object_evidence(state)
+            evidence = frame['public_objects']
+            visible = evidence.get('projectiles') or []
+            motion_rows = [(str(q['card_id']), q['side'], q['x'], q['y'],
+                            q['target_x'], q['target_y'], None) for q in visible]
+            estimated = public_motion.update(dict(projectiles=motion_rows, effects=[]), frame['tick'])
+            for q, estimate in zip(visible, estimated['projectiles']):
+                q['past_motion_tti_ms'] = estimate[-1]
+            evidence['tti_status'] = 'PAST_MOTION_ESTIMATE_NOT_NATIVE_IMPACT_TRUTH'
         if extra:
             frame.update(extra)
             frame["players"] = [{"side": int(pl["side"]), "elixir": pl.get("elixir_exact", pl.get("elixir")),
@@ -571,6 +625,8 @@ def drive(tag: str, *, port: int, seed: int, level: int, elixir_slack: int, tail
         out["drive_abilities"] = True
     if record_native:
         out["record_native"] = True       # entity rows end with [native card_id, entity_id]
+    if record_public_objects:
+        out['public_object_evidence_schema'] = 'native_public_object_evidence_v1'
     if record_every > 0:
         out["frames"] = frames
         out["record_every"] = record_every
@@ -598,6 +654,9 @@ def main() -> int:
     parser.add_argument("--record-native", action="store_true",
                         help="append each entity's raw native card_id (evolution/hero FORM id) and entity id to every "
                              "recorded entity row (after kind under --record-full); default off = unchanged rows")
+    parser.add_argument('--record-public-objects', action='store_true',
+                        help='retain separate public projectile/area source evidence; timers remain unvalidated; '
+                             'requires --record-full --record-native --record-every > 0')
     parser.add_argument("--record-every", type=int, default=0,
                         help="store an observation every N ticks in the result JSON (for replay_view.py)")
     parser.add_argument("--record-full", action="store_true",
@@ -617,7 +676,7 @@ def main() -> int:
                        tail_cap=args.tail_cap, run_label=f"run{run}", verbose=not args.quiet,
                        record_every=args.record_every, record_full=args.record_full,
                        record_plays=args.record_plays, drive_abilities=args.drive_abilities,
-                       record_native=args.record_native)
+                       record_native=args.record_native, record_public_objects=args.record_public_objects)
         path = OUT_DIR / f"replay_{args.tag}_run{run}.json"
         path.write_text(json.dumps(result, indent=1, default=str), encoding="utf-8")
         hashes.append(result["final"]["state_hash"])
