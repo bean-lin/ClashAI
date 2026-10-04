@@ -667,6 +667,11 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   by our trainings). Live 3.1b process started 12:22 = BEFORE R8 (runs without it until restart).
 >   `L71/gen_v31/chain_v31c_r8.sh` (replaces accept_v31c/swap_v31c): after 3.1c training -> R8 A/B on 3.1b -> 3.1c+R8
 >   vs 3.1b+R8 (decides R1e base + live swap, owner 13:0x) -> reactive -> CKPT_OVERRIDE / R1E_BASE.txt -> Discord.
+> * **13:2x -- R1e QUEUED** (`L71/rl/run_r1e.sh`, log `L71/rl/r1e.log`): waits for chain_v31c_r8 CHAIN_DONE, base =
+>   `L71/gen_v31/R1E_BASE.txt` (3.1c if it beat 3.1b+R8, else 3.1b). R1 recipe (GAE, tick discount, 5 warm-up, 155
+>   updates, latency 26 + R8) + evo/hero census opponents (pool_forms) + hero_abilities=true ability_policy=v2, pro
+>   agreement on gen_dataset_v31_public. Config load validated. Acceptance u0080/u0155: ghost vs base (R8 screen) and
+>   vs u0155; reactive old census + evo census with abilities (base measured the same way); Discord at the end.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
