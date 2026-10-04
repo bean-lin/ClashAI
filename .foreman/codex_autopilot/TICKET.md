@@ -75,6 +75,29 @@
 ##   matches and the supervisor restarts on it (rollback: write the u0155 path back). Then post Discord "DEPLOYED
 ##   <ckpt>" with the evidence, and watch the next few matches in overnight.out (crash -> roll back + Discord).
 
+## CRITICAL PATH TONIGHT (lead, 2026-10-03 23:5x -- OVERRIDES the plan order below until gen_v3.1 is deployed or
+## has failed acceptance). Your 22:47 run spent the night on audits and ended with NO dataset/training. The owner's
+## goal is a TRAINED + DEPLOYED gen_v3.1 by morning. Do these, in this order, BEFORE any other plan item:
+## 1. Dataset: `dataset_gen.py --feature-version 4 --workers 1` on the gen_v3 corpus (same corpora/flags as the gen_v3 build: HANDOFF.md line ~585
+##    "gen_v3" block, except feature version 4) -> icebow/data/pipeline/gen_v31_s0/. Proxy
+##    labels per decision 1B. Do NOT wait for the native re-drive (1A), causal hits, or ability calibration.
+## 2. Weighting: use ONLY the authorized proxy targets (tower Rocket, X-Bow lane geometry, defensive Rocket proxy,
+##    Rocket->Tornado, Tornado->Rocket). The DEFENSIVE-X-BOW target is EXCLUDED tonight (decision 4: it waits for the
+##    Tuesday review) -- drop it from rocket_context.require_weight_artifact's required set behind an explicit flag,
+##    record that in BLOCKERS as RESOLVED-for-tonight. Fixed weight 2.0, no sweep tonight (sweep = follow-up).
+##    DEADLINE: if the weighting artifact is not built and verified by 02:30 EDT, train with weight 1 (inputs only)
+##    and say so plainly in the Discord report; weighting then becomes gen_v3.2.
+## 3. Train: train_gen --amp bf16, same recipe/epochs as gen_v3 (single process; GPU is free except live inference).
+## 4. Acceptance: the existing instruments only (paired ghost screen vs u0155 with --workers 1, reactive --workers 1,
+##    live smoke on re_v2xb.jsonl). Behaviour metrics: REPORT whatever is measurable; metrics whose baseline telemetry
+##    does not exist yet are reported as null -- they do NOT block READY. READY gate = trained + screen + reactive +
+##    smoke + paired ghost CI not entirely below 0.
+## 5. Deploy per OVERNIGHT GOAL if READY; else leave u0155 live and report why.
+## Re-drive 1A (fix causal-hit hook + evolved Baby Dragon timer refresh, then full run on the VM) and ability
+## calibration continue ONLY after step 4 has started or while training runs. Starting the VM is the owner's call:
+## if you need it and it is off, put "VM NEEDED" in a Discord report. If a step needs multiprocessing your sandbox
+## cannot run, write the exact command to .foreman/codex_autopilot/LEAD_RUN.txt and continue; the lead runs it.
+
 ## DISCORD REPORTS (owner, 2026-10-03 15:2x) -- post with `icebow/.venv/Scripts/python.exe
 ## scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL) after EVERY MAJOR MILESTONE (e.g. stopped-run
 ## edits reconciled, VM data fetched + VM off, pro tower-Rocket mining report, behaviour baselines, gen_v3.1 code done,
