@@ -700,6 +700,10 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   `bash scratchpad/gauntlet/L70/live/start_live.sh` (stop: stop_live.sh). Codex brief = TICKET.md "HANDOFF 2026-10-04
 >   ~15:40" (Q1 card sampling flag, Q2 area-aware spell aim, Q3 GPU A/Bs after R1e, Q4 R1e approval ping, Q5 fixes);
 >   launcher `.foreman/codex_autopilot/codex_loop.sh` (back-to-back runs to 10-06; STOP_LOOP file stops it).
+> * **15:5x -- owner plan: after the R1e verdict the lead starts LIVE on the winner, then hands over to Codex via
+>   `CODEX_BRIEF.md` (repo root; owner opens Codex on it + README + HANDOFF; Codex works until Tuesday).** Pre-registered
+>   live rule: an R1e checkpoint (u0080 / u0155) wins iff its paired ghost delta vs gen_v3.1c (R8 screen) >= 0; both ->
+>   the higher delta (tie -> more reactive wins of 48); else gen_v3.1c. Brief drafted now (section 6 filled at verdict).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
