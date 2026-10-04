@@ -684,6 +684,13 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   bit-reproducible). Fix: sort results by (tag, k, entry_index, side) once all actors report. After: all per-update
 >   stat lines identical, weights max |diff| 5.2e-6 (float rounding). Rollout phase ~12% faster with 5 actors at 12 games
 >   per update. 37 RL tests pass. R1e queued as `L71/rl/run_r1e_v2.sh` (n_actors=5).
+> * **14:5x -- CORRECTION: the 3.1b screen ALREADY RAN WITH R8.** Codex finished R8 at 12:01 (JOURNAL), the 3.1b screen
+>   started 11:59, so chain_v31c_r8's "R8 A/B on 3.1b" compared R8 with itself: 0.0 [0.0, 0.0], all 299 games identical
+>   (end tick + plays), while public_lookahead_counts show the advance running (e.g. 60 landed / 2 expired in one game).
+>   Consequences: (1) 3.1c vs 3.1b+R8 stays fair (both R8); (2) the 3.1a -> 3.1b pre-emptive-Log jump 23.5% -> 46% is
+>   CONFOUNDED with R8 (3.1a ran pre-R8) -- plausibly R8, untested; (3) the true R8 A/B = 3.1a+R8 vs 3.1a, now the first
+>   step of `L71/rl/run_r1e_v3.sh` (replaces v2; ~10 min GPU before R1e). The chain's Discord line "R8 alone on 3.1b:
+>   0.0 pp" is wrong for this reason.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
