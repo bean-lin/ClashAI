@@ -677,6 +677,13 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   records the winner; restart live later with: `MuMuManager.exe control -v 0 launch`, adb connect 127.0.0.1:16384,
 >   `monkey -p com.supercell.clashroyale`, clear any Play Store update overlay (force-stop com.mumu.store + Back),
 >   `rm STOP; nohup bash scratchpad/gauntlet/L70/live/run_live.sh` (CKPT_OVERRIDE picks the model).
+> * **14:3x -- RL ACTOR-COUNT DETERMINISM FIXED + R1e uses 5 actors (owner).** Test (`L71/rl/actors_test/`, R1e config,
+>   E 6 G 2, 3 updates, CPU): before the fix, n_actors 3 vs 5 played identical games but learner stats diverged from
+>   update 1 (KL gate .0009 vs .0027) and weights differed by 3.7e-4 -- ActorPool.run concatenated results in actor
+>   ARRIVAL order, so the batch order (and PPO minibatches) depended on actor count AND timing (R-series runs were never
+>   bit-reproducible). Fix: sort results by (tag, k, entry_index, side) once all actors report. After: all per-update
+>   stat lines identical, weights max |diff| 5.2e-6 (float rounding). Rollout phase ~12% faster with 5 actors at 12 games
+>   per update. 37 RL tests pass. R1e queued as `L71/rl/run_r1e_v2.sh` (n_actors=5).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
