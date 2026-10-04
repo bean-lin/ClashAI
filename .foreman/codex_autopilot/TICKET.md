@@ -73,9 +73,16 @@
    tower-Rocket contexts (e.g. a per-row weight from a small classifier P(pro Rockets a tower here | public state); a
    knob tuned on a held-out set and reported) -- the model learns WHEN, no scripted rule -- and keep the elixir-banking
    signal (median elixir at a Rocket play: bot 6.8 vs pros 8.7, scratchpad/gauntlet/L70/audit/audit.md).
+   (b2) X-BOW LANE + DEFENSIVE X-BOWS, mined the same way and in the SAME weighting (owner 2026-10-03: defensive
+   X-Bows and Rocket cycling come hand in hand). Audit (scratchpad/gauntlet/L70/audit/audit.md): once an enemy princess
+   is down the bot puts 10/18 X-Bows in the DEAD lane (1-1: 5/8), and it uses only 2 X-Bow rows. Mine pro X-Bow
+   placements by tower state (enemy princess alive/dead per lane, crowns 1-0 / 0-1 / 1-1, time left / overtime),
+   placement (lane; defensive vs bridge row; the board-y direction trap: forward = DECREASING y), and what follows (a
+   Rocket on a tower within ~10 s, i.e. defensive X-Bow + Rocket cycle). Weight pro-like X-Bow contexts in the IL loss
+   with the tower-Rocket contexts; no scripted rule.
    (c) ACCEPTANCE adds behaviour metrics next to the ghost screen and reactive play, for gen_v3.1 AND every later RL run:
    Rocket share of plays (pros 5.8%); Rocket-on-tower rate in the contexts where pros Rocket towers (from (b));
-   multi-Rocket sequences on one tower; the end-of-match tower-HP margin in tiebreak finishes; the one-Rocket finish
+   multi-Rocket sequences on one tower; X-Bow dead-lane share once a princess is down (baseline 10/18) and defensive-X-Bow share in late game vs pros; X-Bow -> Rocket-cycle sequences; the end-of-match tower-HP margin in tiebreak finishes; the one-Rocket finish
    conversion (<= 497 HP, >= 6 elixir; baseline 0/14) as ONE of these, not the definition; and a preemptive-Log metric
    vs Goblin/Skeleton Barrel (Log cast while the barrel is in flight or within 0.5 s of landing, as a share of opponent
    barrels). Measure them for gen_v1, u0155 and gen_v3 first as baselines.
