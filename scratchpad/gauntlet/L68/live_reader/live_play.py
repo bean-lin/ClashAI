@@ -33,6 +33,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
 from pipeline.live_gen import GenPilot  # noqa: E402
+from pipeline.obs_contract import _catalog_names  # noqa: E402
 from hero_button import HeroButton, hero_ids, should_press  # noqa: E402
 from friend_nav import MenuGuard  # noqa: E402
 
@@ -553,6 +554,8 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                     if spent > 0 or moved:
                         W(event="ability_confirmed", tick=tick, elixir_drop=spent / 1e4, button_after=st,
                           latency_s=round(now - ab_pending["t"], 3))
+                        for hid in hids:    # gen_v3.1 own-ability readiness = own CONFIRMED presses (no-op for v1-v3)
+                            pilot.record_ability(_catalog_names().get(int(hid), str(hid)), ab_pending["tick"])
                         ab_pending = None
                     elif tick - ab_pending["tick"] > CONFIRM_TICKS:
                         W(event="ability_unconfirmed", tick=tick, button_after=st)
