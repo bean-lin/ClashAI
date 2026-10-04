@@ -83,15 +83,33 @@ the work is done here, so the project does not drift.
 
 ## 4. Next steps (do in this order)
 
-- **Q1 (CPU) Card-choice sampling, opt-in.** `card_choice: argmax | sample` + `card_T` in `pipeline/e1_eval.py`
-  `live_decide` (SIM) and `pipeline/live_gen.py` (live); default byte-identical (test). Gate and cell rules unchanged.
+- **Q1 (CPU) Card choice: CONFIDENCE-FILTERED sampling, opt-in -- never plain sampling.** Owner concern (2026-10-04,
+  correct): plain sampling over the hand would sometimes play a card the model itself rates as unviable when the top
+  card is the only good answer (the diagnosis already shows plain T=1 sampling firing Rocket on 7.6% of non-Rocket pro
+  moments). Design (`card_choice: argmax | filtered`, `card_ratio r`, `card_T T`; default argmax, byte-identical,
+  test), in `pipeline/e1_eval.py` `live_decide` (SIM) and `pipeline/live_gen.py` (live):
+  1. Only affordable hand cards are candidates (the existing mask).
+  2. **Keep the argmax card whenever the model is confident:** a card is a candidate only if p_card >= r * p_top
+     (r = 0.5 / 0.7 to test). If no other card passes, play the top card exactly as today. So a clear "only answer"
+     (e.g. p_top .9) can never be replaced; only near-ties are randomised.
+  3. Sample among the remaining candidates with temperature T (0.7 / 1.0), seeded (SIM: per match seed; live: logged).
+  4. The play/wait gate stays deterministic (P(play) > tau). The cell rule is unchanged (Q2 handles spell cells).
+  **Offline check BEFORE any SIM time** (CPU, extend `scratchpad/gauntlet/L71/rocket_diag/rocket_diag.py`, teacher-
+  forced pro val rows of the icebow deck): for each (r, T) report (a) Rocket recall on pro-Rocket rows, (b) Rocket
+  false-fire on non-Rocket rows, (c) overall card agreement with the pro (expected value) vs argmax, (d) **override
+  rate on confident rows** (rows where argmax prob >= .6: must be ~0), (e) the share of decisions that change at all.
+  Drop any (r, T) whose overall agreement falls more than 1 pp below argmax. Only the survivors go to Q3.
 - **Q2 (CPU) Area-aware spell aim, opt-in.** For area spells, choose the cell that maximises the model's cell-probability
   mass inside the spell's catalog radius instead of the single argmax cell (same flag pattern, SIM + live). Test: a
   sharp off-target cell vs a broad on-tower cluster must pick the cluster.
 - **Q3 (GPU, only when no other GPU job runs)** ghost-screen A/Bs on the live model (or gen_v3.1c), paired against its
-  saved screen run with the SAME code: (a) card sample T=0.7, (b) T=1.0, (c) area aim, (d) area aim + the better T.
-  Report win value CIs + the behaviour telemetry. If an option is not worse on win value (CI not entirely below 0) and
-  raises Rocket use / tower-Rocket hits toward the pro numbers -> "APPROVAL NEEDED: enable <option> live?".
+  saved screen run with the SAME code: (a) the best filtered-sampling setting from Q1's offline check, (b) the
+  second best, (c) area aim, (d) area aim + (a). Report win value CIs, reactive play (gen + S1, 24 seeds each) and the
+  behaviour telemetry. **Adoption rule (pre-registered; the owner's performance concern):** an option is proposed for
+  live ONLY if (1) its paired ghost point estimate is >= 0 vs the baseline (not just "CI touches 0"), (2) reactive wins
+  are not lower than the baseline's by more than 2 of 48, and (3) Rocket use / tower-Rocket hits move toward the pro
+  numbers. If Rocket use rises but win value falls, it is REJECTED (report it; do not tune until it passes). Then
+  "APPROVAL NEEDED: enable <option> live?" -- the owner decides.
 - **Q4** Re-run the diagnostics (`scratchpad/gauntlet/L71/rocket_diag/rocket_diag.py`,
   `scratchpad/gauntlet/L70/xbow_diversity/xbow_diversity.py`) on the live model and report what changed.
 - **Q5 Small fixes:** `pipeline/tests/test_dataset_spool.py` (KeyError 'own_ability' in the model_gen mmap path);
