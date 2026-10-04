@@ -22,7 +22,26 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 00:05 EDT** (Codex autopilot; full gen_v3.1 dataset running, five-target weighting implementation), branch `main`.
+Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead R1 validation), branch `main`.
+
+> ## 2026-10-04 01:02 -- PUBLIC C1/C3 READY; C2 NEEDS LEAD R1 REVIEW
+> Current TICKET/LEAD_RULINGS supersede the proxy/fallback notes below. Lead owns full re-drive,
+> full build/train/acceptance/deploy, live control and Git. Codex did not restart proxy work.
+> C1: corrected20 samples,6118 rows/1879 plays;40 side-private mutations invariant. K1/2/3/4/10
+> public spell-aware counter MAE .381/.420/.455/.487/.700. Exact forms, projectile/area tokens,
+> past/cycle and own derived ability state verified;1593 rows have known own readiness.
+> CUDA bf168-row backward passes; recorded-reader smoke995 decisions (387 projectile/290 effect
+> nonempty frames). This is wiring evidence, not trained-checkpoint acceptance. Full command:
+> `.foreman/codex_autopilot/BUILD_V31.txt`; v4 discovers `j*/replay_*.json` without flattening.
+> Lead live integration: call `GenPilot.record_ability(card,tick)` on confirmed own presses;
+> current live log lacks source-card attribution. Codex left the live/button path untouched.
+> C3: `--behaviour-telemetry` on run_screen/search_s0,20-recording/40-side checks pass;
+>55 focused regressions pass, default legacy results unchanged in tests. Discord C3/C1 posted.
+> C2 STOP per R1: literal range/radius rule gives1 offensive/57 defensive X-Bows;0/1 offensive
+> and11/57 defensive have source-shot-compatible tower damage. Required >30% no-hit stop fires.
+> Review `runs/public_xbow_validation.json` (includes12 retained boards). Six-target fitter is
+> prepared but refuses failed R1 evidence; no complete weighting artifact or weights used.
+> Durable evidence, commit paths and next action: `.foreman/codex_autopilot/JOURNAL.md`.
 
 > ## 2026-10-04 00:05 -- GEN_V3.1 CRITICAL PATH RUNNING
 > Owner/lead23:5x amendment takes precedence: five authorized proxies, defensive-X-Bow excluded,
@@ -502,6 +521,14 @@ Last updated: **2026-10-04 00:05 EDT** (Codex autopilot; full gen_v3.1 dataset r
 > * Claude workers (lead-dispatched): Hero Ice Wizard Frosty Fella pro-crawl + press model (`L70/abilities/ice_wizard_hero/`,
 >   `L68/live_reader/ability_ice_wizard.py`, opt-in only); 24-ability calibration B (`L70/abilities/ability_models_v2.json`);
 >   X-Bow placement-diversity diagnosis (`L70/xbow_diversity/`): live and sim both pick the cell by ARGMAX.
+> * **01:0x -- Hero Ice Wizard ability: owner-ordered INTERIM hand-written rule** (`L68/live_reader/hero_button.py`
+>   `ice_wizard_should_press`): press when >= 3 enemy troops sit within 2.5 tiles of the Ice Wizard's target (nearest
+>   enemy within 5.5 tiles), or a win condition on my half is inside that freeze AND Tesla is not in hand or < 4 elixir.
+>   ROOT CAUSE of the trigger-happiness (measured): reader v2 reports the hero unit as card id 203000023 (hero form =
+>   203000000 + base number), so live never found the hero -- all 5 presses in the last 3 logs were `hero_unseen`,
+>   whose fallback pressed on ANY enemy on my half. `hero_form_ids` fixes the lookup for every hero. Pro-data model is
+>   BLOCKED: RoyaleAPI now shows a Cloudflare human check (we may not click it; owner must, at the laptop). Deployed by a
+>   same-checkpoint restart via CKPT_OVERRIDE (absolute u0155 path) at 01:06.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)

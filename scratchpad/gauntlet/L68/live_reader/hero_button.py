@@ -50,11 +50,67 @@ def hero_ids(me: dict) -> set[int]:
     return {int(c) for c, f in zip(me.get("deck_card_ids") or [], me.get("deck_form_flags") or []) if int(f) == HERO_FORM}
 
 
+ICE_WIZARD = 26000023
+# Owner rule 2026-10-04 (interim, HAND-WRITTEN until pro Frosty Fella data can be crawled -- RoyaleAPI now sits behind a
+# Cloudflare human check): freeze CLUMPS of troops, or stop an enemy WIN CONDITION reaching the tower when the Tesla is
+# not in hand or not affordable. Frosty Fella spawns its snowman behind the Ice Wizard's current target and freezes
+# every enemy within 2.5 tiles, so the freeze centre ~ that target ~ the nearest enemy inside his 5.5-tile range.
+IW_RANGE, FREEZE_R, CLUMP_MIN, TESLA_COST = 5.5, 2.5, 3, 4.0
+WINCONS = {"HogRider", "SuperHogRider", "Giant", "GoblinGiant", "Golem", "RoyalGiant", "ElectroGiant", "Balloon",
+           "LavaHound", "RamRider", "BattleRam", "Miner", "RoyalHogs", "Wallbreakers", "ElixirGolem", "GiantSkeleton",
+           "SkeletonBalloon", "Pekka", "MegaKnight"}
+BUILDINGS = {"Cannon", "Tesla", "InfernoTower", "BombTower", "Mortar", "Xbow", "Tombstone", "GoblinHut", "Furnace",
+             "FirespiritHut", "BarbarianHut", "Elixir Collector", "GoblinCage", "GoblinDrill", "GoblinPartyHut"}
+
+
+def hero_form_ids(card_ids: set[int]) -> set[int]:
+    """Board ids of hero-form troops: reader v2 reports a hero unit as 203000000 + the base card number (hero Ice
+    Wizard 26000023 -> 203000023, measured in L70/reader/sidebyside frames 2026-10-04). Before this, live never found
+    the hero (every 10-03 press logged hero_unseen) and the fallback pressed on ANY enemy on my half."""
+    return {203000000 + c % 1000000 for c in card_ids if 26000000 <= c < 27000000}
+
+
+def _names() -> dict:
+    from pipeline.obs_contract import _catalog_names   # lazy: live_play has the repo root on sys.path
+    return _catalog_names()
+
+
+def ice_wizard_should_press(f: dict, side: int, hero: dict | None, names: dict | None = None) -> tuple[bool, str]:
+    names = names if names is not None else _names()
+    if hero is None:
+        return False, "iw_unseen"
+    nm = lambda e: names.get(int(e["card_id"]), "")  # noqa: E731
+    d = lambda a, b: ((a["x"] - b["x"]) ** 2 + (a["y"] - b["y"]) ** 2) ** 0.5 / 1000  # noqa: E731
+    foes = [e for e in f["entities"] if e["side"] != side and int(e["card_id"]) >= 0]
+    in_range = [e for e in foes if d(e, hero) <= IW_RANGE]
+    if not in_range:
+        return False, "iw_no_target"
+    target = min(in_range, key=lambda e: d(e, hero))
+    frozen = [e for e in foes if d(e, target) <= FREEZE_R and nm(e) not in BUILDINGS]
+    if len(frozen) >= CLUMP_MIN:
+        return True, f"iw_clump n={len(frozen)} target={nm(target)}"
+    me = next(p for p in f["players"] if p["side"] == side)
+    hand = [names.get(int(me["deck_card_ids"][i]), "") for i in me["hand_deck_indices"] if i >= 0]
+    elixir = me["elixir_raw"] / 1e4
+    tesla_ok = "Tesla" in hand and elixir >= TESLA_COST
+    for e in frozen:
+        if nm(e) in WINCONS and (e["y"] > 16000) == (side == 1):   # a win condition on my half, inside the freeze
+            if tesla_ok:
+                return False, f"iw_wincon {nm(e)} but tesla ready"
+            return True, f"iw_wincon {nm(e)} tesla_in_hand={'Tesla' in hand} elixir={elixir:.1f}"
+    return False, f"iw_hold frozen={len(frozen)}"
+
+
 def should_press(f: dict, side: int, hero_card_ids: set[int], reach_tiles: float = 5.5) -> tuple[bool, str]:
     """PLACEHOLDER policy (the RL ability head's slot): press when an enemy troop is within ``reach_tiles`` of my hero
     (reader positions, 1000 units per tile); if the hero entity cannot be found, when an enemy troop is on my half.
-    Deliberately generic -- no per-hero stats -- so it only guarantees the button is USED, not used well."""
-    hero = next((e for e in f["entities"] if e["side"] == side and int(e["card_id"]) in hero_card_ids), None)
+    Deliberately generic -- no per-hero stats -- so it only guarantees the button is USED, not used well.
+    Hero Ice Wizard uses ``ice_wizard_should_press`` (owner's interim rule) instead."""
+    ids = hero_card_ids | hero_form_ids(hero_card_ids)
+    if ICE_WIZARD in hero_card_ids:
+        return ice_wizard_should_press(f, side, next((e for e in f["entities"] if e["side"] == side
+                                                     and int(e["card_id"]) in ids), None))
+    hero = next((e for e in f["entities"] if e["side"] == side and int(e["card_id"]) in ids), None)
     foes = [e for e in f["entities"] if e["side"] != side and int(e["card_id"]) >= 0]
     if hero is not None:
         d = min((((e["x"] - hero["x"]) ** 2 + (e["y"] - hero["y"]) ** 2) ** 0.5 / 1000 for e in foes), default=99.0)
@@ -132,4 +188,26 @@ if __name__ == "__main__":          # self-check: raw parse + placeholder policy
     f["entities"][1]["y"] = 10000
     assert should_press(f, 1, {26000014})[0] is False                 # enemy 14 tiles away
     assert should_press({"entities": [ent(0, 9000, 20000, 1)]}, 1, {26000014})[0] is True   # hero unseen, foe on my half
+    # Ice Wizard interim rule (names injected; no catalog needed): I am side 1 (my half y > 16000), IW at (9000, 24000)
+    N = {1: "Skeletons", 2: "HogRider", 3: "Tesla", 4: "Knight", 5: "Cannon"}
+    iw = ent(1, 9000, 24000, ICE_WIZARD)
+    pl = lambda hand, el: [{"side": 1, "deck_card_ids": [3, 4, 4, 4], "hand_deck_indices": hand, "elixir_raw": el * 10000}]  # noqa: E731
+    clump = {"entities": [iw] + [ent(0, 9000 + 300 * k, 21000, 1) for k in range(3)], "players": pl([1, 2, 3, -1], 9)}
+    assert ice_wizard_should_press(clump, 1, iw, N)[0] is True                       # 3 skeletons inside the freeze
+    hog = {"entities": [iw, ent(0, 9000, 21000, 2)], "players": pl([1, 2, 3, -1], 9)}  # hand has no Tesla (index 0)
+    assert ice_wizard_should_press(hog, 1, iw, N)[0] is True                         # wincon, Tesla not in hand
+    hog["players"] = pl([0, 1, 2, -1], 9)
+    assert ice_wizard_should_press(hog, 1, iw, N)[0] is False                        # Tesla in hand + affordable
+    hog["players"] = pl([0, 1, 2, -1], 3)
+    assert ice_wizard_should_press(hog, 1, iw, N)[0] is True                         # Tesla in hand, 3 elixir
+    lone = {"entities": [iw, ent(0, 9000, 21000, 4)], "players": pl([1, 2, 3, -1], 9)}
+    assert ice_wizard_should_press(lone, 1, iw, N)[0] is False                       # one Knight: hold
+    far = {"entities": [iw] + [ent(0, 9000 + 300 * k, 12000, 1) for k in range(3)], "players": pl([1, 2, 3, -1], 9)}
+    assert ice_wizard_should_press(far, 1, iw, N)[0] is False                        # clump out of range
+    bld = {"entities": [iw, ent(0, 9000, 21000, 5), ent(0, 9300, 21000, 5), ent(0, 9600, 21000, 4)],
+           "players": pl([1, 2, 3, -1], 9)}
+    assert ice_wizard_should_press(bld, 1, iw, N)[0] is False                        # buildings are not a troop clump
+    assert hero_form_ids({ICE_WIZARD}) == {203000023}
+    assert should_press({"entities": [ent(1, 9000, 24000, 203000014), ent(0, 9000, 10000, 26000000)]}, 1,
+                        {26000014})[0] is False                               # hero found by its FORM id: no fallback
     print("hero_button self-check OK; MuMu button point", (round(BUTTON[0] * 900), round(BUTTON[1] * 1600)))
