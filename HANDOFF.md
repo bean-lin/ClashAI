@@ -537,6 +537,13 @@ Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead
 >   NOT adopted. Pro lane choice is contextual (weaker princess lane 65.3% [63.8, 66.8]); enemy buildings barely
 >   matter. ALSO: lead ruling R1's strict reach labelled 98% of pro X-Bows defensive -> R1-REVISED (calibrate reach from
 >   recorded tower hits) in LEAD_RULINGS.md.
+> * **01:4x -- Ability calibration B DONE** (`L70/abilities/CALIBRATION_V2.md`, `ability_models_v2.json`, `ability_policy.py`
+>   `load('v2')`; default stays v1): logistic + piecewise timing term, knots matched to the pro first-press mass per
+>   age bin (native_targets_2326). Held-out (20% replays) share error <= 3 pp for 17/22 reliable abilities; misses
+>   balloon -3.5, boss-bandit -12.8 (n 89), little-prince -4.3, monk -8.3 (n 108), skeleton-king +3.2 (mostly
+>   held-out noise; 5-fold RMS boss-bandit 3.7, little-prince 4.1, monk 1.6). v1 over-pressed 5-22 pp. Hero Goblins /
+>   Tombstone use phase-1 shares (fallback). 15 tests pass. NOT yet wired into pipeline/royale_env.py (after Codex's
+>   pipeline edits; needed for R1e).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
