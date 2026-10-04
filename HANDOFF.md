@@ -22,23 +22,46 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 03:21 EDT** (Codex R6 timing parity verified; C2 revised calibration still fails), branch `main`.
+Last updated: **2026-10-04 09:33 EDT** (C2 complete under R2c; verified six-target artifact and gen_v3.1b command handed to lead), branch `main`.
 
-> ## 2026-10-04 03:21 -- R6 READY; REVISED C2 NEEDS LEAD DECISION / FULL CORPUS
+> ## 2026-10-04 09:33 -- C2 DONE; LEAD CAN TRAIN GEN_V3.1B
+> R2c approves the missing-area Rocket landing reconstruction; now default in labels and telemetry.
+>29 focused tests pass. Existing corrected labels reused unchanged; no re-mining. CPU fit completed;
+> `check_public_c2.py` exit0/PUBLIC_C2_PASSED on all3517863 rows. Six-target artifact:
+> `.foreman/codex_autopilot/runs/public_context/artifact.json`; exact guarded training command in
+> `BUILD_V31.txt`, matching gen_v3.1a except weighting/artifact/output. Maximum setting2.0, actual
+> row weights median1.000028 / p991.087949 / max1.456945. Reverse combo4 fit/1 tune/0 test; no
+> effectiveness claim. Both combo test-set paired CIs cross zero. Receipt: runs/c2_r2c_completion.json.
+> Discord C2 DONE HTTP204. Prior landing blockers below are resolved; R6/C1/C3 remain delivered.
+> Lead logs show v3.1a train exit0 at05:45 and acceptance screen start09:27; current completion unverified.
+> Live supervisor ended on lead-owned STOP at03:22 (3/10 restarts); Codex left it untouched.
+> No Codex worker remains. Lead owns policy training/acceptance/deploy/Git; commit paths in JOURNAL.
+
+> ## 2026-10-04 04:31 -- R6 READY; C2 LABELS READY; LANDING RULING PENDING
 > R6 uses common distance/catalog-speed TTI every frame, causal motion for ambiguous stages,
-> and identical area-clock capability masks/50ms rounding.46 focused tests pass, including legacy
+> and identical area-clock capability masks/50ms rounding.53 focused tests pass, including legacy
 > byte parity. Rebuilt20-recording sample6118 rows passes training preflight; no GPU job launched.
 > Projectile timing known: nativeK10 71.57%, SIM72.78%, reader73.77%; area83.17%/91.48%/100%
 > (different card mixtures). Evidence `runs/r6/report.json`; full build must use current code and
 > metadata `R6_catalog_distance_speed_all_frames_v1`. C1's old source-hash report is historical.
-> Revised X-Bow calibration: best overall-error threshold12.0406 tiles has39.29% overlap and
-> modal cell defensive. Best modal-compatible13.0384 tiles has42.86% overlap, above15% gate.
-> All12 in-range misses had nearby enemy troops; distraction is possible, not proven.
-> `LEAD_QUESTIONS.md` and `runs/public_xbow_calibration_sample.json` hold the decision/evidence.
+> FULL revised X-Bow calibration:11852 placements,7380 eligible; reach13.0384 tiles, modal offensive.
+> Lead R1-FINAL supersedes15% overlap with hit recall:3517/3583=98.158%, approved.66 far hits remain
+> a source-isolation limitation. Approved artifact `L70/gen_v31/xbow_reach_public.json` retains full
+> precision; decision in LEAD_RULINGS/LEAD_QUESTIONS, full evidence runs/public_xbow_calibration_full.json.
 > Six-target fitter passes synthetic integration/provenance tests, but NO real weighting artifact
 > exists. BUILD_V31.txt contains prepared calibration/fit/train commands and a fail-closed verifier.
 > Full local inventory03:25:14818 files and successful summary rows reconcile,14661 unique tags.
-> Full calibration running below-normal CPU, worker13280. Lead retains build/train/deploy/live/Git.
+> Full candidate labels COMPLETE:14661 replays,21897 Rocket/X-Bow events join to3517863 dataset rows.
+> Requested missing-area landing correction awaits lead approval in LEAD_QUESTIONS.md: public aim +
+> catalog-speed reconstruction gives48/48 identical sample K1/K10 landing ticks,0 tower/troop changes,
+> and12/12 HP-confirmed tower hits. No matching Rocket area-start labels;10037 reconstructed/8 unknown.
+> Full targets:2680 tower Rockets,4965 troop-hit Rockets,561 forward/5 reverse combos,8887 offensive/
+> 2965 defensive X-Bows. Reverse combo has4 fit/1 tune/0 test positives; held-out effectiveness untested.
+> Native crown duplicates excluded from troop hits; Rocket-first covers entire flight; multi-Rocket
+> history persists through overtime. Evidence runs/public_c2_labels_verified.json;53 tests pass.
+> No worker from this Codex run remains. Fitting awaits landing ruling; do not re-mine existing corrected
+> labels. After approval enable reconstruction by default for telemetry, then fit/verify per BUILD_V31.txt.
+> Lead reported gen_v3.1a training since03:42; its R7 allowance is preserved. Lead owns train/deploy/live/Git.
 
 > ## 2026-10-04 01:02 -- PUBLIC C1/C3 READY; C2 NEEDS LEAD R1 REVIEW
 > Current TICKET/LEAD_RULINGS supersede the proxy/fallback notes below. Lead owns full re-drive,
@@ -577,6 +600,19 @@ Last updated: **2026-10-04 03:21 EDT** (Codex R6 timing parity verified; C2 revi
 > * **X-Bow reach FINAL (R1-FINAL):** 13.0384 tiles centre-to-centre. Full corpus: 3,517 of 3,583 tower-hitting X-Bows
 >   (98.2%) within it; the pros' modal cell is offensive. In-reach X-Bows that never hit (2,260) are distraction /
 >   destruction, not reach -- my 15% hit/no-hit gate mixed the two and was withdrawn.
+> * **09:4x -- gen_v3.1a ACCEPTANCE: NOT DEPLOYED (lead judgment; owner told).** Trained 03:42-05:45 (pick epoch 3; v3val
+>   cell .2021 / card .6508 / joint .1323 / gate_bal .7622 vs gen_v3 .1973 / .6444 / .1275 / .7626 -- rows not identical).
+>   [3.5 h idle 05:45-09:2x: my 2-h background waiter expired before training ended and I did not re-arm it.]
+>   Ghost screen paired vs LIVE u0155: -3.3 pp [-7.0, +0.3] (10 better / 20 worse); vs gen_v1 evo base -0.3 [-3.7, +3.0]
+>   (= the IL baselines; u0155's edge is its RL). Reactive: gen 11/24 (u0155 14), S1 15/24 (u0155 24/24). Live smoke
+>   (reader v2 frames, side 1): 995 decisions, projectiles 387 / effects 290 non-empty frames. Behaviour (299 ghost
+>   games, telemetry): Rocket 77 / 9,371 plays = 0.82% (pros ~5.8%), tower Rockets 8, finish-offs 0, multi-cycles 0,
+>   defensive Rockets 26, combos 0; X-Bows 807 (222 defensive), 4 distinct offensive cells; pre-emptive Log 64/272.
+>   Passes the letter of the READY gate (CI upper +0.3) but is worse on both instruments -> u0155 stays; live restarted
+>   on u0155 09:43 (stopping it gave no speedup: 1,673 rows/s vs gen_v3's 1,750 with live).
+> * **09:4x -- gen_v3.1b TRAINING** (`L71/gen_v31/train_v31b.sh`): 3.1a recipe + six-target weighting 2.0 (C2 artifact
+>   PUBLIC_C2_PASSED; labels 2,680 tower Rockets / 4,965 troop Rockets / 561 R->T / 5 T->R / 8,887 offensive / 2,965
+>   defensive X-Bows). 1,355 rows/s with live running.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
