@@ -613,6 +613,14 @@ Last updated: **2026-10-04 09:33 EDT** (C2 complete under R2c; verified six-targ
 > * **09:4x -- gen_v3.1b TRAINING** (`L71/gen_v31/train_v31b.sh`): 3.1a recipe + six-target weighting 2.0 (C2 artifact
 >   PUBLIC_C2_PASSED; labels 2,680 tower Rockets / 4,965 troop Rockets / 561 R->T / 5 T->R / 8,887 offensive / 2,965
 >   defensive X-Bows). 1,355 rows/s with live running.
+> * **10:20 -- MuMu CRASHED mid-match** (gen_v3.1a live since 09:57 on owner request; owner: keep live + training).
+>   MuMu shell.log 10:20:49: renderer crash code 900, module KERNELBASE.dll, VERR_UNKONW_GRAPHIC_CRASH; reader closed
+>   4x; supervisor then burned 5/10 restarts on "MuMu not reachable" until the lead touched STOP. Suspected (UNTESTED)
+>   GPU contention with gen_v3.1b bf16 training (5.8 GB VRAM); RAM was not short (7 GB free). Recovery: `nx_main/
+>   MuMuManager.exe control -v 0 launch`, adb connect, `monkey -p com.supercell.clashroyale`, Play Store
+>   BlockingUpdateFlowActivity overlay -> force-stop com.mumu.store + Back (never update), new supervisor 10:31
+>   (0/10). Live decisions ~100-113 ms (CPU-STARVED; normal ~40). Supervisor's Discord stop reason after a checkpoint
+>   switch is stale (last_stop pattern lacks "new checkpoint deployed"); fix only when the supervisor is not running.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
