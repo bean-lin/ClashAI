@@ -80,6 +80,12 @@
    placement (lane; defensive vs bridge row; the board-y direction trap: forward = DECREASING y), and what follows (a
    Rocket on a tower within ~10 s, i.e. defensive X-Bow + Rocket cycle). Weight pro-like X-Bow contexts in the IL loss
    with the tower-Rocket contexts; no scripted rule.
+   (b3) DEFENSIVE ROCKETS + ROCKET-TORNADO SYNERGY (owner 2026-10-03 21:0x; your native audit covered only Rockets on
+   towers: ~6,307 of 10,045 pro Rockets). Mine the other ~37%: Rockets on enemy troops (what units, how much elixir
+   value hit, own side vs enemy side, phase), and Tornado -> Rocket combos (Rocket landing on a Tornado-pulled group
+   within ~2.5 s of the Tornado; HANDOFF_ARCHIVE rocket_nado_window 2.5 s / radius 0.11 is a prior to check against
+   the data). Same treatment: pro-like contexts weighted in the IL loss, no scripted rule; metrics: defensive-Rocket
+   rate and Tornado->Rocket combo rate vs pros.
    (c) ACCEPTANCE adds behaviour metrics next to the ghost screen and reactive play, for gen_v3.1 AND every later RL run:
    Rocket share of plays (pros 5.8%); Rocket-on-tower rate in the contexts where pros Rocket towers (from (b));
    multi-Rocket sequences on one tower; X-Bow dead-lane share once a princess is down (baseline 10/18) and defensive-X-Bow share in late game vs pros; X-Bow -> Rocket-cycle sequences; the end-of-match tower-HP margin in tiebreak finishes; the one-Rocket finish
