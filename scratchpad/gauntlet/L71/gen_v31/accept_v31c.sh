@@ -12,8 +12,8 @@ LIVE=scratchpad/gauntlet/L70/rl/r1_accept/train_rseries_r1_u0155.jsonl
 CK=icebow/data/pipeline/gen_v31c_s0/gen_s0.pt
 export PYTHONPATH=.
 log() { echo "[v31c-acc] $* $(date '+%F %T')" >> $LOG; }
-until grep -q "\[v31c] train exit" $LOG; do sleep 30; done
-grep -q "\[v31c] train exit 0" $LOG || { log "TRAIN FAILED"; exit 1; }
+until [ $(grep -c "\[v31c\] train exit" $LOG) -ge 2 ]; do sleep 30; done   # the 1st exit = the refused weight-4.0 launch
+grep "\[v31c\] train exit" $LOG | tail -1 | grep -q "train exit 0" || { log "TRAIN FAILED"; exit 1; }
 log "screen start"
 $PY $RS --ckpt $CK --out $G/train_gen_v31c.jsonl --split train --noise-off all --opp-elixir counter --action-delay 26 \
     --extrapolate 26 --seeds 0 --device cuda --forms-mode deck --tau 0.27 --only-tags-from $OLD --behaviour-telemetry > $G/screen_v31c.out 2>&1 \
