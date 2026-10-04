@@ -544,6 +544,15 @@ Last updated: **2026-10-04 01:02 EDT** (Codex C1/C3 verified; C2 stopped by lead
 >   held-out noise; 5-fold RMS boss-bandit 3.7, little-prince 4.1, monk 1.6). v1 over-pressed 5-22 pp. Hero Goblins /
 >   Tombstone use phase-1 shares (fallback). 15 tests pass. NOT yet wired into pipeline/royale_env.py (after Codex's
 >   pipeline edits; needed for R1e).
+> * **02:5x -- gen_v3.1 = TWO arms (one change each):** 3.1a = every v4 input, NO context weighting
+>   (`train_gen --inputs-only-arm`, lead-added; Codex had made v4 training refuse without the six-target artifact);
+>   3.1b = 3.1a + six-target context weighting 2.0 (Codex C2 artifact, R1-REVISED X-Bow reach). Chain RUNNING:
+>   `scratchpad/gauntlet/L71/gen_v31/chain_v31a.sh` (log `chain.log`): wait VM -> zstd pack -> fetch -> unpack -> count
+>   check (>= 14,700) -> VM poweroff -> live STOP (between matches) -> build `gen_dataset_v31_public.npz` (8 workers) ->
+>   v3val rows > 0 check -> train `icebow/data/pipeline/gen_v31a_s0` (gen_v3 recipe + v4 + bf16). Acceptance waits for
+>   Codex R6 (one TTI definition across native/SIM/live: SIM currently sets every projectile TTI unknown).
+>   Codex 00:14 run ended 01:03 (C1+C3 done, C2 stopped on the OLD R1); relaunched 02:5x.
+>   live_play now feeds confirmed own presses to GenPilot.record_ability (b6642c1).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
