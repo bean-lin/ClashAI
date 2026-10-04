@@ -38,6 +38,29 @@
 ## every v1/v2/v3 default path byte-identical). CAUTION: R1t from gen_v3 is TRAINING NOW (started 14:55) and imported
 ## rl_royale.py at its start -- do not change behaviour R1t depends on; never touch its run dirs.
 
+## OWNER DECISIONS 2026-10-03 22:3x (answers to BLOCKERS.md -- apply them; mark those entries RESOLVED)
+## 1. Rocket-hit / area-effect labels: use B NOW (a documented proxy label + an error audit) so gen_v3.1 is not stuck,
+##    AND start A in parallel: fix + validate the native recorder (public area effects, causal Rocket hits on troops /
+##    towers) for a NEW VM re-drive. The VM is powered off; the owner starts it and gives the IP to the lead (it
+##    changes) -- prepare everything so the re-drive starts the moment it is up (runbook + jobs + a 20-replay check
+##    that EVERY requested field is present and sane BEFORE the full run).
+## 2. Projectile time-to-impact: ESTIMATE it now from observed motion (past frames only); ALSO record it in the
+##    option-1A re-drive.
+## 3. Ability calibration: A (re-measure on the ability-driven native recordings) THEN B (add a timing term; report
+##    share and delay error per ability).
+## 4. X-Bow defensive label: review examples first (pull audited examples from the native census into a short report
+##    with board context; the lead / owner approve the label on Tuesday unless it is unambiguous).
+## 5. Opponent ability state: own-side ability state + visible effects only; opponent internal readiness = unknown.
+## 6. Opponent-elixir leak: AUDIT + RELABEL every historical IL / pro-agreement result that used true opponent elixir
+##    (list datasets, checkpoints, numbers affected), THEN the clean public-input retrain (gen_v3.1 uses ONLY the
+##    public counter; with reader-v2 spells the public estimate should be close to the truth -- MEASURE its error).
+## 7. POST-MORTEM (owner): "I made it very explicit what needs to be included in the re-drives and trainings, yet so
+##    many things were missed." Write `.foreman/codex_autopilot/POSTMORTEM.md`: every requested item that was missed
+##    or caught late (re-drive fields: area effects, Rocket hit causality, time-to-impact; training inputs), WHO missed
+##    it (the lead's re-drive spec/validation vs your implementation/checks), WHY each check did not catch it, and the
+##    concrete pre-flight checklist you will run from now on before any re-drive / dataset build / training (verify
+##    every requested field end-to-end on a small sample first). Post a short summary to Discord.
+
 ## DISCORD REPORTS (owner, 2026-10-03 15:2x) -- post with `icebow/.venv/Scripts/python.exe
 ## scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL) after EVERY MAJOR MILESTONE (e.g. stopped-run
 ## edits reconciled, VM data fetched + VM off, pro tower-Rocket mining report, behaviour baselines, gen_v3.1 code done,
