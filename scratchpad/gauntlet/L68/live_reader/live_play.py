@@ -258,10 +258,17 @@ def main() -> int:
                     help="seconds; > 0: record ONLY the first match and then one match every this many seconds, and post "
                          "a 60-s overlaid clip of it to Discord (discord_clip.py) -- all other matches unrecorded")
     ap.add_argument("--stop-file", type=Path, help="stop the run between matches once this file exists")
+    ap.add_argument("--ckpt-override-file", type=Path, default=REPO / "scratchpad/gauntlet/L70/live/CKPT_OVERRIDE",
+                    help="2026-10-03 deploy hook: if this file names a checkpoint, it replaces --ckpt at start; if it "
+                         "changes to a different checkpoint mid-run, the run exits between matches so the supervisor "
+                         "restarts on it")
     ap.add_argument("--nav-dry-run", action="store_true",
                     help="play nothing: run ONE between-match navigation that classifies the live screens and logs "
                          "the tap it WOULD make, never tapping (navigate by hand to test it)")
     a = ap.parse_args()
+    if a.ckpt_override_file and a.ckpt_override_file.is_file() and a.ckpt_override_file.read_text().strip():
+        a.ckpt = a.ckpt_override_file.read_text().strip()
+        print(f"[live] checkpoint override: {a.ckpt}", flush=True)
     if a.matches < 1:
         print("refusing: --matches must be >= 1")
         return 2
@@ -297,6 +304,12 @@ def main() -> int:
     last_clip, no_start = -1e18, 0
     try:
         for k in range(a.matches):
+            ov = (a.ckpt_override_file.read_text().strip()
+                  if a.ckpt_override_file and a.ckpt_override_file.is_file() else "")
+            if ov and Path(ov) != Path(a.ckpt):
+                print(f"[live] new checkpoint deployed ({ov}) -- ending this run so the supervisor restarts on it",
+                      flush=True)
+                break
             if a.stop_file and a.stop_file.exists():
                 print(f"[live] stop file {a.stop_file} found -- ending the run before match {k + 1}", flush=True)
                 break

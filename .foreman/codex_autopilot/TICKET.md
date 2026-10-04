@@ -61,6 +61,20 @@
 ##    concrete pre-flight checklist you will run from now on before any re-drive / dataset build / training (verify
 ##    every requested field end-to-end on a small sample first). Post a short summary to Discord.
 
+## OVERNIGHT GOAL (owner 2026-10-03 22:5x): "When I wake up tomorrow, I expect gen_v3.1 set up with all the new
+## components, trained, and deployed on live (you have my authorization to deploy immediately when it's ready)."
+## - VM is UP again: ssh -i ~/.ssh/clashbot_gcp clashbot-gauntlet@34.73.26.199 (NEW IP). Run decision 1A's re-drive on
+##   it once the recorder passes the 20-replay field check; gen_v3.1 does NOT wait for it (decision 1B proxies now).
+##   Power it off after fetching (sudo poweroff).
+## - gen_v3.1 training is single-process (train_gen + --amp bf16) -> run it yourself when the GPU is free. Acceptance:
+##   run_screen + search_s0 with `--workers 1` (multiprocessing is blocked in your sandbox; workers 1 runs in-process).
+## - DEPLOY when READY = trained + acceptance done (ghost screen paired vs u0155 + reactive + behaviour metrics) + a live
+##   smoke (live_gen decisions on recorded reader-v2 frames, scratchpad/gauntlet/L70/reader/sidebyside/re_v2xb.jsonl,
+##   no crash, v3.1 features non-empty) + NOT clearly worse than u0155 (paired ghost CI not entirely below 0). Deploy =
+##   write the checkpoint path (one line) to scratchpad/gauntlet/L70/live/CKPT_OVERRIDE; live_play ends its run between
+##   matches and the supervisor restarts on it (rollback: write the u0155 path back). Then post Discord "DEPLOYED
+##   <ckpt>" with the evidence, and watch the next few matches in overnight.out (crash -> roll back + Discord).
+
 ## DISCORD REPORTS (owner, 2026-10-03 15:2x) -- post with `icebow/.venv/Scripts/python.exe
 ## scratchpad/gauntlet/L69/discord/post.py <msg.txt>` (never print the URL) after EVERY MAJOR MILESTONE (e.g. stopped-run
 ## edits reconciled, VM data fetched + VM off, pro tower-Rocket mining report, behaviour baselines, gen_v3.1 code done,
