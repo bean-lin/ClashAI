@@ -654,6 +654,9 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   the loader binds the weight to the artifact). Ability v2 wiring into royale_env/e1_eval/rl_royale (`ability_policy:
 >   generic|v2`) dispatched to a worker. R1e waits for R8 (else it trains on the old look-ahead and deploys on the new)
 >   AND for the GPU (3.1c ends ~15:00). README rewritten (916e3a8).
+> * **R1e BASE RULE (owner 12:5x: "if gen_v3.1c beats gen_v3.1b, R1e starts from gen_v3.1c"; lead's pre-registered
+>   test):** 3.1c wins iff ghost paired vs 3.1b delta >= 0 AND reactive (gen + S1) >= 31/48 (3.1b's); if the two
+>   disagree, the ghost screen decides. `L71/gen_v31/accept_v31c.sh` queued (waits for "[v31c] train exit").
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)
