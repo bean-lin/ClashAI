@@ -1,5 +1,36 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 10:45 EDT -- OPENING-HAND REPAIR VERIFIED ON TRAINING; RESERVED RECOVERY ACTIVE
+> Read L72/improvement_loop/DEAL_RECOVERY_PLAN.md/REVIEW.md and deal_recovery/GATES.md. Original replay_drive.py
+> discarded both inferred openings when either player's position probe failed. An isolated generic resolver now fits
+> native-observed opening hand/queue positions to original source card sequences, preserving all forms/levels, seed,
+> commands, native assets and original driver. No card-specific tactic, forced play, delayed-command waiver or outcome
+> selection. v3 cap: 61 solver resets plus three inherited resets =64 total; successful training repairs used2-3.
+> D1-D4 complete: source audit807 records/183 unused exact-Icebow groups; solver2positive/6negative and independent
+> recount2positive/7negative controls; full training comparison recovers7/13 formerly excluded records with3 successful
+> controls unchanged and all16 deterministic repeats matched. Four unresolved openings and two other failed captures
+> remain excluded (crowns; one also missing/rejected/skipped). See complete_v3.json, verified_v4.json and l72-deal-recovery-*.
+>
+> Preserve failed v1/v2 sources/receipts/artifacts. v1 asserted tick0 although native reset bootstraps at10; no commands
+> were played. v2 control assertion compared integer in-memory keys with string JSON keys; saved control records match.
+> v3 compares serialized records and corrects combined-reset accounting. Reader v4 matches pre-card frames only to
+> driven non-ability commands; every ability still remains in full CSV/log/grade verification. See the three correction notes.
+>
+> CRITICAL data finding: ALL183 unused exact-Icebow metadata groups have ZERO opposing Goblin Barrel decks, not merely
+> zero successful captures. Five Witch deck encounters exist; two contain still-unverified Void and three use failed
+> opening fallback. Additional public dataset schema checks found no qualified substitute; PUBLIC_SOURCE_CHECK.md has
+> links/limits. No guessed forms, source substitution, challenge bypass or new model. N2-N7 stay open.
+>
+> NEW serial reserved reconstruction ACTIVE on the sole emulator5560/direct38031: collector launcher28292,
+> run_reserved.py, reserved_launch.json/reserved_chain.out/.err; independent read-only verifier queued launcher18592,
+> verify_reserved.py --wait-for-completion, reserved_verifier_launch.json/.out/.err, all under deal_recovery.
+> Fixed65 cases =12development/53confirmation, all original non-training fallbacks in tag order, each repeated;
+> RESERVED_RECOVERY_PLAN.md/reserved_jobs.json/RESERVED_GATES.md bind unchanged criteria and training qualification.
+> At10:45 five completed, three usable, no fatal error. Do not duplicate, contact native concurrently, or edit bound
+> sources. On completion read reserved_complete.json/reserved_verified.json and both new receipts before recounting
+> total usable capacity. Original pilot/corrected collections stay immutable. No policy predictions or optimization.
+> Owner farming37424/29536 remains active, STOP absent; no live change/new checkpoint/Discord model report.
+
 > ## 2026-10-05 10:09 EDT -- DEFENSE SEQUENCE V5 BINDING VERIFIED; N2 COVERAGE GAP UNCHANGED
 > The existing historical defense sequence index now has an explicit verified positional crosswalk to the already
 > corrected v5 body-identity dataset. Read DEFENCE_CROSSWALK_PLAN.md/REVIEW.md, defence_crosswalk_bound.json/verified.json
