@@ -704,6 +704,13 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   `CODEX_BRIEF.md` (repo root; owner opens Codex on it + README + HANDOFF; Codex works until Tuesday).** Pre-registered
 >   live rule: an R1e checkpoint (u0080 / u0155) wins iff its paired ghost delta vs gen_v3.1c (R8 screen) >= 0; both ->
 >   the higher delta (tie -> more reactive wins of 48); else gen_v3.1c. Brief drafted now (section 6 filled at verdict).
+> * **20:5x -- R1e VERDICT + LIVE + HAND-OVER TO CODEX.** R1e (base 3.1c, 155 updates 15:06-20:2x, ~110 s/update with
+>   5 actors) u0155: ghost vs 3.1c +1.3 [-1.7, +4.3], vs old u0155 -0.3 [-3.3, +2.7]; reactive gen 17 / S1 21; evo/hero
+>   census with abilities v2 gen 11 / S1 21 (3.1c 8 / 19). u0080: vs 3.1c -0.3, vs u0155 -2.0 [-5.4, +1.3], 16/21, evo
+>   11/21. OLD u0155 on the evo census (new, lead tie-break, pre-registered): gen 12 / S1 24 = 36/48 > R1e 32/48 -> by the
+>   owner's rule live = OLD rseries_r1_u0155 (R1e was live 20:41 until the switch; switched via CKPT_OVERRIDE ~20:5x).
+>   Discord verdict posted. Codex continues from `CODEX_BRIEF.md` (section 6 = this verdict; queue Q1-Q5 with the
+>   owner's sampling concern built in: confidence-filtered sampling only, offline check first, stricter adoption).
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)

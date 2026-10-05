@@ -1,6 +1,6 @@
 # CODEX BRIEF -- continue ClashBot until Claude's usage resets (Tuesday 2026-10-06)
 
-Written by the lead (Claude) on 2026-10-04. Read this file first, then `README.md` (the project overview) and the TOP of
+Written by the lead (Claude) on 2026-10-04 (final update ~20:55 EDT). Read this file first, then `README.md` (the project overview) and the TOP of
 `HANDOFF.md` (the blocks dated 2026-10-04: every number below comes from there, with its context). The owner will talk
 to you directly. This brief tells you what was done, what was measured, what to do next, and -- most important -- HOW
 the work is done here, so the project does not drift.
@@ -60,7 +60,7 @@ the work is done here, so the project does not drift.
 - **RL:** R1e = PPO from gen_v3.1c (5 actors, evo/hero census opponents, calibrated per-ability press models v2,
   R8), launched 15:06 by `scratchpad/gauntlet/L71/rl/run_r1e_v3.sh`; log `scratchpad/gauntlet/L71/rl/r1e.log`. Its
   verdict and the live decision are appended in section 6 when they arrive.
-- **Live:** see section 6 (the lead starts live on the winner of R1e vs 3.1c before handing over).
+- **Live:** RUNNING on `rseries_r1_u0155` (old RL best) -- see section 6. Start/stop: `start_live.sh` / `stop_live.sh`.
 - **Abilities in the sim:** `ability_policy: v2` (royale_env / e1_eval / rl_royale / search_s0 `--ability-policy`).
   Calibrated models: `scratchpad/gauntlet/L70/abilities/ability_models_v2.json` (held-out share error <= 3 pp for 17/22).
 - **Live ability:** Hero Ice Wizard = owner's interim rule (freeze clumps of >= 3 troops, or a win condition on our
@@ -125,6 +125,26 @@ the work is done here, so the project does not drift.
 outputs: gen_v31/, rl/, rocket_diag/, barrel_log/), `pipeline/` (all model/data/sim/RL code, tests in
 `pipeline/tests/`; run with `research/ext/Royale/.venv/Scripts/python.exe -m pytest`).
 
-## 6. R1e verdict and live decision
+## 6. R1e verdict and live decision (final, 2026-10-04 ~20:55 EDT)
 
-(Pending at the time of writing; the lead appends it here before handing over.)
+R1e = `icebow/data/bench/rl_royale/rseries_r1e31/rseries_r1e31_u{0080,0155}.pt` (base gen_v3.1c). All measured
+(`scratchpad/gauntlet/L71/rl/r1e.log`, `r1e_accept/`):
+
+| model | ghost vs gen_v3.1c | ghost vs old u0155 | reactive gen/S1 (old census) | reactive gen/S1 (evo/hero census, abilities v2) |
+|---|---|---|---|---|
+| R1e u0155 | +1.3 [-1.7, +4.3] | -0.3 [-3.3, +2.7] | 17 / 21 | 11 / 21 |
+| R1e u0080 | -0.3 [-3.3, +2.7] | -2.0 [-5.4, +1.3] | 16 / 21 | 11 / 21 |
+| gen_v3.1c | 0 | -1.7 [-4.7, +1.3] | 13 / 19 | 8 / 19 |
+| old rseries_r1_u0155 | -- | 0 | 14 / 24 | 12 / 24 |
+
+Reading: RL on top of gen_v3.1c helped (R1e beats its base on all three instruments) and nearly closes the gap to the
+old RL model, but does NOT beat it: a tie on the ghost screen and the old census (38/48 each), and old u0155 wins the
+evo/hero census 36/48 vs 32/48 (mostly vs S1: 24 vs 21). Owner rule ("if R1e doesn't beat everything, deploy the
+current best") -> **LIVE = `icebow/data/bench/rl_royale/rseries_r1/rseries_r1_u0155.pt`** (CKPT_OVERRIDE; R1e played
+live 20:41 until the switch). Note: old u0155 is a feature-version-1 model -- R8 and the v4 inputs do not apply to it.
+
+**Implications for your queue:** run Q3 on BOTH the live model (old u0155) and R1e u0155, each paired against its own
+fresh baseline screen made with the SAME code (first produce `--behaviour-telemetry` baseline screens for old u0155
+and R1e u0155 -- the old u0155 screen in L70/rl/r1_accept has no telemetry). Any further RL run (e.g. R1e for more
+updates, or RL after the Rocket fixes) is an owner/lead decision: propose it in BLOCKERS.md with a one-change design,
+do not launch it.
