@@ -31,3 +31,6 @@ This clears the old STOP file and starts the supervisor with `--ladder --matches
 can end a run. For a between-match stop, use the same command with `stop_live.sh`.
 The October5 06:27 run stopped before match2 because Codex set STOP for the final
 evaluation under the owner's permission; its log does not show a navigation failure.
+The owner restarted at06:45 after evaluation finished. At06:55 the current log
+shows repeated result recognition, Play Again taps and battle-loading handoffs;
+STOP is absent and one launcher/worker pair is active. Live looping is observed.

@@ -1,5 +1,13 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 06:55 EDT -- OWNER RESTARTED LIVE; NEXT-MATCH NAVIGATION OBSERVED
+> Final process check found the owner restarted the supervisor at06:45:15, after frozen evaluation completion. One
+> venv launcher/worker pair37424/29536 runs CPU live_play.py --ladder --matches400; STOP is absent. This was not a Codex
+> fallback restart. Leave it running unless it materially hinders work under the owner's latest authority. Latest log
+> shows completed match, NAV_QUIET_S, result tally, Play Again tap and battle-loading handoff, repeatedly. Thus the loop
+> is working in the actual refreshed entry; earlier match2 stop was Codex's evaluation STOP, not a navigation defect.
+> Main evidence/model rejection/defensive-X-Bow audit was published as a58bcbf. No new model accepted; continue L72.
+
 > ## 2026-10-05 06:52 EDT -- FROZEN CHAIN CLOSED/ALL REJECTED; DEFENSIVE X-BOW CYCLE AUDIT
 > Final original reactive job completed06:43:21. All34 receipts/sources/inputs/results and1000 finite updates per arm
 > reconcile. Nine independently recounted prediction caches remain hash-identical (344,853 rows). Extra literal primary-
