@@ -18,6 +18,8 @@ sleep 15
 if $ADB -s 127.0.0.1:16384 shell dumpsys activity activities 2>/dev/null | grep -m1 topResumedActivity | grep -q -v clashroyale; then
   echo "clearing an overlay over the game (Play Store / MuMu ad)"
   $ADB -s 127.0.0.1:16384 shell am force-stop com.mumu.store; $ADB -s 127.0.0.1:16384 shell input keyevent 4; sleep 5; fi
+# MuMu's store app can float an advert over the game a little later (seen 2026-10-04: it covered the Battle button)
+$ADB -s 127.0.0.1:16384 shell am force-stop com.mumu.store; sleep 30; $ADB -s 127.0.0.1:16384 shell am force-stop com.mumu.store
 rm -f $L/STOP
 nohup bash $L/run_live.sh > /dev/null 2>&1 &
 echo "live started with model: $(cat $L/CKPT_OVERRIDE 2>/dev/null || echo 'run_live.sh default (u0155)')"
