@@ -1,5 +1,54 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 17:37 EDT -- ROCKET BRANCH LIMIT VERIFIED; AIM-ONLY TRIAL ACTIVE
+> Read frozen_branch_rocket/PLAN.md,METRICS.md,GATES.md,REVIEW.md,report.json,
+> verified_v2.json,VERIFIER_CORRECTION.md and development_iteration_8/PLAN.md,
+> METRICS.md,GATES.md,REVIEW.md,prelaunch.json under L72/improvement_loop.
+> Diagnostic R1-R3 complete: producer90.29s/independent-v2 55.88s exit0; all54723
+> fixed development rows/four caches/229 groups/955 Rocket records and per-replay
+> counts reconcile,6positive/10corruptions. No new inference/optimization.
+> Preserve original verifier/nonzero256.28s receipt: repeated NPZ decompression
+> inside row loop; exact process58876 stopped. Separate outer helper loads arrays
+> once, same inputs/metrics/controls. No producer or completed model reruns.
+>
+> v5->frozen branch:607/955 Rocket rows lack valid projectile targets, aim196/196,
+> containing411 of665 remaining misses. All36739 no-target states have unchanged
+> expert/Log aim/actions. Only15 Rocket cells change, all between patches:6closer/
+> 9farther,1aim gain/3losses,fullaction77->76. Only93 expert Rocket cells fall within
+> possible3x3 target support. Narrow near-princess ROCKET42rows/29groups aim5/full2
+> unchanged; earlier43 all-card rows included one other card. Not all tower cycles.
+> Loss contexts ownXbow/ownLog/enemyWizard; gain ownXbow+enemyBowler, sparse and not
+> grounds for card rules. One gain crosses original float one-tile boundary; no
+> threshold change. Aim already has card/form conditioning. Trial7 stays rejected.
+>
+> ACTIVE development_iteration_8 aim_heads_v6: launcher60876 started17:37:19.
+> A1complete,A2/A3active; oneGPUlock across train/eval/recount,failclosed,noresume.
+> Inspect launch/chain_started/chain_progress.json,chain.out/.err and ignored
+> icebow/data/bench/development_iteration_8_20261005/aim_heads_v6/train.jsonl.
+> Do NOT duplicate or edit/add bound Python/PLAN/METRICS/data/pipeline files;
+> put new reporting helpers OUTSIDE the frozen directory. Native5560 idle.
+>
+> ONLY trainability changes versus trial7: same ordinary_v5 parent/zero v6 branch,
+> allow eight existing query/cell_key/cell_emb/cell_bias aim tensors plus five
+> projectile tensors; freeze all shared encoder/embeddings/timing/card/wait/value.
+> Original loss/draws/mirror/1000updates/batch128/seed20261005/fp32/clip1/wd.01,
+> existing aimLR1e-5/projectileLR1e-3; baseevalmode. No failed trained weights,
+> new labels, tactics, mixture/loss recipes, confirmation or old-validation access.
+> Same213995train/1573groups and54723dev/405groups,parent exposure disclosed.
+> Preflight94.36s exit0: initial outputs/loss exact; two training-only CPU losses
+> 5.106794834136963/5.102773189544678; all frozen tensors/heads exact, six aim paths
+> learn, no-target aim can change, corrupted frozen head rejected, portable exact
+> roundtrip. No saved checkpoint/smoke as training or development predictions.
+>
+> Frozen continuation vs v5: Rocketaim+5pp/fullaction+2pp/lateRocket+2pp, Barrel
+> correct+15pp/wronghalved/fullactionnondecrease, noW/NW/F/defense/lateall decrease,
+> exact gate/card caches and unchanged card choices. Tiny discrepancies stillFAIL;
+> independent recount preservesfalsefilters while completing other statistics.
+> Aftercompletion review all l72-development8-* receipts/1000finiteupdates/54723
+> predictions/frozen tensors/perreplay results,then report NEWmodel ONCE against
+> R1e/v5/v6/trial7,DEVELOPMENT/NOT ACCEPTED. No report dueatlaunch. No live restart,
+> ownerSTOP13:39:32 intact. FinalN2-N7/component/gameplay/statistical/Q4/Q5 stayopen.
+
 > ## 2026-10-05 17:13 EDT -- FROZEN-BASE TRIAL REJECTED/REPORTED; NO ACTIVE MODEL JOB
 > Supersedes the ACTIVE iteration7 block below. Read development_iteration_7/REVIEW.md,
 > RECOUNT_COMPLETION.md,results_verified_v2.json,reviewed_results.json. Do NOT rerun
