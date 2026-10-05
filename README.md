@@ -259,11 +259,11 @@ acceptance instruments; unattended live ladder play with navigation, chest colle
 **In progress:**
 * R8 (projectile/effect look-ahead at inference) to fix late reactions to Goblin Barrel and other projectiles;
   then a paired simulator A/B.
-* `gen_v3.1c`: `gen_v3.1b` with a stronger (4x) context weight, aimed at Rocket use and X-Bow placement.
-* R1e: RL from `gen_v3.1b` against the evolution/hero deck census, with every hero and champion pressing its
-  ability by a per-ability model calibrated to pro press rates and timing (being wired into RoyaleSim).
-* Live currently runs `gen_v3.1b` so its behaviour can be watched; `rseries_r1_u0155` remains the best
-  checkpoint measured in the simulator.
+* Rocket use (~0.9% of plays vs pros ~5.8%): confidence-filtered card sampling and area-aware spell aim, each
+  behind an opt-in flag and tested against the live model before any change goes live.
+* Latest results (2026-10-04): `gen_v3.1c` (4x context weight) is the best imitation model; R1e (RL from
+  `gen_v3.1c` against evolution/hero decks with calibrated per-ability presses) beats `gen_v3.1c` but only ties
+  `rseries_r1_u0155`, which stays live. Numbers in HANDOFF.md and CODEX_BRIEF.md.
 * Behaviour metrics for decisive moments (Rocket share and finish-offs, pre-emptive Log, X-Bow lane
   choice) are being used as acceptance criteria next to win value.
 
