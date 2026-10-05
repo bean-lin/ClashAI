@@ -1,5 +1,12 @@
 # New-model improvement loop, October 5 05:05 EDT
 
+October5 coverage correction: DEVELOPMENT_AMENDMENT.md supersedes the blanket
+dependency requiring complete final-confirmation coverage before all development
+training. A frozen, verified development-only split/recipe is still required
+before optimization. All untouched final-evidence and deployment floors below
+remain mandatory. coverage_recheck v2 separates actual overnight observations
+from pro confirmation and includes unplayed low-HP Rocket-cycle targets.
+
 ## Owner amendment
 
 The owner's latest instruction supersedes the earlier R1e fallback deployment:
@@ -52,7 +59,8 @@ Barrel targets do not prove actual live landing coordinates.
    reuse. Select and tune only on train/development evidence.
 3. Diagnose finishing failures on training/development examples by separating
    legality, gate, card selection, target representation/aim and subsequent
-   decisions. Check one-Rocket and two-Rocket finishes separately. Inspect
+   decisions. Check one-, two- and three-Rocket cycle finishes separately,
+   including positive low-HP states where no Rocket was issued. Inspect
    compact Rocket-only and spread Rocket-then-Tornado opportunities, and both
    sequence heads. Do not assume the ten validation misses identify the cause.
 4. Diagnose spawner regressions on matched training/development contexts and
@@ -98,10 +106,12 @@ Barrel targets do not prove actual live landing coordinates.
 ## Strong replacement acceptance
 
 These are stricter working requirements for the new objective, declared before
-successor training. They do not change L71's frozen acceptance. Cohort membership,
-event definitions, sufficient sample sizes/power and paired uncertainty method
-must be frozen in the successor experiment manifest before training. If evidence
-is too sparse, collect more; do not call a single successful example mastery.
+successor training. They do not change L71's frozen acceptance. Final cohort
+membership, event definitions, sufficient sample sizes/power and paired uncertainty
+method must be frozen before final confirmation policy evaluation. Controlled
+development training follows DEVELOPMENT_AMENDMENT.md's separate preregistration
+and data-isolation requirements. If final evidence is too sparse, collect more;
+do not call a single successful example mastery or deploy from development alone.
 
 - Same-code, same-runtime ghost wins: at least+2 percentage points over fresh
   R1e, with a paired95% confidence lower bound above zero on independent final

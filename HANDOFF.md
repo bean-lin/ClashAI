@@ -1,5 +1,48 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 13:11 EDT -- OWNER COVERAGE CHALLENGE CONFIRMED; DEVELOPMENT WAIT CORRECTED
+> Read L72/improvement_loop/coverage_recheck/REVIEW.md and authoritative report_v2.json/verified_v2.json.
+> Prior Witch3/Barrel0 counts were PRO confirmation only, not overnight live. Fixed completed live logs from
+> Oct4 21:00 through Oct5 12:44 total134,105 with public observations and29 unknown. Observed live encounters:
+> Witch22,Barrel11,Night Witch2,Furnace3. Witch/Night Witch/Furnace have parent-body evidence; Barrel10 public
+> flight logs plus1 body-origin log. These are observed log counts, not full deck or independent opportunity counts.
+>
+> Owner's broader Rocket-cycle concern was also correct: scanning ALL positive enemy princess states yields
+> <=1500HP in86 live logs/117 towers, with Rocket in hand and own elixir>=6 in56 logs/66 towers. Separate pro
+> confirmation:65/115 replays,88 towers. <=1400:85 live logs/115 towers and63 pro replays/83 towers. Older zero
+> observed finishing transitions counted issued expert Rockets with a narrow impact label, NOT all cycle
+> opportunities. Keep that old result but never describe it as no low-HP targets. Exact1/2/3-shot counts need
+> actual card-level/damage provenance; live levels unavailable. Six elixir once does not prove a safe full cycle.
+>
+> Preserve rejected v1 scan: kind13 included ordinary buildings. v2 requires live kind13 AND card_id=-1 or
+> explicit native tower records. Corrected producer and independent raw recount pass with2positive/9negative
+> controls; v1 rejection has preserved nonzero receipt. l72-owner-coverage-recheck-v2 / independent-v2 succeed.
+> All sources/hashes/selection retained. No model predictions, optimization, tactical rule or acceptance.
+>
+> DEVELOPMENT_AMENDMENT.md supersedes the blanket old requirement to finish ALL final N2 evidence before
+> any development optimization. This is Codex's evidence-based workflow correction under standing owner
+> implementation authority, NOT an owner waiver of deployment gates. Freeze/verify development data, labels,
+> recipe/control/budget/selection before optimization; retain every final untouched component/statistical/
+> same-runtime gameplay floor. Owner live actions are not expert labels; these inspected logs are diagnostic.
+>
+> development_iteration_1 D1/D2 COMPLETE: existing corrected-v5 expert split0 only, deterministic whole-replay
+> inner split213995 training rows/1573 replays and54723 development rows/405 replays. All268718 ordinary rows
+> accounted,38317 historical validation pool rows excluded, zero overlap with239939 reserved groups. ParentR1e
+> exposure disclosed: inner development is NOT untouched generalization. Independent1positive/8corruptions
+> pass, l72-development1-data-prepared / data-independent receipts exit0. Ignored index is bound; do not rerun.
+>
+> D3/D4 OPEN, no successor trained yet. Next implement verified isolated trainer and metric manifest for
+> registered ordinary_v5 vs ordinary_v6 residual-only comparison, sameR1e seed/data/batches,1000updates each,
+> no Rocket/X-Bow mixture. Old trainer auto-evaluates L71 validation: do not reuse unchanged. Check zero-residual
+> migration, identical sample/mirror stream and checkpoint-free smoke; then serial full arms, independent
+> developmental recount and each new-model Discord verdict NOT ACCEPTED pending final evidence. No report due
+> for this preparation. Broader defense/Rocket-cycle curriculum remains queued with original expert labels.
+> Continue final evidence acquisition in parallel; RoyaleAPI challenge is NOT a blocker to all development.
+>
+> Owner farming37424/29536 active at13:06,STOP absent; native5560 idle. No restart/settings change. Preserve
+> completed N1/Q3/U3/native chains, all original failed candidates, full Rocket/Barrel/spawner/X-Bow/Q4/Q5 queue,
+> source/runtime provenance and Tuesday cutoff. No duplicate tests/collectors or unchanged source pulls.
+
 > ## 2026-10-05 12:10 EDT -- FRESH ROCKET REFERENCE CAPACITY RECOUNTED, NO POLICY PREDICTIONS
 > Read L72/improvement_loop/rocket_reference_capacity/PLAN.md,GATES.md,REVIEW.md,started.json,report.json,
 > references.json and verified.json. R1-R3 complete; all115 qualified exact-Icebow confirmation replays/sides

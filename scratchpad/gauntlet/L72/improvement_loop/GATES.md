@@ -5,6 +5,10 @@ manual adjudication includes the actual commands/receipts and statistical report
 The owner rejected fallback deployment on October5; completion requires a new
 qualified model. PLAN.md contains the outcome floors and workflow.
 
+DEVELOPMENT_AMENDMENT.md corrects the blanket dependency after the owner's
+coverage challenge: verified development-only trials may advance while final
+N2 coverage/design remains open. No confirmation inference or deployment waiver.
+
 - [x] N1: Close the unchanged L71 chain with complete receipts and honest component/gameplay verdicts.
   MANUAL: Reconcile all34 jobs, exact frozen sources, all9 independently verified caches and SCORER_REVIEW.md. Do not relabel rejected candidates.
   EVIDENCE: frozen_reconciled.json, frozen_supplement.json, FROZEN_FINAL_REVIEW.md and l72-frozen-* receipts. All eight rejected; extra literal primary-control Rocket gates and isolated action comparisons reviewed. Discord model report delivered in two HTTP204 chunks under the later owner authorization.
