@@ -1,5 +1,21 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 03:28 EDT -- EIGHT IL RUNS COMPLETE; LEARNING GATES FAIL; GAMEPLAY CONTINUES
+> All eight fixed1,000-update training/held-out pairs completed03:12:51. Independent CPU recount matched all nine
+> caches exactly:38,317 rows each,344,853 predictions, including legal cards, membership and diagnostic numerators.
+> Rocket recall rises81/671 to as high as345/671; best Barrel response improves23 correct/11 wrong to37 correct/1 wrong.
+> But **every candidate remains0/10 on aimed finishing Rockets**, and all corrected-body arms fail required spawner
+> agreement improvement. Every proposed fix arm fails mandatory learning gates; v4_uniform is only the ordinary control.
+> No candidate qualifies for live deployment. Keep the frozen gameplay chain running and retain final game outcomes;
+> do not tune, relax thresholds or interrupt. Partial scorer has17 game jobs pending, no nomination, unchanged sources.
+> Evidence: context_teaching/HELDOUT_REVIEW.md, all_predictions_verified.json, heldout_metrics_verified.json,
+> heldout_partial_0327.json and integration/checks/heldout-all-independent.*, expert-partial-0327.*.
+> Rust completed exit101:1541 tests pass,0 executed assertion failures,3 ignored timings,16 target executables NEVER
+> RAN because Windows Application Control blocked them (OS4551). Exact receipt-bound recount: royale_update_20261005/
+> rust_adjudication.json. No policy/binary changes or bypass attempted. U3 remains incomplete; do not call the suite green.
+> Runtime update/source publication remain complete; full simulator acceptance and final gameplay/live evidence remain open.
+> Live remains stopped, R1e fallback preserved, anti-leak OFF, failed sampling/aim disabled. No additional RL run launched.
+
 > ## 2026-10-05 03:01 EDT -- SOURCE PORT PUBLISHED; SIXTH IL TRAINING COMPLETE
 > Five of eight IL training/held-out pairs completed by 02:56:53; sixth training finished 03:01:06, held-out next.
 > The 34-job chain remains healthy and frozen; gameplay acceptance has not started. Rust upstream tests are
