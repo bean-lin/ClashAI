@@ -1,5 +1,24 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 10:09 EDT -- DEFENSE SEQUENCE V5 BINDING VERIFIED; N2 COVERAGE GAP UNCHANGED
+> The existing historical defense sequence index now has an explicit verified positional crosswalk to the already
+> corrected v5 body-identity dataset. Read DEFENCE_CROSSWALK_PLAN.md/REVIEW.md, defence_crosswalk_bound.json/verified.json
+> and defence_crosswalk/GATES.md in L72/improvement_loop. B1-B3 complete: two positive controls and 21 corruptions,
+> then independent full identity/split/offset/contract/label and reference checks, all exit0 with receipt tokens.
+> The original index is byte-identical: 7748 windows, 138108 references, 126802 sequence rows (44793 PLAY/82009 WAIT),
+> 268718 ordinary training-pool rows. All eight supervision arrays and all original window/group memberships match.
+> Defensive union has 40370 rows/990 expert Rockets. All failed, incomplete and non-Rocket windows remain included.
+> The binding is in ignored icebow/data/bench/defence_sequence_v5_binding_20261005. Do not stage it or rerun completed
+> preparation/verification. It is trainable=false and activation=none; no sampling mixture, optimizer or model call.
+> Existing native/body mechanics receipts were reused, not new mechanics validation. No live/checkpoint changes.
+>
+> N2-N7 remain open. 88 qualified fresh exact-Icebow confirmation replays still provide ZERO opposing Barrel casts
+> and ZERO Witch casts; other counts are not adequate tactical denominators/power. Continue faithful source acquisition
+> and reconstruction diagnosis without waiving exclusions or substituting general decks/exposed history, then freeze
+> adequate cohort/statistical/experiment design before successor training. No new model exists or Discord report is due.
+> Owner farming 37424/29536 was active at 10:09, STOP absent; native emulator5560 idle. Preserve the full learned-fix queue
+> and the separately required accepted-policy sampling/area comparisons. Tuesday/Claude takeover still requires handoff.
+
 > ## 2026-10-05 09:54 EDT -- FRESH ICEBOW COLLECTION CLOSED; CONFIRMATION COVERAGE GAP; AIM DIAGNOSIS VERIFIED
 > NEW 162-replay corrected-catalog batch and independent verifier are COMPLETE, exit 0. Do not relaunch collection,
 > verifier or synthetic probes. 80 usable / 82 excluded; all 17 scheduled repeats match. Accounting: 12,957 source,
