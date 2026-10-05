@@ -179,7 +179,24 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Each deck has its own venv; RoyaleSim runs from its own interpreter (`research/ext/Royale/.venv`).
+Each deck has its own venv. New RL runs use the pinned RoyaleSim 0.1.13 / RoyaleGym 0.1.15
+runtime in `research/ext/Royale-20261005/runtime`; the old `research/ext/Royale/.venv`
+is retained for the frozen historical evaluation chain.
+
+**Manual filming** (open Clash Royale in the emulator, run this, then enter a match):
+
+```powershell
+icebow\.venv\Scripts\python.exe scratchpad\gauntlet\L68\live_reader\live_play.py
+```
+
+The canonical entry reads `CKPT_OVERRIDE` for the selected checkpoint and prints its path
+and SHA256. Explicit `--ckpt <checkpoint.pt>` takes precedence; `--check` verifies model
+loading and options without connecting to the emulator. It defaults to CPU, records
+locally, enables public decision audits and does not force spending to prevent elixir
+leak. Failed sampling/area-aim options remain disabled. See
+[`L72/live_entry/README.md`](scratchpad/gauntlet/L72/live_entry/README.md) for the current
+selection and filming details. A manually selected historical model is not a newly
+accepted replacement.
 
 **Live ladder play** (emulator running, game on the ladder screen; add `--dry-run` for a single match
 without navigation):

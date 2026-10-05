@@ -1,5 +1,46 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 06:17 EDT -- TRAINING SPAWNER DIAGNOSIS; UNUSED REPLAY RESERVATION
+> Resumed frozen chain is healthy:32/34 jobs complete; ghost_v6_rocket_both started06:11, followed by the final reactive
+> job. Launcher44060/driver43696 remain authoritative; read L72/improvement_loop/chain_resume_verified.out/.err.
+> Do not duplicate, interrupt or edit it. No new optimization or live worker was started. All prior mandatory learning
+> failures remain failures; completion of these games will not authorize deployment by itself.
+>
+> CPU training-only spawner diagnosis completed618 rows, six matched conditions:113 Witch,80 Night Witch and116 Furnace
+> replays, one PLAY and one WAIT per family/replay. R1e original -> corrected/no-adaptation joint PLAY successes are
+> 17->15/113 Witch,11->8/80 Night Witch,18->18/116 Furnace; Night Witch WAIT successes60->56/80. Ordinary v5 IL recovers
+> some loss but trails ordinary v4: combined PLAY/WAIT successes93 vs96 Witch,72 vs75 Night Witch,101 vs102 Furnace.
+> Rocket mixture hurts Furnace card agreement83->73/116 in v4 and81->74/116 in v5 despite HIGHER expected Furnace
+> exposure. Aim remains weak: v5 ordinary expert-forced within1-tile counts39/113,23/80,36/116. These are training
+> diagnostics, not generalization/win evidence. Independent raw-cache recount confirms all counts, source labels/split0
+> membership and paired flips. See L72/improvement_loop/SPAWNER_DIAGNOSIS.md, train_spawner_diagnosis.json and receipts.
+>
+> Confirmation audit:52,129 local recordings collapse to14,661 replay IDs, all historically exposed. First inventory
+> missed12-character RoyaleAPI tags; v2 fixes that, with zero unparsed dataset tags. Preserve the incomplete first report;
+> use replay_inventory_v2.json. All52 cached HF parquet hashes match the manifest. Of252,238 records,12,258 are known
+> historical HF IDs and41 lack positioned plays, leaving239,939 unused conservative command groups. This establishes
+> raw availability only, not full parent provenance or native reconstruction. No new model predictions/outcomes inspected.
+> Exact Icebow candidates:183, including only5 Witch/22 Night Witch/17 Furnace matchups. Crucially167 candidates already
+> failed native reconstruction for missing evo Elite Barbarians26000043;16 have no attempt receipt. Zero qualifies yet.
+> Existing native engine ports37031–34 have no local listener; the documented VM SSH check timed out during banner
+> exchange. No VM provision/start, account/security change or form stripping. Updated RoyaleSim and native-engine
+> reconstruction are separate systems. More usable untouched evidence remains required before the new-model gate.
+>
+> Outcome-blind reservation is now fixed before successor training: all183 exact Icebow candidates reserved for
+> confirmation; remaining groups hash-assigned70/15/15. Totals167,759 training/36,191 development/35,989 confirmation.
+> RESERVATION_PLAN.md and replay_reservation.json bind salt, membership hashes and exact Icebow IDs. Full candidate and
+> reservation JSONL files remain in ignored icebow/data/bench/confirmation_discovery_20261005; do not stage data.
+> Native availability may exclude a group but cannot move it into another split. This reservation does NOT close N2
+> or permit training before usable membership, provenance, component denominators/power and analysis are frozen.
+> Exposure maps remain local generated artifacts; audit scripts/reports and receipt hashes reproduce/bind them.
+>
+> Next: finish/reconcile the final two original games with SCORER_REVIEW; obtain faithful new public replay evidence or
+> restore an already-authorized native runtime without changing forms, then finalize L72 confirmation/design. Isolate
+> body adaptation and the generic projectile-target residual from Rocket exposure in registered one-factor successors.
+> Rocket diagnosis, Q4/Q5, X-Bow/Barrel empirical limits, updated-engine RL prerequisites and all strong gates still apply.
+> README now documents the selected-checkpoint CPU manual filming command and updated RL runtime. No new model accepted;
+> no autonomous R1e fallback restart. Owner manual-filming exception and Tuesday handoff cutoff remain in force.
+
 > ## 2026-10-05 05:44 EDT -- MANUAL LIVE ENTRY REFRESH; RUST BLOCK CLOSED; FROZEN CHAIN RESUME
 > Owner requested live_play.py auto-select the best checkpoint, remove stale behavior, support daily filming, and retry16
 > Rust executables after reporting a temporary antivirus change. All16 exact unchanged binaries now run:62 pass/0 fail;

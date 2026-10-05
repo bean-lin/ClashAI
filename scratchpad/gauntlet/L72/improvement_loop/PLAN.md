@@ -69,12 +69,13 @@ Barrel targets do not prove actual live landing coordinates.
    gate, aim and sequence choices. Longer training, a revised curriculum or
    representation change is a separate attributable experiment, not an
    unrecorded continuation or held-out rescue. Combine only supported changes.
-7. Validate the updated simulator through legitimate evidence. Local Rust:
-   1541 passes,0 executed failures,3 ignored timings,16 executables blocked by
-   Windows Application Control. Do not bypass policy, rename blocked binaries
-   or treat them as passed. Preserve the optional RoyaleLearn-example limitation.
-   Seek independent exact-source validation where available and record residual
-   gaps. Every new RL run must use the pinned new runtime, never the old worktree.
+7. Updated-runtime validation is now complete for the applicable mechanics checks.
+   The owner's unchanged-binary retry ran all16 previously blocked Rust executables:
+   62 additional passes, yielding1603 passes,0 assertion failures and3 ignored timings.
+   No agent security-policy or binary change. Retain the optional RoyaleLearn-example,
+   skipped-test and private-capture limitations. See rust_retry_owner.json and its
+   receipt; do not repeat completed validation. Every new RL run must use the
+   pinned new runtime, never the old worktree.
 8. After learning/runtime prerequisites, run bounded PPO/RL from a qualified IL
    checkpoint under a predeclared one-factor recipe. Game outcomes/resource
    efficiency remain the objective; no reward for merely issuing more Rockets
