@@ -1,5 +1,28 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 10:58 EDT -- RESERVED OPENING RECOVERY COMPLETE; TWO FRESH WITCH REPLAYS RECOVERED
+> This supersedes the active65-job snapshot below. Both collector28292 and independent verifier18592 exited0 with
+> successful receipts. All65 fixed selections/repeats completed:32 newly usable (6development/26confirmation),33
+> still excluded. Eleven unresolved openings; among captured cases overlapping14 undriven/14 skipped/13 rejected/
+> 13 crown-mismatch failures. For54 captured selections only:4039source/3802driven/3765accepted/21explicitly skipped;
+> these omit the11 unresolved openings, and missing early-terminal suffixes remain missing. No criteria waived.
+> Read deal_recovery/RESERVED_RECOVERY_REVIEW.md, reserved_complete.json/reserved_verified.json and l72-deal-recovery-
+> reserved/reserved-independent receipts. R1-R3 complete. Do NOT rerun these batches/verifiers. Native5560 is idle.
+>
+> Read recovered_capacity/PLAN.md, GATES.md, REVIEW.md, inventory.json and verified.json. I1-I3 complete: independent
+> original CSV membership/count checks plus1positive/8negative controls. Original807 selections now have437 distinct
+> qualified records (117training/112development/208confirmation), up39 from398; no split changes or duplicate controls.
+> Exact-Icebow confirmation108 replays/242 original Rocket casts. Opposing casts/replays:Barrel0/0, Witch7/2,
+> Night Witch24/9, Furnace53/11. These are source counts, not qualified tactical opportunities or power. Original
+> collections/exclusions/capacity reports remain immutable; additions are separately verified successful attempts.
+>
+> N2-N7 remain OPEN. No successor training/optimization/confirmation policy predictions/new checkpoint/deployment
+> or Discord model report. All183 unused exact-Icebow raw groups still contain ZERO opposing Barrel decks; a faithful
+> additional source is required. Keep cohort/opportunity/power/multiplicity prerequisites and all acceptance floors.
+> Continue useful source acquisition/reconstruction diagnosis; no guessed forms, source substitution or challenge bypass.
+> Owner farming37424/29536 remains active, STOP absent. Latest inspected loop includes105150 match and subsequent
+> result/Play Again/loading transitions. No live restart/settings change. Opening repair was published in fd1c8c2.
+
 > ## 2026-10-05 10:45 EDT -- OPENING-HAND REPAIR VERIFIED ON TRAINING; RESERVED RECOVERY ACTIVE
 > Read L72/improvement_loop/DEAL_RECOVERY_PLAN.md/REVIEW.md and deal_recovery/GATES.md. Original replay_drive.py
 > discarded both inferred openings when either player's position probe failed. An isolated generic resolver now fits
