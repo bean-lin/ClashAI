@@ -134,3 +134,8 @@
 - Owner explicitly requested: turn off the hardcoded anti-leak rule and redeploy the R1e model live to observe performance. This authorizes the live stop/restart and setting change; no approval remains pending for this experiment.
 - Decision: opt-in --no-anti-leak disables only the forced-spend override. Keep R1e u0155, tau0.35, argmax cards/cells, public counter, look-ahead, abilities and existing recording settings. Default standalone behaviour remains unchanged; the persistent supervisor opts in.
 - Evidence and deployment boundary: scratchpad/gauntlet/L71/leak_ablation/deployment.json and GATES.md. This is an owner-requested live observational test, not a simulator acceptance result or a proven improvement. Separate its matches from earlier R1e matches when reporting. Sampling and spell aim remain separate experiments.
+
+## 2026-10-04 23:13 EDT -- Owner authorizes queued implementations and final deployment
+- Owner may lose internet; after each evidence-based proposal, implement without waiting. Redeployment after all tasks is explicitly authorized. No proposal/deployment approval remains pending for this scope.
+- Queue: finish sampling/Rocket aim and learned Rocket/Tornado curriculum; then spawners; then dead-lane X-Bow support-spending opportunity cost (no blanket ban); then wrong-lane pre-emptive Log against Goblin Barrel. Trace observed target, coordinate orientation, look-ahead and policy choice rather than accepting a diagnosis without evidence.
+- Live stopped cleanly23:09:18/19 to free the exclusive GPU. Q3 started23:11:48. Preserve no-anti-leak on eventual accepted deployment. Failed experiments stay rejected; do not relax acceptance. See L71/rocket_teaching/QUEUE.md and decision_options/Q3_GATES.md.

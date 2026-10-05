@@ -1,5 +1,30 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-04 23:13 EDT -- Q1/Q2 CPU COMPLETE; ROCKET CURRICULUM PREPARED; Q3 GPU RUNNING
+> Owner authorized Rocket/Tornado teaching, then spawner, dead-lane X-Bow support-spending and wrong-lane Barrel/Log
+> investigations. Latest amendment: write evidence-based proposals and proceed to implementation without waiting;
+> redeployment after all tasks is authorized. Durable exact scope/order: `scratchpad/gauntlet/L71/rocket_teaching/QUEUE.md`.
+> Live stopped cleanly between matches23:09:18 (supervisor done23:09:19) to free GPU; STOP remains set. Last log
+> `live_play_20261004_230613.jsonl`. R1e u0155/no-anti-leak config and active sources remain unchanged, NOT redeployed.
+> Q1:11934 held-out pro PLAY rows/671 Rockets. Both checkpoints reject r.5 (agreement loss>1pp, confident override);
+> both r.7/T.7 and r.7/T1 pass offline. R1e Rocket recall14.16% ->14.72/14.76%, agreement64.59% ->64.13/64.11%.
+> Q2 Rocket-only area aim: pro tower-coordinate coverage48.60% ->62.57% R1e,41.90% ->55.87% old R1 (n179).
+> Both checkpoints/passing samplers choose Rocket in0/10 pro finishing cases; aim cannot repair missing card choice.
+> These are teacher-forced proxies, NOT match wins. Old R1 vocabulary differs; original old-R1 pass INVALID;
+> corrected report remaps IDs by name. Independent statistics/geometry/hash/corruption verification passes.
+>58 tests pass, including default parity/affordability/RNG/real reactive integration; corrected a pre-existing reactive
+> CLI telemetry flag omission. Candidate SIM/live options are opt-in; supervisor still references original live entry.
+> Files: `pipeline/decision_options.py`, `pipeline/live_gen_v2.py`, inactive `live_play_v2.py`, and L71/decision_options/.
+> Rocket curriculum:2262 replay sources,268718 train/38317 held-out rows;2281 training opportunity rows (1143WAIT),
+>16226 Rocket-window rows, combo windows457 Rocket+457 Tornado plays. Fixed80/10/10 ordinary/opportunity/expert-window
+> sampler preserves all expert targets; expected Rocket share of sampled pro plays5.70% ->13.77%.11 unit tests and
+> actual R1e CPU one-batch forward/backward pass (loss6.5691); NO trained candidate/checkpoint saved or deployed.
+> Source-hashed artifact: ignored `icebow/data/bench/rocket_teaching_20261004/`; tracked summary/runbook/verification
+> in L71/rocket_teaching/. No runtime tactical rule added. Damage/geometry criteria are offline cohort annotations.
+> Q3 started23:11:48 via `decision_options/run_q3.py` launcher31272.20 sequential jobs: five arms for each checkpoint,
+> each fresh299 ghost +48 reactive evo/hero(v2) matches; source/checkpoint hashes frozen. Logs `decision_options/q3/`.
+> No pipeline source edits while this chain runs. Training, gameplay verdicts, queued fixes and deployment remain OPEN.
+
 > ## 2026-10-04 21:52 EDT -- OWNER-REQUESTED R1e LIVE ANTI-LEAK ABLATION RUNNING
 > Owner explicitly requested disabling hardcoded anti-leak and redeploying the same R1e model to observe performance.
 > Old run exited cleanly between matches at21:48:07; supervisor restarted21:50:47. First experiment match:
@@ -53,7 +78,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 21:52 EDT** (owner-requested R1e live anti-leak ablation deployed and verified), branch `main`.
+Last updated: **2026-10-04 23:13 EDT** (Q1/Q2 CPU verified; curriculum prepared; live paused at match boundary for Q3), branch `main`.
 
 > ## 2026-10-04 11:59 -- R8 VERIFIED; LEAD RUNS PAIRED ACCEPTANCE
 > V4 SIM/live inputs now advance projectiles and effect clocks with the shared extrapolate function.
@@ -1212,6 +1237,10 @@ cd C:\Users\benpe\ClashBot\hogeq
 
 ## 3. What is running RIGHT NOW
 
+**2026-10-04 23:13 override:** live STOP completed23:09:18/19; no live worker remains. One GPU acceptance chain,
+`L71/decision_options/run_q3.py` (launcher31272), started23:11:48. No trained curriculum candidate yet.
+Owner authorizes evidence-led implementations and eventual deployment; see top block and rocket_teaching/QUEUE.md.
+
 **2026-10-04 21:52 override:** live R1e u0155 with `--no-anti-leak`, tau0.35, reader v2. First treatment
 match21:51:10 EDT; live worker5424 / venv launcher37388, supervisor wrapper chain38856/35296/36120.
 The old run exited between matches. See the newest block and `L71/leak_ablation/deployment.json`.
@@ -1363,6 +1392,12 @@ configured but **have never run** — BC has not been retrained since the soft-t
 ---
 
 ## 5. Bug ledger (this session, with measurements)
+
+- **2026-10-04 Q1/Q2 and teaching preparation**:58 decision/integration tests and11 curriculum tests pass;
+  corrected old-checkpoint vocabulary mapping before reporting; fixed missing reactive telemetry flag forwarding.
+  R1e pro tower-coordinate coverage48.60% ->62.57% (n179); card selection0/10 finishing Rockets remains unresolved.
+  Real CPU training smoke finite loss6.5691. Full counts/hashes/limitations in L71/decision_options/REPORT.md and
+  L71/rocket_teaching/report.json. Q3 ongoing; no measured win improvement or new deployment yet.
 
 - **2026-10-04 anti-leak ablation** (commit titled `Disable forced anti-leak for owner-requested R1e live test`):
   opt-in switch preserves497 historical dispatches by default; disabled retains485 learned plays and suppresses12
@@ -1581,6 +1616,11 @@ slow one.
 ---
 
 ## 6. Open work
+
+**2026-10-04 23:13:** finish Q3 paired acceptance, train/evaluate Rocket curriculum, investigate and implement
+supported fixes for spawners, dead-lane X-Bow support spending and wrong-lane pre-emptive Log, in that order.
+Owner's latest instruction removes proposal/deployment approval waits. Deploy accepted fixes after all tasks;
+reject failed experiments without tuning away the acceptance rule. Q0 anti-leak cohort stratification still needed.
 
 **2026-10-04 21:52:** accumulate owner-requested R1e anti-leak-off live results; separate from prior anti-leak-on
 R1e matches using start.anti_leak and the21:51:10 treatment boundary. The Q0 comparison must stratify that setting
