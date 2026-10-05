@@ -1,7 +1,7 @@
 {
-  "update": 1,
+  "update": 32,
   "total_updates": 32,
-  "games": 8,
-  "last_checkpoint_sha256": "3d39eb2e6d049af7064fab212e5248c9aa2881c131ddcfb5a8b5db1e4ebfa193",
+  "games": 256,
+  "last_checkpoint_sha256": "3223ccd97561604163d0043f9eadfa3691836eaf58821d1e21618e56e9d4ee9b",
   "stop": []
 }

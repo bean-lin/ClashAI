@@ -1,28 +1,25 @@
-# Setup recovery verified; remaining original chain active
+# Training recovery completed; original recount failed
 
-October5 19:08 EDT. R1 COMPLETE, R2 ACTIVE, R3 pending. Original train failed
-before the first policy decision and before any candidate update. The first
-native setup's SHA256 and all16 loaded forms match the original prepared state.
-Only Python integer versus JSON string side keys caused the comparison failure.
-Strict normalization passes; five missing/altered/malformed controls fail.
-All256 stored form maps were checked structurally without a repeated reset sweep.
-Receipt l72-outcome-rl-setup-recovery34.37s exit0/token binds source/failure hashes.
+October5 19:55 EDT. R1 COMPLETE; R2 original chain FAILED/ABANDONED; R3 COMPLETE.
+The original train failure occurred before any policy decision/update. Separate
+34.37s recovery receipt proves first native initial bytes and all16 loaded forms
+match after strict JSON string/integer side-key normalization; all256 stored maps
+were checked structurally,1positive/5corruptions. No learning recipe changed.
+Critic warmup already froze non-value parameters; the suspected defect was disproved.
+PLAN header19:09 was clerical forward rounding; receipt/launch chronology governs.
 
-The concern raised about critic warmup was disproved by inspecting and exercising
-the actual PPO wrapper with a no-optimization probe: policy=False freezes every
-non-value parameter and restores requires_grad afterward. No recipe change.
-The PLAN header's19:09 timestamp was a clerical forward rounding; actual diagnosis
-finished before the19:07:30 launch, as recorded by the receipts. No execution
-depends on the header time; preserve the bound document without rewriting it.
+Recovery launched19:07:30. Train-v2 completed32updates/256games at19:39:22,
+1898.20s exit0/token,73783 contributing rows,all finite,no guard stop. Original
+evaluation completed54723 predictions72.80s exit0/token. Only final u032 eligible.
 
-Recovery launcher25612/chain34060; train-v2 uses only two exact source replacements:
-the setup form comparison and a separate start marker. Original source unchanged.
-The original32 updates/256 scenarios/parent/optimizer/reward/public sampler/guards/
-final-only selection remain. Own GPU lock spans training/evaluation/recount and
-fails closed. Original readiness/setup/preflight not repeated. Evaluation remains
-the original script; verifier substitutes only train-v2 receipt. No acceptance,
-new-model report or live change is claimed while training is incomplete.
+The independent stage failed2.63s at its original exact probability-summary
+comparison. chain_failed.json, original source/wrapper, nonzero receipt/output
+remain. There is no successful recovery chain_complete. Separate
+../development_rl_1_recount diagnosis/completion preserved exactness FALSE while
+finishing all remaining original native/return/probability/row/replay statistics.
+No training/evaluation rerun, no tolerance waiver.
 
-19:11 inspection: first update completed8 games/2139 contributingrows,18 finite
-critic-only minibatch steps,maximum on-policy ratio deviation8.116124447581348e-6,
-no guard stop. u001 is retained recovery evidence, not an eligible final model.
+The final candidate separately fails all three Rocket material-improvement
+filters. See ../development_rl_1/REVIEW.md for reviewed R1e/control comparisons.
+REJECTED / NOT ACCEPTED / NOT DEPLOYED. Report delivered once,oneHTTP204;
+reviewed_results.json binds delivery and both original failures. No live change.

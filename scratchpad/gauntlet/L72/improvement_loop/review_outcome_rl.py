@@ -36,7 +36,13 @@ def main(phase):
     r=read(HERE/'results_verified.json');t=read(HERE/'trained.json');p=read(HERE/'prepared.json');v=read(RECOVERY/'verified.json')
     assert r['complete'] and r['rows']==54723 and r['continuation_passed']==all(r['filters'].values()) and not r['deployment_accepted']
     assert t['complete'] and t['updates']==32 and t['games']==256
-    assert read(RECOVERY/'chain_complete.json')['complete']
+    completed_chain=(RECOVERY/'chain_complete.json').exists()
+    if completed_chain:assert read(RECOVERY/'chain_complete.json')['complete']
+    else:
+        assert read(RECOVERY/'chain_failed.json')['job']=='independent'
+        assert not r['original_probability_summary_exact'] and not r['continuation_passed']
+        assert sha(CHECKS/'l72-outcome-rl-independent.json')==r['preserved_independent_failure_sha256']
+        for path,digest in r['recount_completion_binding'].items():assert sha(ROOT/path)==digest
     assert sha(ROOT/t['checkpoint'])==t['checkpoint_sha256']==r['checkpoint_sha256'] and sha(OUT/'train.jsonl')==t['train_log_sha256']
     for path,digest in {**p['sources'],**v['sources'],**v['original_failure']}.items():assert sha(ROOT/path)==digest
     assert sha(OUT/'paired_replay_counts.json')==r['paired_sha256'] and sha(OUT/'all_replay_counts.json')==r['replay_counts_sha256']
@@ -47,8 +53,10 @@ def main(phase):
         assert log['critic_warmup']==(i<5) and log['ppo']['nonfinite'] is None and not log['stop']
         assert math.isfinite(log['on_policy_maxdev']) and log['on_policy_maxdev']<1e-4
         assert all(math.isfinite(log['ppo'][k]) for k in ('l_pg','l_v','grad_norm_mean','ratio_mean'))
-    receipts={name:receipt('l72-outcome-rl-'+name) for name in ('prepare','setup-recovery','train-v2','eval','independent')}
+    stages=('prepare','setup-recovery','train-v2','eval')+(('independent',) if completed_chain else ('recount-diagnosis','independent-v2'))
+    receipts={name:receipt('l72-outcome-rl-'+name) for name in stages}
     failed=receipt('l72-outcome-rl-train',False)
+    independent_failure=None if completed_chain else receipt('l72-outcome-rl-independent',False)
     paired=read(OUT/'paired_replay_counts.json');summary={}
     for control,groups in paired.items():
         summary[control]={}
@@ -71,10 +79,11 @@ def main(phase):
       f'Full actions Witch {nums("witch","action")}/{total("witch")}; Night Witch {nums("night_witch","action")}/{total("night_witch")}; Furnace {nums("furnace","action")}/{total("furnace")}; defense {nums("defensive_sequence","action")}/{total("defensive_sequence")}.\n'
       f'Late all actions {nums("phase_late_overtime_clock","action")}/{total("phase_late_overtime_clock")}; general card {nums("all","card")}/{c[ARM]["all"]["play"]}.\n'
       f'Failed fixed filters: {", ".join(failed_filters) if failed_filters else "none"}. All54723 rows and paired replay counts independently reconciled.\n'
+      +('Original verifier exact summary comparison failed (max difference1.7e-21); retained as FALSE. Every per-row original1e-4 probability bound passes. Separate recount completed, no tolerance waiver.\n' if not completed_chain else '')+
       'No new gameplay superiority, safe Rocket cycling/finishing or adaptation proof. All final component/statistical/untouched/gameplay gates remain. Owner STOP intact. Initial setup failure and verified JSON-key recovery preserved; no completed training rerun.\n')
     assert len(msg)<3900
     (HERE/'report_model.txt').write_text(msg,encoding='utf-8')
-    write(HERE/'reviewed_evidence.json',dict(complete=True,results_sha256=sha(HERE/'results_verified.json'),checkpoint_sha256=t['checkpoint_sha256'],receipts=receipts,original_failure=failed,finite_updates=32,games=256,paired=summary,report_message_sha256=sha(HERE/'report_model.txt'),continuation_passed=r['continuation_passed'],deployment_accepted=False,source_sha256=sha(Path(__file__)),sender_source_sha256=sha(ROOT/'scratchpad/gauntlet/L69/discord/post.py')))
+    write(HERE/'reviewed_evidence.json',dict(complete=True,results_sha256=sha(HERE/'results_verified.json'),checkpoint_sha256=t['checkpoint_sha256'],receipts=receipts,original_failure=failed,independent_failure=independent_failure,finite_updates=32,games=256,paired=summary,report_message_sha256=sha(HERE/'report_model.txt'),continuation_passed=r['continuation_passed'],deployment_accepted=False,source_sha256=sha(Path(__file__)),sender_source_sha256=sha(ROOT/'scratchpad/gauntlet/L69/discord/post.py')))
     print(json.dumps(dict(verdict=verdict,failed_filters=failed_filters,message_characters=len(msg))));print('OUTCOME_RL_EVIDENCE_REVIEWED')
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('evidence','delivery'),required=True);main(parser.parse_args().phase)

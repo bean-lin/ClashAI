@@ -1,5 +1,57 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 19:55 EDT -- OUTCOME RL COMPLETE; CANDIDATE REJECTED; REPORT DELIVERED ONCE
+> Supersedes all active training/recount snapshots below. Read development_rl_1/
+> REVIEW.md,results_verified.json,reviewed_results.json and development_rl_1_recount/
+> PLAN/GATES/REVIEW/diagnosed.json. All32updates/256games/73783trainingrows complete
+> at19:39:22;train-v2 1898.20s/eval72.80s exit0/token,54723development predictions.
+> No guard stop. Final u032 SHA2563223ccd97561604163d0043f9eadfa3691836eaf58821d1e21618e56e9d4ee9b.
+> Do NOT rerun train/eval/readiness/preparation/diagnosis/recount or resend report.
+> Original independent failed2.63s on exact logged/recomputed ratio-summary equality;
+> preserved source/nonzero receipt/output/recovery chain_failed. Separate diagnosis
+> 11.56s:all lengths/counts/per-row1e-4 limits pass,10summarydifferences max1.69407e-21.
+> Separate independent completion177.53s exit0/token,1positive7corruptions,all32updates/
+> original native outcomes/GAE/row/replay counts reconcile. Original exactness FALSE,
+> no tolerance waiver; original O3/recovery R2 abandoned, not a passed original chain.
+> Same corrected-input R1e/v5/outcome_rl_v5:Rocket aim290/292/288of955;fullRocket
+> 54/77/68of955;lateRocket14/22/19of320. All3material Rocket floors FAIL independently.
+> Barrelcorrect36/40/40,wrong20/22/21,notfired7/1/2of63. Witch332/339/342of726,
+> NightWitch156/161/166of373,Furnace538/549/556of1174,defense3952/4011/4092of8183;
+> lateall1949/1984/2049of6422,generalcard11348/11403/11396of17192. Other point
+> protections pass; cannot rescue. Paired Rocketaction3better12worse321ties,
+> aim7/13/316,lateRocket0/3/168. No new gameplay/physical cycling/adaptation proof.
+> REJECTED / NOT ACCEPTED / NOT DEPLOYED. Evidence1.27s/delivery0.50s exit0/token;
+> new-model report ALREADY delivered ONCE1442chars/oneHTTP204 via intended sender.
+> l72-outcome-rl-discord/reviewed + reviewed_results bind delivery/message/model/
+> caches/pairedcounts/successreceipts/bothoriginalfailures. Never duplicate.
+> No active GPU/model/native replay/live worker at19:54;owner STOP13:39:32 intact.
+> Next supported work: separately freeze cached Rocket-loss/all-action-gain diagnosis
+> separating gate/card/aim and PLAY/WAIT agreement. Not registered/executed yet;
+> no new remedy/run,blind loss/LR grid or rejected-recipe combination. All final
+> N2-N7/material/gameplay/untouched/statistical/Q4/Q5 gates remain open.
+
+> ## 2026-10-05 19:51 EDT -- RL TRAIN/EVAL COMPLETE; ORIGINAL RECOUNT FAILED; STATISTICS COMPLETION ACTIVE
+> Supersedes active training below. Final outcome_rl_v5 finished19:39:22:
+> 32updates/256games,73783 contributing training rows,5critic-only+27policy updates.
+> Train-v2 1898.20s/eval72.80s exit0/token;54723 development predictions saved.
+> No guard stop. Final u032 SHA2563223ccd97561604163d0043f9eadfa3691836eaf58821d1e21618e56e9d4ee9b.
+> Do NOT rerun training/evaluation. Original independent failed2.63s at exact
+> logged-versus-recomputed maximum probability-ratio equality; source/nonzero
+> l72-outcome-rl-independent receipt/output/recovery chain_failed preserved.
+> Read development_rl_1_recount/PLAN/GATES/diagnosed.json. Diagnosis11.56s exit0:
+> all32 updates/73783 rows have exact lengths/counts and every original per-row
+> finite/ratio<1e-4 check passes. Ten summary values differ,max1.69407e-21.
+> Original exactness remains a FALSE verdict filter; no tolerance waiver.
+> ACTIVE separate verify_completion.py worker59688/57772 under receipt runner
+> 42260/58580: l72-outcome-rl-independent-v2. It computes remaining original
+> GAE/native/row/replay/model statistics while retaining that failed filter.
+> No new inference/optimization. Do not duplicate/edit active bound sources.
+> Inspect receipt/output/results_verified.json before running the outer closeout
+> helper. If further assertion fails, preserve and diagnose; no completed reruns.
+> review_outcome_rl.py now handles completed statistics with original failed chain,
+> retaining both failures. No report sent yet; final model report still due once
+> reviewed. No active GPU learning/native replay/live worker; owner STOP intact.
+
 > ## 2026-10-05 19:37 EDT -- OUTCOME RL STILL ACTIVE; FINAL CLOSEOUT PREPARED
 > Same recovery launcher25612/chain34060, training worker42312/24220; no new job.
 > Latest completed checkpoint u028:28/32 updates,224/256 games. At the25-update
