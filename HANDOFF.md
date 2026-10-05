@@ -1,5 +1,40 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 09:54 EDT -- FRESH ICEBOW COLLECTION CLOSED; CONFIRMATION COVERAGE GAP; AIM DIAGNOSIS VERIFIED
+> NEW 162-replay corrected-catalog batch and independent verifier are COMPLETE, exit 0. Do not relaunch collection,
+> verifier or synthetic probes. 80 usable / 82 excluded; all 17 scheduled repeats match. Accounting: 12,957 source,
+> 11,833 driven, 11,423 accepted and 62 explicitly skipped commands. Early-terminal missing suffixes remain missing.
+> Overlapping exclusions: 47 undriven/skipped, 59 rejected, 48 crown mismatches. See CORRECTED_ICEBOW_FINAL_REVIEW.md,
+> corrected_icebow_collection_complete.json, reserved_icebow_corrected_independent.json and l72-corrected-icebow-* receipts.
+> Isolated catalog C1-C3 complete; original native runtime/catalog/pilot evidence preserved. Native 5560 is idle again.
+>
+> CONFIRMATION_CAPACITY_PLAN.md and confirmation_capacity.json join both verified collections without tag/signature
+> overlaps: 807 selected groups, 398 qualified records (110 train / 106 development / 182 confirmation). Exact Icebow
+> has 88 qualified confirmation replays and 200 original Rocket casts. Independent raw CSV command counts agree.
+> CRITICAL N2 gap: exact-Icebow confirmation contains ZERO opposing Goblin Barrel casts and ZERO Witch casts. There
+> are 24 Night Witch casts in nine replays and 51 Furnace casts in ten. These are cast/replay counts, not qualified
+> independent opportunities or adequate power. All three newly reconstructable Witch candidates failed. Do not substitute
+> general decks, reuse historical validation as fresh evidence, waive failures or start successor training. Need faithful
+> additional exact-Icebow Barrel/Witch evidence, then component denominators and a frozen statistical/experiment design.
+>
+> Training-only Rocket aim decomposition completed on the SAME 830 selected rows and same three checkpoints as the
+> earlier stage diagnosis. Actual logits reconstruct within 3.82e-6 and all full aims match prior predictions. Read
+> TRAIN_AIM_DECOMPOSITION_REVIEW.md and train_aim_decomposition.json/verified.json. Removing the learned position term
+> changes R1e finishing aim 13/65 -> 18/65 but combo aim 140/256 -> 111/256. Ordinary IL: finish 15->16, combo 143->127;
+> Rocket IL: finish 16->19, combo 145->120. Removing shared bias leaves R1e finish unchanged; spatial removal hurts combos
+> severely. No single-term deletion supplies a broadly useful fix. Both learned spatial terms need attention; no forced
+> tower aim or decoder ablation enabled. This is expert-distance training diagnosis, not impact, generalization or wins.
+>
+> Independent NumPy recount passes all nine cohort/model comparisons with two positives/five corruption controls.
+> Preserve v1/v2 failed verifier sources/receipts: float32 scaling and arithmetic-order rounding changed two-tile boundary
+> membership/mass. v3 uses the original normalized subtract-then-scale float64 convention and unchanged threshold; the
+> producer/predictions were not changed. See l72-train-aim-decomposition and independent-v3 receipts. Leaf A1-A3 complete.
+>
+> N2-N7 remain open; no new IL/RL, checkpoint or Discord report. Continue faithful source acquisition and independent
+> training-only preparation (including a verified corrected-feature crosswalk for the historical defense-sequence index)
+> while coverage is unresolved. The generic projectile residual, all spawners, Rocket sequences, X-Bow support and later
+> sampling/area comparisons remain required. Owner farming 37424/29536 stays active; STOP absent, no live setting changed.
+
 > ## 2026-10-05 09:34 EDT -- NATIVE EVOLUTION CATALOG OMISSION FOUND; 162 MORE ICEBOW CAPTURES ACTIVE
 > Read L72/improvement_loop/NATIVE_FORM_PROBE_REVIEW.md and NATIVE_CATALOG_CORRECTION_PLAN.md.
 > Most original Icebow exclusions involved Elite Barbarians evolution. The original native assets contain its TOML
