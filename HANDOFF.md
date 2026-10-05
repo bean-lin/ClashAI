@@ -1,5 +1,76 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 06:52 EDT -- FROZEN CHAIN CLOSED/ALL REJECTED; DEFENSIVE X-BOW CYCLE AUDIT
+> Final original reactive job completed06:43:21. All34 receipts/sources/inputs/results and1000 finite updates per arm
+> reconcile. Nine independently recounted prediction caches remain hash-identical (344,853 rows). Extra literal primary-
+> control Rocket gates and one-factor component deltas reviewed per SCORER_REVIEW; no gate relaxed. N1 is complete.
+> Ghost wins/299,reactive/48: R1e285/32;v4uniform283/27;v4rocket274/25;v5uniform277/28;v5rocket281/27;
+> v5rocketxbow283/29;v5rocketbarrel283/22;v6rocketbarrel281/21;v6rocketboth270/31. Every candidate rejected.
+> Full combined arm ghost delta-5.02pp,95% CI[-8.70,-1.34]; its Barrel37 correct/1 wrong of39 cannot waive losses.
+> All candidate finishing-Rocket agreement remains0/10 and actual game finish-offs0 in both screens. All corrected-body
+> arms fail mandatory spawner improvement. Extra primary Rocket behavior also fails v5rocketxbow/v6rocketbarrel/v6both.
+> See L72/improvement_loop/FROZEN_FINAL_REVIEW.md, frozen_reconciled.json, frozen_supplement.json and l72-frozen-* receipts.
+> Historical old-runtime results do not establish updated-runtime acceptance. No deployment/new optimization occurred.
+> Owner-authorized report for all eight models sent to Discord: two chunks, both HTTP204; message/receipt preserved.
+>
+> New owner hypothesis: efficient defense and deeper defensive X-Bows may fund princess-tower Rocket cycles. Implemented
+> a training-only audit after DEFENCE_CYCLE_PLAN.md:1920 replays,7748 bows,23244 fixed10/30/60s windows, no model calls.
+> Existing defensive_xbow_rocket_cycle target is only placement, NOT a follow-on Rocket. In full30s windows, subsequent
+> HP-confirmed princess-Rocket casts265/2137 defensive(12.40%) vs240/4924 other(4.87%). By phase:single15/389 vs20/2064;
+> double89/825 vs77/1592;OT161/923 vs143/1268. Same-princess repeats15/2137 vs8/4924 at30s;47/1717 vs40/4074 at60s.
+> Observational only: overlapping windows, phase/board selection and concurrent damage prevent causal/win/trade claims.
+> Count refers to cast inside window; impact can follow it. Spending includes initial bow/known abilities; unknown costs
+> remain excluded. See DEFENCE_CYCLE_FINDINGS.md and independent label/membership/count verification receipts. No tactical
+> rule or forced action frequency. Add controlled expert defense-to-Rocket sequence exposure only after N2 prerequisites.
+>
+> Owner's loop question resolved for latest run: start_live.sh clears STOP and launches ladder/matches400 under restart
+> supervisor. The06:27 run exited before match2 because Codex set owner-authorized STOP for evaluation; no navigation
+> failure was logged. Local raw/overlay videos completed. STOP remains set. Use Git Bash with forward-slash script path
+> for manual restart. No autonomous R1e fallback restart. Next: native replay reconstruction/design and bounded L72 work;
+> update heartbeat for complete frozen chain and the new defensive-X-Bow hypothesis. N2–N7 remain open.
+
+> ## 2026-10-05 06:41 EDT -- FINAL FROZEN JOB RESUMED; OWNER PERMISSIONS; NATIVE HOST PREFLIGHT
+> The owner explicitly allows overnight crown farming, stopping that run if it materially hinders work, and switching/
+> resuming with an accepted improved model. The owner now requests Discord performance/statistics/deployment-verdict
+> reports for new models versus R1e. These reports are authorized; other external messages remain unauthorized. All
+> new-model gates remain unchanged; R1e farming is not a successful final fallback. See OWNER_OVERNIGHT_AMENDMENT.md.
+>
+> The separate frozen driver finished33/34 jobs, then failed its unchanged GPU guard at06:26 due to unrelated FramePack
+> PID44652. The owner separately answered "Stop FramePack to free the GPU"; exact process inspection showed it had
+> already exited, so Codex killed no process. Codex set the owner-authorized live STOP at06:30, waited for the match and
+> local video renders, and verified supervisor exit0 at06:37. Both raw and reader-overlay videos saved; no automatic post.
+> New hidden launcher44928 at06:38 uses the SAME unmodified resume_verified_chain.py, verifies33 receipts/frozen sources/
+> inputs/captured-Q3 evidence, and starts only reactive_v6_rocket_both. Read L72/improvement_loop/chain_resume_final.out/.err,
+> resume_final_launch.json and resume_verification.json. Previous verification/logs are retained. Do not duplicate jobs,
+> alter the running driver or call the original launcher. Final reconciliation and model Discord reports are still pending.
+>
+> Owner-started refreshed-entry R1e match:66 attempts,64 confirmations, one unconfirmed Knight, one unresolved at match end;
+>485 public decision audits, three confirmed abilities. Selected31u0155 SHA76fdfaac...d6751cd,CPU,tau.35,lookahead26,public
+> counter,card/aim argmax,anti-leak OFF. Decision latency median36ms/p95 44ms/max75ms. Independent log recount and audit
+> field checks passed, binding original JSONL/checkpoint hashes. See L72/live_entry/manual_match_verified.json and receipt.
+> This verifies manual-entry operation with explicit limits, not new-model acceptance or100% tap confirmation. STOP stays set.
+>
+> CPU native-form preflight completed all239,939 reserved command groups:130,454 compatible,109,485 incompatible.
+> Missing native Elite Barbarians evo appears in95,766; unverified Void mapping17,577 (overlap). Only11/183 exact-Icebow
+> candidates are compatible, none in exact-Icebow spawner strata. General-deck metadata has635 Log-vs-Barrel/2705 Rocket/
+>596 Rocket+Tornado/2675 Furnace/1654 Witch/1319 Night Witch/888 X-Bow confirmation groups. These are NOT qualified
+> examples or model outcomes. Positive/negative form controls pass; no form stripping, replay reassignment or holdout
+> predictions. native_compatibility.json binds catalog/driver/reservation/output hashes. N2 remains open.
+>
+> Local native runtime can now be boot-tested: existing owner-local September1 Play-derived same-version150535029 APK
+> template verified separately, keeping exact original14 native library/asset hashes. Original native_doctor.json's
+> upstream-APK mismatch is preserved. Task-local manifest + native_doctor_local.json pass hard checks; direct WHPX check
+> confirms acceleration usable despite generic firmware advisory. No security-policy changes. native_host_verified.json
+> binds package/template/manifest, selects emulator-5560 and free ports5560/5561/37031/38031. MuMu5555 untouched. No native
+> emulator started yet. Scripts/receipts: verify_native_host.ps1, preflight_reserved_native.py, l72-native-* checks.
+>
+> Next: finish the final original GPU job; unchanged worktree scorer + SCORER_REVIEW manual component/control adjudication;
+> exact model reports to Discord under new authority. All eight learning arms still fail mandatory gates; no acceptance.
+> Then boot one existing CPU-rendered native worker without policy bypass, attest public-observe-v6/towers/runtime and
+> validate public projectile/effect/ability recordings before reserved replay collection. Read NATIVE_DATA_PLAN.md.
+> Untouched usable cohort/provenance/denominator/power/statistical freeze is still required before successor optimization.
+> Continue L72 improvements; preserve X-Bow and actual-Barrel-landing limits, updated-runtime RL, Q4/Q5 and Tuesday cutoff.
+
 > ## 2026-10-05 06:17 EDT -- TRAINING SPAWNER DIAGNOSIS; UNUSED REPLAY RESERVATION
 > Resumed frozen chain is healthy:32/34 jobs complete; ghost_v6_rocket_both started06:11, followed by the final reactive
 > job. Launcher44060/driver43696 remain authoritative; read L72/improvement_loop/chain_resume_verified.out/.err.

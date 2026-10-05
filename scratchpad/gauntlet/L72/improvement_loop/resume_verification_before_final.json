@@ -30,13 +30,13 @@
     "reactive_v5_rocket": "a287d00f8b23a92d97b2b022ed97a376521f71aec94a38656b22808c54e9d507",
     "ghost_v5_rocket_xbow": "5c3d09f33c5e34a3e3fece325814a448c7696740aed8807d267bb85e6901f1a9",
     "reactive_v5_rocket_xbow": "3745af2c397ce2876604ced5a2fb72724442a7d1e99f6e03e37e59eb40f9fadf",
-    "ghost_v5_rocket_barrel": "e87e1b765676949b2a7b570cd1efaf81b343eb6fe578519cef6027246536d834",
-    "reactive_v5_rocket_barrel": "2d42d43d2a20faffbf7b7959e2d51e9ddf700151706c5381a3f832db09d72c1a",
-    "ghost_v6_rocket_barrel": "9b02ef5a5ee073c655e6ec9b86ca8c222ebf9d04430627f175158b5e1ff5dc39",
-    "reactive_v6_rocket_barrel": "e6c2017273d197249da9c491a0df3330c80f06530aac39017b6f60941630e3b7",
-    "ghost_v6_rocket_both": "8546857d210a62939652d4ce6017469228a26c116a367980ed2a17e7fd274ac9"
+    "ghost_v5_rocket_barrel": "e87e1b765676949b2a7b570cd1efaf81b343eb6fe578519cef6027246536d834"
   },
   "pending": [
+    "reactive_v5_rocket_barrel",
+    "ghost_v6_rocket_barrel",
+    "reactive_v6_rocket_barrel",
+    "ghost_v6_rocket_both",
     "reactive_v6_rocket_both"
   ]
 }

@@ -90,7 +90,9 @@ Barrel targets do not prove actual live landing coordinates.
     selected. Require the gates below, Q4 diagnostics and confirmed Q5 state.
     Deploy the accepted NEW checkpoint with public audit and anti-leak OFF;
     verify one worker, exact options, normal plays and public audit events.
-    No Discord or other external messaging. Failure means another documented
+    The owner's later overnight amendment requests Discord model-performance and
+    deployment-verdict reports; unrelated external messaging remains unauthorized.
+    Failure means another documented
     development iteration, not a fallback deployment or a relaxed criterion.
 
 ## Strong replacement acceptance
@@ -135,6 +137,13 @@ and account for multiple confirmation metrics in the preregistered analysis.
 No claim of a very significantly better model until these requirements are met.
 
 ## Execution boundary
+
+Owner October5 defensive-X-Bow amendment: add expert efficient-defense to
+princess-tower Rocket cycling to the successor research, with spending/remaining
+resources and punishment in both lanes measured. DEFENCE_CYCLE_PLAN.md declares
+the training-only audit and conditional one-factor learned curriculum;
+DEFENCE_CYCLE_FINDINGS.md records the observational evidence. This is not a rule
+to deploy X-Bow or Rocket and does not change the frozen L71 comparisons.
 
 One GPU chain at a time. No extra paid infrastructure, account changes, security
 policy changes or external communications are implied. Healthy long jobs can be
