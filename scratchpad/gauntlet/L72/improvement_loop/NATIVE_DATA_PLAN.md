@@ -44,9 +44,12 @@ advisory is misleading under the active hypervisor. No system policy changed.
 
 native_host_verified.json binds that manifest and the approved local template.
 Ports5560/5561,37031/38031 were free; use emulator-5560 and leave MuMu5555 alone.
-No emulator has been started. After the frozen CUDA chain finishes, boot one
-existing local headless worker with software rendering, attest public-observe-v6,
-six coherent initial towers and level11 maxima, then validate native public
-projectiles/effects/causal time-to-impact/ability records before collection.
+October5 07:24 update: emulator5560 is running; current bridge rebuilt in an
+isolated directory and opening public-observe-v6/tower attestation passes.
+Original stale-bridge crash is preserved. The fixed twenty-replay native capture
+preflight is active, followed conditionally by the fixed645-group reserved pilot.
+Read NATIVE_CAPTURE_PREFLIGHT.md, RESERVED_PILOT_PLAN.md and current HANDOFF; do
+not duplicate either chain. Full capture qualification and usable-data yield
+are still pending, not established by boot/attestation alone.
 Use reviewed service scripts without ExecutionPolicy Bypass; don't call the
 old worker's automatic service-start helper that supplies that flag.

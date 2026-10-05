@@ -1,5 +1,39 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 07:24 EDT -- LOCAL NATIVE SERVICE RECOVERED; SERIAL DATA QUALIFICATION RUNNING
+> The isolated headless emulator5560 booted with WHPX,2 CPU cores/software rendering/4GB, leaving MuMu and owner's live
+> pair37424/29536 untouched. Existing native bridge82887463... crashed in DataTables initialization; original crash,
+> service logs and failed l72-native-worker-start receipt are preserved. All383 extracted tables exactly match the pinned
+> asset pack. Built current public-capture sourcef540ab9d... into a separate ignored directory: bridge701d6a5d...;
+> Java host remains byte-identical5f998d0f.... Rebuilt startup passes six coherent towers, level11 maxima and public-observe-v6.
+> All guest native libraries/bridge/host and installed APK hashes match pinned local files. No original artifact replacement,
+> MuMu change or security-policy override. See native_recovery_verified.json, native_worker_rebuild.json and receipts.
+>
+> First historical replay matched command log, grade and final hash but exact raw-frame repeat failed on allocator-pointer
+> IDs only:3800 projectile fields and48 area fields; all other captured values matched. Failure retained. The reviewed v2
+> oracle canonicalizes only opaque object IDs by contiguous lifetime, preserving generation/order/geometry/targets/TTI/
+> timers and object birth/disappearance. Original pair passes; five deliberate semantic/lifetime corruptions fail.
+> Current frozen capture_native_preflight_v2.py runs the original20 historical fixtures, repeats jobs0/5/10/15 and checks
+> public fields plus exact prior command/grade/final outcomes. 8/20 completed at this snapshot; all completed checks pass.
+> Active launcher/worker34780/42224 ->40524/27036; emulator37516/43112. Read native_capture_v2_progress.json and final
+> l72-native-capture-v2 receipt. Do not duplicate, alter running sources or confuse startup with full capture qualification.
+>
+> Prepared an outcome-blind645-group reserved native pilot:209 train/216 development/220 confirmation, including all11
+> compatible exact-Icebow groups. Independently checked51577 converted commands against raw events; preserved forms,
+> splits and source hashes. Selection is fixed32 per split/metadata stratum plus ordinary samples; it is not a power
+> calculation or replacement for missing exact-Icebow spawner evidence. See RESERVED_PILOT_PLAN.md/reserved_pilot_prepared.json.
+> Collection qualification controls pass1 positive/7 negatives; require complete accepted commands, no delays/skips,
+> matched crowns/termination/public fields and scheduled deterministic repeats. Save all exclusions; no model predictions.
+>
+> A separate CPU chain is QUEUED, launcher43696: run_native_data_chain.py waits for the existing full20 preflight and
+> successful receipt, then runs exactly that fixed645 pilot serially. Read native_data_chain.out/.err, launch/started.json
+> and later reserved_collection_progress.json. It fails closed on preflight/source/runtime/determinism failures; do not
+> restart/duplicate it or edit its bound sources. No reserved collection has begun at this snapshot. No new IL/RL or model
+> accepted. N2–N7 remain open. Next: reconcile full native preflight and pilot usable yields, preserve scarce Icebow limits,
+> collect adequate untouched cohorts/freeze denominators/power/statistics, then registered learned successor iterations.
+> Owner farming continues, anti-leak OFF; no autonomous fallback deployment and no duplicate Discord model report.
+
+
 > ## 2026-10-05 06:55 EDT -- OWNER RESTARTED LIVE; NEXT-MATCH NAVIGATION OBSERVED
 > Final process check found the owner restarted the supervisor at06:45:15, after frozen evaluation completion. One
 > venv launcher/worker pair37424/29536 runs CPU live_play.py --ladder --matches400; STOP is absent. This was not a Codex
