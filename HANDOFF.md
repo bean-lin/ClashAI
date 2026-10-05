@@ -1,5 +1,35 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 00:58 EDT -- NIGHT WITCH DATA/INTEGRATION VERIFIED; FULL EXPERIMENTS NEXT
+> Full spawner reconstruction reproduced all484,437 affected rows from5,033 replays before changing357,425 rows,
+>885,918 class tokens and232,491 child forms. Night Witch accounts for152,004 corrected bat tokens. Final artifact:
+> `icebow/data/bench/spawner_identity_20261005/gen_dataset_v5_public.npz`; metadata form shares corrected in a new archive.
+> Independent verifier proves all other archive members, expert labels and replay splits unchanged. Actual live/SIM/
+> native contracts cover Witch, Furnace, **Night Witch**, Goblin Hut, Barbarian Hut and Tombstone conservatively.
+> Integration is isolated in managed worktree `C:/Users/benpe/.codex/worktrees/learned-defence/ClashBot` (base9eb9e1a).
+> **Do not edit main pipeline/*.py while Q3 runs.** Worktree edits are not yet merged, trained or deployed.
+> Version5 opts into corrected bodies; version6 adds a generic learned spatial projectile-target residual. Exact
+> initial-output parity with actual R1e is tested. No card-specific tactical rule or forced Log/Rocket is added.
+> Integrated regression:90 tests +4 subtests pass; separate expert-training checks12 pass; diagnostic/fork checks4 pass.
+> Process receipts (cwd/command/exit/matched output/hash) are in worktree `L71/integration/checks/`.
+> Real version6 CPU training smoke passes, loss4.299795, finite backward, no checkpoint saved. Training-only expert
+> cohorts independently verified: X-Bow802 train/157 validation rows, Barrel1,350/249; WAITs and all expert cards kept.
+> Eight fixed full-training arms and acceptance rules are in worktree `L71/context_teaching/PLAN.md`; GPU work waits
+> for the entire current Q3 chain. Source R1e held-out evaluation and24-seed X-Bow counterfactual CPU probe are running.
+> Barrel:1,010 accepted native casts/7,040 observations; all1,063 opposite-cast targets are paired reflected flights,
+>0 unexplained far targets,14,080 orientation/lookahead checks pass. Correct public targets still produce11/39 wrong-lane
+> fired Logs in unambiguous pro same-lane states. Target-only reflection changes0/95 predicted lanes; whole-flight1/95.
+> Archived live reader:3 Barrel observations among602 projectiles/3,631 coherent frames, targets in both lanes;
+> actual landing validation is unavailable. This supports a policy-learning investigation, not a claimed reader repair.
+> Candidate live entry now has optional public audit logs for WAIT/play, own hand/elixir, body/tower state and raw/
+> normalized/projected projectile targets. Five parity/privacy tests pass; runtime/live coverage remains OPEN.
+> Q3 completed R1e baseline285/299 ghost,32/48 reactive; filteredT1 279/299,31/48; filteredT.7 278/299,31/48;
+> area286/299,31/48. Both sampling arms fail ghost-point acceptance. Area passes wins but fails Rocket behaviour:
+>41 Rockets/4 tower Rockets vs baseline42/5. Thus none of these three arms is accepted. Combined and old-R1 jobs remain.
+> Partial scoring validates source/checkpoint/output receipts and full paired keys; do not call the20-job chain complete.
+> Live remains cleanly STOPPED, anti-leak OFF preserved, no candidate deployment. Owner authorizes implementation and
+> redeployment after acceptance without another proposal review. No Discord messages were sent by this work.
+
 > ## 2026-10-05 00:05 EDT -- NIGHT WITCH INCLUDED; SPAWNER IDENTITY PROTOTYPE VERIFIED
 > Owner explicitly added Night Witch. The spawner audit covers2,262 Icebow native replays:4,643 Witch skeletons,
 >2,743 Furnace spirits,2,488 Night Witch bats,1,209 Goblin Hut spear goblins,54 Barbarian Hut barbarians and8,521
