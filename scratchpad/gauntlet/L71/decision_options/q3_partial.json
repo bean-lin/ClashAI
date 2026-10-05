@@ -2,10 +2,6 @@
   "schema": 1,
   "complete": false,
   "pending": [
-    "ghost_r1e_combined",
-    "reactive_r1e_combined",
-    "ghost_r1_baseline",
-    "reactive_r1_baseline",
     "ghost_r1_filtered_T1",
     "reactive_r1_filtered_T1",
     "ghost_r1_filtered_T07",
@@ -24,7 +20,11 @@
     "ghost_r1e_filtered_T07": "394d7d6891fe56d17a4f3715b6e16d79f4c98e8a73638c655b33f3e39aa1351f",
     "reactive_r1e_filtered_T07": "f48f058ee25bd7bea72d28caed93309a6f6c5fd82d3b03e923ad3eec8c7baffc",
     "ghost_r1e_area": "b001a9d9707c9f3d91899a18e6f9441c085185db70bbb6576eda9c19ea64bfc7",
-    "reactive_r1e_area": "bf195be4a7034f87c4f2b2bd12aeffc107f9b8c87894d7eb2925eee429c54a8c"
+    "reactive_r1e_area": "bf195be4a7034f87c4f2b2bd12aeffc107f9b8c87894d7eb2925eee429c54a8c",
+    "ghost_r1e_combined": "c42d9ef46e0f3caf219d9e0f7dfb90d24e223059729c04513e036f7c3fc6d266",
+    "reactive_r1e_combined": "03b2016edd481901fc40825da95d539f04d670b52606adfc188f443530c6314e",
+    "ghost_r1_baseline": "68c0cb9dc1839f252c19948e2c89d45b3615a794208a3e1496c04d531955037e",
+    "reactive_r1_baseline": "9dafcafb8142e917072524b6104a689a7d288113fcfc43caa4a5fc579f62d238"
   },
   "models": {
     "r1e": {
@@ -258,8 +258,117 @@
             "tower_rockets_increase": false
           },
           "passes": false
+        },
+        "combined": {
+          "ghost": {
+            "n": 299,
+            "outcomes": {
+              "win": 279,
+              "loss": 20
+            },
+            "wins": 279,
+            "accepted_plays": 9047,
+            "rockets": 48,
+            "rocket_share": 0.005305626174422461,
+            "tower_rockets": 11,
+            "tower_rockets_hp_confirmed": 11,
+            "finish_offs": 0,
+            "multi_rocket_cycles": 0,
+            "defensive_rockets": 31,
+            "rocket_then_tornado": 0,
+            "tornado_then_rocket": 0,
+            "unknown_rocket_impacts": 2,
+            "preemptive_log_n": 121,
+            "preemptive_log_denominator": 276
+          },
+          "reactive": {
+            "n": 48,
+            "outcomes": {
+              "loss": 16,
+              "win": 32
+            },
+            "wins": 32,
+            "accepted_plays": 1952,
+            "rockets": 44,
+            "rocket_share": 0.022540983606557378,
+            "tower_rockets": 5,
+            "tower_rockets_hp_confirmed": 5,
+            "finish_offs": 0,
+            "multi_rocket_cycles": 0,
+            "defensive_rockets": 31,
+            "rocket_then_tornado": 0,
+            "tornado_then_rocket": 0,
+            "unknown_rocket_impacts": 0,
+            "preemptive_log_n": 9,
+            "preemptive_log_denominator": 15
+          },
+          "paired": {
+            "delta_pp": -2.0066889632107023,
+            "ci95_pp": [
+              -4.3478260869565215,
+              0.33444816053511706
+            ],
+            "paired": 299,
+            "entries": 299,
+            "better": 4,
+            "worse": 10
+          },
+          "gates": {
+            "ghost_nonnegative": false,
+            "reactive_within_two": true,
+            "rocket_share_closer": true,
+            "tower_rockets_increase": true
+          },
+          "passes": false
         }
       }
+    },
+    "r1": {
+      "baseline": {
+        "ghost": {
+          "n": 299,
+          "outcomes": {
+            "win": 286,
+            "loss": 13
+          },
+          "wins": 286,
+          "accepted_plays": 9001,
+          "rockets": 50,
+          "rocket_share": 0.005554938340184424,
+          "tower_rockets": 7,
+          "tower_rockets_hp_confirmed": 7,
+          "finish_offs": 0,
+          "multi_rocket_cycles": 1,
+          "defensive_rockets": 34,
+          "rocket_then_tornado": 0,
+          "tornado_then_rocket": 0,
+          "unknown_rocket_impacts": 1,
+          "preemptive_log_n": 44,
+          "preemptive_log_denominator": 272
+        },
+        "reactive": {
+          "n": 48,
+          "outcomes": {
+            "loss": 12,
+            "win": 36
+          },
+          "wins": 36,
+          "accepted_plays": 1769,
+          "rockets": 25,
+          "rocket_share": 0.014132278123233465,
+          "tower_rockets": 0,
+          "tower_rockets_hp_confirmed": 0,
+          "finish_offs": 0,
+          "multi_rocket_cycles": 0,
+          "defensive_rockets": 17,
+          "rocket_then_tornado": 0,
+          "tornado_then_rocket": 0,
+          "unknown_rocket_impacts": 1,
+          "preemptive_log_n": 4,
+          "preemptive_log_denominator": 10
+        }
+      },
+      "arms": {}
     }
   },
   "acceptance": "ghost delta >=0, reactive wins >=baseline-2/48, Rocket share closer to .058 and tower Rocket hits increase",

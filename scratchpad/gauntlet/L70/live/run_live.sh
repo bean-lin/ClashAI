@@ -18,7 +18,7 @@ running() {   # number of ladder live_play python processes (fail -> 1: assume r
   n=$(powershell -NoProfile -Command "@(Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object {\$_.CommandLine -like '*live_play.py*--ladder*'}).Count" 2>/dev/null | tr -dc '0-9')
   echo "${n:-1}"
 }
-last_stop() { grep -aE '\[live\] run stopped|\[nav\] run stopped|\[ladder\] STOP|stop file' $L/overnight.out | tail -1; }
+last_stop() { grep -aE '\[live\] run stopped|\[nav\] run stopped|\[ladder\] STOP|stop file|new checkpoint deployed' $L/overnight.out | tail -1; }
 state() { cat scratchpad/gauntlet/L68/live_reader/ladder_state.json 2>/dev/null; }
 CKPT=${CKPT:-icebow/data/bench/rl_royale/rseries_r1/rseries_r1_u0155.pt}
 restarts=0
