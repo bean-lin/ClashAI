@@ -1,5 +1,29 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 11:49 EDT -- LEARNED PROJECTILE AIM TERM ISOLATED ON TRAINING DATA
+> Read L72/improvement_loop/barrel_residual/PLAN.md,GATES.md,REVIEW.md,selection.json,report.json,verified.json.
+> B1-B3 complete: CPU fixed-weight diagnosis on789 unique split0 rows/489 training replays; three existing
+> checkpoints/five conditions, no optimization/new checkpoint/held-out or confirmation model predictions.
+> Each of v6_rocket_barrel and v6_rocket_both was compared with itself while only the final learned projectile-
+> target patch residual was disabled. Gate/card choices are exactly unchanged. On89 expert same-lane Log rows
+> from89 replays, both v6s move62correct/21wrong fired Logs with residualOFF to83correct/0wrong with it ON;
+> six rows do not fire. v5_rocket_barrel is61correct/22wrong. Forced-Log lane agreement is68->89 for v6Barrel,
+> 68->88 for v6Both (one non-fired row worsens). These are training geometry diagnostics,NOT live mastery.
+>
+> Full expert action agreement (gate/card/within1tile) is23->36/89 and23->37/89:16 improvements/3 regressions
+> and16/2 respectively. Precise aim remains incomplete. All200 no-valid-target rows have zero residual and
+> identical aim logits; gate/card invariance holds for all789. Other/WAIT/multiple/ambiguous strata retained.
+> Independent raw-source selection, cached-logit argmax and paired-count recount passed with1positive/8corruptions;
+> successful l72-training-barrel-residual and independent receipts. Cached logits in ignored icebow/data/bench/
+> train_barrel_residual_20261005. Do NOT rerun the completed diagnosis or enable an inference ablation in live.
+>
+> This supports the planned isolated generic-target-residual experiment after N2, separating it from harmful
+> exposure mixtures; it does not establish new training generalization, actual landings/damage or gameplay gain.
+> All eight original candidates remain rejected. Fresh exact-Icebow Barrel source still missing; no N2 waiver,
+> successor training, new checkpoint, deployment or Discord report. No repeated browser/source pull or question.
+> Owner farming37424/29536 remains active, STOP absent;113735 match72/72confirmed then result/PlayAgain/loading.
+> Native5560 idle. Preserve full queue and published Void/source-capacity evidence below.
+
 > ## 2026-10-05 11:33 EDT -- VOID EXCLUSION VERIFIED STALE; SEVEN FRESH ICEBOW REPLAYS RECOVERED
 > Read L72/improvement_loop/void_identity/PLAN.md, GATES.md, REVIEW.md, ORACLE_CORRECTION.md and reconstruction
 > plan/gates/reports. Original pinned APK localization links Void to DarkMagic28000023; original cost5 matches
