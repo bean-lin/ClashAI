@@ -1,0 +1,12 @@
+{
+  "matches_complete": 29,
+  "total": 192,
+  "last": {
+    "model": "ordinary_v5",
+    "tag": "l72-development-gameplay1:gen:2026100509",
+    "path": "icebow\\data\\bench\\development_gameplay_1_20261005\\records\\009_ordinary_v5.json.gz",
+    "sha256": "a228e6586720c34480af97a1fbcd75dd4a6748ba5ceb9dfcb4b2a1b9f5bfb51f",
+    "outcome": "win"
+  },
+  "utc": "2026-10-05T20:19:43.488652+00:00"
+}

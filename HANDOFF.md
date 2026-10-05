@@ -1,5 +1,52 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 16:18 EDT -- SPATIAL LOSS REJECTED/REPORTED; MATCHED DEVELOPMENT GAMES ACTIVE
+> Supersedes active phase6. Read development_iteration_6/REVIEW.md,results_verified.json,
+> reviewed_results.json and development_gameplay_1/PLAN.md,GATES.md,REVIEW.md,prepared.json,
+> verified.json,prelaunch.json under L72/improvement_loop. No accepted model or live change.
+>
+> Phase6 S1-S3 COMPLETE16:03:24:1000finiteupdates/54723predictions independently match;
+> train204.96s/eval47.87s/recount38.21s exit0. R1e(corrected)/ordinary_v6/spatial_balance:
+> Rocket aim290/293/287 of955,fullaction54/73/76;lateRocket14/21/25 of320;lateall1949/1993/1980
+> of6422. Rocket aim-0.628pp/action+0.314pp andlateRocket+1.25pp miss materiality;lateall and
+> Witch regress. Barrel36correct20wrong7nonfired /55/7/1 /61/1/1;Witch332/341/336,NW156/161/164,
+> Furnace538/550/552;defense3952/4009/4021,defenseRocket15/23/22,generalcard11348/11399/11416.
+> Recipe REJECTED;Barrel gain cannot rescue. Rocket aimpaired23better31worse282same;
+> Rocketaction10/7/319,lateRocket6/2/163,Witch1/4/15. No physical/gameplay benefit proved.
+> Report ALREADY delivered ONCE,oneHTTP204,l72-development6-discord. reviewed_results.json
+> binds seven successful receipts/cache/model/message/delivery/paired hashes. Never rerun/resend.
+>
+> New development_gameplay_1 G1/G2 COMPLETE,G3 ACTIVE: launcher57384/chain41744 started16:16:44.
+> Inspect launch/chain_started/collection_started/progress.json,chain.out/.err and ignored
+> icebow/data/bench/development_gameplay_1_20261005/matches.jsonl/records. At16:17:52,11/192
+> complete, no error. One GPU lock across collection/independent jobs;no automaticresume.
+> Do NOT duplicate or edit/add bound Python/PLAN/pipeline/config/checkpoint/data whileactive.
+>
+> Test only previously supported ordinary_v6 versusordinary_v5 plus originalR1e,192serial
+> reactive matches:64fixed scenarios/model,seeds2026100500..2026100531,twofamilies gen/S1.
+> Primaryv6-v5 architecture contrast;R1e has originalfeature4 observations,NOT offline
+> corrected-inputR1e. Exactsame main updatedruntime/source/scenario/deal/side/deck/forms.
+> Frozen gen_v1_s0/S1 opponents,tau.35/.27,delay/extrap26,noiseoff,deckforms,abilitiesv2,
+> existing deterministic decoder/stallhandling;no sampling/area/search/newtactics.
+> No optimization/newcheckpoint/finalconfirmation. Native5560 not used.
+>
+> All64 setups/192policyinitialstates/forms independently match;zero rejectedproposals.
+> Prepared-v2 6.26s/setup-independent16.93s exit0. Separate excludedCPU telemetry-on/off
+> smoke3.53s exit0:acceptedcommands/finalenginebytesexact,1positive9accountingcorruptions.
+> Preserve initial failed preparation (icebowvenv lacks gymnasium,no predictions/artifacts)
+> and premature first preflight (verified.json pending,no smoke). Existing simulatorvenv
+> research/ext/Royale/.venv used,unchanged source preflight rerun onlyafter verifier exit0.
+> All runtime/artifacts/securitypolicy unchanged; no install or oldmechanicstest rerun.
+>
+> Raw publicframes/acceptedplays/fullresults/terminaltowers compressed in ignoredrecords.
+> Full independent192membership/runtime/outcome/accepted/unlanded/refusalrecount queued;
+> descriptive32seedcluster pairedbootstrap10000draws,seed2026100507. No adaptive additions.
+> Continuation:v6 winpoint>=v5 ineachfamily,>=R1eoverall,nohighernonterminalrefusalcount,
+> allgamescomplete. This is developmental only,not finalpower/untouched/strategyproof.
+> Existing geometrytelemetry is not causalhit/lockproof;sumHP is notweakesttowerlead.
+> No newmodelreport dueatlaunch;do notduplicate oldILreports. OwnerSTOP13:39:32 intact,
+> liveworkerabsent,native5560idle; Q4/Q5/finalmaterialcomponent/gameplay/statistical gates open.
+
 > ## 2026-10-05 15:58 EDT -- TOWER TRIAL REJECTED/REPORTED; SPATIAL LOSS TRIAL ACTIVE
 > This supersedes the older active phase5 snapshot. Read development_iteration_5/REVIEW.md,
 > reviewed_results.json, tower_aim_localization/REVIEW.md and development_iteration_6/
