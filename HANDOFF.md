@@ -1,5 +1,27 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 08:59 EDT -- DEFENSE-TO-ROCKET TRAINING INDEX PREPARED; NO SUCCESSOR TRAINING
+> Completed a useful independent preparation step while fresh exact-Icebow evidence remains insufficient. Read
+> L72/improvement_loop/DEFENCE_SEQUENCE_PREP_PLAN.md and DEFENCE_SEQUENCE_PREP_REVIEW.md. The existing historical
+> training audit now has a row index covering all7748 X-Bows/1920 replays, two seconds before through30 seconds after
+> each placement, with every original same-side Icebow PLAY/WAIT retained. No future-Rocket/win/damage/coverage filtering.
+> 138108 window references reduce to126802 unique rows (44793 PLAY/82009 WAIT); the ordinary pool stays268718 rows.
+> Defensive2266 windows contain40370 unique rows,15537 PLAY/24833 WAIT and990 expert Rockets. Other5482 windows contain
+> 89828 rows;3396 rows overlap groups. Per-window references are not independent samples or extra sampling weights.
+>
+> Independent original-label join and interval/union/target recount passed; all eight supervision arrays remain bound.
+> Two positive/twelve negative controls pass. See defence_sequence_prepared.json/verified.json and l72-defence-sequence-*
+> receipts. Sparse decision rows remain sparse (max internal gap3s). Retained129 incomplete defensive windows and1451
+> with observed own-princess damage. Missing outcomes stay unknown; review explains no_princess_rocket's observed-only
+> meaning. No forced defensive-X-Bow/Rocket behavior, new model input, sampling ratio, optimization or prediction.
+>
+> The index is explicitly trainable=false and historical-v4-bound. A corrected-feature dataset needs a verified row
+> crosswalk and new binding. Ordinary-IL versus sequence-exposure recipe, usable fresh cohorts, opportunity denominators,
+> power/multiplicity and development selection must still be frozen before training. Leaf S1-S3 complete; N2-N7 open.
+> Fresh-data blockage and source/challenge limitations in08:37 remain. Do not relaunch completed native/pilot chains.
+> Owner farming37424/29536 continues, STOP absent; latest08:57 match started. Native5560 remains idle. No new model means
+> no new Discord performance report. Continue source resolution and remaining training-only diagnosis/preparation.
+
 > ## 2026-10-05 08:37 EDT -- PILOT COMPLETE/INDEPENDENTLY VERIFIED; FRESH ICEBOW DATA GAP
 > The original fixed645 native pilot completed and its queued independent verifier passed. Do not relaunch either chain.
 > 318 usable/327 excluded:110/209 training,106/216 development,102/220 confirmation. All26 scheduled repeats matched raw
