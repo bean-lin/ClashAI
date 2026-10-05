@@ -1,5 +1,38 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 18:26 EDT -- TERMINAL WRAPPER POLICY CHECK COMPLETE; NO ACCEPTED NEW MODEL
+> Supersedes ACTIVE terminal_wrapper_policy below. P1-P3 COMPLETE: all32 new
+> fixed games/16 disabled-enabled pairs finished18:07 EDT. Collection513.38s,
+> independent70.82s and closeout.15s exit0/token matched;1positive7corruptions.
+> Read terminal_wrapper_policy/REVIEW.md,report.json,verified.json,
+> reviewed_results.json under scratchpad/gauntlet/L72/improvement_loop and receipts
+> l72-terminal-policy-collection/independent/reviewed. Do NOT rerun completed jobs.
+> Every pair has exact initial engine bytes/forms, accepted commands, pre-fulltime
+> public frames/decisions and pending records, full native final state/tick/winner/
+> crowns/outcome. Two fulltime pairs remove30 decisions: scenario3 v5 win at6095
+> removes9; scenario4 R1e loss at6129 removes21. Other14 pairs unchanged.
+> Engineering pass qualifies only isolated adapter for a separately registered
+> future driver/RL. No production/runtime/live integration, new model or stronger
+> policy claim. No Discord model report due; all prior model reports delivered once.
+>
+> Fresh18:22 process inspection: no active GPU/model/native replay client/live
+> worker; native5560 idle. Owner STOP13:39:32 intact; no process stopped/restarted.
+> All final N2-N7/material/untouched/gameplay/statistical/Q4/Q5 gates remain open.
+> Rocket aim/lead cycling/phase-matchup adaptation still unsolved. Eight controlled
+> IL iterations have not produced an accepted replacement; ordinary_v6 also failed
+> development gameplay (39/64 vs original-input R1e45/64 and v5 42/64). Later failed
+> aim recipes remain rejected, not combined or relaunched.
+>
+> Next supported work is sampled-trajectory/PPO readiness for outcome-driven
+> updated-engine development, not another blind IL loss/LR grid. Source inspection
+> found stock rl_royale.Learner.proagree reads gen_v3val_arrays and _entries opens
+> historical heldout pool even in league mode. A registered isolated development
+> driver must prevent those accesses, bind allowed data/scenarios/parent/control/
+> budgets and verify sampled-vs-recomputed probabilities and actual terminal reward.
+> No readiness execution, RL recipe or optimization registered/launched yet.
+> Do not infer that the old RL launcher can be used unchanged. Any new learning
+> must retain learned public tactics, no spell-frequency reward and all final gates.
+
 > ## 2026-10-05 17:57 EDT -- AIM-ONLY MODEL REJECTED; TERMINAL DRIVER CHECK ACTIVE
 > Supersedes ACTIVE iteration8 below. Read development_iteration_8/REVIEW.md,
 > results_verified.json,reviewed_results.json and RECOUNT_* records under

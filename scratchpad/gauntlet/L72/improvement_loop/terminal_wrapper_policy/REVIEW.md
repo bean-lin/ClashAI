@@ -1,23 +1,38 @@
-# Actual-driver neutrality check launched
+# Terminal policy-driver neutrality verified
 
-October5 17:57 EDT. The isolated terminal adapter passes30 native fixture runs,
-all exact engine/command/outcome comparisons, phase controls and independent
-corruptions. Production pipeline/live remain unchanged. No stronger policy claim.
+October5 18:07 EDT completed; reviewed October5 18:26 EDT. Supersedes the prior
+ACTIVE launch note. P1-P3 COMPLETE as an engineering check. This leaf created no
+model and provides no evidence of a stronger learned policy.
 
-This separate leaf now collects32 new fixed games(R1e/v5, gen/S1, four new seeds,
-disabled/enabled) with the same decoder/options/runtime and no learning. All32
-initial byte/form pairs must match before prediction. One GPU lock spans serial
-collection and independent raw-record verification. Inspect launch/chain_started,
-started/setups_verified/progress.json and chain.out/.err. Do not duplicate/resume
-or edit/add Python/PLAN/bound sources while active. Reporting helpers outside.
+All32 registered games completed (16 disabled/enabled pairs), with collection
+513.38s and independent verification70.82s, both exit0/token matched. Independent
+controls passed1 positive/7 corruptions. Initial native bytes/forms, accepted
+commands, every pre-fulltime public frame and decision, prior pending-command
+accounting, full native terminal bytes/tick/winner/crowns and outcome match exactly
+within every pair. No enabled post-fulltime decisions remain.
 
-Require exact accepted commands, pre-fulltime public frames, delayed command
-accounting, native state/tick/winner/crowns/outcome in every pair, and no enabled
-post-fulltime decisions. Missing actual fulltime coverage stays inconclusive;
-do not add seeds adaptively. No old192-game replay or original model reports are
-repeated. No new checkpoint or model report due. OwnerSTOP13:39:32 intact.
+Two pairs reached fulltime: scenario3 ordinary_v5 ended at6095 with the same win
+and9 decisions removed; scenario4 R1e ended at6129 with the same loss and21 removed.
+The other14 pairs were unchanged. Total30 decisions removed. This is limited
+fulltime policy coverage plus the separately completed30 native fixtures; it does
+not establish coverage of every deck, duration, ability or future actor setup.
 
-After collection the same chain runs the independent verifier. Preserve all
-execution failures and diagnose before any new driver. Only a verified engineering
-pass can qualify the adapter for a future separately registered driver/RL setup.
-N2-N7/learned-strategy/material components/statistical/Q4/Q5 remain open.
+reviewed_results.json and l72-terminal-policy-reviewed bind both successful
+execution receipts and output hashes, all32 raw record hashes, report, verifier
+result and frozen source bindings. No collection/verifier/native-fixture rerun.
+No new checkpoint or Discord model report was due; prior reports remain delivered
+once. The isolated opt-in adapter is qualified for a separately registered future
+driver/RL setup. Production pipeline, native runtime and live remain unchanged.
+
+Owner STOP13:39:32 remains intact and no live worker was restarted. R1e remains
+selected. All learned Rocket/lead-cycle/adaptation, material component, stronger
+same-runtime gameplay, untouched evidence, power/multiplicity and Q4/Q5 final
+requirements remain open.
+
+Next investigation: verify updated-engine sampled trajectories and the PPO
+probability/reward contract before registering outcome-driven training. Source
+inspection found that the stock Learner.proagree reads gen_v3val_arrays and stock
+_entries opens historical heldout pool entries even in league mode. New controlled
+development therefore needs explicit train/development isolation; do not launch
+the inherited RL command or consume inspected L71 validation. No readiness job,
+new RL recipe, optimization or candidate has been registered/launched yet.
