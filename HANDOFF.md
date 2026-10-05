@@ -1,5 +1,34 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 08:37 EDT -- PILOT COMPLETE/INDEPENDENTLY VERIFIED; FRESH ICEBOW DATA GAP
+> The original fixed645 native pilot completed and its queued independent verifier passed. Do not relaunch either chain.
+> 318 usable/327 excluded:110/209 training,106/216 development,102/220 confirmation. All26 scheduled repeats matched raw
+> commands/grade/final, public object lifetimes and pre-play frames. Independent source/CSV/selection/split hashes agree.
+> Full source accounting51577 commands,47538 driven,46880 accepted,388 explicitly skipped; early-terminal unvisited suffixes
+> remain missing rather than counted as explicit skips. Overlapping exclusion reasons:240 undriven/skipped,190 rejected,
+> 162 crown mismatches. No failed reconstruction promoted. See PILOT_FINAL_REVIEW.md/reserved_pilot_independent.json and
+> successful l72-reserved-pilot-collection / l72-reserved-pilot-independent receipts. Pilot P1-P4 complete; N2-N7 still open.
+>
+> General-deck confirmation metadata:44 Rocket,22 Rocket/Tornado,28 X-Bow,21 Log-vs-Barrel,15 Witch,15 Night Witch,18 Furnace.
+> Only8/11 exact-Icebow captures qualify; all confirmation, none in exact-Icebow spawner strata. These are deck counts,
+> not opportunity denominators or sufficient statistical power. No successor IL/RL/confirmation predictions occurred.
+>
+> Additional data discovery: direct anonymous RoyaleAPI returned403/challenge. Normal connected Chrome navigation likewise
+> remains at security verification; no challenge solved, credentials extracted or login automated. Agent-created Chrome
+> tab1629243120 retained as a handoff page. Owner interaction may be needed for that route. Owner farming continues;
+> no STOP, policy change or autonomous fallback restart. Existing isolated native emulator remains idle and available.
+>
+> Public Cochon123/clash-royale-replays pinned atba54d0c89db86fd6e31096179a0141635fbef816 lists15452 raw files, no known exposed
+> filename-ID overlaps (not yet signature deduplicated). Downloaded only legacy metadata1592 matches/125093 events and six
+> fixed current raw schema samples. Cleaned decks omit original forms; all five exact-Icebow legacy IDs and ordinary
+> control lack corresponding current raw paths. Six raw samples also do not certify original deck forms. No bulk download,
+> native conversion, form guessing or new split assignment. See ADDITIONAL_SOURCE_FINDINGS.md/additional_source_schema.json,
+> plans and download hashes. Dataset availability alone cannot supply faithful fresh confirmation.
+>
+> Next: obtain original battle/deck/form metadata or another faithful public source; preserve native/data evidence and
+> immutable reservation, then establish adequate opportunities/power/multiplicity and freeze successor comparison before
+> training. Other-deck data cannot substitute for Icebow component evidence. No new model means no new Discord report.
+
 > ## 2026-10-05 08:14 EDT -- INDEPENDENT PILOT RECONCILIATION PREPARED AND QUEUED
 > Existing collection remains healthy: 457/645 attempted, 231 usable/226 excluded, no fatal error.
 > Owner live37424/29536 continues; STOP absent. No active collector/runtime/model source or setting changed.
