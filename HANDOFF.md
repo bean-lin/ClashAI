@@ -1,5 +1,27 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 12:10 EDT -- FRESH ROCKET REFERENCE CAPACITY RECOUNTED, NO POLICY PREDICTIONS
+> Read L72/improvement_loop/rocket_reference_capacity/PLAN.md,GATES.md,REVIEW.md,started.json,report.json,
+> references.json and verified.json. R1-R3 complete; all115 qualified exact-Icebow confirmation replays/sides
+> retained,260 original own Rockets across100 replays (15 without Rockets). Source hashes/forms/splits unchanged.
+> Existing public label definitions produce31 nearby-princess references/22replays,30 observed HP-drop casts/
+> 21replays, ZERO observed princess finishing transitions,5 repeated tower references/4replays. Nearby timed
+> Rocket-then-Tornado26casts/24replays; Tornado-then-Rocket1/1. These are expert-source references, NOT all
+> opportunities, causal damage, useful combos, positive trades, independent trials or sufficient power.
+>
+> All260 landings use public-aim/catalog-speed estimates, no directly observed Rocket area start. All have
+> <=10tick HP brackets, only5casts/5replays meet the tighter two-tick flag. Zero labeled finishes does not prove
+> zero actual finishes or finishing opportunities. Do not tune timing/geometry/thresholds on confirmation.
+> Independent raw-frame/command reconstruction imported neither producer nor labeler; every reference/count
+> matches,1positive/9corruption controls pass. Both l72-rocket-reference-capacity receipts exit0/token matched.
+> Do NOT repeat this completed inventory. No model predictions, training/optimization, checkpoint or Discord report.
+>
+> N2-N7 remain open. Fresh exact-Icebow Barrel source is still absent; Witch3/Night Witch10/Furnace12 source
+> replay clusters are not established tactical denominators/power. Need faithful additional source and frozen
+> adequate design. Existing RoyaleAPI owner verification request remains pending; no repeated ask or bypass.
+> Owner farming37424/29536 active,STOP absent at12:08;120533 match30attempts/27confirmed/2fails (one unmatched
+> final attempt), then normal result/PlayAgain/loading. Native5560 idle. No live settings/restart or model change.
+
 > ## 2026-10-05 11:49 EDT -- LEARNED PROJECTILE AIM TERM ISOLATED ON TRAINING DATA
 > Read L72/improvement_loop/barrel_residual/PLAN.md,GATES.md,REVIEW.md,selection.json,report.json,verified.json.
 > B1-B3 complete: CPU fixed-weight diagnosis on789 unique split0 rows/489 training replays; three existing
