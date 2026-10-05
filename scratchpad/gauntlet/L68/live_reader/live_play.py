@@ -210,7 +210,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ckpt", default=str(REPO / "icebow/data/pipeline/gen_v1_s0/gen_s0.pt"))
     ap.add_argument("--tau", type=float, default=0.5)
-    ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (anti-leak rule)")
+    ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (unless --no-anti-leak)")
+    ap.add_argument("--no-anti-leak", action="store_true",
+                    help="honour the model's play/wait decision even at full elixir; disable forced spending")
     ap.add_argument("--interval-ms", type=int, default=100)
     ap.add_argument("--max-seconds", type=float, default=400,
                     help="PER-MATCH wall-clock cap (reset each match): overtime ends by 6,000 ticks = 300 s of "
@@ -393,7 +395,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             log.write(json.dumps(k, default=str) + "\n")
             log.flush()
     W(event="start", screen=[lay.w, lay.h], tau=a.tau, leak=a.leak, dry_run=a.dry_run, ckpt=a.ckpt,
-      extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device)
+      extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device, anti_leak=not a.no_anti_leak)
     rec = ScreenRec(stamp) if record else None
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
@@ -618,7 +620,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                   backlog=q.qsize())
                 warned_at = now
             el = me["elixir_raw"] / 1e4
-            forced = not d["play"] and el >= a.leak and d["card"] > 0
+            forced = not a.no_anti_leak and not d["play"] and el >= a.leak and d["card"] > 0
             if not (d["play"] or forced):
                 continue
             if not guard_clear():                        # the guard has not (freshly) seen a battle screen

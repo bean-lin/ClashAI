@@ -1,5 +1,21 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-04 21:52 EDT -- OWNER-REQUESTED R1e LIVE ANTI-LEAK ABLATION RUNNING
+> Owner explicitly requested disabling hardcoded anti-leak and redeploying the same R1e model to observe performance.
+> Old run exited cleanly between matches at21:48:07; supervisor restarted21:50:47. First experiment match:
+> `scratchpad/gauntlet/L68/live_reader/live_play_20261004_215110.jsonl` (21:51:10 EDT).
+> Start event verifies R1e `rseries_r1e31_u0155.pt`, anti_leak=false, tau0.35, extrapolate26, public counter=true.
+> Added opt-in `--no-anti-leak`; `run_live.sh` now passes it, so normal restarts preserve this experiment.
+> Only forced spending is disabled. Checkpoint hash/override, learned gate, argmax card/cell, abilities and recording
+> settings are unchanged. Source and supervisor were edited only after all old run processes exited.
+> CPU dispatch replay: legacy default preserves497/497 archived attempts; disabling suppresses12 forced attempts,
+> retaining485 model-selected attempts. CLI/shell syntax pass. Runtime snapshot:7 attempts,7 confirmed,0 forced.
+> One live worker PID5424 under venv launcher37388; supervisor wrapper chain38856/35296/36120. No extra GPU job.
+> Evidence: `scratchpad/gauntlet/L71/leak_ablation/` (deployment receipt, process snapshot, verification and gates).
+> This verifies deployment, NOT improved gameplay. No simulator A/B was run for this owner-requested live test.
+> Reporting must split R1e matches by start.anti_leak (missing field in old logs means legacy enabled); never pool
+> pre-change and post-change matches into one treatment cohort. Q1 sampling and Q2 Rocket aim remain separate.
+
 > ## 2026-10-04 21:31 EDT -- Q0 INITIAL LIVE COMPARISON VERIFIED; CPU WORK CAN CONTINUE
 > `scratchpad/gauntlet/L71/live_comparison/compare.py` reads frozen live/nav log prefixes, attributes each match
 > by start.ckpt (not process --ckpt or accumulated session W/L), and pairs a unique result before the next match.
@@ -37,7 +53,7 @@ exists, what is running, what is broken, what was fixed and how it was measured.
 > If a change is too small to warrant a ledger row, it is still worth a line — err toward writing
 > it down.
 
-Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired A/B command handed to lead), branch `main`.
+Last updated: **2026-10-04 21:52 EDT** (owner-requested R1e live anti-leak ablation deployed and verified), branch `main`.
 
 > ## 2026-10-04 11:59 -- R8 VERIFIED; LEAD RUNS PAIRED ACCEPTANCE
 > V4 SIM/live inputs now advance projectiles and effect clocks with the shared extrapolate function.
@@ -1196,6 +1212,10 @@ cd C:\Users\benpe\ClashBot\hogeq
 
 ## 3. What is running RIGHT NOW
 
+**2026-10-04 21:52 override:** live R1e u0155 with `--no-anti-leak`, tau0.35, reader v2. First treatment
+match21:51:10 EDT; live worker5424 / venv launcher37388, supervisor wrapper chain38856/35296/36120.
+The old run exited between matches. See the newest block and `L71/leak_ablation/deployment.json`.
+
 **2026-10-03 22:10 override:** live u0155/reader v2 remains active; R1t training and both acceptance sets
 finished successfully. Trainer/actors/completion reporter have exited. No new training/evaluation job is running.
 Both VMs are stopped and all14818 files fetched/verified. Native Rocket/Barrel/ability audits finished;
@@ -1343,6 +1363,10 @@ configured but **have never run** — BC has not been retrained since the soft-t
 ---
 
 ## 5. Bug ledger (this session, with measurements)
+
+- **2026-10-04 anti-leak ablation** (commit titled `Disable forced anti-leak for owner-requested R1e live test`):
+  opt-in switch preserves497 historical dispatches by default; disabled retains485 learned plays and suppresses12
+  controller-forced plays. First live snapshot7/7 confirmed,0 forced. Deployment verified; win-rate effect untested.
 
 - **2026-10-03 autopilot, uncommitted (Git index permission denied):** copied R1 config rejected the already
   implemented `gae_terminal_gap` flag; add default false and stop the shell chain on nonzero training exit.
@@ -1557,6 +1581,10 @@ slow one.
 ---
 
 ## 6. Open work
+
+**2026-10-04 21:52:** accumulate owner-requested R1e anti-leak-off live results; separate from prior anti-leak-on
+R1e matches using start.anti_leak and the21:51:10 treatment boundary. The Q0 comparison must stratify that setting
+before another aggregate report. Sampling checks and Rocket area aim are subsequent independent experiments.
 
 **2026-10-03 21:36 autopilot:** VM retrieval, pro X-Bow census and R1t historical paired acceptance are complete.
 gen_v3.1 still needs validated projectile timing/actual area sources, verified Rocket/X-Bow context labels,

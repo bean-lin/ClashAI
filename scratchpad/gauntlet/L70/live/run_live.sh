@@ -5,6 +5,7 @@
 # Trophy Road rewards collected), overlaid replays OFF except one 60-s clip to Discord at the start and every 30 min.
 # Restarts after a stop, at most MAX_RESTARTS (default 10; owner 2026-10-02 21:4x, was 5), each stop posted to Discord.
 # NO end time: it ends only when $L/STOP exists (touch it to stop between matches).
+# Owner 2026-10-04: --no-anti-leak tests R1e's learned play/wait gate without forced spending. All other settings stay.
 # If a ladder live_play is ALREADY running when this starts (a supervisor swap), it is adopted: waited for, and its stop
 # counts as the first restart -- never a second live_play beside it.
 cd /c/Users/benpe/ClashBot
@@ -35,7 +36,7 @@ fi
 while [ ! -e $L/STOP ]; do
   echo "[sup] start (restarts used $restarts/$MAX) $(date)" >> $L/supervisor.log
   $PY -u scratchpad/gauntlet/L68/live_reader/live_play.py --ladder --matches 400 \
-    --ckpt $CKPT --tau 0.35 --max-seconds 600 \
+    --ckpt $CKPT --tau 0.35 --no-anti-leak --max-seconds 600 \
     --clip-every 1800 --overlay reader --stop-file $L/STOP >> $L/overnight.out 2>&1
   rc=$?
   why=$(last_stop)
