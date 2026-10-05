@@ -1,5 +1,22 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 19:37 EDT -- OUTCOME RL STILL ACTIVE; FINAL CLOSEOUT PREPARED
+> Same recovery launcher25612/chain34060, training worker42312/24220; no new job.
+> Latest completed checkpoint u028:28/32 updates,224/256 games. At the25-update
+> log review all updates finite,5critic-only+20policy updates,no guard stops,
+> maximum on-policy ratio deviation1.26604e-5<1e-4. No performance verdict yet.
+> Sources/recipe/thresholds remain frozen; no repeated readiness/preparation or
+> intermediate development predictions. Leave the single GPU chain intact.
+> Prepared scratchpad/gauntlet/L72/improvement_loop/review_outcome_rl.py outside
+> both frozen leaves;
+> see development_rl_1/GATES.md O4. Only after successful final independent
+> evidence/chain_complete: evidence review, inspect report_model.txt, send once,
+> then delivery review. It binds all receipts/paired counts/failure/source/message
+> hashes and exact expected1900-character delivery chunks. Not executed yet.
+> If original verifier fails, preserve its nonzero receipt and diagnose before
+> any corrected recount; never rerun completed optimization or waive filters.
+> Owner STOP13:39:32 remains intact; no live worker/restart or model report due.
+
 > ## 2026-10-05 19:08 EDT -- RL READINESS PASSED; SETUP FAILURE PRESERVED; RECOVERED TRAINING ACTIVE
 > Read rl_readiness/PLAN/GATES/REVIEW/report/verified/reviewed_results and
 > development_rl_1/PLAN/METRICS/GATES/REVIEW under L72/improvement_loop.

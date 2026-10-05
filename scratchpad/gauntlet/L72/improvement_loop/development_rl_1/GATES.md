@@ -18,3 +18,12 @@ keys compared directly. Do not rerun this command. Recovery R1 passed34.37s with
 strict form normalization; R2 carries unchanged O2/O3 learning/metric obligations
 under separate driver and receipt. See ../development_rl_1_recovery/GATES.md.
 O2/O3/O4 remain unmet until that chain and review finish; original failure retained.
+
+O4 prepared closeout helper is outside both frozen leaves: ../review_outcome_rl.py.
+Only after successful final independent evidence and chain_complete, run --phase
+evidence under l72-outcome-rl-reviewed-evidence/OUTCOME_RL_EVIDENCE_REVIEWED.
+Read its generated report_model.txt before posting ONCE with the intended sender
+under l72-outcome-rl-discord/HTTP 204; then --phase delivery under
+l72-outcome-rl-reviewed/OUTCOME_RL_DELIVERY_REVIEWED. The helper checks all delivery
+chunks, the reviewed message/source hashes and the preserved original failure.
+Do not execute this helper against partial training or unresolved verifier failure.
