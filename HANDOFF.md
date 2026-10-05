@@ -1,5 +1,57 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 17:57 EDT -- AIM-ONLY MODEL REJECTED; TERMINAL DRIVER CHECK ACTIVE
+> Supersedes ACTIVE iteration8 below. Read development_iteration_8/REVIEW.md,
+> results_verified.json,reviewed_results.json and RECOUNT_* records under
+> scratchpad/gauntlet/L72/improvement_loop. A1-A3 COMPLETE:1000 finite updates,
+> all54723 development predictions/five caches/original labels/masks/per-replay
+> counts reconcile. Train135.00s/eval84.39s; exact-path independent-v3 92.18s,
+> all exit0/token matched. Preserve original missing-extra_masks failure1.82s
+> and v2 wrong-module identity failure1.83s, both before data. Outer v3 executes
+> unchanged original recount; no training/eval rerun, source/metric waiver.
+>
+> R1e(corrected)/v5/v6/trial7/aim_heads_v6: Rocketforcedaim290/292/293/290/289 of955;
+> fullRocket54/77/73/76/75; lateRocket14/22/21/22/22 of320. Candidate-v5 fails
+> required+5/+2/+2pp; observed-.3141/-.2094/0pp. Rocketpairedaim3better7worse326tie,
+> actions0/2/334. Barrel36correct20wrong7nonfired /40/22/1 /55/7/1 /56/6/1 /
+> 56/6/1; fullactions18/20/30/32/31. R1e/v5/candidate W332/339/339,NW156/161/161,
+> F538/549/549,defense3952/4011/4012,lateall1949/1984/1993. Other point protections
+> pass, but cannot rescue. Non-aim tensors/chosen cards/gate>.35 decisions unchanged;
+> 164 gate logits(max7.15e-7)/633 card logits(max2.86e-6) differ, exactness alsoFAIL.
+> Cause unproven/no tolerance waiver. Candidate REJECTED; no gameplay/cycling proof.
+> NEW model report ALREADY delivered ONCE,oneHTTP204,l72-development8-discord/
+> reviewed. Reviewed_results binds five successful receipts/both failures/message/
+> delivery/model/cache/paired hashes. Do NOT rerun or resend. No accepted new model.
+>
+> terminal_wrapper T1-T3 COMPLETE: read PLAN/GATES/REVIEW/report/verified and
+> pending_verified. Isolated opt-in SelfPlayMatch adapter, production unchanged.
+> Native30 runs(10 original/off/on triplets)64.27s, independent.11s, pending.08s
+> all exit0. Exact default-off records and enabled accepted commands/full native
+> terminal bytes/tick/winner/crowns. Eight fulltime cases(4 wins/4 draws) remove80
+> post-fulltime decisions; two early-cap cases unchanged. All20 pre-boundary delayed
+> plays retain accounting(16 game_over/4unlanded). Seven phase/boundary controls,
+> independent1positive10corruptions and pending1positive5corruptions. No models
+> loaded or policy/strategy changes. Native public durations drive cutoff, actual
+> tiebreak drains to winner; no hardcoded tactical phase/card/HP switch.
+>
+> ACTIVE terminal_wrapper_policy: launcher43572 started17:57:26, one GPU lock
+> across collection+independent verification. Read PLAN/GATES/REVIEW.32 NEW fixed
+> games: seeds2026100580..583,gen/S1,R1e/v5,disabled/enabled. Same pinned main
+> runtime, originalR1efeature4/v5feature5, decoder/options/decks/forms/abilities.
+> All32 initial byte/form pairs checked before predictions. Compare each policy
+> only against itself; no optimization/newcheckpoint or repeated192-game cohort.
+> Require exact accepted commands, pre-fulltime public frames/pending records,
+> full native terminal state/outcome and zero enabled post-fulltime decisions.
+> Count actual fulltime coverage; zero stays inconclusive, no adaptive expansion.
+> Inspect launch/chain_started/started/setups_verified/progress.json,chain.out/.err;
+> ignored icebow/data/bench/terminal_wrapper_policy_20261005/records. Do NOT duplicate
+> or edit/add bound Python/PLAN/pipeline/data while active; helpers outside. Fail
+> closed/no automatic resume. No new model report due. On completion review every
+> receipt and raw-pair/negative control before qualifying adapter for a future
+> registered driver/RL; production/live not integrated. OwnerSTOP13:39:32 intact,
+> no live worker, native5560idle. All finalN2-N7/material/gameplay/statistical/Q4/Q5
+> and learned Rocket/adaptation objectives remain unfinished.
+
 > ## 2026-10-05 17:37 EDT -- ROCKET BRANCH LIMIT VERIFIED; AIM-ONLY TRIAL ACTIVE
 > Read frozen_branch_rocket/PLAN.md,METRICS.md,GATES.md,REVIEW.md,report.json,
 > verified_v2.json,VERIFIER_CORRECTION.md and development_iteration_8/PLAN.md,
