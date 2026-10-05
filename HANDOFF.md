@@ -1,5 +1,65 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 17:05 EDT -- DEVELOPMENT GAMEPLAY REJECTED; FROZEN-BASE BRANCH TRIAL ACTIVE
+> Supersedes active development_gameplay_1. Read its REVIEW.md,results_verified.json,
+> reviewed_stats.json,reviewed_results.json; gameplay_failure_audit/PLAN.md,REVIEW.md,
+> report_v2.json,verified_v2.json,accounting_controls.json; development_iteration_7/
+> PLAN.md,METRICS.md,GATES.md,REVIEW.md,prelaunch.json under L72/improvement_loop.
+>
+> Gameplay G1-G3 COMPLETE16:36:26,192/192 games. Collection1173.79s/independent8.03s
+> exit0,all original64scenarios/model/runtime/forms/outcomes/receipts reconcile.
+> R1e(originalfeature4)/ordinary_v5/ordinary_v6 wins45/42/39 of64;gen15/14/11 of32,
+> S1 30/28/28. v6-v5 -4.6875pp,descriptive32-seed-cluster95% CI[-12.5,+3.125];
+> v6-R1e -9.375pp[-21.875,+3.125]. No significant improvement/harm established;
+> frozen point criteria nevertheless FAIL. v6-v5 paired2better/5worse/57same.
+> Accepted2443/2668/2586; terminal-unlanded20/27/35. Frozen other-refusals14/21/32
+> include game_over13/21/31 plus out_of_territory1/0/1: NOT ordinary legality counts.
+> Original filters/results remain unchanged; win failures independently reject.
+> Accepted Rockets42/73/70,estimated tower3/8/4(one v6unknown),narrowfinishes0/0/0,
+> repeatedtowercyclelabels0/1/0,Rocket->Tornado0/0/0. Geometry/HP coincidence remains
+> noncausal and incomplete opportunity evidence. Gameplay addendum ALREADY delivered
+> ONCE,oneHTTP204,l72-development-gameplay1-discord; reviewed receipts/message/delivery
+> and both old orchestration failures bound. Do NOT rerun games or resend reports.
+>
+> Gameplay failure F1-F3 COMPLETE: producer34.10s/independent24.31s/controls0.13s
+> exit0. All192rawrecords/64pairs match. All game_over land>=6000,no accepted command
+> on/after6000. Source explicitly freezes plays during native tiebreak while wrapper
+> waits for final outcome. Decided afterboundary12/18/25; prior decisions landing
+> afterboundary1/3/6. Complete6003rawweakest-tower margins known6/8/9,sevenlategames
+> unknown;23/23 known signs matchfinalwinner,not safe-cycle/causal benefit evidence.
+> Preserve original audit.py/started.json/nonzero missing-six-tower failure. v2
+> retains incomplete snapshots as unknown,never invents destroyed tower HP/crowns.
+> Main controls4towerpositive/5malformed,2commandpositive/1pastframecorruption;
+> extra exact accounting fragment1positive/7negative. No gameplay/inference/learning.
+> v5-v6:23pairs samecommands;41 firstdivergences learner with exact entire prior
+> publicframes equal.29samecard/differentplacement,2cardchanges,10one-sided commands.
+> These are common-state differences,not proof a particular action caused loss.
+>
+> ACTIVE development_iteration_7 frozen_base_projectile_v6: B1 COMPLETE,B2/B3 ACTIVE.
+> Launcher42584/chain51696 started17:03:28,oneGPUlock across train/eval/recount gaps.
+> Inspect launch/chain_started/chain_progress.json,chain.out/.err and ignored
+> icebow/data/bench/development_iteration_7_20261005/frozen_base_projectile_v6/train.jsonl.
+> No duplicate or edit/add bound Python/PLAN/METRICS/data; reporthelper OUTSIDEdirectory.
+> Hypothesis: isolate projectile learning from shared-base drift. Startverifiedv5,
+> freezeALLbaseweights/heads/embeddings/aimquery/spatial;ONLY5genericprojectiletarget
+> tensors optimize,baseevalmode(no targetdropout). Originalexpertloss/data/draws/mirror,
+> 1000steps,batch128,seed20261005,targetLR1e-3,wd.01,clip1,fp32,finalonly. No newlabels,
+> cardrule,exposure/lossrecipecombination,reserved/oldvalidation/botexpertaccess.
+> Preflight68.08s exit0:initialalloutputs/loss exact,twoCPUsteps5.106794834136963/
+> 5.106081962585449 learn output/upstream branch while everybase tensor and allheads
+> stayexact;unknown/padding/no-target equality,standardweights-onlyroundtrip pass.
+> Smoke notfulltraining,nosavedcheckpoint. Fixedcontinuation:v5Barrelcorrect+15pp,
+> wrongatleasthalved,fullBarrelnondecrease;exactall54723gate/cardlogits;noRocketaim/
+> action/lateRocket,lateall,W/NW/F,defensepointdecline. It is a branch test,not a
+> completeRocketremedy orfinalacceptance. Aftercompletion reviewallreceipts/exact1000
+> finiteupdates/base-tensor equality/caches/pairedgroups,thenreportNEWmodelONCE against
+> R1e/v5/v6,DEVELOPMENT/NOT ACCEPTED pendingfinalgates. No reportdueatlaunch.
+>
+> No acceptednewmodel orlivechange. OwnerSTOP13:39:32 intact,liveworkerabsent;
+> native5560idle. Future wrapper repair must preserve acceptedcommands/finalnative
+> state while suppressing post-boundary decisions; no wrapper/runtime change here.
+> Q4/Q5/finaluntouched/materialcomponent/gameplay/power/multiplicity gates remainopen.
+
 > ## 2026-10-05 16:18 EDT -- SPATIAL LOSS REJECTED/REPORTED; MATCHED DEVELOPMENT GAMES ACTIVE
 > Supersedes active phase6. Read development_iteration_6/REVIEW.md,results_verified.json,
 > reviewed_results.json and development_gameplay_1/PLAN.md,GATES.md,REVIEW.md,prepared.json,

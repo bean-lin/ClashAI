@@ -1,12 +1,12 @@
 {
-  "matches_complete": 29,
+  "matches_complete": 192,
   "total": 192,
   "last": {
-    "model": "ordinary_v5",
-    "tag": "l72-development-gameplay1:gen:2026100509",
-    "path": "icebow\\data\\bench\\development_gameplay_1_20261005\\records\\009_ordinary_v5.json.gz",
-    "sha256": "a228e6586720c34480af97a1fbcd75dd4a6748ba5ceb9dfcb4b2a1b9f5bfb51f",
+    "model": "ordinary_v6",
+    "tag": "l72-development-gameplay1:s1:2026100531",
+    "path": "icebow\\data\\bench\\development_gameplay_1_20261005\\records\\063_ordinary_v6.json.gz",
+    "sha256": "c62574ed5c4146af188e0cada926e8fb66eb7ea34b72d2e8d09ddd14c334db00",
     "outcome": "win"
   },
-  "utc": "2026-10-05T20:19:43.488652+00:00"
+  "utc": "2026-10-05T20:36:17.948467+00:00"
 }
