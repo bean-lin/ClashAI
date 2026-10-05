@@ -1,5 +1,43 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 09:34 EDT -- NATIVE EVOLUTION CATALOG OMISSION FOUND; 162 MORE ICEBOW CAPTURES ACTIVE
+> Read L72/improvement_loop/NATIVE_FORM_PROBE_REVIEW.md and NATIVE_CATALOG_CORRECTION_PLAN.md.
+> Most original Icebow exclusions involved Elite Barbarians evolution. The original native assets contain its TOML
+> overlay, and the native engine resolves base/evolved/base as 26000043/13000043/26000043, spawning two evolved troops.
+> Base and known Knight controls pass. The Python catalog omitted the form and classified it unknown. Top-level CSV
+> placeholder inspection alone had been misleading. No native binary, asset, original catalog or live source changed.
+>
+> A task-local ignored native_core copy has seven byte-identical Python files and exactly three corrected evolution
+> metadata fields plus count 41->42. Original validation remains intact; no form stripping or validator bypass.
+> Synthetic v5 passes with a repeated evolution arm and proper native ID/base ID/form separation. Preserve failed v1
+> placement, v2 early-terminal and v4 incorrect schema assertion sources/receipts. Original v3 establishes native support.
+> C1/C2 pass in native_form_probe/CORRECTION_GATES.md; C3 and N2-N7 remain open. No new training or model predictions.
+>
+> Corrected metadata preflight: 222,362/239,939 compatible groups; 17,577 still fail unverified Void mapping. Exact Icebow
+> is now 173/183 compatible: original eleven remain in the old pilot; ALL 162 newly eligible groups are separately
+> selected in tag order with unchanged confirmation assignments. Ten still fail. New encounters include 20 Night Witch,
+> 15 Furnace and only three Witch, with overlap. These are source deck counts, not tactical opportunities or adequate power.
+> Converted and checked all 12,957 commands/original forms; scheduled 17 repeats. No selection based on outcomes.
+>
+> NEW collection is ACTIVE: launcher 43412, collect_reserved_icebow_corrected.py, existing isolated CPU emulator 5560 /
+> direct port 38031. Read corrected_icebow_launch.json, corrected_icebow_collection_progress.json and .out/.err.
+> At 09:34: 33/162 attempted, 20 usable / 13 excluded, no fatal error. Guest libraries/bridge/host/APKs re-attested before
+> collection; source/catalog hashes checked throughout. Original 645-pilot and 20-preflight chains remain complete.
+> Do not duplicate collection, call this native worker concurrently, or edit its bound sources/package/plan.
+>
+> Independent verifier is QUEUED: launcher 38292, verify_reserved_icebow_corrected.py --wait-for-completion; read
+> corrected_icebow_verifier_launch.json and .out/.err. First four fixed records independently reconcile; two positive /
+> eleven negative recount controls and original qualification controls pass. Final expected artifacts are
+> corrected_icebow_collection_complete.json, reserved_icebow_corrected_independent.json and successful
+> l72-corrected-icebow-collection / l72-corrected-icebow-independent receipts. Do not count final usable yield yet.
+>
+> After completion, reconcile yield and opportunities, address remaining scarcity, then freeze adequate cohort/power/
+> multiplicity/successor design before optimization or final predictions. Neither catalog repair nor fresh captures
+> establish a better model. Historical sequence preparation remains trainable=false; keep all requested learned fixes.
+> Public alternate-source follow-up found publisher metadata code but no matching original battle metadata; see
+> ADDITIONAL_METADATA_FOLLOWUP.md and its hash report. No credentials, challenge bypass, bulk collection or form guesses.
+> Owner farming 37424/29536 remains active, STOP absent. No new model means no new Discord performance report.
+
 > ## 2026-10-05 08:59 EDT -- DEFENSE-TO-ROCKET TRAINING INDEX PREPARED; NO SUCCESSOR TRAINING
 > Completed a useful independent preparation step while fresh exact-Icebow evidence remains insufficient. Read
 > L72/improvement_loop/DEFENCE_SEQUENCE_PREP_PLAN.md and DEFENCE_SEQUENCE_PREP_REVIEW.md. The existing historical
