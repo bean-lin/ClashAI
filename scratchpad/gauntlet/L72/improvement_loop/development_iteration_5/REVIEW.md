@@ -1,3 +1,50 @@
+# Public tower representation complete: continuation rejected
+
+October5 15:39:33 EDT completion. T1-T3 COMPLETE as an experiment; no accepted
+model. Train252.30s/eval92.49s/independent95.66s all exit0/token matched. Exactly
+1000 finite updates and54723 predictions/original subgroup and per-replay counts
+reconcile. Read results_verified.json and reviewed_results.json; do not rerun.
+
+Same corrected-input R1e / ordinary_v6 / tower_spatial_v7:
+
+| Measure | R1e | Control | Candidate | Denominator |
+|---|---:|---:|---:|---:|
+| Rocket forced aim within1tile |290|293|328|955 /336 groups|
+| Full expert Rocket action |54|73|85|955 /336|
+| Late expert Rocket action |14|21|32|320 /171|
+| Late all action |1949|1993|2007|6422 /215|
+| Barrel correct/wrong/not-fired |36/20/7|55/7/1|60/2/1|63 /26|
+| Witch action |332|341|341|726 /20|
+| Night Witch action |156|161|162|373 /12|
+| Furnace action |538|550|549|1174 /20|
+| Defensive sequence action |3952|4009|4015|8183 /212|
+| General card |11348|11399|11401|17192 PLAY|
+| All action |30968|31988|32017|54723|
+
+Global Rocket aim+3.665pp misses+5pp and full action+1.257pp misses+2pp.
+Late Rocket action+3.4375pp passes+2pp; Furnace falls one row and fails its
+protection. All other registered point protections pass, but the recipe is
+REJECTED. Do not combine/deploy this failed candidate or relax its fixed floors.
+The owner's wider strategy remains unresolved, including gameplay/resource/
+punishment/tiebreak benefit. All final untouched/statistical gates remain open.
+
+Candidate-control per-replay more/less/tie: Rocket aim45/14/277, Rocket action
+13/2/321, late Rocket11/0/160, Furnace0/1/19, Barrel correct4/0/22, defense
+11/6/195. Repeated rows are not independent trials. Parent exposure disclosed;
+these numbers use corrected observations for R1e, not its original live path.
+
+report_model.txt ALREADY delivered once through the intended sender,1567chars,
+oneHTTP204chunk. l72-development5-discord and reviewed receipts exit0; separate
+review_development5.py outside the frozen experiment binds all5 process/delivery
+receipts, model/cache/message hashes and paired totals in reviewed_results.json.
+Do not resend. OwnerSTOP13:39:32 unchanged,no live worker or restart.
+
+Next tower_aim_localization/PLAN.md audits cached region versus within-patch
+errors and target geometry. No new model inference, confirmation access or
+optimization; no physical impact inference. Choose a remedy from that evidence.
+
+## Archived preparation and launch
+
 # Public tower spatial representation trial active
 
 October5 15:32 EDT. T1/T2 COMPLETE; T3 ACTIVE. Read PLAN.md/METRICS.md and

@@ -1,5 +1,49 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 15:58 EDT -- TOWER TRIAL REJECTED/REPORTED; SPATIAL LOSS TRIAL ACTIVE
+> This supersedes the older active phase5 snapshot. Read development_iteration_5/REVIEW.md,
+> reviewed_results.json, tower_aim_localization/REVIEW.md and development_iteration_6/
+> PLAN.md,METRICS.md,GATES.md,REVIEW.md,prelaunch.json under L72/improvement_loop.
+> Phase5 finished15:39:33:1000finiteupdates/54723predictions independently reconcile;
+> train252.30s/eval92.49s/recount95.66s exit0. R1e(corrected)/ordinary_v6/tower_v7:
+> Rocket forcedaim290/293/328 of955,fullaction54/73/85,lateRocket14/21/32 of320;
+> Barrel36correct20wrong7nonfired /55/7/1 /60/2/1. Global aim+3.665pp<5pp and
+> action+1.257pp<2pp; Furnace549vs550 fails protection. Recipe REJECTED,not deployed.
+> All other protections pass but do not rescue. One model report ALREADY delivered,
+> oneHTTP204; l72-development5-discord/reviewed bind message/delivery/all5receipts.
+> Do NOT rerun or resend. No improved gameplay or tower-cycling proof.
+>
+> Cached tower_aim_localization L1-L3 COMPLETE:54723rows/3caches/97groups and every
+> per-replay count independently match,4positive9corruptions. No new inference.
+> Tower_v7 remaining627Rocket aim errors include469different-patch/158same-patch.
+> Narrow near-princess43PLAY/30groups unchanged:forcedaim5,fullaction2 for v6/v7;
+> lateRocket22/16groups aim1/action1 unchanged. Other late targets improve, but are
+> not necessarily troop shots; narrow geometry is not a complete tower-hit label.
+> Training exposure separately verified:162near-princessRocketrows get109draws,
+> covering78unique rows; original ordinary128000draws cover96327of213995trainrows.
+> This is diagnosis,not acceptance. Do not rerun completed audits/preparation.
+>
+> Phase6 spatial_cell_balance_v6 S1/S2 COMPLETE,S3 ACTIVE, started15:58:25:
+> launcher56284/chain23336,oneGPUlock through train/eval/recount gaps,failclosed.
+> Inspect launch/chain_started/chain_progress.json,chain.out/.err and ignored
+> icebow/data/bench/development_iteration_6_20261005/spatial_cell_balance_v6/train.jsonl.
+> No duplicate launch or bound Python/PLAN/METRICS/data edits; report helper outside.
+> ONLY cellCE weighting changes:allcard original trainingPLAYtargets define80
+> reflected spatialregions,clipped inverse-square-root frequency weights0.34864..4;
+> weight original IDs beforemirror,normalized weighted batchmean. Same ordinary_v6
+> R1e start/architecture/draws/dropout/mirror/optimizer/noncellloss/1000steps,batch128,
+> seed20261005,baseLR1e-5,targetLR1e-3,wd.01,clip1,fp32,finalonly. No card/tower/HP/
+> phase rule, fabricatedlabels or frequencyreward; no rejectedrecipecombination.
+> Prepared/independent sourceweights and scheduledweights match,1positive3corruptions.
+> Preflight105.27s exit0:unitloss/everygradient exact,noncellterms exact,PLAY-only
+> cellgradient change,WAITignored,mirrorweightidentity,scaleinvariance,3badweights
+> rejected,standardweights-only roundtrip; smoke6.408744812011719,nosavedcheckpoint.
+> Floors:globalRocketaim+5pp/fullaction+2pp/lateRocketaction+2pp,alloriginalprotections.
+> Review final1000updates/all54723predictions/allreceipts/perreplaycounts before once-only
+> newmodelDiscordreport. No report due atlaunch. Parentexposure disclosed; no reserved,
+> oldvalidation or botexpertlabels. Finaluntouched/gameplay/statistical/Q4/Q5 gates open.
+> OwnerSTOP13:39:32 intact,no liveworker/restart; native5560idle. No acceptedmodel.
+
 > ## 2026-10-05 15:32 EDT -- PHASE TRIAL REJECTED/REPORTED; PUBLIC TOWER SPATIAL TRIAL ACTIVE
 > This supersedes the older active phase4 snapshot. Read development_iteration_4/REVIEW.md,
 > results_verified.json,reviewed_results.json and development_iteration_5/PLAN.md,METRICS.md,
