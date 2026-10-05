@@ -1,5 +1,71 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 19:08 EDT -- RL READINESS PASSED; SETUP FAILURE PRESERVED; RECOVERED TRAINING ACTIVE
+> Read rl_readiness/PLAN/GATES/REVIEW/report/verified/reviewed_results and
+> development_rl_1/PLAN/METRICS/GATES/REVIEW under L72/improvement_loop.
+> ReadinessR1-R3 COMPLETE18:57: eight new excluded sampled games, collection720.29s,
+> independent1.58s,closeout.95s exit0/token. All2406 contributing rows reconcile
+> (R1e1127/149sampledplays,v5 1279/188), native outcomes/crowns/ticks/forms/initial
+> state and public row contract. Max joint probability-ratio deviations8.462e-6/
+> 7.024e-6<existing PPO1e-4. No relaxation of trial7/8 exactness failures.
+> One v5 fulltime game, no post-boundary decisions. Outcome-only terminal-gap
+> returns independently match every row. Finite/nonzero policy/critic gradients,
+> exact unchanged tensors,0optimizerupdates/no new model.1positive9corruptions.
+> All l72-rl-readiness-collection/independent/reviewed receipts/raw/source hashes
+> bound. No old validation/heldout/reserved/live-label use. Do NOT rerun.
+>
+> development_rl_1 preflight COMPLETE49.55s exit0:256 fixed native setups, excluded
+> unsaved critic-only smoke changed only value_head weight/bias,finite;parent intact.
+> Original train FAILED24.57s exit1 at the first BoundMatch setup before decisions
+> or candidate updates. JSON-loaded forms have string side keys; live maps have
+> integer keys. Original source/started/chain_failed/nonzero receipt/output retained.
+> No training artifact existed. Do NOT rerun completed readiness or preparation.
+> Separate development_rl_1_recovery/PLAN/GATES/verified binds diagnosis34.37s exit0:
+> first native state hash and all forms exact after strict key normalization,
+> 256 stored form maps structurally checked,1positive5corruptions. No predictions
+> or optimization. A suspected critic-warmup issue was disproved: existing PPO
+> freezes non-value parameters; its learning code/config stays unchanged.
+>
+> ACTIVE recovery launcher25612/chain34060 started19:07:30. Only form-map comparison
+> and a separate training_started marker differ in outer train_v2; original source
+> stays frozen. Original32 updates/256 games/final-only selection, no auto-resume.
+> OneGPUlock spans train/eval/independent. Inspect development_rl_1_recovery launch/
+> chain_started/training_started/chain.out/.err, original development_rl_1/progress
+> and ignored icebow/data/bench/development_rl_1_20261005. Do NOT edit/add bound
+> sources/PLAN/METRICS/data/pipeline in either leaf. Future helpers outside.
+> The unchanged evaluator follows training; outer verifier only substitutes the
+> successful train-v2 receipt, preserving the original failure. No model report due
+> until a candidate is reviewed. No live restart; owner STOP remains intact.
+> At19:11: update1/32 and8/256 games COMPLETE,2139 contributingrows,
+> max on-policy ratio deviation8.116e-6,18 finite critic-only minibatchsteps,
+> no guard stop; checkpoint u001 retained as recovery evidence only. Training
+> continues. This is not a performance or final-candidate verdict.
+>
+> Recipe: ordinary_v5 development parent/control, NOT accepted superiority(42/64
+> vs R1e45/64 prior gameplay). Outcome-only PPO32updates x8games=256new games,
+> 5criticwarmup+27policy updates, final32 only; no checkpoint shopping. Fixed census
+> gen/S1 opponents, Icebow learner, alternating sides per family, new training
+> seeds2026110000..255; all initial native setups/forms verified before updates.
+> Existing public sampler tau.35/T.5,26tickdelay/extrap,noiseoff,abilitiesv2,updated
+> main runtime, terminal adapteron. No rejected v6/loss/exposure/tower recipe.
+> Adam1e-5,2epochs,batch256,clip.2,gradclip.5,GAE lambda.95/gamma_tick.99994,
+> terminal-gap on,no shaping,reference-v5/max-head KL beta.3 adaptive.03..3.
+> Every-row on-policy check before each update; preserve native/raw/reward/probability
+> contracts and existing plays/KL/entropy guards. Optimization forbids np.load;
+> no stock Learner/_entries/proagree/v3val. Prefight excluded unsaved128-row critic
+> PPO step must pass. No parent checkpoint mutation.
+>
+> Final-only predictions on existing54723-row/405group internal development IDs,
+> same original labels/masks; reuse corrected R1e/v5 caches. Independent recount
+> and paired replay counts mandatory. Rocket aim+5pp/fullaction+2pp/late+2pp,
+> no Barrel correct/wrong regression,W/NW/F/defense/lateall point decline,
+> generalcard decline<=.5pp. All necessary; point filters are not final acceptance.
+> Report NEW final model once after reviewed evidence, even if rejected; no report
+> due for readiness or launch. If chain fails, preserve everything and diagnose
+> before any new driver; no auto-resume or earlier-checkpoint substitution.
+> Owner STOP13:39:32 intact/no liveworker, native5560idle; no production/runtime/live
+> source change. All finalN2-N7/untouched/material/gameplay/statistical/Q4/Q5 open.
+
 > ## 2026-10-05 18:26 EDT -- TERMINAL WRAPPER POLICY CHECK COMPLETE; NO ACCEPTED NEW MODEL
 > Supersedes ACTIVE terminal_wrapper_policy below. P1-P3 COMPLETE: all32 new
 > fixed games/16 disabled-enabled pairs finished18:07 EDT. Collection513.38s,
