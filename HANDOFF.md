@@ -1,5 +1,41 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 08:03 EDT -- NATIVE PREFLIGHT COMPLETE; PILOT ACTIVE; ACTUAL-LIVE BARREL EVIDENCE
+> All20 fixed native captures and four repeats completed around07:34. Independent recount verifies108402 frames,
+> 110623 projectile observations,69565 past-motion TTI estimates,27600 area observations and61 accepted abilities;
+> historical command logs, grades and final hashes match. Contiguous-lifetime identity bijections preserve exact other
+> fields. A shallow-copy error in the independent corruption-test fixture was fixed with deepcopy; failed receipt/source
+> retained. Capture/collection sources were unchanged. Historical commands1953 source/1942 driven/1940 accepted/11 skipped:
+> agreement with history does NOT make the two rejected commands or skips successful. See NATIVE_PREFLIGHT_REVIEW.md,
+> native_capture_independent.json and l72-native-capture-v2 / l72-native-preflight-independent-v2 receipts.
+>
+> The existing conditional CPU chain started its fixed645-group reserved pilot after preflight passed. Current snapshot:
+> 323/645 attempted, 160 usable, 163 excluded, fatal=None. Chain43696/40344, run_check43576/30772,
+> collector12548/39608; emulator37516/43112 remains isolated on5560. Do not duplicate/restart or edit its bound sources.
+> Read reserved_collection_progress.json and eventual complete.json/final receipt. The0759 snapshot separately preserves
+> an earlier count. All failures/exclusions stay recorded. N2 remains open: pilot success is not sufficient data, opportunity
+> denominators, power or final statistical design. No new IL/RL or model predictions have started.
+>
+> Training-only metadata audit:209 pilot groups contain748 ability events. All source candidate sets equal legacy fallback
+> sets;77 differ only in order, all non-authoritative. Missing optional CSV metadata does not explain those training skips;
+> no speculative attribution fix was made. Public upstream replay manifest is unchanged:52 parts/252238 records at
+> revision059d43a02138a34b1b3009cc2acc7630fb99a638. See pilot_ability_metadata.json/upstream_replay_manifest_check.json.
+>
+> Actual-live Barrel audit uses17 completed owner-farming logs in the fixed06:45-07:46 window:14 unique flight segments,
+> eight strict subsequent three-goblin spawn matches, target-lane agreement8/8, centroid distance median0.0974/max0.3824 tiles.
+> Six segments remain unmatched and four multi-Barrel frames ambiguous. Six confirmed preemptive Logs:four wrong lane,
+> two correct; two wrong-lane Logs have qualified subsequent spawn matches. Independent raw-log recount also verifies62
+> raw-to-normalized targets, maximum absolute error2.82e-8. This supports learned action/aim selection over systematic
+> target mirroring in this sample. The06:48 example was explored before instrumentation; the cohort is diagnostic, not
+> untouched acceptance. Spawn centroid is a temporal public proxy, not exact impact/damage evidence. Archived targets still
+> do not establish their landings. See LIVE_BARREL_PLAN.md, LIVE_BARREL_FINDINGS.md, live_barrel_verified.json and receipts.
+> No tactical Log rule or policy change. The generic learned projectile-target residual remains a separate post-N2 experiment.
+>
+> Owner farming37424/29536 continues, STOP absent, CPU/anti-leak OFF; no autonomous fallback restart or new accepted model.
+> No new model report is due; the original eight rejected candidates were already reported to Discord. Next: independently
+> reconcile completed pilot yields/repeats/provenance, establish adequate untouched cohorts and predeclare statistical gates,
+> then bounded learned successor iterations including efficient defense/defensive-X-Bow-to-Rocket sequence exposure.
+
 > ## 2026-10-05 07:24 EDT -- LOCAL NATIVE SERVICE RECOVERED; SERIAL DATA QUALIFICATION RUNNING
 > The isolated headless emulator5560 booted with WHPX,2 CPU cores/software rendering/4GB, leaving MuMu and owner's live
 > pair37424/29536 untouched. Existing native bridge82887463... crashed in DataTables initialization; original crash,
