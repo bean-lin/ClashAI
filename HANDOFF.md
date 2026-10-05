@@ -1,5 +1,24 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 02:25 EDT -- UPSTREAM SIM/GYM PAIR BUILT IN ISOLATION; TESTS RUNNING
+> Owner requested all relevant new RoyaleSim/RoyaleGym changes and updated Sim for all future RL. Official sources fetched:
+> Sim369fe33->015f9b0 (0.1.13;232 commits), Gym236cfec->3117816 (0.1.15;180 commits). Full pair locally staged under
+> `research/ext/Royale-20261005`, preserving the old shared checkouts/data/venv used by active frozen comparisons.
+> Native build and wheel installation completed. Installed-wheel smoke passes: clean015f9b0,136cards,embedded table,
+>600 ticks. Runtime card FNV21935265e615e337. Exact source/wheel/file hashes and build receipts are in
+> `scratchpad/gauntlet/L71/royale_update_20261005/`. Independent table check: eight added card flags only; original values,
+> arena/globals,120s overtime and regeneration preserved. New mechanics include spawn provenance, refill gaps and tower-drain tiebreak.
+> Full upstream CPU suite runs via check_upstream.py (launcher11656); adapter baseline via
+> check_adapter_before_integration.py (launcher30392). Read actual logs/receipts before acting; do not duplicate jobs.
+> Main Q3 remains on the last old-R1 combined pair; queued34-job IL/game chain still waits for Q3 verification.
+> Runtime selector/negative-control tests are prepared as `.candidate` files, NOT activated. Main pipeline stays frozen
+> until q3_verified.json AND Q3_PREREQUISITE_COMPLETE; also let the adapter baseline finish before main edits.
+> Exact next steps: port folder CONTINUATION.md plus worktree integration CONTINUATION.md. Port gates2/5 met.
+> Owner's training question answered: eight fixed1,000-update IL candidates, no PPO run presently planned. New PPO starts
+> must verify the updated runtime in learner/actors and record it in checkpoints. Old-engine comparison scores retain
+> their label; updated-engine acceptance needs fresh matched baseline/candidate evidence. No candidate accepted/deployed.
+> Live remains STOPPED, anti-leak OFF preserved; all prior learned-defence/Q4/Q5 work remains queued. No Discord sent.
+
 > ## 2026-10-05 01:30 EDT -- NIGHT WITCH VERIFIED; OVERNIGHT LEARNING CHAIN QUEUED
 > Night Witch remains explicitly included:152,004 corrected Bat identity tokens in the final verified spawner dataset;
 > native/SIM/live observation contracts and three-card repeated-wave checks pass. Learning and live acceptance remain open.
