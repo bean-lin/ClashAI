@@ -1,5 +1,89 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 15:11 EDT -- PHASE/LEAD DIAGNOSIS VERIFIED; PHASE-EXPOSURE DEVELOPMENT ACTIVE
+> Read L72/improvement_loop/match_adaptation/REVIEW.md,METRICS.md,GATES.md,report_v2.json,
+> verified_v2.json,capabilities_verified.json and development_iteration_4/PLAN.md,METRICS.md,GATES.md,
+> REVIEW.md,prepared.json,verified.json,prelaunch.json. This supersedes earlier active-audit snapshots.
+> M1-M4 COMPLETE:268718 rows/1978 sources and every subgroup/per-replay cache count independently
+> reconcile. Producer498.00s/full independent774.23s exit0/token matched. Do NOT rerun completed diagnosis.
+> Capability independent65.58s:1058264 distinct-tickframes,311 equalduplicates,no explicit multiplier/
+> target columns/causalhits. Raw expected/final crowns1561match/417mismatch; all recorded gradeflags agree.
+> Historical reconstructed outcome is not original game truth. Preserve original v1 duplicate-frame
+> failure/partial output; v2 accepts only EXACT equalduplicates, keeps original joins,2positive2negative.
+> Main controls6positive10negative; independent1positive8negative; exact membership fragment1positive
+>9negative rejects ID/rep/side/tick/tag/split/PLAY/card/duplicate corruption. No new model calls in audit.
+>
+> Development clock bins: rows26215/12943/9143/6422; original PLAY5443/4812/3504/3433;
+> expert Rocket177/255/203/320, X-Bow495/540/353/214. Same corrected-input ordinary_v6 Rocket choices
+> on PLAY73/66/114/246, full expertRocket22/14/16/21. Late forced aim61/320 versus early80/177.
+> Model already shows aggregate phase response; poor execution remains. Late expertRocket171 replay
+> groups. At equal crowns late ahead144/1570 expertPLAY Rocket vsbehind176/1863; full v6 8/144,13/176.
+>697/955 expertRocket rows have standing enemyprincess>1500HP, including troop-target choices.
+> Prior bow/no concurrent HPdrop lateRocket74/863PLAY vswithdrop156/1607; no actual lock attribution.
+>30s outcomes50172/54723 rows but only143/320 lateRockets; fullyknowncost97. Observational/overlapping/
+> truncated/crown-mismatch limits forbid causal safe-cycle/tiebreak claims. Keep raw both-lane costs/damage.
+>
+> New development_iteration_4 P1-P3 COMPLETE, P4 ACTIVE: phase_balanced_v6 from SAME R1e/v6/
+> corrected data/originalloss,1000updates,batch128,seed20261005,baseLR1e-5,targetLR1e-3,wd.01,clip1,
+> same mirror/dropout; ONLY exposure changes.32 uniformly drawn training rows per clockphase perbatch,
+> then seededshuffle. Draws32000each vsordinary61563/30530/21382/14525. No Rocket labels/rate reward.
+> Training phase pools102808/51177/35674/24336; original splits/labels/all failure/WAIT states retained.
+> Whole-replay213995train1573groups/54723dev405, no reserved/oldvalidation/live expertlabels. Parent exposure.
+> Schedule1positive5corruptions;56 new context masks independently matched. CPU smoke loss5.891927242279053,
+>161.16s,plain-metadata weights-only roundtrip,no savedcheckpoint. All prelaunch receipts exit0.
+> Launcher45824/chain36088 at15:10:39 holds GPUlock through subprocess gaps. Inspect launch/chain_started/
+> progress.json,chain.out/.err and ignored phase_balanced_v6/train.jsonl. NO duplicates/source edits/additions
+> to frozen Python directory or PLAN/METRICS/data. Failclosed, no automaticresume. Serialtrain/eval/recount.
+> Fixed filters: late action+2pp AND late expertRocketaction+2pp; globalcard/otherphaseaction decline<=.5pp;
+> no globalRocketaim/action,W/NW/F/defenseaction regression; noBarrelcorrectfall/wrongrise. Finalgates unchanged.
+> Aftercomplete independently adjudicate/report NEWmodel ONCE to Discord, developmental/NOT ACCEPTED,
+> preserving receipts. No report due atlaunch. Keep any new reporting helper outside frozen Python folder.
+>
+> At15:10 no live worker; STOP13:39:32 intact. Native5560 idle. No restart/settings change. One GPU chain;
+> unrelated dirtyfiles/daily-summary/trading/apps untouched. No accepted newcheckpoint/gameplay proof.
+
+> ## 2026-10-05 14:55 EDT -- PHASE/DAMAGE-LEAD PRODUCER COMPLETE, INDEPENDENT RECOUNT ACTIVE
+> LATEST: audit_v2 finished all268718 rows/1978 native sources,498.00s exit0/token matched. report_v2.json
+> is ready; do not rerun. Independent verify.py now ACTIVE (60000 rows checked at14:54) under launcher16936,
+> worker40344/16344. Also active verify_capabilities.py47620/54192 (wrapper51164/46292), separately recounting
+> schema and raw expected/final crown provenance. No error observed. Preserve bound sources/METRICS/data,
+> leave healthy CPU jobs running and inspect full receipts before using strategic results. Earlier producer
+> launch/progress snapshot below is retained and superseded by this completion. M3/M4 still open.
+> Read L72/improvement_loop/match_adaptation/PLAN.md,METRICS.md,GATES.md,REVIEW.md and prepared.json.
+> M1/M2 COMPLETE; M3 ACTIVE, M4 OPEN. Existing whole-replay inner expert split is unchanged:213995 training
+> rows/1573 replays and54723 development rows/405; all268718 original rows/eight labels and1978 native
+> sources plus three already-verified development prediction caches bound. No new model calls/optimization,
+> native collection or final-confirmation access. Parent exposure remains disclosed. No new-model report due.
+>
+> New metrics cover ALL states, including WAIT/non-Rocket/high-HP targets, weakest-standing-crown raw HP
+> margin, phase/crowns, public revealed cards and prior offensive X-Bows. Clock bins are normal-rule-derived;
+> historical frames lack explicit observed multiplier, so do not call bins measured rates. Initial schema
+> lacks X-Bow target/attack state and projectile shooter identity, with null causal hit events; the full pass
+> inventories capability/grade mismatches. Concurrent enemy princess HP decline during a bow is not a lock
+> or attributed damage. King HP is outcome annotation, not a new policy input. All costs, remaining elixir,
+> both lanes, fixed10/30/60s margin/defense outcomes and unknown/truncated cases are retained.
+>
+> Producer controls6positive/10negative pass; exact controls source preserved by original hash. First full
+> producer failed strict increasing ticks on equal duplicate compact snapshots at tick5860 in tag50562e...
+> Preserve audit.py/started.json/partial ignored rows.jsonl/nonzero l72-match-adaptation-audit receipt.
+> DUPLICATE_FRAME_CORRECTION.md registers v2: collapse only consecutive exactly-equal snapshots, reject
+> conflicts/decreasing ticks, retain original WAIT/PLAY joins; no changed command/row/label/geometry.
+> Correction2positive/2negative controls pass. Do not rerun completed preparation/controls or the failed v1.
+>
+> Active audit_v2.py wrapper43548/55112, worker51876/49940: at14:49,1400/1978 sources/187277 rows processed.
+> Inspect progress_v2.json, started_v2.json, later report_v2.json and l72-match-adaptation-audit-v2 receipt.
+> Independent verifier QUEUED launcher16936 ->44132 ->40344/16344, waits for SUCCESSFUL producer receipt.
+> Fixed first10 raw rows and unequal-max-HP control already match. Full verify.py separately reconstructs
+> source joins, phase/margins/history/costs/outcomes and original cache counts; no producer/labeler import.
+> Follow verifier_launch.json/verifier.out/.err/verify_progress.json, later verified_v2.json and successful
+> l72-match-adaptation-independent-v2 receipt. Source drift/failure must not yield partial acceptance.
+> Do not duplicate either CPU job or edit bound scripts/METRICS/data. Healthy jobs may continue; on completion
+> reconcile actual findings before selecting the next bounded experiment. No blind loss grid/forced tactics.
+>
+> At14:32 owner live remains STOPPED, STOP13:39:32 intact, no live worker. Native5560 idle; GPU has no model
+> chain. No restart/settings change. Unrelated daily-summary/trading processes and dirty files untouched.
+> Iteration3 remains rejected and already reported once; all prior acceptance/final evidence gates remain.
+
 > ## 2026-10-05 14:28 EDT -- OWNER STRATEGY AMENDMENT; ROCKET AIM LOSS REJECTED
 > Read L72/improvement_loop/MATCH_ADAPTATION_AMENDMENT.md and match_adaptation/PLAN.md/GATES.md.
 > The owner reiterated that tower Rocket cycling also builds/preserves a damage lead for tiebreakers,
