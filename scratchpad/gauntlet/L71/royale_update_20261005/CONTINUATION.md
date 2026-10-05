@@ -1,5 +1,7 @@
 # Royale upstream port continuation
 
+PUBLICATION 03:01 EDT: scoped integration and runtime changes pushed through f8c5bad. U5 is met; U3 still awaits the Rust suite and honest upstream limitation adjudication. Sixth IL training completed at03:01:06; its held-out evaluation is next. Leave both existing chains running; no further independent build/source work is required while healthy.
+
 LATEST 03:00 EDT: five IL training/held-out pairs complete; sixth training runs. Rust has progressed to compiling integration-test binaries. Main source/runtime implementation and evidence are staged for scoped publication. Read main integration/SCORER_REVIEW.md: the provisional scorer does not replace final component review, and combined Rocket arms need the literal primary-control behavior checks as well as its existing ordinary-control checks. Preserve the frozen plan and running sources. All following timed entries are history.
 
 LATEST02:50 EDT: main Q3 completed and worktree captured q3_verified.json/Q3_PREREQUISITE_COMPLETE at02:28:55. All8 Q3 options failed. Worktree IL chain is running (three training+held-out pairs complete, fourth training). Main integration is DONE as00c594b,b776851;21 original prototypes preserved by stash5c333e4206a9be215a27e78ea1138b2dd547fac5 plus byte-verified ZIP. Do NOT repeat the stash/cherry-picks below. Main pipeline is now configured for the new runtime; old worktree remains frozen and unchanged.

@@ -1,10 +1,10 @@
 # HANDOFF — ClashBot
 
-> ## 2026-10-05 03:00 EDT -- SOURCE PORT READY TO PUBLISH; SIXTH IL ARM RUNNING
-> Five of eight IL training/held-out pairs completed by 02:56:53; v5_rocket_barrel is training.
+> ## 2026-10-05 03:01 EDT -- SOURCE PORT PUBLISHED; SIXTH IL TRAINING COMPLETE
+> Five of eight IL training/held-out pairs completed by 02:56:53; sixth training finished 03:01:06, held-out next.
 > The 34-job chain remains healthy and frozen; gameplay acceptance has not started. Rust upstream tests are
 > compiling integration-test binaries after finishing the library compile. No duplicate jobs or live worker started.
-> The scoped runtime port and evidence are ready for publication. Main new RL runs select Sim 0.1.13 / Gym 0.1.15;
+> The scoped integration/runtime port and evidence are pushed through f8c5bad. Main new RL runs select Sim 0.1.13 / Gym 0.1.15;
 > the active worktree retains its original engine. Final port acceptance still awaits the Rust result.
 > Static review found that the provisional scorer's Rocket gameplay control differs from PLAN.md's literal primary
 > control on combined arms. Require both existing ordinary-control and declared primary-control gates, plus explicit

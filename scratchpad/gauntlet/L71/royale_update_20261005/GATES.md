@@ -10,5 +10,6 @@ Owner October5: inspect the new upstream commits, port all relevant changes, and
   MANUAL: Inspect actual process exits, success markers and outputs; exercise meaningful negative controls for runtime selection.
 - [x] U4: New RL launches and spawned actors resolve the pinned updated runtime, record its fingerprint, and reject an absent/stale installation.
   MANUAL: Verify the standard training path and subprocess import path; no new RL optimization run is implied by this port alone.
-- [ ] U5: Publish the reviewed port/configuration and handoff, preserving frozen experiments and declaring engine versions in acceptance results.
+- [x] U5: Publish the reviewed port/configuration and handoff, preserving frozen experiments and declaring engine versions in acceptance results.
   MANUAL: Verify scoped commits/push, active chains and durable runtime selection. Old-engine candidate acceptance is not evidence of updated-engine performance.
+  Published through f8c5bad at 03:01 EDT. U3 remains open; publication does not imply final runtime or model acceptance.
