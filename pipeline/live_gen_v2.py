@@ -1,7 +1,7 @@
-"""Inactive candidate pilot for filtered card choice / Rocket area aim.
+"""Public-audited live pilot with opt-in inference experiments.
 
-The running pilot in live_gen.py is not edited. Constructor defaults delegate
-to it exactly. Deploy only through an owner-approved candidate live entry point.
+The canonical manual live entry uses this pilot. Default decisions delegate to
+live_gen.py exactly; sampling and area aim remain disabled until accepted.
 """
 import numpy as np
 import torch

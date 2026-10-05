@@ -1,5 +1,44 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 05:44 EDT -- MANUAL LIVE ENTRY REFRESH; RUST BLOCK CLOSED; FROZEN CHAIN RESUME
+> Owner requested live_play.py auto-select the best checkpoint, remove stale behavior, support daily filming, and retry16
+> Rust executables after reporting a temporary antivirus change. All16 exact unchanged binaries now run:62 pass/0 fail;
+> combined Rust coverage1603 pass/0 assertion failures/3 ignored timings. U3 applicable runtime/mechanics gate is met.
+> No agent policy/binary change. Optional RoyaleLearn example, skips/xfails and private-capture limits remain explicit.
+> Evidence: royale_update_20261005/rust_retry_owner.json and integration/checks/owner-rust-retry.*.
+>
+> Canonical L68/live_reader/live_play.py now uses current public-audited pilot, CKPT_OVERRIDE by default, explicit
+> --ckpt precedence, SHA256 startup logging and offline --check. Default CPU/four threads, tau.35, argmax card/cell,
+> public audit ON; forced anti-leak removed. Screenshot menu guard stays opt-in; stale-frame/input/receipt checks stay.
+> v2 entry delegates to canonical. Supervisor no longer supplies stale R1 implicitly; explicit CKPT env still works.
+> Recording remains local; automatic Discord posting removed from entry/supervisor. See L72/live_entry/README.md for
+> owner's manual PowerShell command. Current pointer remains R1e31u0155, hash76fdfaac...d6751cd; no new candidate qualifies.
+> Owner's manual filming is authorized, but it does NOT waive new-model acceptance or authorize autonomous fallback restart.
+> Owner authorized stopping the current session after its match:68/68 taps confirmed,0 failures on the OLD entry;
+> waited for video cleanup and process exit before replacing source. STOP remains set; no new live match started by Codex.
+> The old session's existing clip uploader attempted a timed-out post; its local raw/overlay videos were saved.
+> Current checks:102 pass/2 missing-old-recording skips; actual default and compatibility --check pass;24 archived reader
+> decisions match legacy exactly with public audits; default both-overlay render and raw merge pass,31 decoded frames.
+> Failed probe receipts preserve stale fixture attempts. These checks are not new live-match acceptance.
+>
+> The frozen34-job chain stopped after29 completed receipts at05:34 when its between-job guard detected the owner's live
+> worker. Standard resume05:38 failed before jobs because main's already-authorized source integration invalidates a fresh
+> Q3 source check against today's main. Original source/results/logs remain unchanged. L72/improvement_loop/RESUME.md
+> declares the repair: separate resume_verified_chain.py verifies the captured Q3 report against the published integration
+> SHA, all20 Q3 receipts/results, frozen worktree sources/inputs and all29 completed receipts. Only five pending gameplay
+> jobs run with original commands/criteria and the same GPU check. Verification and corruption negative controls pass.
+> New launcher/log location: L72/improvement_loop/resume_verified_launch.json, chain_resume_verified.out/.err. Read these
+> in addition to the original worktree chain.out/.err. Do not duplicate jobs or edit running/frozen sources.
+>
+> Independent CPU training-only Rocket diagnosis completed on830 rows (no held-out use). On65 finishing expert plays,
+> R1e/ordinaryIL/RocketIL gate passes59/60/61, correct card4/15/38, expert-forced aim within2 tiles13/15/16,
+> gated aimed responses2/3/10. Rocket weighting mainly changes card choice; aim remains weak even on training examples.
+> Expected finishing-play exposure in128k draws is31 uniform vs76 Rocket mixture, not measured draw counts. Combo Tornado
+> gate/timing is also weak. Full evidence and limits: L72/improvement_loop/ROCKET_DIAGNOSIS.md and train_rocket_diagnosis.json.
+> Next remains L72: finish/reconcile frozen jobs; audit untouched confirmation data; bounded one-factor IL then qualified
+> updated-engine RL; retain all component/gameplay gates, Q4/Q5 and public-only learned choices. Owner reaffirmed overnight
+> work before bed. Heartbeat remains active with the new-model objective and manual-filming exception; Tuesday cutoff stays.
+
 > ## 2026-10-05 05:05 EDT -- OWNER REJECTS FALLBACK; ITERATIVE NEW-MODEL IMPROVEMENT AUTHORIZED
 > Owner before sleep explicitly wants a new model very significantly better than R1e across Rocket, Barrel,
 > spawners, sampling, spell aim and the full queue. **Do not restart R1e as the final fallback outcome.** Keep live

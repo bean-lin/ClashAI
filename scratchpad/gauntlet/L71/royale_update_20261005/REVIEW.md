@@ -1,5 +1,9 @@
 # Pinned upstream port, October 5
 
+## Owner-requested retry, October5
+
+After the owner reported temporarily disabling antivirus and explicitly requested a retry, all16 original blocked Rust executables ran unchanged:62 tests pass,0 fail. Executable hashes before/after match. Combined with the original1541 passes, observed Rust coverage is1603 passing cases,0 assertion failures and3 ignored timing tests. `rust_retry_owner.json`, `rust_retry_*.out` and `integration/checks/owner-rust-retry.json` bind paths, commands, hashes and exit status. We changed no security setting, executable or source. This closes the local launch gap and U3's applicable mechanic/runtime checks. The original exit101 evidence is preserved. Optional RoyaleLearn quickstart incompatibility, upstream skips/xfails and unavailable private-capture parity remain limits, not passes. This is runtime validation, not acceptance of a new model.
+
 The owner requested the new RoyaleSim/RoyaleGym changes and their use for all future RL training. We fetched the official repositories and recorded every intervening commit and changed file in inventory.json. The previous checkouts have no tracked local edits. The port takes the entire compatible source pair, rather than guessing which individual commits to cherry-pick:
 
 - RoyaleSim:369fe33dc729b4a38dce831714724135fa7216ca ->015f9b0084afe574915e3f6ce2f0764c6dec6099 (0.1.13;232 commits).

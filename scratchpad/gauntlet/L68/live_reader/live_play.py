@@ -2,7 +2,7 @@
 
     icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L68/live_reader/live_play.py [--dry-run]
 
-Loop: reader frame (100 ms) -> pipeline.live_gen.GenPilot (opponent hand/next/elixir never used) -> if it plays,
+Loop: reader frame (100 ms) -> pipeline.live_gen_v2.GenPilot (public inputs only) -> if it plays,
 two ordinary Android taps (hand slot, board) -> receipt from the NEXT frames: the tapped hand slot rotated (the
 elixir-drop half of upstream card_receipt is dropped: regen hid cheap plays). No game-memory writes. Taps follow upstream's ScreenLayout
 (native X kept on screen for side 1; arena shifted one tile from the Cannon read-back). Each confirmed troop's
@@ -11,8 +11,8 @@ Stops: battle over / tick stalled 3 s, 5 unconfirmed taps, --max-seconds. Log: l
 --matches N --friend NAME: N matches back to back; between them friend_nav.py starts the next friendly 1v1 against
 that friend's bot (allowlisted taps only; see its docstring and --nav-dry-run). Default N = 1: no navigation.
 --ladder --matches N: N Trophy Road matches back to back; between them ladder_nav.py taps Play Again (or, after the
-day's 4th win, OK -> opens the daily chests -> Battle). --clip-every S: record only one match every S seconds and post a
-60-s overlaid clip of it to Discord (discord_clip.py); the other matches are not recorded. --stop-file: stop between
+day's 4th win, OK -> opens the daily chests -> Battle). --clip-every S: record only one match every S seconds;
+the other matches are not recorded. Videos stay local. --stop-file: stop between
 matches once that file exists.
 --menu-guard (OPT-IN since 2026-09-30): classify a full screencap every <= 2 s during the match and stop on any menu.
 Off by default: those PNG screencaps saturated adb live (live_play_20260930_184444: tap_ms median 3021 / max 5407,
@@ -32,7 +32,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 sys.path.insert(0, str(REPO))
-from pipeline.live_gen import GenPilot  # noqa: E402
+from pipeline.live_gen_v2 import GenPilot  # noqa: E402
 from pipeline.obs_contract import _catalog_names  # noqa: E402
 from hero_button import HeroButton, hero_ids, should_press  # noqa: E402
 from friend_nav import MenuGuard  # noqa: E402
@@ -208,11 +208,16 @@ class ScreenRec:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--ckpt", default=str(REPO / "icebow/data/pipeline/gen_v1_s0/gen_s0.pt"))
-    ap.add_argument("--tau", type=float, default=0.5)
-    ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (unless --no-anti-leak)")
-    ap.add_argument("--no-anti-leak", action="store_true",
-                    help="honour the model's play/wait decision even at full elixir; disable forced spending")
+    from pipeline.decision_options import add_arguments, config_from_args
+    add_arguments(ap)
+    ap.add_argument("--ckpt", help="explicit checkpoint; otherwise use the selected CKPT_OVERRIDE (never newest file)")
+    ap.add_argument("--check", action="store_true", help="load the selected model and report settings offline, without ADB or taps")
+    ap.add_argument("--tau", type=float, default=0.35)
+    ap.add_argument("--leak", type=float, default=9.5, help=argparse.SUPPRESS)
+    ap.add_argument("--no-anti-leak", action="store_true", default=True,
+                    help="compatibility flag: forced anti-leak spending has been removed")
+    ap.add_argument("--public-audit", action="store_true", default=True,
+                    help="log public board/targets and model decisions, including WAIT, independently of video")
     ap.add_argument("--interval-ms", type=int, default=100)
     ap.add_argument("--max-seconds", type=float, default=400,
                     help="PER-MATCH wall-clock cap (reset each match): overtime ends by 6,000 ticks = 300 s of "
@@ -226,9 +231,8 @@ def main() -> int:
     ap.add_argument("--no-record", action="store_true",
                     help="skip the overlaid replay (default: screenrecord + reader boxes -> "
                          "icebow/data/overlayed_replays/live_<stamp>.mp4)")
-    ap.add_argument("--device", default="auto", choices=("auto", "cuda", "cpu"),
-                    help="where the model runs; auto = cuda when available. 2026-09-26: on CPU with torch's default "
-                         "16 threads, other busy jobs pushed decisions from ~40 ms to 0.5-3.4 s")
+    ap.add_argument("--device", default="cpu", choices=("auto", "cuda", "cpu"),
+                    help="default CPU with four threads, leaving the GPU for training; auto selects CUDA when available")
     ap.add_argument("--extrapolate", type=int, default=26,
                     help="decide on the board this many ticks ahead, where the card lands (~26 live; 0 = off). "
                          "Screen (HANDOFF L68as): +3.4 pp gen / +6.9 pp v6lat vs no extrapolation at delay 26")
@@ -258,26 +262,35 @@ def main() -> int:
     ap.add_argument("--wins-today", type=int, default=None,
                     help="ladder: set today's win count (daily chests come with wins 1-4); default = ladder_state.json")
     ap.add_argument("--clip-every", type=float, default=0.0,
-                    help="seconds; > 0: record ONLY the first match and then one match every this many seconds, and post "
-                         "a 60-s overlaid clip of it to Discord (discord_clip.py) -- all other matches unrecorded")
+                    help="seconds; > 0: record ONLY the first match and then one match every this many seconds; local videos only")
     ap.add_argument("--stop-file", type=Path, help="stop the run between matches once this file exists")
     ap.add_argument("--ckpt-override-file", type=Path, default=REPO / "scratchpad/gauntlet/L70/live/CKPT_OVERRIDE",
-                    help="2026-10-03 deploy hook: if this file names a checkpoint, it replaces --ckpt at start; if it "
-                         "changes to a different checkpoint mid-run, the run exits between matches so the supervisor "
-                         "restarts on it")
+                    help="default checkpoint selection; explicit --ckpt wins. A changed selection ends a default-selected run between matches")
     ap.add_argument("--nav-dry-run", action="store_true",
                     help="play nothing: run ONE between-match navigation that classifies the live screens and logs "
                          "the tap it WOULD make, never tapping (navigate by hand to test it)")
     a = ap.parse_args()
-    if a.ckpt_override_file and a.ckpt_override_file.is_file() and a.ckpt_override_file.read_text().strip():
-        a.ckpt = a.ckpt_override_file.read_text().strip()
-        print(f"[live] checkpoint override: {a.ckpt}", flush=True)
+    decision_cfg = config_from_args(a)
     if a.matches < 1:
         print("refusing: --matches must be >= 1")
         return 2
     if (a.matches > 1 or a.nav_dry_run) and not (a.friend or a.ladder):
         print("refusing: --matches > 1 and --nav-dry-run need --friend NAME or --ladder")
         return 2
+    from pipeline.live_checkpoint import resolve_checkpoint
+    try:
+        selected = resolve_checkpoint(a.ckpt, a.ckpt_override_file, REPO)
+    except (OSError, ValueError) as exc:
+        print(f"[live] {exc}", flush=True)
+        return 2
+    a.ckpt, a.ckpt_source, a.ckpt_sha256 = str(selected.path), selected.source, selected.sha256
+    print(f"[live] checkpoint: {a.ckpt}\n[live] selected by: {a.ckpt_source}\n[live] SHA256: {a.ckpt_sha256}", flush=True)
+    if a.check:
+        device, pilot = load_pilot(a, decision_cfg)
+        print(json.dumps(dict(check='LIVE_CHECK_PASS', checkpoint=a.ckpt, sha256=a.ckpt_sha256,
+              feature_version=pilot.feature_version, device=device, tau=a.tau, anti_leak=False,
+              public_audit=a.public_audit, decision_options=vars(pilot.decision_options))))
+        return 0
     nav = None
     if a.matches > 1 or a.nav_dry_run:
         if a.ladder:
@@ -297,20 +310,14 @@ def main() -> int:
         print(f"refusing: the in-match menu guard needs a 900x1600 screen (got {lay.w}x{lay.h}); fix the emulator "
               f"resolution, or run without --menu-guard")
         return 2
-    import torch
-    torch.set_num_threads(4)                         # never fight every core with the owner's other jobs
-    device = ("cuda" if torch.cuda.is_available() else "cpu") if a.device == "auto" else a.device
-    pilot = GenPilot(a.ckpt, device=device, gate_tau=a.tau, use_counter=not a.no_opp_counter,
-                     extrapolate_ticks=a.extrapolate)
+    device, pilot = load_pilot(a, decision_cfg)
     renders: list = []                                   # background overlay renders of matches 1..N-1
     rc = 0                                               # 1 = the run stopped for any non-normal reason
     last_clip, no_start = -1e18, 0
     try:
         for k in range(a.matches):
-            ov = (a.ckpt_override_file.read_text().strip()
-                  if a.ckpt_override_file and a.ckpt_override_file.is_file() else "")
-            if ov and Path(ov) != Path(a.ckpt):
-                print(f"[live] new checkpoint deployed ({ov}) -- ending this run so the supervisor restarts on it",
+            if selected.changed():
+                print("[live] new checkpoint deployed or selection unavailable -- ending this run between matches",
                       flush=True)
                 break
             if a.stop_file and a.stop_file.exists():
@@ -331,8 +338,7 @@ def main() -> int:
                         msg.write_text(f"ClashAI live run PAUSED {time.strftime('%H:%M')}: Clash Royale was opened on "
                                        f"another device (Connection lost). The bot will not kick it. Ask Claude to "
                                        f"resume (press RELOAD, delete the STOP file, restart the supervisor).")
-                        subprocess.run([sys.executable, str(REPO / "scratchpad/gauntlet/L69/discord/post.py"), str(msg)],
-                                       capture_output=True, timeout=60)
+                        print(msg.read_text(), flush=True)
                     break
                 pilot.reset_match()                      # same loaded model, fresh history / opp counter
             record, caption, prev_clip = not a.no_record, None, last_clip
@@ -372,6 +378,17 @@ def main() -> int:
     return rc
 
 
+def load_pilot(a, decision_cfg):
+    import torch
+    from pipeline.decision_options import options_from_config
+    torch.set_num_threads(4)
+    device = ("cuda" if torch.cuda.is_available() else "cpu") if a.device == "auto" else a.device
+    pilot = GenPilot(a.ckpt, device=device, gate_tau=a.tau, use_counter=not a.no_opp_counter,
+                     extrapolate_ticks=a.extrapolate, decision_options=options_from_config(decision_cfg),
+                     decision_seed=a.decision_seed, public_audit=a.public_audit)
+    return device, pilot
+
+
 # ordinary match ends: nav may go on (a results screen seen by the menu guard is the game's own end of match)
 MATCH_OVER = {"battle_over_hands_visible", "battle_inactive", "tick_stalled", "menu_screen:results"}
 
@@ -395,7 +412,10 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             log.write(json.dumps(k, default=str) + "\n")
             log.flush()
     W(event="start", screen=[lay.w, lay.h], tau=a.tau, leak=a.leak, dry_run=a.dry_run, ckpt=a.ckpt,
-      extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device, anti_leak=not a.no_anti_leak)
+      extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device, anti_leak=False,
+      ckpt_source=a.ckpt_source, ckpt_sha256=a.ckpt_sha256,
+      decision_options=vars(pilot.decision_options), decision_seed=pilot.match_seed,
+      feature_version=pilot.feature_version, public_audit=a.public_audit)
     rec = ScreenRec(stamp) if record else None
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
@@ -445,6 +465,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     from collections import deque
     dec_times: deque = deque(maxlen=20)
     warned_at = 0.0
+    last_audit_tick = -10
     # 2026-09-25 18:32 friendly match: the reader stream stalled for up to 5.4 s (adb saturated by the hero-button
     # screenshots, ~330-430 ms each every 0.5 s), then the loop worked through the backlog IN ORDER and decided on
     # frames up to ~20 s old -> long "pending" leaks, then dumps. Now a thread pumps the stream into a queue; every
@@ -620,8 +641,14 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                   backlog=q.qsize())
                 warned_at = now
             el = me["elixir_raw"] / 1e4
-            forced = not a.no_anti_leak and not d["play"] and el >= a.leak and d["card"] > 0
-            if not (d["play"] or forced):
+            forced = False  # log schema compatibility; the learned gate is authoritative at every elixir level
+            if a.public_audit and (d['play'] or tick-last_audit_tick >= 10):
+                W(event='decision', tick=tick, t_dev=t_dev, decide_ms=decide_ms,
+                  backlog=q.qsize(), forced=forced,
+                  decision={k:d[k] for k in ('play','p_play','no_affordable','hand_pos','name','card','form','xy') if k in d},
+                  public=d['public_audit'])
+                last_audit_tick = tick
+            if not d["play"]:
                 continue
             if not guard_clear():                        # the guard has not (freshly) seen a battle screen
                 if not blocked_logged:
@@ -665,19 +692,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
         W(event="end", played=played, confirmed=confirmed, fails=fails, seconds=round(time.time() - t0, 1))
         log.close()
         print(json.dumps({"played": played, "confirmed": confirmed, "fails": fails, "log": log.name}))
-        if rec and clip_caption is not None:             # clip match: render + cut + post in the background
-            try:
-                p = subprocess.Popen([sys.executable, str(HERE / "discord_clip.py"), log.name, "--caption", clip_caption,
-                                      "--overlay", a.overlay],
-                                     env=dict(ENV, CUDA_VISIBLE_DEVICES="", OMP_NUM_THREADS="2"),
-                                     creationflags=getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0))
-                if renders is not None:
-                    renders.append((p, log.name))
-                elif p.wait():
-                    print(f"[clip] failed (exit {p.returncode}); retry: discord_clip.py {log.name}")
-            except Exception as exc:                     # noqa: BLE001 -- never mask the original error
-                print(f"[clip] could not start: {exc!r}")
-        elif rec and renders is not None:                # a next match follows: render in a separate low-priority
+        if rec and renders is not None:                  # a next match follows: render in a separate low-priority
             try:                                         # process (no GIL/CPU fight with its decisions)
                 renders.append((subprocess.Popen(   # detector on the CPU (2 threads): the GPU is the next match's
                     [sys.executable, str(HERE / "overlay_replay.py"), log.name, "--overlay", a.overlay],

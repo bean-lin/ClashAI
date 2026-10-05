@@ -365,6 +365,8 @@ class FakeGuard:
 class FakePilot:
     def __init__(self):
         self.decided, self.last = [], None
+        from pipeline.decision_options import DecisionOptions
+        self.decision_options, self.match_seed, self.feature_version = DecisionOptions(), 0, 4
 
     def observe(self, f):
         return None
@@ -373,7 +375,7 @@ class FakePilot:
         self.decided.append(f)
         self.last = f
         return {"play": True, "card": 1, "form": 0, "hand_pos": 0, "deck_index": 0, "xy": (0.5, 0.6),
-                "name": "Knight", "p_play": 0.9}
+                "name": "Knight", "p_play": 0.9, "public_audit": {}}
 
     def record_play(self, *a):
         pass
@@ -409,8 +411,9 @@ def run_match(monkeypatch, tmp_path, lines, dry_run, on_line=None, start_timeout
     monkeypatch.setattr(lp, "HERE", tmp_path)
     a = argparse.Namespace(tau=0.5, leak=9.5, dry_run=dry_run, ckpt="x", extrapolate=0, no_opp_counter=True,
                            no_record=True, no_ability=True, interval_ms=100, max_seconds=400, overlay="both",
-                           menu_guard=menu_guard)
-    why = lp.play_match(a, pilot, lp.Layout(900, 1600), "cpu", None, start_timeout=start_timeout)
+                           menu_guard=menu_guard, reader="v2", no_anti_leak=True, public_audit=True,
+                           ckpt_source="fixture", ckpt_sha256="fixture")
+    why = lp.play_match(a, pilot, lp.Layout(900, 1600), "cpu", None, start_timeout=start_timeout, record=False)
     return why, samplers, taps, pilot
 
 
@@ -661,7 +664,7 @@ def test_first_match_is_navigated_from_a_menu(monkeypatch, launch):
         def reset_match(self):
             pass
 
-    def fake_play(a, pilot, lay, device, renders, start_timeout=None):
+    def fake_play(a, pilot, lay, device, renders, start_timeout=None, **kw):
         calls.append(("match", start_timeout))
         return "battle_inactive"
     monkeypatch.setattr(fn, "FriendNav", FakeNav)

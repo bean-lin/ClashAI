@@ -1,8 +1,8 @@
 #!/bin/bash
 # One command to start the live ladder bot (owner, 2026-10-04). Run from Git Bash:  bash scratchpad/gauntlet/L70/live/start_live.sh
 # Starts MuMu, waits for Android, opens Clash Royale, clears the Play Store "update" overlay if present (never updates),
-# then starts the supervisor (run_live.sh: restarts up to 10x, posts stops to Discord). The model = CKPT_OVERRIDE
-# (currently gen_v3.1c). Stop between matches:  bash scratchpad/gauntlet/L70/live/stop_live.sh
+# then starts the supervisor (run_live.sh: restarts up to10x, local logs only). The model = CKPT_OVERRIDE
+# unless the owner supplies CKPT explicitly. Stop between matches: bash scratchpad/gauntlet/L70/live/stop_live.sh
 cd /c/Users/benpe/ClashBot
 L=scratchpad/gauntlet/L70/live; ADB="bash scratchpad/gauntlet/L68/live_reader/adb.sh"
 if powershell -NoProfile -Command "@(Get-CimInstance Win32_Process -Filter \"Name='bash.exe'\" | Where-Object {\$_.CommandLine -like '*live/run_live.sh*'}).Count" | grep -q '^[1-9]'; then
@@ -22,5 +22,5 @@ if $ADB -s 127.0.0.1:16384 shell dumpsys activity activities 2>/dev/null | grep 
 $ADB -s 127.0.0.1:16384 shell am force-stop com.mumu.store; sleep 30; $ADB -s 127.0.0.1:16384 shell am force-stop com.mumu.store
 rm -f $L/STOP
 nohup bash $L/run_live.sh > /dev/null 2>&1 &
-echo "live started with model: $(cat $L/CKPT_OVERRIDE 2>/dev/null || echo 'run_live.sh default (u0155)')"
+echo "live started; selected model: ${CKPT:-$(cat $L/CKPT_OVERRIDE 2>/dev/null || echo 'MISSING - live_play will refuse to run')}"
 echo "watch:  tail -f $L/overnight.out      stop:  bash $L/stop_live.sh"
