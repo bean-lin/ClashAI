@@ -1,5 +1,11 @@
 # New-model improvement loop, October 5 05:05 EDT
 
+October5 owner strategy clarification: read MATCH_ADAPTATION_AMENDMENT.md and
+match_adaptation/PLAN.md. Tower Rocket cycling also creates/preserves a weakest-
+tower damage lead for a tiebreaker, including above finishing HP. Phase, elixir
+multiplier, public matchup and prior offensive X-Bow outcomes must inform learned
+adaptation. Finishing is one use case; no fixed tactical switch is authorized.
+
 October5 coverage correction: DEVELOPMENT_AMENDMENT.md supersedes the blanket
 dependency requiring complete final-confirmation coverage before all development
 training. A frozen, verified development-only split/recipe is still required
@@ -57,12 +63,17 @@ Barrel targets do not prove actual live landing coordinates.
    confirmation corpus exists, collecting it is required work, not a waived gate.
    Predeclare fresh gameplay scenarios/seeds and forbid adaptive confirmation
    reuse. Select and tune only on train/development evidence.
-3. Diagnose finishing failures on training/development examples by separating
+3. Diagnose damage-lead cycling and finishing on training/development examples by separating
    legality, gate, card selection, target representation/aim and subsequent
    decisions. Check one-, two- and three-Rocket cycle finishes separately,
    including positive low-HP states where no Rocket was issued. Inspect
    compact Rocket-only and spread Rocket-then-Tornado opportunities, and both
    sequence heads. Do not assume the ten validation misses identify the cause.
+   Include high-HP/non-finishing tower pressure, weakest-standing-tower HP margin,
+   defense/lead retention and history of successful/blocked offensive X-Bows.
+   Separate elixir multiplier from overtime. Existing narrow labels and total-HP
+   audits are not the full adaptation objective; validate new outcome attribution
+   on training/development before final tests. See match_adaptation/PLAN.md.
 4. Diagnose spawner regressions on matched training/development contexts and
    ordinary-IL controls, separately for Witch, Night Witch and Furnace. Verify
    parent/child identity and model adaptation to changed tokens; investigate
@@ -124,6 +135,12 @@ do not call a single successful example mastery or deploy from development alone
   and at least50% correct one-Rocket finishes on at least30 independent windows.
   Two-Rocket finishing sequences and defensive net value must also improve in
   their own cohorts. False fires/wasted elixir must not rise materially.
+- Broader Rocket-cycle strategy: demonstrate useful creation/preservation of a
+  weakest-standing-tower damage lead and improved late-game/tiebreak outcomes,
+  with full resource/punishment accounting. Include phase and public-matchup
+  strata and responses to blocked offensive X-Bows. Freeze meaningful effects,
+  denominators/power and paired uncertainty before final tests; neither spell
+  frequency nor the existing finishing floor substitutes for this objective.
 - Rocket-then-Tornado: at least+10pp joint sequence agreement on a sufficiently
   populated independent cohort, plus demonstrated useful defensive combinations
   in gameplay. Two isolated head improvements alone are insufficient.

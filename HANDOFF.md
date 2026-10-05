@@ -1,5 +1,51 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 14:28 EDT -- OWNER STRATEGY AMENDMENT; ROCKET AIM LOSS REJECTED
+> Read L72/improvement_loop/MATCH_ADAPTATION_AMENDMENT.md and match_adaptation/PLAN.md/GATES.md.
+> The owner reiterated that tower Rocket cycling also builds/preserves a damage lead for tiebreakers,
+> not only one-to-three-Rocket finishes. Lead means weakest standing own crown-tower HP minus weakest
+> standing enemy crown-tower HP, with crowns/identity/alive/unknown state retained; summed HP is not this
+> metric. Include above-finishing-HP states, phase and actual elixir multiplier, public opponent counters,
+> and previous successful/blocked offensive X-Bows. Hypothesis: harder late/matchup-specific locks should
+> lead to a learned defensive strategy using the whole deck, with Rocket as damage source when useful.
+> No forced phase switch, Rocket label from HP, hidden opponent input or spell-frequency reward.
+>
+> Prior record recovered: .foreman/codex_autopilot/TICKET.md lines191-196 explicitly requested damage-lead
+> Rocket cycling for the tiebreaker on October3. L68/overnight0929/rl_framework_brainstorm.md records
+> adaptation within a match/opponent-history prediction as a proposal, not implemented-success evidence.
+> L71/rocket_diag/results.json is historical gen_v31a_s0, NOT current R1e; overtime/behind1407 PLAY rows/
+>141 replays show expert Rocket18.34%, model argmax10.09%, gated9.03%; decoded tower aim5/72. Its deficit
+> uses total normalized HP, not weakest absolute HP; no rerun or validation tuning. Current obs/model has
+> time/double/overtime, tower fractions/known/alive, public play history and revealed cycle tokens. This
+> does not prove effective strategic use; no explicit triple flag or persistent X-Bow outcome summary
+> was found in inspected global features. Verify rules/field provenance before new outcome labels.
+>
+> match_adaptation M1 COMPLETE (source/input review); M2-M4 OPEN. Next freeze allowed existing expert
+> train/development row joins and causal-history/phase/margin metrics, then diagnose using raw records
+> and verified cached predictions with independent controls. No new inference/optimization in that leaf.
+> Keep every PLAY/WAIT/card/aim label, failed defense, non-Rocket choice and unknown/truncated outcome.
+> Distinguish offensive placement, lock and attributed damage. Charge all costs, both lanes and fixed
+>10/30/60s responses; evaluate lead retention/tower survival/tiebreak outcomes. Do not start a blind
+> loss-weight grid. Development need not wait for RoyaleAPI; final untouched outcome/statistical gates stay.
+>
+> development_iteration_3 A1-A3 COMPLETE; full chain finished14:12:16 EDT. No active GPU/model/native-client
+> job at14:17 inspection. Do not relaunch training/evaluation/recount/preflight. Exactly1000 finite updates,
+>54723 rows/405 replays and both control paired summaries independently reconciled. Same corrected-input
+> R1e / ordinary_v6 / rocket_aim3_v6: expert Rocket aim within1 tile290/293/286 of955; full actions54/73/74.
+> Candidate aim -0.733pp and action+0.105pp versus control miss frozen+5pp/+2pp floors. Rocket aim improves
+>7 replay groups/worsens14/ties315. Furnace actions538/550/548 of1174 fail protection; candidate-control
+>1 group improves/2worsen/17tie. Witch332/341/341 of726; Night Witch156/161/162 of373. Barrel correct/wrong/
+>not-fired36/20/7,55/7/1,56/6/1 of63. Defensive actions3952/4009/4015 of8183, defense Rocket15/23/21 of223.
+> All actions30968/31988/32006 of54723; general card11348/11399/11393 of17192. Other point filters pass.
+> This rejects3x Rocket cell loss, not the broader owner strategy. No gameplay/generalization/acceptance.
+>
+> results_verified.json/reviewed_results.json bind caches/checkpoint/logs, per-replay counts, process and
+> delivery hashes. Model report delivered ONCE, one HTTP204, l72-development3-discord; independent review
+> l72-development3-reviewed also exits0. Do not duplicate. Initial models, iteration1/2 reports stay delivered.
+> Owner farming remains STOPPED: STOP timestamp13:39:32, workers37424/29536 exited13:41:56. No stop/restart/
+> settings change this turn. Preserve STOP and R1e selection, no fallback restart. Native5560 idle; unrelated
+> workers/dirty files untouched. No new accepted model; N2 final sufficiency/N3-N7 remain open.
+
 > ## 2026-10-05 14:07 EDT -- DEFENSE EXPOSURE REJECTED; ISOLATED ROCKET AIM LOSS ACTIVE
 > development_iteration_2 C1-C4 COMPLETE, all train/eval/independent jobs exited0 by13:59:21. Exactly1000
 > finite updates and54723 development predictions independently reconcile. Do not relaunch or repeat checks.

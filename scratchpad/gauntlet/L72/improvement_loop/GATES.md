@@ -15,7 +15,7 @@ N2 coverage/design remains open. No confirmation inference or deployment waiver.
 - [ ] N2: Freeze separate train/development/untouched-confirmation evidence and successor acceptance manifests.
   MANUAL: Audit replay IDs, all known prior exposure, hashes, sample sizes/power, metric definitions, uncertainty/multiplicity and one-factor controls before new training. Historical inspected validation is not fresh confirmation.
 - [ ] N3: Finish empirical failure diagnosis and implement supported learned changes.
-  MANUAL: Trace training/development gate/card/aim/sequence errors, isolate Barrel architecture, all three spawner families and X-Bow support outcomes. No tactical rules or held-out tuning.
+  MANUAL: Trace training/development gate/card/aim/sequence errors, isolate Barrel architecture, all three spawner families and X-Bow support outcomes. Include phase/public-matchup adaptation, weakest-tower damage-lead cycling and prior blocked/successful offensive X-Bows per MATCH_ADAPTATION_AMENDMENT.md. No tactical rules or held-out tuning.
 - [ ] N4: Validate the updated runtime and complete bounded IL/RL iterations with reproducible checkpoints.
   MANUAL: Inspect real optimization, actor/runtime fingerprints, finite updates, controls and data use. Resolve or explicitly retain external validation gaps; no Windows policy bypass or new RL on the old engine.
 - [ ] N5: A new candidate meets every strong replacement criterion on untouched confirmation and matched gameplay.
