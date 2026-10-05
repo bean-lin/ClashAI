@@ -1,5 +1,28 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 08:14 EDT -- INDEPENDENT PILOT RECONCILIATION PREPARED AND QUEUED
+> Existing collection remains healthy: 457/645 attempted, 231 usable/226 excluded, no fatal error.
+> Owner live37424/29536 continues; STOP absent. No active collector/runtime/model source or setting changed.
+> Added read-only verify_reserved_pilot.py under PILOT_RECONCILIATION_PLAN.md and pilot_reconciliation/GATES.md.
+> It independently reconstructs fixed selection/reservation membership, rehashes all52 raw parts and CSVs, recounts source
+> command indices/ticks/sides/rotated targets plus driven/accepted/skipped/delayed/invalid/crown evidence, and compares all
+> summary exclusions/counts. Qualified commands must execute at source ticks. Public-field checks are shared; command
+> grading does not call the collector's grader, and scheduled repeats use the independent lifetime-bijection oracle,
+> now including pre-play frames. Reports preserve exact Icebow scarcity and source-excluded scheduled repeats.
+>
+> Two positive/11 deliberate corruptions pass controls; ten completed training records pass integration against raw
+> records/CSVs. The first smoke incorrectly expected deck metadata in the minimal reservation rows; failure and v1 source
+> retained. Corrected join uses reservation for split/signature and compatibility rows for full decks/strata. No collection
+> source/data was altered. Final smoke also rehashes all52 raw source parts (825394311 bytes). See l72-pilot-recount-* receipts.
+>
+> One verifier is QUEUED, launcher44044, via launch_pilot_reconciliation.ps1; read pilot_reconciliation.out/.err and
+> pilot_reconciliation_launch.json. It waits for the ORIGINAL collection's successful final receipt, then reads all645
+> recordings and the scheduled repeats. No native service calls, model predictions or new collection. Do not duplicate it
+> or edit its bound sources. Eventual evidence: reserved_pilot_independent.json and l72-reserved-pilot-independent receipt.
+> P1/P2 pass; P3/P4 and N2-N7 remain open. No successor model or Discord report due. Next: review full independent yield,
+> acquire adequate missing native expert evidence, establish opportunity denominators/power/multiplicity and freeze the
+> successor comparison before IL/RL. Reconstruction/deck counts alone cannot close N2.
+
 > ## 2026-10-05 08:03 EDT -- NATIVE PREFLIGHT COMPLETE; PILOT ACTIVE; ACTUAL-LIVE BARREL EVIDENCE
 > All20 fixed native captures and four repeats completed around07:34. Independent recount verifies108402 frames,
 > 110623 projectile observations,69565 past-motion TTI estimates,27600 area observations and61 accepted abilities;
