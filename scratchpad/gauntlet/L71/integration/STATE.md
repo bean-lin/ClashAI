@@ -1,0 +1,13 @@
+# Isolated learned defence integration
+
+Workspace: `C:/Users/benpe/.codex/worktrees/learned-defence/ClashBot`, managed worktree based on9eb9e1a. Main remains `C:/Users/benpe/ClashBot`; its Q3 acceptance sources must not change until all20 jobs complete and the full report is verified. Main HANDOFF progress was published in ca5ce32 without changing those sources.
+
+The integration adds corrected public spawner body identity (version5), a zero-start generic learned projectile-target placement residual (version6), expert-only context mixtures, fixed training/diagnostics and optional public live decision evidence. Night Witch bats are covered across native data, SIM and live input paths. Tactical card, timing and aim choices remain learned. Default old checkpoints keep old observations/outputs; anti-leak stays off in the eventual deployment.
+
+Checks with actual commands, cwd, return codes, matched tokens and output hashes are in `checks/`.90 regression tests/4 subtests pass, plus12 training/migration tests and4 diagnostic/fork checks. The final corrected dataset and context cohort memberships/splits were independently verified. The actual R1e CPU version6 smoke has finite loss/backward and saves no checkpoint.
+
+Actual full training and all candidate game acceptance remain open. The fixed recipe/decision rules are in `../context_teaching/PLAN.md`. `run_experiments.py` prepares34 sequential jobs, verifies the completed Q3 chain and baseline diagnostic before claiming the GPU, and records each job's outputs. It never deploys. Keep its source manifest unchanged while queued/running. Failed experiments remain disabled; do not alter acceptance to force adoption.
+
+The X-Bow24-seed CPU diagnostic found1 qualifying support action. WAIT merely delayed Tesla half a second, with identical final spending/resources/tower HP; this does not establish the owner's reported opportunity-cost loss. Expert context exposure is an experiment, and public live evidence addresses the archive gap. Branch artifacts are ignored under `icebow/data/bench/xbow_counterfactual_20261005`.
+
+The worktree has junctions to shared main data, external engines and replay corpora. Never recursively delete or modify those shared targets. Never stage `icebow/data`. Main has inherited dirty files; integrate scoped commits only after Q3 finishes. No live worker is running; STOP remains set. Owner has already authorized accepted redeployment and asked for implementation without further proposal review. No Discord messaging is authorized by the human instruction.

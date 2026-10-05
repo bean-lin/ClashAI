@@ -216,6 +216,8 @@ def main() -> int:
     ap.add_argument("--leak", type=float, default=9.5, help="force a play at >= this elixir (unless --no-anti-leak)")
     ap.add_argument("--no-anti-leak", action="store_true",
                     help="honour the model's play/wait decision even at full elixir; disable forced spending")
+    ap.add_argument("--public-audit", action="store_true",
+                    help="log public board/targets and model decisions, including WAIT, independently of video")
     ap.add_argument("--interval-ms", type=int, default=100)
     ap.add_argument("--max-seconds", type=float, default=400,
                     help="PER-MATCH wall-clock cap (reset each match): overtime ends by 6,000 ticks = 300 s of "
@@ -306,7 +308,7 @@ def main() -> int:
     device = ("cuda" if torch.cuda.is_available() else "cpu") if a.device == "auto" else a.device
     pilot = GenPilot(a.ckpt, device=device, gate_tau=a.tau, use_counter=not a.no_opp_counter,
                      extrapolate_ticks=a.extrapolate, decision_options=options_from_config(decision_cfg),
-                     decision_seed=a.decision_seed)
+                     decision_seed=a.decision_seed, public_audit=a.public_audit)
     renders: list = []                                   # background overlay renders of matches 1..N-1
     rc = 0                                               # 1 = the run stopped for any non-normal reason
     last_clip, no_start = -1e18, 0
@@ -401,7 +403,8 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
             log.flush()
     W(event="start", screen=[lay.w, lay.h], tau=a.tau, leak=a.leak, dry_run=a.dry_run, ckpt=a.ckpt,
       extrapolate=a.extrapolate, opp_counter=not a.no_opp_counter, device=device, anti_leak=not a.no_anti_leak,
-      decision_options=vars(pilot.decision_options), decision_seed=pilot.match_seed)
+      decision_options=vars(pilot.decision_options), decision_seed=pilot.match_seed,
+      feature_version=pilot.feature_version, public_audit=a.public_audit)
     rec = ScreenRec(stamp) if record else None
     # Menu guard (2026-09-30 verifier): card taps are gated only by reader flags, and 249/1378 past board taps fall
     # inside the main screen's Battle button -> the SCREEN is classified every <= 2 s; any menu stops the match.
@@ -451,6 +454,7 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
     from collections import deque
     dec_times: deque = deque(maxlen=20)
     warned_at = 0.0
+    last_audit_tick = -10
     # 2026-09-25 18:32 friendly match: the reader stream stalled for up to 5.4 s (adb saturated by the hero-button
     # screenshots, ~330-430 ms each every 0.5 s), then the loop worked through the backlog IN ORDER and decided on
     # frames up to ~20 s old -> long "pending" leaks, then dumps. Now a thread pumps the stream into a queue; every
@@ -627,6 +631,12 @@ def play_match(a, pilot, lay, device, renders: list | None, start_timeout: float
                 warned_at = now
             el = me["elixir_raw"] / 1e4
             forced = not a.no_anti_leak and not d["play"] and el >= a.leak and d["card"] > 0
+            if a.public_audit and (d['play'] or forced or tick-last_audit_tick >= 10):
+                W(event='decision', tick=tick, t_dev=t_dev, decide_ms=decide_ms,
+                  backlog=q.qsize(), forced=forced,
+                  decision={k:d[k] for k in ('play','p_play','no_affordable','hand_pos','name','card','form','xy') if k in d},
+                  public=d['public_audit'])
+                last_audit_tick = tick
             if not (d["play"] or forced):
                 continue
             if not guard_clear():                        # the guard has not (freshly) seen a battle screen

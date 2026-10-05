@@ -13,25 +13,40 @@ from .decision_options import DecisionOptions, choose_cells, choose_slot
 
 
 class GenPilot(LegacyGenPilot):
-    def __init__(self, *args, decision_options=None, decision_seed=0, **kwargs):
+    def __init__(self, *args, decision_options=None, decision_seed=0, public_audit=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.decision_options = decision_options or DecisionOptions()
         self.decision_seed = int(decision_seed)
         self.match_index = -1
         self.match_seed = self.decision_seed
         self.rng_decisions = np.random.default_rng(self.match_seed)
+        self.public_audit = bool(public_audit)
+        self._public_audit_snapshot = None
 
     def reset_match(self):
         super().reset_match()
         self.match_index += 1
         self.match_seed = int(np.random.SeedSequence([self.decision_seed, self.match_index]).generate_state(1)[0])
         self.rng_decisions = np.random.default_rng(self.match_seed)
+        self._public_audit_snapshot = None
+
+    def row(self, frame):
+        b, info = super().row(frame)
+        if getattr(self, 'public_audit', False):
+            from .public_decision_audit import snapshot
+            self._public_audit_snapshot = snapshot(frame, b, info, self)
+        return b, info
+
+    def _audited(self, decision):
+        if getattr(self, 'public_audit', False):
+            decision['public_audit'] = self._public_audit_snapshot
+        return decision
 
     @torch.no_grad()
     def decide(self, frame):
         options = self.decision_options
         if not options.active:
-            return super().decide(frame)
+            return self._audited(super().decide(frame))
         b, info = self.row(frame)
         lookahead = ({'public_lookahead_counts': info['public_lookahead_counts']}
                      if 'public_lookahead_counts' in info else {})
@@ -39,8 +54,8 @@ class GenPilot(LegacyGenPilot):
         p = float(torch.sigmoid(out['gate'][0]))
         allowed = allowed_slots(np.array([h[0] > 0 for h in info['hand']]), info['costs'], info['el_int'])
         if not allowed.any():
-            return dict(play=False, no_affordable=True, p_play=p, hand_pos=-1, deck_index=-1, card=0,
-                        form=FORM_PAD, bs=info['bs'], name=None, el_int=info['el_int'], **lookahead)
+            return self._audited(dict(play=False, no_affordable=True, p_play=p, hand_pos=-1, deck_index=-1, card=0,
+                        form=FORM_PAD, bs=info['bs'], name=None, el_int=info['el_int'], **lookahead))
         pos = choose_slot(out['card'][0], allowed, options, self.rng_decisions, playing=p > self.gate_tau)
         card, form = info['hand'][pos]
         name = info['names'][info['hand_deck_indices'][pos]] if card > 0 else None
@@ -50,4 +65,4 @@ class GenPilot(LegacyGenPilot):
             logits = self.model(b, card=torch.tensor([card], device=self.dev),
                                 form=torch.tensor([form], device=self.dev))['cell']
             d['xy'] = cell_xy(int(choose_cells(logits, [name], options)[0]), self.grid)
-        return d
+        return self._audited(d)

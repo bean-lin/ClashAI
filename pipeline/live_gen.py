@@ -125,7 +125,7 @@ class GenPilot:
             from .obs_contract import from_engine
             live_deck, live_names = deck_of(frame, side)
             bs = from_engine(to_observe(frame, side, live_names), side, live_deck, history=self.history,
-                             engine_deck=live_names, unmapped=set(), feature_version=3)
+                             engine_deck=live_names, unmapped=set(), feature_version=self.feature_version)
             bs = replace(bs, source="live_mem", opp_elixir=opp if self.use_counter else None)
         else:
             bs = board_state(frame, history=self.history, opp_elixir=opp)
