@@ -711,6 +711,11 @@ Last updated: **2026-10-04 11:59 EDT** (R8 inference look-ahead verified; paired
 >   owner's rule live = OLD rseries_r1_u0155 (R1e was live 20:41 until the switch; switched via CKPT_OVERRIDE ~20:5x).
 >   Discord verdict posted. Codex continues from `CODEX_BRIEF.md` (section 6 = this verdict; queue Q1-Q5 with the
 >   owner's sampling concern built in: confidence-filtered sampling only, offline check first, stricter adoption).
+> * **21:0x -- OWNER: LIVE = R1e u0155** ("mainly to observe if our input space change and fixes translated into better
+>   live performance"). The process started 20:47:50 had already loaded R1e (my switch to old u0155 was still pending),
+>   so CKPT_OVERRIDE back to R1e = no restart. Start-up trap seen: a com.mumu.store SYSTEM_ALERT_WINDOW advert covered the
+>   Battle button -> "transition over 300 s" stop; fix = `adb shell am force-stop com.mumu.store`. CODEX_BRIEF section 6
+>   updated: live = R1e, Q0 = live R1e vs old u0155 comparison from the logs (Wilson CIs), never switch live itself.
 > * Trap (memory pkill-self-match-trap): a kill-by-pattern in the same ssh string as a launch kills your own shell.
 
 > ## ⟳ RESTART NOTE 2026-10-03 13:45 (lead hit its usage limit; rebuild from this block)

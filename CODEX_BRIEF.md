@@ -60,7 +60,7 @@ the work is done here, so the project does not drift.
 - **RL:** R1e = PPO from gen_v3.1c (5 actors, evo/hero census opponents, calibrated per-ability press models v2,
   R8), launched 15:06 by `scratchpad/gauntlet/L71/rl/run_r1e_v3.sh`; log `scratchpad/gauntlet/L71/rl/r1e.log`. Its
   verdict and the live decision are appended in section 6 when they arrive.
-- **Live:** RUNNING on `rseries_r1_u0155` (old RL best) -- see section 6. Start/stop: `start_live.sh` / `stop_live.sh`.
+- **Live:** RUNNING on R1e u0155 (owner decision, to observe the new inputs live) -- see section 6. Start/stop: `start_live.sh` / `stop_live.sh`.
 - **Abilities in the sim:** `ability_policy: v2` (royale_env / e1_eval / rl_royale / search_s0 `--ability-policy`).
   Calibrated models: `scratchpad/gauntlet/L70/abilities/ability_models_v2.json` (held-out share error <= 3 pp for 17/22).
 - **Live ability:** Hero Ice Wizard = owner's interim rule (freeze clumps of >= 3 troops, or a win condition on our
@@ -138,13 +138,23 @@ R1e = `icebow/data/bench/rl_royale/rseries_r1e31/rseries_r1e31_u{0080,0155}.pt` 
 | old rseries_r1_u0155 | -- | 0 | 14 / 24 | 12 / 24 |
 
 Reading: RL on top of gen_v3.1c helped (R1e beats its base on all three instruments) and nearly closes the gap to the
-old RL model, but does NOT beat it: a tie on the ghost screen and the old census (38/48 each), and old u0155 wins the
-evo/hero census 36/48 vs 32/48 (mostly vs S1: 24 vs 21). Owner rule ("if R1e doesn't beat everything, deploy the
-current best") -> **LIVE = `icebow/data/bench/rl_royale/rseries_r1/rseries_r1_u0155.pt`** (CKPT_OVERRIDE; R1e played
-live 20:41 until the switch). Note: old u0155 is a feature-version-1 model -- R8 and the v4 inputs do not apply to it.
+old RL model, but does not beat it in the simulator: a tie on the ghost screen and the old census (38/48 each), and
+old u0155 wins the evo/hero census 36/48 vs 32/48 (mostly vs S1: 24 vs 21).
 
-**Implications for your queue:** run Q3 on BOTH the live model (old u0155) and R1e u0155, each paired against its own
-fresh baseline screen made with the SAME code (first produce `--behaviour-telemetry` baseline screens for old u0155
-and R1e u0155 -- the old u0155 screen in L70/rl/r1_accept has no telemetry). Any further RL run (e.g. R1e for more
-updates, or RL after the Rocket fixes) is an owner/lead decision: propose it in BLOCKERS.md with a one-change design,
-do not launch it.
+**OWNER DECISION 2026-10-04 ~21:00: LIVE = R1e `icebow/data/bench/rl_royale/rseries_r1e31/rseries_r1e31_u0155.pt`**
+(CKPT_OVERRIDE), "mainly to observe if our input space change and fixes translated into better live performance" --
+simulator ties do not settle live performance. Do NOT switch live back on your own; the owner decides.
+
+**Implications for your queue:**
+- **Q0 (new, first, CPU) Live comparison, R1e vs old u0155.** From the live logs
+  (`scratchpad/gauntlet/L68/live_reader/live_play_*.jsonl`, `scratchpad/gauntlet/L70/live/overnight.out` results +
+  the checkpoint each run loaded -- "checkpoint override" lines / process --ckpt), tabulate per checkpoint: matches,
+  wins/losses with a Wilson 95% CI, trophies over time, and live behaviour (Rocket share of plays, pre-emptive Logs vs
+  barrels, ability presses, X-Bow placements) from the play/frame events. Old u0155 has ~2 days of live matches on
+  10-03/10-04 as the baseline. Report every ~30 R1e matches (Discord, short); say plainly when the CI cannot separate
+  them yet. Measurement only -- never change live.
+- Run Q3 on R1e u0155 (the live model) AND old u0155, each paired against its own fresh baseline screen made with the
+  SAME code (first produce `--behaviour-telemetry` baseline screens for both -- the old u0155 screen in L70/rl/r1_accept
+  has no telemetry).
+- Any further RL run (e.g. R1e for more updates, or RL after the Rocket fixes) is an owner/lead decision: propose it in
+  BLOCKERS.md with a one-change design, do not launch it.
