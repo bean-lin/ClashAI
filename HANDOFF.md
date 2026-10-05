@@ -1,5 +1,34 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 11:33 EDT -- VOID EXCLUSION VERIFIED STALE; SEVEN FRESH ICEBOW REPLAYS RECOVERED
+> Read L72/improvement_loop/void_identity/PLAN.md, GATES.md, REVIEW.md, ORACLE_CORRECTION.md and reconstruction
+> plan/gates/reports. Original pinned APK localization links Void to DarkMagic28000023; original cost5 matches
+> measured native cost. Void/Arrows/Void synthetic IDs and same-tick costs28000023/28000001/28000023 and5/3/5.
+> Original producer completed captures but failed raw entity-pointer repeat comparison; preserve failed source/
+> output/receipt. Independent stable-entity-ID/target normalization, retained geometry/health/timers, one positive/
+> seven corruptions and final guest/source attestation passed. This verifies identity/cost, not all current mechanics.
+> Official August2026 balance notes document3->5. No native asset/catalog/original driver or live change.
+>
+> Isolated loader only removes the proven Void exclusion; original form rules and bounded opening resolver remain.
+> Ten remaining original exact-Icebow confirmation tags,990 source commands,20 deck/form validations,each repeated:
+> collection and independent verifier both COMPLETE exit0;7usable/3excluded/all10repeats match. Accounting990source/
+> 928driven/924accepted/5explicitly skipped. All3 have undriven/skipped commands;2also rejected. Missing early-terminal
+> suffixes stay missing. No criteria waived. Launcher4508 exited; native5560 is idle. Do NOT rerun chain/probe/verifiers.
+>
+> void_capacity/PLAN.md,GATES.md,REVIEW.md,inventory.json and l72-void-capacity-independent receipt independently
+> bind prior evidence and recount added original CSV/native commands.817distinct selections,444qualified records:
+> 117training/112development/215confirmation. Exact-Icebow confirmation115replays/260original Rocket casts.
+> Opposing casts/replays:Barrel0/0,Witch15/3,Night Witch28/10,Furnace61/12. These are source counts,NOT independent
+> tactical opportunities or adequate power. All183unused exact-Icebow raw groups were selected; their ZERO Barrel
+> decks make faithful additional source acquisition necessary. Preserve old inventories/failures/splits/forms.
+>
+> N2-N7 remain OPEN. No successor IL/RL/optimization/confirmation policy predictions/new model/deployment/Discord
+> report. Retained Chrome tab1629243120 still shows RoyaleAPI security verification at11:25; marked for handoff,
+> owner asked asynchronously to complete verification when available. No challenge bypass or credential extraction.
+> Browser access would allow investigation, not guarantee a qualified source. Do not repeat unchanged data pulls.
+> Owner CPU farming37424/29536 active, STOP absent;112313/112630 matches followed by result/Play Again/loading.
+> No live restart/settings change. Continue evidence/design work within the unchanged new-model acceptance queue.
+
 > ## 2026-10-05 10:58 EDT -- RESERVED OPENING RECOVERY COMPLETE; TWO FRESH WITCH REPLAYS RECOVERED
 > This supersedes the active65-job snapshot below. Both collector28292 and independent verifier18592 exited0 with
 > successful receipts. All65 fixed selections/repeats completed:32 newly usable (6development/26confirmation),33
