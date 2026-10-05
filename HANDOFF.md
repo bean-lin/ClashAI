@@ -1,5 +1,37 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 17:13 EDT -- FROZEN-BASE TRIAL REJECTED/REPORTED; NO ACTIVE MODEL JOB
+> Supersedes the ACTIVE iteration7 block below. Read development_iteration_7/REVIEW.md,
+> RECOUNT_COMPLETION.md,results_verified_v2.json,reviewed_results.json. Do NOT rerun
+> train/eval/preflight/independent jobs or resend model report. All1000finiteupdates/
+> 54723predictions complete:train119.37s/eval52.42s. Original independent failed exact
+> gate-logit cache equality; allbase checkpointtensors passed exactidentity. Preserve
+> failed receipt/source/chain_failed. Separate recount_development7_v2.py OUTSIDE
+> frozen directory finishes rawlabel/cache/perreplay statistics40.97s exit0,without
+> training/eval reruns or thresholdchanges. B1/B3complete,B2exact-outputgate FAILED
+> andabandonedforthisfixedcandidate;overallobjectiveandfinalN2-N7remainunfinished.
+>
+> R1e(corrected)/v5/candidate:Barrel36correct20wrong7nonfired /40/22/1 /56/6/1 of63,
+> fullactions18/20/32. Barrel+25.40pp/wrong22->6 pass. Rocketaim290/292/290 of955,
+> fullactions54/77/76:bothRocketeffectprotectionsFAIL. LateRocket14/22/22 of320;
+> lateall1949/1984/1992 of6422. Witch332/339/341,NW156/161/161,Furnace538/549/549;
+> defense3952/4011/4012,generalcard11348/11403/11403,allaction30968/31962/31984.
+> All otherpointprotections pass,butcannotrescue;candidateREJECTED,nogameplayproof.
+> Gate-logits156valuesdiffer,max1.19e-6;cardlogits625,max2.86e-6. Chosen-cardand>.35
+> gate decisions unchanged onall54723;sourceofnumericaldifferenceunproven. Exact
+> criterionnotrelaxed. UsefulBarrelgainwithfixedbase iscomponentlearningevidence,
+> notacceptedpolicy. OneHTTP204report ALREADY delivered,l72-development7-discord/
+> reviewed;reviewed_resultsbindsfive successfulreceipts/originalfailure/message/
+> delivery/model/caches/pairedhashes. Neverduplicate. No activemodel/nativeclient.
+>
+> Next useful bounded work:cached-error diagnosis of thisnewfixedbranch's Rocket
+> regressions/improvements byoriginalexpertcard/aim andpublicprojectiletargetcontext,
+> includingno-targetcontrols,beforeanotherremedy. No blindloss/LRgrid orcombination
+> offailedrecipes. Terminalwrapper stillrequestsdecisionsduringnativefreeze;future
+> fixmustproveaccepted-command/final-stateequality,nottruncateactualtiebreakwinner.
+> Keep ownerSTOP13:39:32intact,no fallbackrestart. Noacceptednewmodel. Existing
+> finaluntouched/component/gameplay/statistical/Q4/Q5 requirementsstayopen.
+
 > ## 2026-10-05 17:05 EDT -- DEVELOPMENT GAMEPLAY REJECTED; FROZEN-BASE BRANCH TRIAL ACTIVE
 > Supersedes active development_gameplay_1. Read its REVIEW.md,results_verified.json,
 > reviewed_stats.json,reviewed_results.json; gameplay_failure_audit/PLAN.md,REVIEW.md,

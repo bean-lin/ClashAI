@@ -1,3 +1,60 @@
+# Frozen-base projectile trial: useful Barrel isolation, rejected candidate
+
+October5 17:12 EDT. Training119.37s and evaluation52.42s completed, exactly1000
+finite updates/all54723 rows. Independent v1 failed the registered exact gate-logit
+cache criterion. All original v5 base tensors passed byte-identical comparison.
+Separate recount_development7_v2.py outside the frozen directory completed full
+independent statistics in40.97s, preserving the FALSE exact-output filter. No
+retraining, evaluation rerun or changed threshold. Original failed source/output/
+chain remain. B1/B3 complete, B2 exact-output gate failed/abandoned for this fixed
+candidate. The overall new-model objective and final gates remain unfinished.
+
+| Metric | R1e corrected | ordinary_v5 | frozen-base candidate |
+|---|---:|---:|---:|
+| Barrel correct/wrong/not-fired /63 |36/20/7|40/22/1|56/6/1|
+| Full Barrel action /63 |18|20|32|
+| Expert Rocket aim<=1tile /955 |290|292|290|
+| Expert Rocket full action /955 |54|77|76|
+| Late Rocket action /320 |14|22|22|
+| Late-all action /6422 |1949|1984|1992|
+| Witch /726 |332|339|341|
+| Night Witch /373 |156|161|161|
+| Furnace /1174 |538|549|549|
+| Defensive action /8183 |3952|4011|4012|
+| General card /17192PLAY |11348|11403|11403|
+| All action /54723 |30968|31962|31984|
+
+Barrel correct+25.40pp and wrong22->6 pass the branch criteria; all spawner/
+defense/late action protections pass. Rocket aim -2 and full action -1 fail both
+registered nonregression checks, independently of the exact-output failure.
+The candidate is REJECTED; no stronger gameplay, physical defense, Rocket cycle,
+resource efficiency or phase/matchup adaptation has been demonstrated.
+
+156/54723 gate logits differ from v5, maximum1.1920928955078125e-6;625/218892
+card logits differ, maximum2.86102294921875e-6. All chosen cards and>.35 gate
+decisions are unchanged. CPU smoke exactness did not establish bitwise equality
+of all separately computed GPU caches. These differences are small; their origin
+is not established by this audit. Exact criterion remains failed, never silently
+replaced by a tolerance. The base-tensor invariant itself passes.
+
+reviewed_results.json binds all cache/model/per-replay hashes,1000 finite updates,
+five successful receipts and the original independent failure. Requested model
+report delivered ONCE,oneHTTP204,l72-development7-discord; review receipt exit0.
+No duplicate reports, optimization, evaluation or completed-check reruns. Parent
+exposure remains disclosed. All same-corrected-input R1e/v5/v6 comparisons retained.
+
+Next useful work is a bounded cached-error diagnosis of this branch's remaining
+Rocket regressions by original expert card/aim and public projectile-target
+context, including improvements and no-target cases. It must retain the fixed
+data/labels and all failures before selecting another architecture or outcome
+learning recipe. Do not launch a blind learning-rate/loss grid, combine rejected
+recipes or claim the useful Barrel component alone meets replacement gates.
+The separate terminal-wrapper accounting issue also remains documented; fixing
+it requires accepted-command/final-state neutrality. No active GPU/native job,
+no live worker/restart, ownerSTOP13:39:32 intact. This is not objective completion.
+
+## Archived launch record
+
 # Frozen-base projectile trial launched
 
 October5 17:03 EDT. B1 complete; B2/B3 active. Launcher42584/chain51696 runs a serial1000-step
