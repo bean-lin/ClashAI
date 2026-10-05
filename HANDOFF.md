@@ -1,5 +1,17 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 05:05 EDT -- OWNER REJECTS FALLBACK; ITERATIVE NEW-MODEL IMPROVEMENT AUTHORIZED
+> Owner before sleep explicitly wants a new model very significantly better than R1e across Rocket, Barrel,
+> spawners, sampling, spell aim and the full queue. **Do not restart R1e as the final fallback outcome.** Keep live
+> stopped until a new candidate qualifies; preserve R1e only as comparator/recovery artifact. Rejected first arms
+> trigger further evidence-based iterations, not task completion. The active L71 chain and old thresholds stay frozen.
+> L72/improvement_loop/PLAN.md and GATES.md record the new contract, stronger replacement requirements, development/
+> untouched-confirmation separation, diagnosis priorities and conditional updated-engine PPO after qualified IL.
+> The existing heartbeat has been updated to the new objective; Tuesday/Claude takeover still requires explicit handoff.
+> Fresh partial review:25/34 jobs complete at05:00. v4_rocket increases ghost Rockets42->226 and tower Rockets5->41,
+> but wins285->274/299 (-3.68pp,95% CI[-7.02,-0.33]); reactive32->25/48. More spell use alone loses games here.
+> No current candidate is accepted. All prior failed gates and Rust Application Control gaps remain recorded.
+
 > ## 2026-10-05 03:28 EDT -- EIGHT IL RUNS COMPLETE; LEARNING GATES FAIL; GAMEPLAY CONTINUES
 > All eight fixed1,000-update training/held-out pairs completed03:12:51. Independent CPU recount matched all nine
 > caches exactly:38,317 rows each,344,853 predictions, including legal cards, membership and diagnostic numerators.
