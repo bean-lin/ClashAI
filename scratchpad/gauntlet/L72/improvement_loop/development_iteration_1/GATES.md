@@ -12,7 +12,7 @@ OWNS: scratchpad/gauntlet/L72/improvement_loop/development_iteration_1/
   CHECK: icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/development_iteration_1/verify_prelaunch.py
   EXPECT: DEVELOPMENT_1_PRELAUNCH_PASS
   MANUAL: Inspect the isolated trainer/evaluator paths and shared unknown-target mirroring; no old validation calls. METRICS.md fixes definitions and controls before prediction.
-- [ ] D4: Both full serial arms finish the registered finite updates and all paired development results are independently recounted and reported.
+- [x] D4: Both full serial arms finish the registered finite updates and all paired development results are independently recounted and reported.
   MANUAL: Preserve failures and full receipts; send model reports once; no acceptance/deployment from development-only evidence.
 
 D1/D2 successful receipts: l72-development1-data-prepared and
@@ -23,7 +23,10 @@ D3 passed l72-development1-prelaunch, exit0/token matched,178.88s. Exact migrati
 initial predictions/base dropout, canonical mirrored loss and finite backward
 updates verified; neither CPU smoke saved a checkpoint. Four index corruptions
 rejected, independent subgroup masks match, counter positive/four corruptions pass.
-D4 ACTIVE: launcher38268/chain42456, serial R1e evaluation then v5 train/eval,
-v6 train/eval and independent recount. launch.json/chain_started.json bind it.
-Do not rerun prelaunch/preparation or duplicate the chain. Bound scripts and
-METRICS.md/PLAN.md must remain unchanged while the chain is active.
+D4 COMPLETE October5 13:47 via the separately bound serialization recovery.
+Original v5 training and R1e evaluation were retained; original failed v5
+evaluation, sources and checkpoints remain preserved. results_verified_v2.json
+reconciles both1000 finite updates and all54723 development rows per cache.
+reviewed_results.json binds all15 process receipts, paired replay differences,
+both reviewed model messages and successful HTTP204 deliveries. No duplication,
+new model acceptance, live change or final gameplay/statistical claim.

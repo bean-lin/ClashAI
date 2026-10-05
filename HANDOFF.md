@@ -1,5 +1,49 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 13:55 EDT -- FIRST CONTROLLED MODELS RECONCILED; DEFENSIVE CURRICULUM ACTIVE
+> development_iteration_1 D1-D4 COMPLETE. Original v5 evaluation failed before prediction on TorchVersion
+> metadata serialization. Preserve original failed receipt/checkpoint/source. Separate portable copies changed
+> one metadata string only, with every trained tensor byte identical. The separately bound resume skipped
+> completed R1e inference/v5 optimization, finished original v6 training and both candidate evaluations, then
+> independent recount. resume_complete.json at13:47, results_verified_v2.json and reviewed_results.json are
+> authoritative. Do not relaunch either original or resume chain; both1000 finite updates and all3x54723 rows
+> reconcile. All15 receipts including one expected historical failure are accounted. Two new-model Discord
+> reports delivered once, one HTTP204 each; messages/delivery hashes bound. No duplicate reports.
+>
+> v6 passes every registered DEVELOPMENT continuation point filter against v5. Primary Barrel63rows/26replays:
+> R1e36correct/20wrong/7not-fired, v5 40/22/1, v6 55/7/1. Full expert actions18/20/30; v6-v5 improves8replays,
+> worsens1,ties17. Witch actions339->341/726, Night Witch161->161/373, Furnace549->550/1174. General card
+> agreement11403->11399/17192 (-0.023pp); all actions R1e30968/v5 31962/v6 31988 of54723. Expert Rocket
+> actions54/77/73 of955: residual still regresses four replay groups versus control. Legacy narrow finishing
+> forced expert aim<=1tile2/1/1 of21 PLAY rows remains weak; this is not the whole1-3Rocket-cycle opportunity
+> space. R1e uses SAME corrected observations, not original live input. Historical parent exposure, physical
+> attribution, final confidence/power/gameplay/component gates remain: neither model is accepted/deployed.
+>
+> development_iteration_2 PLAN/METRICS/GATES/REVIEW: C1-C3 COMPLETE, C4 ACTIVE. Launcher39500/chain40432
+> runs defense_sequence_v5 train1000updates/eval/independent recount serially under the same held GPU lock.
+> Inspect launch/chain_started/progress.json, chain.out/.err and ignored training log. No duplicate or active
+> bound-source edits. New activation/prelaunch binds all experiment Python, PLAN/METRICS, old control/results,
+> source data and paired schedule. Old sequence binding trainable=false remains untouched.
+>
+> This separate hypothesis test reuses verified ordinary_v5 control, starts again from R1e and keeps v5
+> architecture/optimizer/loss/mirror/dropout stream fixed. Only exposure changes:80%ordinary/20%uniform
+> defensive training union. All original PLAY/WAIT/card/aim labels, failed/truncated/non-Rocket defenses stay.
+> 32187 training defense rows/856replays include767 expert Rockets;8183 development rows/212replays include
+> 223expert Rockets/129replays.25221/128000draws replaced; defensive draws19429->40899. Independent schedule
+> reproduction1positive/3corruptions passes. Preflight106.14s verifies new membership masks, finite CPU smoke
+> loss5.456310272216797 and in-memory plain metadata/tensor roundtrip; no saved smoke checkpoint. Final-step
+> only, no extra ordinary-control training. Frozen continuation floors include>=2pp defense action gain and
+> >=1more full expert Rocket action, global/spawner/Barrel nonregression. Not deployment or positive-trade proof.
+> After completion independently review results/1000updates, report the new model once to Discord and keep
+> every original final acceptance floor. Later outcome tests must include full resource/punishment costs.
+>
+> CURRENT LIVE CORRECTION: at13:51 owner farming37424/29536 no longer present. STOP exists, timestamp13:39:32;
+> supervisor exited0 at13:41:56 before match115 after completed133644 match73attempts/71confirmed/1fail and
+> one unresolved final attempt. This turn did not create/remove STOP or stop/restart live. Preserve it; do not
+> restore an old 'active farming' snapshot or autonomously restart as fallback. R1e remains selected, no settings
+> change. Native5560 remains idle. Unrelated trading/report workers unchanged. Continue controlled development,
+> final evidence acquisition/design alongside it; do not reinstate the superseded blanket N2 optimization wait.
+
 > ## 2026-10-05 13:26 EDT -- CONTROLLED SUCCESSOR DEVELOPMENT CHAIN ACTIVE
 > Read L72/improvement_loop/development_iteration_1/PLAN.md,METRICS.md,GATES.md,REVIEW.md and prelaunch.json.
 > D1-D3 COMPLETE; D4 ACTIVE. Launcher38268/chain42456, initial evaluator31508/11028 through wrapper32364/31972.
