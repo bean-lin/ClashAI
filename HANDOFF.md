@@ -1,5 +1,31 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 01:30 EDT -- NIGHT WITCH VERIFIED; OVERNIGHT LEARNING CHAIN QUEUED
+> Night Witch remains explicitly included:152,004 corrected Bat identity tokens in the final verified spawner dataset;
+> native/SIM/live observation contracts and three-card repeated-wave checks pass. Learning and live acceptance remain open.
+> Isolated integration is saved in commits7bb7e5f and e59a9ad in
+> `C:/Users/benpe/.codex/worktrees/learned-defence/ClashBot`; **not yet merged into main or deployed**.
+> R1e held-out CPU evaluation completed on38,317 states. Independent cache recount reproduces every diagnostic:
+> pro-card7708/11934, gatedRocket81/671, finishing0/10, comboRocket5/69/Tornado16/69, NightWitchaction179/390,
+> spawneraction1545/3107, X-Bowaction99/157; clear Barrel39 cases have23 correct and11 wrong-lane fired Logs.
+> Receipts: worktree `L71/integration/checks/heldout-r1e*.json`;3 verdict/corruption negative controls also pass.
+> X-Bow24-seed matched-opponent probe completed, outcomes/play counts match Q3's gen baseline in24/24. One qualifying
+> Tesla-support event: WAIT delayed Tesla10ticks; both branches spent7 elixir and ended with the same resources,
+> hand and tower HP. It does NOT establish a useful restraint strategy or the owner's reported opportunity-cost loss.
+> All4 R1e Q3 options now fail adoption. Combined increases tower Rockets5->11 but loses ghost wins285->279/299;
+> reactive remains32/48. Old-R1 comparisons continue;12/20 jobs were complete at01:29. No tuning or option adoption.
+> **Main Q3 sources remain frozen. Worktree sources are also frozen:** the34-job chain was actually launched01:05:51,
+> launcher39204/child31956, `L71/context_teaching/run_experiments.py`; log `context_teaching/chain.out` currently WAIT_FOR_Q3_COMPLETE.
+> It verifies completed Q3 before training. Do not edit either manifest's sources or launch overlapping GPU work.
+> Do not integrate main until worktree `context_teaching/experiments/q3_verified.json` exists AND chain log records
+> Q3_PREREQUISITE_COMPLETE. Preserve overlapping main untracked prototypes with a path-scoped stash before cherry-picks.
+> Q5 code fixes verified in the worktree: stale mmap test fixture replaced by current native build,2 tests prove equal
+> arrays/batches/weighted loss/gradients; supervisor last_stop now recognizes checkpoint switches, isolated parser/syntax pass.
+> Actual same-thread heartbeat `continue-clashbot-acceptance-and-deployment` is ACTIVE every20 minutes through the start
+> of Tuesday; it continues acceptance/integration/authorized deployment and stops when resolved or Claude takes over.
+> Full instructions and7 integration gates are in worktree `L71/integration/CONTINUATION.md` and `GATES.md` (2 met/5 open).
+> Live remains STOPPED, STOP set; anti-leak OFF preserved. No candidate is accepted or deployed; no Discord message sent.
+
 > ## 2026-10-05 00:58 EDT -- NIGHT WITCH DATA/INTEGRATION VERIFIED; FULL EXPERIMENTS NEXT
 > Full spawner reconstruction reproduced all484,437 affected rows from5,033 replays before changing357,425 rows,
 >885,918 class tokens and232,491 child forms. Night Witch accounts for152,004 corrected bat tokens. Final artifact:
