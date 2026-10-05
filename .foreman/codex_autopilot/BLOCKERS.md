@@ -123,3 +123,9 @@
 - Publication rechecked22:11: scoped add still cannot create `.git/index.lock`; staged diff empty. No autopilot commit or push exists. Review the explicit delivery patch/manifest from a Git-write-enabled environment, never stage icebow/data, and use `Co-Authored-By: Codex gpt-6-astra (autopilot)`.
 
 ## 2026-10-03 22:3x -- OWNER ANSWERED (relayed by the lead): see TICKET.md 'OWNER DECISIONS 2026-10-03 22:3x' items 1-7.
+
+## 2026-10-04 21:31 EDT -- Q0 source telemetry gap; measurement continues
+- What/why: Q0 requests trophy progression and pre-emptive Log rates. Existing live_play frame events save entities/elixir but omit projectiles; live/nav event schemas do not save numeric trophies. Verified selected source prefixes in L71/live_comparison/report.json:38/303 old and2/9 R1e ended logs have frames, zero frames have a projectile field. These metrics remain null, not zero. Win/loss, card counts, ability presses and X-Bow coordinates are available.
+- Options: (A) continue available observational metrics and defer new logging to the next owner-approved live restart; (B) owner authorizes a logging-only change/new live launcher, with public projectile fields and an explicitly measured trophy-reading source; (C) separately analyze saved videos as a sparse sample, which cannot recover a complete historical trophy or barrel denominator.
+- Recommendation: A now; prepare B for the next owner-requested live change. No active live source/process/override changed. Q1/Q2 CPU work remains unblocked. Historical missing data cannot be reconstructed by treating wins as fixed trophy gains.
+- Q1 design note remains: with ratio0.5, probabilities[0.6,0.4] retain both cards, so near-zero confident-row overrides are not guaranteed by construction. Measure the requested settings and report/reject failing candidates; do not silently add a new cutoff or relax the agreement/adoption rules.

@@ -1,5 +1,20 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-04 21:31 EDT -- Q0 INITIAL LIVE COMPARISON VERIFIED; CPU WORK CAN CONTINUE
+> `scratchpad/gauntlet/L71/live_comparison/compare.py` reads frozen live/nav log prefixes, attributes each match
+> by start.ckpt (not process --ckpt or accumulated session W/L), and pairs a unique result before the next match.
+> Snapshot21:27:54 EDT: old R1 u0155 W152/L146,5 unknown outcomes,51.0% Wilson95[45.4,56.6]; R1e u0155 W6/L3,
+> zero unknown ended outcomes,66.7%[35.4,87.9],1 incomplete log excluded. No live superiority established.
+> Ended-log confirmed Rockets: old96/9935=0.966%,R1e1/350=0.286%; attempted/confirmed plays remain separate.
+> Ability attempts/confirmed1053/1049 vs14/14; confirmed X-Bow intended coordinate distributions are in report.json.
+> Frame coverage38/303 old ended logs and2/9 R1e. Saved frames omit projectiles; nav/live events have no numeric
+> trophy timeline. Pre-emptive Log and trophies are UNAVAILABLE/null, not zero. Logging changes need owner approval;
+> BLOCKERS records options. This initial report is complete; Q0's full requested telemetry remains incomplete.
+>10 adversarial tests pass; independent source-prefix/count/outcome/Wilson verification passes and rejects a corrupt
+> report. Gates3/3 for this bounded initial batch. Live source/supervisor/CKPT_OVERRIDE unchanged; live remains R1e.
+> No GPU/training/simulator jobs started. Q1 filtered sampling offline checks and Q2 area aim are next CPU work;
+> neither requires waiting for30 live matches. Q3 must use fresh telemetry baselines for BOTH checkpoints.
+
 **Read this first on any new or compacted session.** It is the durable state of the project: what
 exists, what is running, what is broken, what was fixed and how it was measured.
 
