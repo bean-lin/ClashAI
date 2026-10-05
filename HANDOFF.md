@@ -1,5 +1,33 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 00:05 EDT -- NIGHT WITCH INCLUDED; SPAWNER IDENTITY PROTOTYPE VERIFIED
+> Owner explicitly added Night Witch. The spawner audit covers2,262 Icebow native replays:4,643 Witch skeletons,
+>2,743 Furnace spirits,2,488 Night Witch bats,1,209 Goblin Hut spear goblins,54 Barbarian Hut barbarians and8,521
+> Tombstone skeletons were labelled as their originating card. Saved live frames confirm279 mislabelled Witch
+> skeletons and18 Goblin Hut children; no saved Furnace/Night Witch examples. Healthy parent/child bodies currently
+> share parent class+HP-fraction1, losing their actual identity. This is a measured input bug, not yet a measured win effect.
+> Proposal written before implementation: `L71/spawners/PROPOSAL.md`. Isolated catalog/max-HP resolver prototype
+> preserves unknown/ambiguous identities, separates ordinary child forms, adds no tactical rule.13 tests pass;
+> controlled accepted SIM deployments resolve12 Witch skeletons,9 Night Witch bats and4 Furnace spirits across waves.
+> Eight-replay data smoke reproduced850 affected original rows exactly before changing550 rows/1,192 tokens/209 forms.
+> Independent archive verifier confirms every other NPZ member, expert label and split unchanged; smoke is NOT trainable.
+> Full reconstruction started23:58, launcher35892, output ignored `icebow/data/bench/spawner_identity_20261004/`.
+> It must reproduce484,437 affected rows from5,033 replays before marking the version5 dataset trainable. Logs in
+> `L71/spawners/patch_full.*`. Do not edit its resolver/builder dependencies while running. Integration, training,
+> held-out/game acceptance and live deployment remain OPEN. Age/deployment inputs are already masked by body_only_board;
+> no new spawn-clock feature is justified by the current audit. Night Witch is covered explicitly in tests and sources.
+> First X-Bow support audit:114 dead-lane pro placements,113 uniquely linked;51 crown-reachable,57 with ground contacts,
+>8 with no observed reachable target during life.141 spatially nearby support plays cost372 elixir;28 occurred with
+> no reachable target at that instant,2 preceded opposite-lane pressure within6s,0 accompanied opposite-tower damage
+> in that window. These are associations, not intent or causal waste. Saved live frames contain0 dead-lane examples,
+> so the owner's live support failure remains unmeasured. `L71/xbow_support/` holds witnesses and limits.
+> Goblin Barrel target diagnostics started under `L71/barrel_target/`: native coordinate/look-ahead audit and CPU
+> held-out Log-head sensitivity. Multiple simultaneous Barrel flights must be separated before treating a cast/aim
+> lane mismatch as a bug. Historical live logs omit public projectiles, leaving reader-target evidence incomplete.
+> Q3 completed fresh R1e baseline and r.7/T1 ghost+reactive arms; r.7/T.7 ghost is running. No verdict before full paired
+> receipts. The20-job frozen chain remains active; **do not edit top-level pipeline/*.py**. Live remains cleanly stopped,
+> STOP set, same R1e/no-anti-leak checkpoint/config preserved. Rocket curriculum actual training is still pending GPU.
+
 > ## 2026-10-04 23:13 EDT -- Q1/Q2 CPU COMPLETE; ROCKET CURRICULUM PREPARED; Q3 GPU RUNNING
 > Owner authorized Rocket/Tornado teaching, then spawner, dead-lane X-Bow support-spending and wrong-lane Barrel/Log
 > investigations. Latest amendment: write evidence-based proposals and proceed to implementation without waiting;
@@ -24,6 +52,8 @@
 > Q3 started23:11:48 via `decision_options/run_q3.py` launcher31272.20 sequential jobs: five arms for each checkpoint,
 > each fresh299 ghost +48 reactive evo/hero(v2) matches; source/checkpoint hashes frozen. Logs `decision_options/q3/`.
 > No pipeline source edits while this chain runs. Training, gameplay verdicts, queued fixes and deployment remain OPEN.
+> CPU preparation published in commit`db62eaa` (41 scoped files, no icebow/data); decision_options/GATES.md3/3 met.
+> This does not close Q3, training, the investigation/fix queue or deployment.
 
 > ## 2026-10-04 21:52 EDT -- OWNER-REQUESTED R1e LIVE ANTI-LEAK ABLATION RUNNING
 > Owner explicitly requested disabling hardcoded anti-leak and redeploying the same R1e model to observe performance.

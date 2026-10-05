@@ -16,5 +16,5 @@ Pre-registered Q2: Rocket only; sum learned cell probability within catalog blas
   CHECK: icebow/.venv/Scripts/python.exe scratchpad/gauntlet/L71/decision_options/verify_report.py
   EXPECT: DECISION_REPORT_VERIFIED
   EVIDENCE: report_verification.json; independent metrics/geometry/counts/hashes and corruption control; PowerShell/Python subprocess, cwd C:/Users/benpe/ClashBot, exit0, marker matched, output SHA256 5794fb7fcee34f901413b708a145e50567fe1ae408b409d96b3bae22ac3d49a6.
-- [ ] G3: Candidate CLI/config paths are wired and documented; live entry, supervisor, checkpoint override and loaded live pilot source are unchanged; the task's scoped changes and findings are committed and pushed.
-  EVIDENCE: pending source hash checks, command help checks, diff and publication review.
+- [x] G3: Candidate CLI/config paths are wired and documented; live entry, supervisor, checkpoint override and loaded live pilot source are unchanged; the task's scoped changes and findings are committed and pushed.
+  EVIDENCE: protected source hashes verified by report_verification/curriculum_verification; CLI and reactive worker forwarding covered by58 tests and --help checks. Scoped41-file commit db62eaa pushed origin/main (exit0); no icebow/data staged, inherited edits excluded. Owner subsequently authorized GPU pause/implementation/deployment; Q3_GATES.md tracks that separate unfinished work. This ledger follow-up records the verified publication.
