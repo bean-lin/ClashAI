@@ -8,7 +8,7 @@
   EXPECT: DEFENCE_DEVELOPMENT_SCHEDULE_VERIFIED
 - [x] C3: Iteration1 control/results are reconciled, candidate trainer/metrics and plain-metadata roundtrip are verified before the one serial full candidate run.
   MANUAL: Fixed PLAN recipe and source binding; checkpoint-free smoke is not training; no concurrent GPU chain.
-- [ ] C4: Full candidate updates and independently recounted developmental outcomes are reported with all failures and original final deployment gates intact.
+- [x] C4: Full candidate updates and independently recounted developmental outcomes are reported with all failures and original final deployment gates intact.
   MANUAL: Owner Discord model report with delivery receipt, scoped commit and handoff. No deployment from development-only results.
 
 C3 receipt l72-development2-preflight exit0/token matched106.14s. Reuses frozen
@@ -18,5 +18,8 @@ training and saves no checkpoint. In-memory weights-only metadata roundtrip
 preserves all tensors. All original masks independently reproduced; two added
 defense masks bind original labels before predictions. prelaunch.json is the
 new scoped activation; historical sequence binding remains unchanged.
-C4 ACTIVE: launcher39500, train/eval/independent serial chain. Do not edit bound
-Python files, PLAN/METRICS or duplicate the chain. chain lock spans job gaps.
+C4 COMPLETE October5 13:59. Full1000 finite updates, evaluation and independent
+recount passed; fixed continuation criteria FAILED. Preserve rejection. All7
+process receipts and paired replay summaries are in reviewed_results.json.
+Model report delivered once in one HTTP204 chunk. Do not rerun this chain or
+change its frozen recipe/thresholds. Final acceptance remains unmet.

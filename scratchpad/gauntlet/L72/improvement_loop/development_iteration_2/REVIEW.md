@@ -1,4 +1,29 @@
-# Defensive-sequence preparation
+# Defensive-sequence exposure rejected
+
+Completed October5 13:59: train/eval/independent chain exit0,1000 finite updates,
+all54723 prediction rows independently recounted. C1-C4 complete as an experiment,
+but the registered candidate continuation criteria fail. This rejects the20%
+exposure recipe, not the owner's broader efficient-defense hypothesis.
+
+Defense action3984/8183 versus control4011 (-0.33pp, required+2pp), with27 replay
+groups improving,47 worsening and138 unchanged. Defense expert Rocket actions
+21/223 versus24 (1group improves,4worsen,124tie). R1e has3952 defense actions and
+15 defense Rocket actions on the same corrected inputs. Witch335/726 vs339,
+Furnace548/1174 vs549 fail nonregression; Night Witch161/373 ties. Barrel primary
+40correct/22wrong/1not-fired stays unchanged. General card11388/17192 vs11403
+(-0.087pp) passes its bound, but cannot rescue failed primary/spawner outcomes.
+
+All Rocket actions72/955 vs77 control and54 R1e; narrow finish action3/31 vs4/5
+and combo action99/320 vs96/91 remain limited imitation-context results. No
+physical finishing/cycle, resource-trade or gameplay benefit was established.
+No live deployment. The next separate experiment isolates expert Rocket cell
+loss emphasis with ordinary sampling and the supported v6 architecture; the
+rejected defense curriculum is not combined into it.
+
+reviewed_results.json binds all7 process receipts, raw-cache independent result,
+per-replay differences and report_model.txt plus delivery receipt. Model report
+delivered once, oneHTTP204 chunk. Do not resend or rerun completed jobs. The
+original preparation/launch account below is retained as dated provenance.
 
 C1/C2 completed October 5. The new schedule intersects the previously verified
 sequence union with the same whole-replay inner splits as iteration1. Training

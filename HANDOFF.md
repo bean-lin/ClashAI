@@ -1,5 +1,46 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 14:07 EDT -- DEFENSE EXPOSURE REJECTED; ISOLATED ROCKET AIM LOSS ACTIVE
+> development_iteration_2 C1-C4 COMPLETE, all train/eval/independent jobs exited0 by13:59:21. Exactly1000
+> finite updates and54723 development predictions independently reconcile. Do not relaunch or repeat checks.
+> Registered20% defensive-sequence exposure FAILED: defense full actions3984/8183 vs ordinary_v5 control4011
+> (-0.33pp, required+2pp),27 replay groups improve/47worsen/138tie. Expert Rocket full actions in defense
+>21/223 vs24,1group improves/4worsen/124tie. Witch335/726 vs339 and Furnace548/1174 vs549 fail protection;
+> Night Witch161/373 ties. Barrel40correct/22wrong/1not-fired unchanged. General card11388/17192 vs11403
+> (-0.087pp) passes its bound but cannot rescue primary failures. R1e on SAME corrected inputs has3952
+> defense actions and15 defense Rocket actions. All-Rocket full actions72/955 vs77control vs54R1e.
+> This rejects the exposure recipe, not the broader efficient-defense hypothesis; no positive trade/gameplay
+> claim. reviewed_results.json binds all7 receipts, paired replay summaries and the model report delivered
+> once in oneHTTP204 chunk. Do not resend. No model accepted/deployed; original final gates unchanged.
+>
+> development_iteration_3 PLAN/METRICS/GATES/REVIEW and prelaunch.json: A1 COMPLETE, A2/A3 ACTIVE.
+> Launcher45988 runs rocket_aim3_v6 fixed1000 updates/evaluation/independent recount under the same held GPU
+> lock. Inspect launch/chain_started/progress.json, chain.out/.err and ignored training log. No duplicate,
+> bound-source edits or automatic resume. Stop launching next jobs at Tuesday cutoff; preserve active jobs.
+> Starts from SAME R1e, corrected-v5 data, v6 architecture and ordinary draw/mirror/dropout schedule as
+> iteration1 ordinary_v6. Reuses that verified control's predictions; no extra control training. Only change:
+> triple original expert PLAY Rocket cell cross-entropy contribution, denominator remains ALL PLAY rows.
+> All original troop/tower aim labels retained; no low-HP label invention, exposure change, Rocket-frequency
+> reward, extra forward pass, card/gate/WAIT/value weighting or tactical rule. Rejected defense mixture absent.
+> Same1000/batch128/seed20261005/AdamWwd.01/baseLR1e-5/targetLR1e-3/clip1/fp32/finalstep only.
+>
+> Preflight l72-development3-preflight exit0/token matched129.91s: weight1 old loss and all parameter
+> gradients exact under same dropout, non-cell terms unchanged, added cell gradient zero outside original
+> expert PLAY Rockets and positive within them; removing Rocket card/PLAY flags removes extra term. Original
+> and defense development masks independently match. In-memory standard weights-only metadata/tensor
+> roundtrip passes. CPU smoke loss5.9850544929504395/twoexpertRockets is not full training, no saved checkpoint
+> or development predictions. Training sources/control/data/metrics are frozen in prelaunch.json.
+> Continuation requires Rocket forced aim+5pp and full action+2pp, general card decline<=.5pp, no spawner,
+> Barrel or defensive-action point regression, all strata present. These are development filters only;
+> final PLAN acceptance and untouched physical/gameplay/statistical evidence remain mandatory. After full
+> independent recount review exact results and report this new model once to Discord, NOT ACCEPTED pending
+> final gates. No report due at launch. Never combine failed changes or increase updates silently.
+>
+> Live remains stopped; STOP timestamp13:39:32 unchanged, no restart/settings change this turn. Native5560
+> idle, unrelated apps preserved. Continue bounded development and final evidence work without restoring the
+> superseded blanket N2-before-optimization wait. Efficient defense, broader1-3Rocket windows and actual
+> resource/punishment outcomes remain required, regardless of any future improvement in teacher-forced aim.
+
 > ## 2026-10-05 13:55 EDT -- FIRST CONTROLLED MODELS RECONCILED; DEFENSIVE CURRICULUM ACTIVE
 > development_iteration_1 D1-D4 COMPLETE. Original v5 evaluation failed before prediction on TorchVersion
 > metadata serialization. Preserve original failed receipt/checkpoint/source. Separate portable copies changed
