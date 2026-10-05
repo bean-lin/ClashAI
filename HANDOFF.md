@@ -8,8 +8,9 @@
 >600 ticks. Runtime card FNV21935265e615e337. Exact source/wheel/file hashes and build receipts are in
 > `scratchpad/gauntlet/L71/royale_update_20261005/`. Independent table check: eight added card flags only; original values,
 > arena/globals,120s overtime and regeneration preserved. New mechanics include spawn provenance, refill gaps and tower-drain tiebreak.
-> Full upstream CPU suite runs via check_upstream.py (launcher11656); adapter baseline via
-> check_adapter_before_integration.py (launcher30392). Read actual logs/receipts before acting; do not duplicate jobs.
+> Full upstream CPU suite runs via check_upstream.py (launcher11656). Adapter baseline completed02:26:
+>138 tests pass in132.92s, no skips,27 existing Torch warnings; adapter_before.json/.out hold source/exit/hash evidence.
+> Read actual logs/receipts before acting; do not duplicate jobs.
 > Main Q3 remains on the last old-R1 combined pair; queued34-job IL/game chain still waits for Q3 verification.
 > Runtime selector/negative-control tests are prepared as `.candidate` files, NOT activated. Main pipeline stays frozen
 > until q3_verified.json AND Q3_PREREQUISITE_COMPLETE; also let the adapter baseline finish before main edits.
