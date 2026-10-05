@@ -1,5 +1,52 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 15:32 EDT -- PHASE TRIAL REJECTED/REPORTED; PUBLIC TOWER SPATIAL TRIAL ACTIVE
+> This supersedes the older active phase4 snapshot. Read development_iteration_4/REVIEW.md,
+> results_verified.json,reviewed_results.json and development_iteration_5/PLAN.md,METRICS.md,
+> GATES.md,REVIEW.md,prelaunch.json under L72/improvement_loop. Owner strategy includes damage-lead
+> cycling above finishing HP and public phase/matchup adaptation. No forced Rocket/X-Bow switch.
+>
+> Phase4 P1-P4 COMPLETE at15:17:42:1000 finite updates and54723 predictions independently reconcile.
+> Train256.31s/eval94.06s/recount66.15s exit0. R1e(corrected)/ordinary_v6/phase_balanced_v6:
+> late action1949/1993/2051 of6422; late Rocket14/21/20 of320; all Rocket54/73/71 of955;
+> forced Rocket aim290/293/287. Late+0.9031pp misses+2pp,lateRocket-0.3125pp misses+2pp;
+> global Rocket aim/action regress. Other protections pass but recipe is REJECTED,not combinable.
+> Barrel correct/wrong/notfired36/20/7,55/7/1,56/3/4; Witch332/341/352,NW156/161/167,
+> Furnace538/550/558;defense3952/4009/4090;generalcard11348/11399/11381 of17192.
+> Late replay action improve/worsen/tie72/35/108,lateRocket2/3/166,allRocket9/11/316.
+> One model report ALREADY delivered,oneHTTP204,l72-development4-discord. reviewed_results.json
+> and l72-development4-reviewed bind all7receipts,message/delivery/checkpoint/paired hashes.
+> Do NOT rerun phase4 or resend its report. No gameplay/accepted-deployment proof.
+>
+> Phase5 tower_spatial_v7 T1/T2 COMPLETE,T3 ACTIVE: launcher47472/chain49480 started15:32:02.
+> Inspect launch.json,chain_started/progress.json,chain.out/.err and ignored
+> icebow/data/bench/development_iteration_5_20261005/tower_spatial_v7/train.jsonl.
+> One GPU lock held across serial train/eval/independent recount; failclosed,no automaticresume.
+> No duplicate launch or edit/add bound Python/PLAN/METRICS/data whileactive. Future reporthelper
+> goes OUTSIDE frozen Python directory. Parent exposure disclosed, no reserved/oldvalidation/botlabels.
+>
+> ONLY architecture changes: shared learned MLP for all6existingpublic crown slots(side,kind,
+> HPfraction/known/alive),scatter at publicboardanchors,zero-init depthwise3x3spatial residual.
+> UnknownHP zero/knownfalse,dead zero;no hiddenkingHP,card/phase/towerchoice rules or newlabels.
+> Allcards can learn from sharedrepresentation. Oldglobal context already carries towerfields;
+> spatial encoding is a hypothesis,notproofinformationwasabsent. Isolatedsubclass/customloader;
+> production pipeline/live unchanged,standardloader rejects unintegratedextension.
+> SAME R1e start/v6base/correcteddata/ordinaryiteration1draws/augmentation/expertdropout/loss,
+>1000updates,batch128,seed20261005,baseLR1e-5/projectile+towerLR1e-3,wd.01,clip1,fp32,finalstep.
+>213995train/1573groups,54723dev/405groups;allold56contextmasks/labels retained. No failedmixtures.
+> Preflight132.05s exit0:zero outputs/loss/dropoutexact;base loss5.335096836090088,secondsmoke
+>5.361062526702881;outputlayer/upstreamMLP gradients finite/nonzero,no savedcheckpoint.
+> Two positive/eight corruptions;unknown/dead/mirror controls and first4tag-sortedtraining
+> frames/bothsidegeometry match,publicslots52:58/58:64/64:70,strict weights-onlyroundtrip.
+> Frozencontinuation vsordinaryv6: globalRocketaim+5pp AND action+2pp AND lateRocketaction+2pp;
+> generalcarddecline<=.5pp,noW/NW/F/defense/alllateactionpointdecline,noBarrelcorrectfall/wrongrise.
+> Aftercompletion review allreceipts/1000updates/54723predictions/pairedgroups/everyfilter;
+> report NEWmodel ONCE with R1e/controlstats,developmental/NOT ACCEPTED pendingfinalgates.
+> No report due atlaunch. All final untouched/gameplay/component/statistical gates unchanged.
+>
+> OwnerSTOP13:39:32 remains intact,liveworkerabsent;supervisor exited13:41:56. No R1e restart.
+> Native5560idle,MuMu/unrelateddirtyfiles/apps/stash unchanged. No acceptednewmodel yet.
+
 > ## 2026-10-05 15:11 EDT -- PHASE/LEAD DIAGNOSIS VERIFIED; PHASE-EXPOSURE DEVELOPMENT ACTIVE
 > Read L72/improvement_loop/match_adaptation/REVIEW.md,METRICS.md,GATES.md,report_v2.json,
 > verified_v2.json,capabilities_verified.json and development_iteration_4/PLAN.md,METRICS.md,GATES.md,

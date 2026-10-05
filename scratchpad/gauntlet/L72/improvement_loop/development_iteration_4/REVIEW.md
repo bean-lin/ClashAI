@@ -1,3 +1,49 @@
+# Phase-balanced trial complete: continuation rejected
+
+October 5 15:17 EDT completion; reviewed and reported at15:23. P1-P4 COMPLETE.
+Do not rerun preparation, preflight, training, evaluation or independent recount.
+The fixed1000 finite updates, all54723 development predictions and every original
+subgroup/per-replay count independently reconcile. Receipts train256.31s,
+evaluation94.06s, independent66.15s all exit0/token matched. Read results_verified.json,
+reviewed_results.json and ignored all_replay_counts.json/paired_replay_counts.json.
+
+Same corrected-input R1e / ordinary_v6 / phase_balanced_v6:
+
+| Measure | R1e | ordinary_v6 | candidate | denominator |
+|---|---:|---:|---:|---:|
+| Late all action |1949|1993|2051|6422 rows /215 groups|
+| Late expert Rocket action |14|21|20|320 /171|
+| All expert Rocket action |54|73|71|955 /336|
+| All forced Rocket aim within1tile |290|293|287|955 /336|
+| Barrel correct/wrong/not-fired |36/20/7|55/7/1|56/3/4|63 /26|
+| Witch action |332|341|352|726 /20|
+| Night Witch action |156|161|167|373 /12|
+| Furnace action |538|550|558|1174 /20|
+| Defensive sequence action |3952|4009|4090|8183 /212|
+| General card |11348|11399|11381|17192 PLAY|
+| All action |30968|31988|32599|54723|
+
+Candidate-control late action+0.9031pp misses+2pp; late Rocket action-0.3125pp
+misses+2pp. Global Rocket aim/action protections also fail. Other registered
+protections pass. The phase exposure recipe is REJECTED. It cannot be combined
+or deployed on the strength of Barrel/spawner/general gains.
+Replay action improve/worsen/tie: late72/35/108, lateRocket2/3/166,
+allRocket9/11/316, defense81/31/100, Barrel2/0/24, all278/46/81.
+These are historical developmental expert agreement, not independent gameplay
+samples or physical resource/damage gains. Parent exposure remains disclosed.
+
+report_model.txt delivered ONCE through the intended sender: oneHTTP204chunk,
+l72-development4-discord exit0. review_development4.py (outside this frozen
+Python directory) binds all7 prior receipts, message/delivery hashes and paired
+counts in reviewed_results.json; l72-development4-reviewed exit0. Do not resend.
+No accepted checkpoint or live change. OwnerSTOP13:39:32 remains intact.
+
+Next isolated remedy: development_iteration_5 public crown-state spatial residual
+under ordinary exposure and original expert loss, against ordinary_v6. No phase
+rule or hidden tower information. All final acceptance gates remain unchanged.
+
+## Archived launch description
+
 # Phase-balanced exposure active
 
 October5 15:11 EDT. P1-P3 COMPLETE, P4 ACTIVE. The completed independently recounted
