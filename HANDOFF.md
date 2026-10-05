@@ -1,5 +1,41 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 13:26 EDT -- CONTROLLED SUCCESSOR DEVELOPMENT CHAIN ACTIVE
+> Read L72/improvement_loop/development_iteration_1/PLAN.md,METRICS.md,GATES.md,REVIEW.md and prelaunch.json.
+> D1-D3 COMPLETE; D4 ACTIVE. Launcher38268/chain42456, initial evaluator31508/11028 through wrapper32364/31972.
+> launch.json,chain_started/progress.json,chain.out/.err record state. One serialized GPU chain runs corrected-input
+> R1e evaluation -> ordinary_v5 1000updates/evaluation -> ordinary_v6 1000updates/evaluation -> CPU independent
+> raw-label/cache recount. Bound sources, plans, metric masks, source data and full shared draw schedule frozen.
+> Do NOT duplicate/relaunch or edit bound sources; the held file lock spans subprocess gaps. It fails closed,
+> no automatic resume. A job already active at Tuesday cutoff is preserved; no new job starts after cutoff.
+>
+> Prelaunch verified exact shared starting tensors/output/dropout, zero residual migration, original expert
+> loss, finite backward updates and a nonzero residual learning path. CPU smoke loss5.335096836090088 for BOTH
+> arms, no saved checkpoint, NOT full training. Existing loss had v5/v6-dependent unknown-target mirroring;
+> both arms now use identical externally applied v6-safe mirroring, then unmodified original loss. Mirror-loss
+> equality/involution checked, no live/pipeline source edit or tactical rule. Four index corruptions rejected;
+> independent mask reconstruction and counter1positive/4negative fixtures pass. l72-development1-prelaunch
+> receipt exit0/token matched178.88s. AST review: training loads only training indices; evaluator development only.
+>
+> Development54723rows/405replays,17192PLAY. Primary Barrel63rows/26replays; otherPLAY36/22,WAIT55/25;
+> ambiguous/multiple retained. Witch726rows/20replays,Night Witch373/12,Furnace1174/20, corrected-parent and
+> child-only subgroups separate.955expertRocket rows/336replays; existing narrow finish31/13 and combo320/75.
+> Repeated rows and parentR1e exposure mean DEVELOPMENT evidence, not untouched final acceptance. R1e is
+> evaluated on SAME corrected inputs as candidates; explicitly report this, not original-live-input R1e.
+>
+> Next inspect healthy chain without interrupting. After completion review l72-development1-* receipts and
+> results_verified.json, actual1000finiteupdates/arm and every subgroup/R1e comparison. Send each new-model
+> Discord report through intended sender, clearly DEVELOPMENT/NOT ACCEPTED while final evidence gates remain.
+> No model report due yet. No successor checkpoint exists at this launch snapshot; no deployment or live change.
+> N2 final sufficiency and N3-N7 remain open. DEVELOPMENT_AMENDMENT permits controlled development while
+> final data/design work continues; do not restore the old blanket data wait. Efficient-defense/X-Bow/Rocket
+> one-to-three-cycle curriculum remains next separate experiment with original expert labels and resource/
+> punishment accounting. Preserve all requested Rocket/Barrel/spawner/sampling/aim/Q4/Q5 outcomes.
+>
+> Owner CPU farming37424/29536 remains active,STOP absent; completed130730 log14attempts/12confirmations/2fails.
+> Native5560 idle. No other Python GPU workload on prelaunch inspection; unrelated trading/report workers
+> left untouched. IL uses pinned Python/PyTorch/model/data sources; it is not an updated-simulator gameplay test.
+
 > ## 2026-10-05 13:11 EDT -- OWNER COVERAGE CHALLENGE CONFIRMED; DEVELOPMENT WAIT CORRECTED
 > Read L72/improvement_loop/coverage_recheck/REVIEW.md and authoritative report_v2.json/verified_v2.json.
 > Prior Witch3/Barrel0 counts were PRO confirmation only, not overnight live. Fixed completed live logs from
