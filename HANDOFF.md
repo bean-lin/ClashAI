@@ -1,5 +1,41 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 03:00 EDT -- SOURCE PORT READY TO PUBLISH; SIXTH IL ARM RUNNING
+> Five of eight IL training/held-out pairs completed by 02:56:53; v5_rocket_barrel is training.
+> The 34-job chain remains healthy and frozen; gameplay acceptance has not started. Rust upstream tests are
+> compiling integration-test binaries after finishing the library compile. No duplicate jobs or live worker started.
+> The scoped runtime port and evidence are ready for publication. Main new RL runs select Sim 0.1.13 / Gym 0.1.15;
+> the active worktree retains its original engine. Final port acceptance still awaits the Rust result.
+> Static review found that the provisional scorer's Rocket gameplay control differs from PLAN.md's literal primary
+> control on combined arms. Require both existing ordinary-control and declared primary-control gates, plus explicit
+> one-factor component support; do not change thresholds or trust nomination alone. See integration/SCORER_REVIEW.md.
+> Current checks, failures and limitations remain as recorded below. All Q3 sampling/aim options remain rejected.
+
+> ## 2026-10-05 02:50 EDT -- Q3 CLOSED; IL RUNNING; LEARNED-DEFENCE SOURCES INTEGRATED
+> All20 Q3 jobs completed02:28:34. Worktree captured complete q3_verified.json and Q3_PREREQUISITE_COMPLETE02:28:55.
+> **All8 sampling/aim options fail adoption** across R1e and oldR1; leave them disabled. The34-job worktree chain
+> began full IL02:28:57. Three1,000-update training+held-out pairs are complete; fourth training is active. No gameplay
+> acceptance or trained candidate deployment yet. Preserve that worktree's frozen source, old shared engine and data.
+> Main source integration completed via00c594b and b776851.21 overlapping original prototypes preserved by scoped
+> stash5c333e4206a9be215a27e78ea1138b2dd547fac5 plus a byte-verified local ZIP; see port/integration_preserved.json.
+> Main RL entry, learner and spawned actors now verify/select the pinned new runtime and record it in checkpoints;
+> missing/stale imports and cross-engine exact resumes are refused. Old checkpoints remain valid initialization weights.
+> Embedded hero statistics use the actual engine table. New adapter witnesses cover refill gaps, terminal tower drain,
+> deterministic public traces and repeated Witch/Night Witch/Furnace waves. A measured compatibility fix recognizes
+> calibrated Furnace spirit215HP as well as raw-table217HP using catalog/calibration records, without tactical rules.
+> Independent identity comparison preserves228 prior classifications, adding26 maxima; ambiguous cases stay conservative.
+> Checks:32 focused pass. Combined196 cases:194 pass initially; the two incomplete fixture failures are repaired and
+> each passes a targeted rerun, including checkpoint stamp/restore refusal and an actual actor screen job. Full receipts
+> retain failures and final passes. No policy or acceptance threshold was relaxed to obtain these results.
+> Upstream Sim initially1247pass/53skip/7xfail plus mock-table setup errors. Test-only source-data override fixes all13
+> watch_battle tests. Gym rerun finishes1366pass/9skip/1xfail/1fail: the sole failure is an optional quickstart importing
+> an unavailable Learner API from old RoyaleLearn; it fails before training and is not ClashBot's custom PPO path.
+> Keep that optional example unsupported; do not change the shared learner/Torch to green it. Core Gym checks pass.
+> Rust gate (launcher11656 chain) still runs. Port gates3/5 met; **final port acceptance still awaits Rust results**.
+> Detailed next steps: main `L71/royale_update_20261005/CONTINUATION.md`. All original learned-defence/Q4/Q5 work remains
+> authorized. New-engine model comparisons need source and applicable component controls. Live remains STOPPED,
+> anti-leak OFF; no new PPO run or Discord message. Main source integration is not live deployment.
+
 > ## 2026-10-05 02:25 EDT -- UPSTREAM SIM/GYM PAIR BUILT IN ISOLATION; TESTS RUNNING
 > Owner requested all relevant new RoyaleSim/RoyaleGym changes and updated Sim for all future RL. Official sources fetched:
 > Sim369fe33->015f9b0 (0.1.13;232 commits), Gym236cfec->3117816 (0.1.15;180 commits). Full pair locally staged under

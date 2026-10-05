@@ -1,5 +1,10 @@
 # Autonomous continuation, October 5 01:29 EDT
 
+LATEST 03:00 EDT: five IL training/held-out pairs completed and sixth training runs. Read SCORER_REVIEW.md before final adjudication; a provisional selection is insufficient. Require declared primary-control Rocket behavior as well as existing ordinary-control checks and explicit one-factor component support. Main's new runtime is implemented; Rust tests remain active. Earlier entries below are historical and do not authorize repeating completed integration.
+
+LATEST October5 02:50 EDT: Q3 completed and q3_verified.json/Q3_PREREQUISITE_COMPLETE captured02:28:55. All8 Q3 options failed. The34-job worktree IL/game chain is RUNNING, with three training/held-out pairs done and fourth training. Its sources/data remain frozen; main has been integrated as00c594b,b776851 and now has the updated-runtime selector, actor/checkpoint validation and calibrated Furnace identity compatibility. Do not repeat integration or alter this worktree. Main port CONTINUATION.md has exact running upstream-test processes and next steps; read it as well as HANDOFF. Full Gym/Rust port checks remain open. Never launch new RL from this old frozen worktree. New-engine gameplay acceptance must include source and applicable component controls. Live remains stopped and no candidate is accepted.
+
+
 The owner authorized this whole queue, including Night Witch, implementation after written proposals without waiting, and accepted live redeployment. Main is `C:/Users/benpe/ClashBot`; the integration checkout is `C:/Users/benpe/.codex/worktrees/learned-defence/ClashBot`. Read main's newest HANDOFF first; worktree HANDOFF predates the integration. Managed heartbeat `continue-clashbot-acceptance-and-deployment` revisits this thread every20 minutes through the start of Tuesday. Stop it when the queue is resolved or the owner/Claude takes over. It is an actual registered automation, not a promise to poll manually.
 
 ## Active jobs and immutable sources

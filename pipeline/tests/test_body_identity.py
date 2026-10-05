@@ -18,7 +18,7 @@ from pipeline.tests.test_live_gen_afford import pilot
 
 @pytest.mark.parametrize('parent,maximum,child', [
     ('Witch', 81, 'skeletons'), ('DarkWitch', 81, 'bats'),
-    ('FirespiritHut', 217, 'fire_spirit'), ('GoblinHut', 133, 'spear_goblins'),
+    ('FirespiritHut', 217, 'fire_spirit'), ('FirespiritHut', 215, 'fire_spirit'), ('GoblinHut', 133, 'spear_goblins'),
     ('BarbarianHut', 716, 'barbarians'), ('Tombstone', 81, 'skeletons')])
 @pytest.mark.parametrize('side', [0, 1])
 def test_native_sim_and_reader_body_agree(parent, maximum, child, side):

@@ -216,6 +216,14 @@ research\ext\Royale\.venv\Scripts\python.exe -m pipeline.rl_royale --config pipe
 #   --smoke (tiny run + checks)   --resume   key=value to override any yaml key
 ```
 
+New runs select the pinned RoyaleSim 0.1.13 / RoyaleGym 0.1.15 runtime in
+`research/ext/Royale-20261005/runtime` through `pipeline/royale_runtime.py`. The launcher and spawned actors
+verify the installed files and compiled revision; `runtime.json` and each RL checkpoint record the fingerprint.
+Missing or stale runtimes fail explicitly. An older checkpoint can initialize a newly named run, but exact
+`--resume` across different or unrecorded engines is refused. Archived worktrees retain their frozen engine for
+reproduction; update them before any new RL training. See [the port record](scratchpad/gauntlet/L71/royale_update_20261005/REVIEW.md)
+and the latest HANDOFF for acceptance status. Never pair gameplay scores from different engine versions.
+
 **Acceptance screens** (ghost screen for any checkpoint, then paired scoring of two runs; reactive/search
 arms with `search_s0`):
 

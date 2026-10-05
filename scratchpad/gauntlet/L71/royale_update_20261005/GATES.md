@@ -8,7 +8,7 @@ Owner October5: inspect the new upstream commits, port all relevant changes, and
   MANUAL: Inspect wheel/build receipts, compiled provenance, data hashes and runtime probes. Do not install over a running comparison's environment.
 - [ ] U3: Upstream mechanic/binding tests and ClashBot adapter/determinism/public-input checks pass on the new runtime; report skipped tests distinctly.
   MANUAL: Inspect actual process exits, success markers and outputs; exercise meaningful negative controls for runtime selection.
-- [ ] U4: New RL launches and spawned actors resolve the pinned updated runtime, record its fingerprint, and reject an absent/stale installation.
+- [x] U4: New RL launches and spawned actors resolve the pinned updated runtime, record its fingerprint, and reject an absent/stale installation.
   MANUAL: Verify the standard training path and subprocess import path; no new RL optimization run is implied by this port alone.
 - [ ] U5: Publish the reviewed port/configuration and handoff, preserving frozen experiments and declaring engine versions in acceptance results.
   MANUAL: Verify scoped commits/push, active chains and durable runtime selection. Old-engine candidate acceptance is not evidence of updated-engine performance.

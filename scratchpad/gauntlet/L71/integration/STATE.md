@@ -1,5 +1,10 @@
 # Isolated learned defence integration
 
+LATEST 03:00 EDT: five IL training/held-out pairs completed and sixth training runs. Main sources/runtime are integrated and staged for publication; Rust upstream tests remain active. Read SCORER_REVIEW.md for the required final component and primary-control adjudication. No learned candidate is accepted or live.
+
+LATEST October5 02:50 EDT: Q3 completed and q3_verified.json/Q3_PREREQUISITE_COMPLETE captured02:28:55. All8 Q3 options failed. The34-job worktree IL/game chain is RUNNING, with three training/held-out pairs done and fourth training. Its sources/data remain frozen; main has been integrated as00c594b,b776851 and now has the updated-runtime selector, actor/checkpoint validation and calibrated Furnace identity compatibility. Do not repeat integration or alter this worktree. Main port CONTINUATION.md has exact running upstream-test processes and next steps; read it as well as HANDOFF. Full Gym/Rust port checks remain open. Never launch new RL from this old frozen worktree. New-engine gameplay acceptance must include source and applicable component controls. Live remains stopped and no candidate is accepted.
+
+
 Workspace: `C:/Users/benpe/.codex/worktrees/learned-defence/ClashBot`, managed worktree based on9eb9e1a. Main remains `C:/Users/benpe/ClashBot`; its Q3 acceptance sources must not change until all20 jobs complete and the full report is verified. Main HANDOFF progress was published in ca5ce32 without changing those sources.
 
 The integration adds corrected public spawner body identity (version5), a zero-start generic learned projectile-target placement residual (version6), expert-only context mixtures, fixed training/diagnostics and optional public live decision evidence. Night Witch bats are covered across native data, SIM and live input paths. Tactical card, timing and aim choices remain learned. Default old checkpoints keep old observations/outputs; anti-leak stays off in the eventual deployment.

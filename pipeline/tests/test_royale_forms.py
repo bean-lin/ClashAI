@@ -326,6 +326,8 @@ class TestPlumbing(unittest.TestCase):
         cfg = RL.load_config(REPO / "pipeline/rl_royale.yaml", ["forms_mode=deck"], smoke=False)
         L = object.__new__(RL.Learner)
         L.cfg, L.init_meta, L.grid = cfg, {"args": {"d": 16, "layers": 1}}, "floor"
+        from pipeline.royale_runtime import activate
+        L.runtime = activate()
         base = L.actor_base()
         self.assertEqual(base["forms_mode"], "deck")
         base["actor_device"], base["actor_threads"], base["in_flight"] = "cpu", 2, 1
