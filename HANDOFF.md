@@ -1,6 +1,25 @@
 # HANDOFF — ClashBot
 
-> ## 2026-10-06 06:50 EDT -- LATTICE CORRECTION COMPLETE; DROPOUT FIT REGISTERED
+> ## 2026-10-06 06:52 EDT -- DROPOUT-FREE ASSAY PREFLIGHT PASS; TRAINING ACTIVE
+> Registration2d4a378, onechain launched06:49:47EDT launcher21184/chain50600,
+> trainers61032/61160. Read dropout_free_fit PLAN/METRICS/GATES/REVIEW/prepared/
+> launch/chain_started/training_started/progress/chain.out/err FIRST. P1complete
+> 90.632368s exit0/token;92sources,original1024sample/798replays/524288draws
+> (260352native/263936mirror),2positive6samplebad/3positive1dropoutbad.
+> All16dropout attributes .1->0; initialEVALheads/roundtrip exact, original
+> tensors unchanged; trainingseedinvariance andordinarydropoutstochastic control
+> pass. CPUbackward5.609737396240234,allgradientsfinite,weightsunchanged,0optimizer.
+> T1ACTIVE;V1/E1/V2/R1pending. Sharedlockall5jobs, no duplicate/sourceedits/gapuse.
+> Fixed4096updates/batch128/AdamW1e-5/originalloss/draw/mirror, originalarchitecture,
+> freshordinary_v5. No localcellbranch orquarantinedparent; newweightsforever
+> quarantined too. Originalfitcriteria/allfinalgatesunchanged;no boundarywaiver.
+> Outside review_dropout_free_fit.py andclose_dropout_free_fit_report.py prepared
+> UNEXECUTED. AfterALL5successes,evidencereviewONCEthenONEreport stableID
+> model-dropout-free-fit-v5-diagnostic anddeliverycloseoutONCE. See leafREVIEW.
+> STOP13:39:32unchanged,nolive/fallback;owner13Z/09EDTcutoff. AllfinalOPEN.
+
+
+> ## 2026-10-06 06:49 EDT -- LATTICE CORRECTION COMPLETE; DROPOUT FIT REGISTERED
 > lattice_label_audit C1/V1/R1 complete2.173848/7.343948/.627555s,all0/token.
 >4096cachedPLAYrecords/1024savedscore rows,originalrawlabels andlattice mapping,
 >3positive12bad,0inference/backward/optimizer. DoNOTrepeat. Correctedlocalcell

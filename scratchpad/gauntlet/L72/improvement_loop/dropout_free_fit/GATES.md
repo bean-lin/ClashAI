@@ -2,10 +2,10 @@
 
 OWNS: scratchpad/gauntlet/L72/improvement_loop/dropout_free_fit/**, icebow/data/bench/dropout_free_fit_20261006/**
 
-- [ ] P1: Original sample/draw stream, exact initial evaluation outputs, dropout mechanism and finite unchanged-weight backward are qualified.
+- [x] P1: Original sample/draw stream, exact initial evaluation outputs, dropout mechanism and finite unchanged-weight backward are qualified.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/dropout_free_fit/prepare.py
   EXPECT: DROPOUT_FREE_FIT_PREPARED
-  EVIDENCE: pending
+  EVIDENCE: prepared.json and l72-dropout-free-fit-prepare.json/.out; exit0/token, 90.632368s, original sample and draw equality, unchanged weights and dropout mechanism controls pass.
 - [ ] T1: Exactly4096 finite original-loss updates use fresh ordinary_v5 and only disable training dropout.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/dropout_free_fit/train.py
   EXPECT: DROPOUT_FREE_FIT_TRAINED
