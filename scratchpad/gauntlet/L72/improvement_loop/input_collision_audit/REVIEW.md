@@ -1,27 +1,32 @@
-# Active exact-input collision audit
+# Completed exact-input collision audit
 
-Registered4a28207, launched08:24:07EDT in ONE serial chain,launcher54252/chain41696,
-collectors61316/60564. 63sourcebindings in started.json. At08:25EDT progress
-204800/213995native trainingrows. C1 ACTIVE,V1/R1 PENDING; no error observed.
-Common development_iteration_1 chain.lock spans BOTH jobs and subprocessgaps.
-Do not duplicate,edit boundPython/PLAN/METRICS,killhealthyworkers or use gaps.
-Helpersoutsideleaf. Owner09EDT/13Z cutoff;STOP13:39:32 remains intact.
+C1/V1/R1 complete October6 08:39 EDT. Collection90.860224s, independent96.157929s,
+outside review0.606283s; all exit0 and expected token. All63 source bindings,
+213995 native training rows/1573 replays, original labels and every group count
+reconcile. Producer label fixture1, public-input mutations16, label exclusion1;
+independent2positive/7corrupt-result controls. Do not repeat these completed jobs.
 
-Read PLAN/METRICS/GATES/started/launch/chain_started/progress and chain.out/err FIRST.
-This hashes16public modelinput tensors using originalCPU GenRows and independently
-reconstructs rawpadding/casting/hashes,original labels and groups. Native training
-ONLY; no model load/inference/backward/optimization/newcheckpoint,development,
-reserved,oldvalidation,mirror/nativegame/live work. No labelrepair/newthreshold.
-Strict bytes are sufficient inputequality,NOT exhaustive semantic equivalence:
-permuted/clamped/ignored fields,+0/-0,nearstates and latentcollapses can be missed.
-Zero collisions could only reject this narrow explanation,not prove capacity or
-learning-rate cause. Gates/cards/conditionedlattice/continuous<=1tile conflicts
-remain separate; no summing overlapping head minima. No epsilonwaiver.
+205474 unique byte-input groups;446 duplicate groups contain8967 rows and touch
+1561 replays; maximum group605. Gate conflicts34groups/132rows imply at least53
+gate errors. PLAY-card conflicts55groups/190rows imply at least79 card errors.
+81 repeated input/card/form aim conditions include64 lattice-conflict groups/
+175rows, with minimum86 exact-cell errors and57 original continuous<=1tile aim
+errors. These per-head minima overlap and MUST NOT be summed.
 
-After BOTH jobs succeed inspect collected/verified/chain_complete and EVERYreceipt.
-Run OUTSIDE review_input_collisions.py ONCE under l72-input-collisions-reviewed /
-INPUT_COLLISIONS_REVIEWED; helper prepared/unexecuted. Then updateREVIEW/GATES/HANDOFF,
-scopedcommit/push/sameheartbeat. Onfailure preserveoriginalsources/outputs/receipts
-beforeseparatediagnosis; no unchangedretry. No NEWmodelreportdue. Both prior models
-stayREJECTED; no rejectedweightcontinuation or blindtraining. AllfinalN2-N7/
-statistical/component/physical/gameplay/public/Q4/Q5OPEN;objective unmet.
+There are ZERO repeated input/card/form Rocket aim conditions in this cohort;
+the corresponding exact-input mechanism accounts for no Rocket aim conflicts.
+This narrow result does not explain the measured broad training-fit weakness.
+Strict bytes are sufficient equality, not exhaustive functional equivalence:
+permutations, clamped/ignored fields, signed zero, near states and latent collapse
+may escape. Expert alternatives can both be sensible; no label repair follows.
+No learning-rate, capacity, missing-history or generalization cause is proved.
+
+No model load/inference, backward, optimizer update, new checkpoint, development,
+reserved, old-validation, mirror, native game or live work occurred. No NEW model
+report is due. All previous rejections remain; no rejected-weight continuation.
+STOP13:39:32 remains intact; final N2-N7/statistical/component/physical/gameplay/
+public/Q4/Q5 requirements remain OPEN and the model objective is unmet.
+
+collected.json, verified.json, reviewed.json and chain_complete.json bind exact
+raw rows/groups, sources and all receipts. Outside review_input_collisions.py
+ran ONCE as l72-input-collisions-reviewed / INPUT_COLLISIONS_REVIEWED.
