@@ -1,5 +1,29 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 05:07 EDT -- ADDITIONAL ORDINARY FIT COMPLETE; REJECTED
+> Read development_iteration_9/REVIEW,GATES,trained,training_verified,evaluated,
+> results_verified,reviewed_evidence,reviewed_results,chain_complete. All5jobs
+> and outer review/report complete.8000finiteupdates/1024000draws/54723devrows/
+>405groups reconcile;96optimizerstates each8000steps. Train1334.245839s,
+> training-independent3.870191s,eval79.887351s,results-independent68.626868s
+> exit0/token. Controls1positive8corruptions and2positive10corruptions. No reruns.
+> CorrectedR1e/v5/extended Rocket aim290/292/276 of955;full54/77/88;
+> late14/22/23 of320. All original+5/+2/+2pp floors FAIL. Witch332/339/334,
+> defense3952/4011/3883,lateall1949/1984/1962 also fail protections vs v5.
+> Barrelcorrect36/40/42,wrong20/22/21,nonfired7/1/0 of63;NW156/161/165,
+> Furnace538/549/558. Generalcard11348/11403/11435 of17192. Other gains cannot
+> rescue. Allaction31962to31627 combinesPLAY2602to2760/WAIT29360to28867.
+> Candidate REJECTED/NOTACCEPTED/NOTDEPLOYED;no newgameplay qualifies.
+> Finalcheckpoint77402f702e8cbb564c4925d3f6f498a4e77e78f5f69ff0a27e9a77163902197c.
+>
+> Report DELIVEREDONCE05:06:54EDT,2HTTP200parts,stableID
+> model-ordinary-extended-v5-final. reviewed_results binds exactmessage/delivery/
+> IDs/receipts. NEVERresend. Frozen source/weights/raws retained. No extra steps,
+> failed-weight reuse or intermediate rescue. Next proposed small-set fit-capacity
+> diagnostic is unregistered/unlaunched at this snapshot;inspect newerhandoff.
+> STOP13:39:32 intact,liveidle,13Z/09:00EDTownerextension;finalfloorsOPEN.
+
+
 > ## 2026-10-06 04:41 EDT -- ADDITIONAL ORDINARY-FIT CHAIN ACTIVE
 > Read development_iteration_9/PLAN,METRICS,GATES,REVIEW,prepared,launch,
 > chain_started,training_started,current progress and chain logs FIRST.

@@ -1,0 +1,27 @@
+{
+  "report_id": "model-ordinary-extended-v5-final",
+  "created_at": "2026-10-06T09:06:54.032247+00:00",
+  "text_sha256": "c7ae0ec093ecf71f0a66356a5c78c082bc4fb501a790eb098a815bdb3c86f5cb",
+  "status": "delivered",
+  "chunks": [
+    {
+      "index": 1,
+      "sha256": "cffa65c3bf82b807a2c491a0e8032963e93e4f040d2b710769d08a57dbdd3f6d",
+      "status": "delivered",
+      "started_at": "2026-10-06T09:06:54.035885+00:00",
+      "http_status": 200,
+      "message_id": "1556955901855006731",
+      "completed_at": "2026-10-06T09:06:54.361570+00:00"
+    },
+    {
+      "index": 2,
+      "sha256": "8d33f3fc52b364a25850e22798c955616eaa9b623cb6e31064a14d00d5976796",
+      "status": "delivered",
+      "started_at": "2026-10-06T09:06:54.365940+00:00",
+      "http_status": 200,
+      "message_id": "1556955903335464961",
+      "completed_at": "2026-10-06T09:06:54.790064+00:00"
+    }
+  ],
+  "completed_at": "2026-10-06T09:06:54.794505+00:00"
+}
