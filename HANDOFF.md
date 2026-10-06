@@ -1,5 +1,54 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 21:17 EDT -- LAMBDA1 RL COMPLETE/REJECTED; IMPACT INSTRUMENT QUALIFIED
+> Supersedes all active development_rl_2 snapshots. Read its REVIEW,results_verified,
+> reviewed_results and target_impact_readiness/PLAN,METRICS,GATES,REVIEW,report,
+> verified,reviewed under L72/improvement_loop. All workers exited; no active GPU,
+> model/native replay/live worker at21:17. Native5560idle; ownerSTOP13:39:32 intact.
+> No fallback restart. No completed job or Discord report may be repeated.
+>
+> RL2 L1-L5 execution/reporting COMPLETE:train1311.22s/eval78.45s/independent51.15s
+> exit0/token,32finiteupdates/256games/71003trainingrows/54723developmentrows and
+> all405groups reconcile;5criticwarmup27policy,no guardstop. Train20:59:00;
+> wholechain21:01:13. Canonical exactprobsummary passes,original RL1failure preserved.
+> Final-only u032 SHA87ea65ddfb6b0326336cb321f752fcac84e617745426c853100bb5afa739fd9d.
+> Same corrected R1e/v5/priorRL1/lambda1:Rocket aim290/292/288/295of955,full
+> 54/77/68/77,late14/22/19/21of320. Candidate-v5 +.3141/0/-.3125pp FAIL+5/+2/+2.
+> Barrel correct36/40/40/38,wrong20/22/21/23,nonfired7/1/2/2of63;Witch332/339/
+> 342/335,NW156/161/166/158,Furnace538/549/556/542,defense3952/4011/4092/3941.
+> Lateall1949/1984/2049/2006,generalcard11348/11403/11396/11344of17192,allaction
+> 30968/31962/32684/31847of54723. Generalcard/lateallprotections pass;all other
+> requiredfilters FAIL. PairedRocketaction6better6worse324ties,aim12/11/313,
+> late0/1/170,defense35/76/101. No physical/cycling/adaptation/gameplay benefit.
+> Candidate REJECTED/NOTACCEPTED/NOTDEPLOYED.1434char modelreport delivered ONCE,
+> oneHTTP204;l72-outcome-lambda1-reviewed-evidence/discord/reviewed .24/1.16/.11s
+> and reviewed_results bind4chainreceipts,message/delivery/model/cache/paired/source
+> hashes. No new matched gameplay qualifies. Do NOT rerun train/eval/recount/report.
+>
+> Owner challenged the repeated-training methodology. Proposed separate mechanism
+> learnability tests, public persistent history, joint card/placement evaluation,
+> and complete late-game interactive curricula; none is a proved policy remedy.
+> Prior search/distillation failures stay relevant; no generic search relaunch.
+> New target_impact_readiness is an instrument, not new training or relaxed gates.
+> R1-R3 COMPLETE:collection6.56s/independent2.64s/closeout.20s exit0/token;16roots,
+> 112branches/33712per-tickframes,16positive12corruptcontrols. Pinned updated
+> RoyaleSim0.1.13/RoyaleGym0.1.15;synthetic base-form decks,both sides/lanes,
+> root90/4800,levels11/14. Single accepted Rocket per castbranch,26tickdelay,
+> 300postcastticks;no other actions. Center/inward1/inward2 all cause342HP(level11)
+> or453HP(level14) target-only damage;inward3/far6 zero. All80casts charged6elixir;
+> 48hits32misses;32WAIT/repeatedWAIT exactframes/finalbytes andzero damage. First
+> damage root+93center/+92offset;all finaltenframeplateaus. Root/finalbytes/native
+> crownHP/identity/footprint/cost/commands retained. No policies/inference/optimization,
+> no emulator/native-client replay, no reserved/expertdata. Native-client parity
+> UNPROVEN. Offset findings do not rescore models or change within1tile floor.
+> No new model report due for this assay. Do NOT repeat stationary fixtures.
+>
+> Next supported scope: separately register moving-body/multiple-target impact
+> observation qualification with matched no-cast controls, then a bounded public-
+> only joint-targeting learnability comparison. Neither registered/launched yet.
+> No blind parameter grid/rejectedrecipe combination. FinalN2-N7/material/physical/
+> untouched/statistical/gameplay/Q4/Q5 all OPEN. Tuesday04Z cutoff unchanged.
+
 > ## 2026-10-05 20:38 EDT -- TRAINING-CREDIT AUDIT COMPLETE; FULL-RETURN RL ACTIVE
 > Read rl_credit_audit/PLAN,METRICS,GATES,REVIEW,report,verified,reviewed under
 > L72/improvement_loop. C1-C3 COMPLETE:producer3.54s/independent8.64s/review.17s
