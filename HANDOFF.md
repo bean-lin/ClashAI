@@ -1,5 +1,25 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 05:46 EDT -- SMALL-SET FIT COMPLETE; DIAGNOSTIC CRITERIA FAIL
+> All4096finiteupdates/524288draws/96optimizerstates/6144cached views reconcile.
+> Readsmall_set_fit REVIEW/GATES/trained/training_verified/evaluated/results_verified/
+> reviewed_evidence/reviewed_results/chain_complete. Neverrerun orresendreport.
+> Train707.089823s/training-independent6.908803s/eval55.139531s/recount7.540836s
+> all0/token. Controls1positive8bad and7positive12bad; all5jobs complete05:32.
+> CorrectedR1e/v5/assay fullPLAY native69/80/417,mirror75/83/418 of512;
+> correctWAIT381/398/512,378/395/512 of512. Rocketcard10/18/64,9/19/64 of64;
+> Rocketaim20/20/51,16/17/49;full3/7/51,2/7/49. Latefull2/3/15,2/4/15of21.
+> Assay card512/512both;remainingPLAYfirstfailure1gate+94aim/1gate+93aim.
+> Meanloss4.895106first256to.822526last256. FullPLAY90%/Rocketaim95% FAIL;
+> card/WAIT95%PASS. Fixed diagnostic rejects,not capacity impossibility proof.
+> QUARANTINED weights NEVER policy/learningparent/live;no dev/nativegame/livework.
+> ReportDELIVEREDONCE05:44:44EDT2HTTP200/stableIDmodel-small-set-fit-v5-diagnostic;
+> reviewed_resultsbinds exactmessage/delivery/IDs/receipts. Allworkers exited.
+> Separate small_set_aim_audit PLAN/GATES/source registered before new cached
+> analysis;not yetrun. No inference/backward/optimization or newmodelreport.
+> STOP13:39:32 intact;13Z/09EDTextension;allfinalfloors remainOPEN.
+
+
 > ## 2026-10-06 05:20 EDT -- SMALL-SET FIT PREPARATION PASSED; TRAINING ACTIVE
 > One serial chain launched05:17:54EDT launcher31652/chain53864/trainer59036/41204.
 > small_set_fit P1 complete67.421289s exit0/SMALL_SET_FIT_PREPARED:74bindings,

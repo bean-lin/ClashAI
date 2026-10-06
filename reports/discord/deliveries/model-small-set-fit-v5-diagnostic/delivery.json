@@ -1,0 +1,27 @@
+{
+  "report_id": "model-small-set-fit-v5-diagnostic",
+  "created_at": "2026-10-06T09:44:43.617714+00:00",
+  "text_sha256": "d69078488766c998618f5a2693d3653c4649b2badb21d97c230c60f953496ce3",
+  "status": "delivered",
+  "chunks": [
+    {
+      "index": 1,
+      "sha256": "6e44d6a2845f3c8b7ff95b10688cdc6c48c500be3085a2881702cec607f8e300",
+      "status": "delivered",
+      "started_at": "2026-10-06T09:44:43.621225+00:00",
+      "http_status": 200,
+      "message_id": "1556965420752175196",
+      "completed_at": "2026-10-06T09:44:43.989572+00:00"
+    },
+    {
+      "index": 2,
+      "sha256": "50c4ff6cb76f2bd4ed4c27da13d09273eb3b55be5d918f600038cfda84a70589",
+      "status": "delivered",
+      "started_at": "2026-10-06T09:44:43.991205+00:00",
+      "http_status": 200,
+      "message_id": "1556965422559924255",
+      "completed_at": "2026-10-06T09:44:44.242862+00:00"
+    }
+  ],
+  "completed_at": "2026-10-06T09:44:44.244435+00:00"
+}
