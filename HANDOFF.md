@@ -1,5 +1,42 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 22:25 EDT -- PUBLIC EFFECT LEARNABILITY CHAIN ACTIVE
+> Read impact_learnability_1/PLAN,METRICS,GATES,REVIEW,started/launch/chain_started
+> and current progress.json/chain.out/.err under L72/improvement_loop. Registered
+> before data or optimization; no changed R1e/rejected candidate/production source.
+> Launcher20744/chain13168 at22:21:25, collector31012/55252; single CPU chain holds
+> shared development lock across collection/independent/train/independent stages.
+> At22:24:38,31of192roots complete/no failure. Do NOT duplicate or edit bound
+> Python/PLAN/METRICS; subprocess gaps are not availability. No GPU/native client.
+>
+> New192syntheticroots in24geometry families, allside/lane/level/actions grouped:
+>16trainfamilies128roots;8devfamilies64roots, explicit initial-y interpolation.
+> Seeds2026101100..1291; setupKnight180/Giant181, publicpast230/root240,26delay,
+>16fixed candidatepositions+WAIT/repeatedWAIT, through396;3456branches/542592frames
+> expected. Allbody/crowneffects/noordinarycombat/identity/cost/plateau controls
+> must pass independent verification; public inputs28, no opponent private data,
+> seed/family/split/futurestate inputs or reserved/expert/historical data. Guard
+> rejects cross-split duplicate fullpublicstate; never moves/excludes failures.
+>
+> Only after data pass: static_public vs motion_public auxiliary hit predictors,
+> identical28->64->64->1MLP, solefactor6measured displacementfeatures zeroed/kept.
+> Pairedseeds2026101200..1202,1000Adamupdates eacharm/seed,lr.001,batch256,clip1,
+> CPU1thread, training-only class-balancedBCE,finalonly. No policyaction selected;
+> no tactical reward/frequencyrule. Current policy already has movement info;
+> this does not assert feature absence. Aux checkpoints cannot play a match.
+> Continuation: mean devbody balancedBrier<=.10 and>=20%relative improvement,
+> >=2of3seedsimprove, crown balancedBrier<=static+.01; allfinite/provenancepasses.
+> Original policy/deployment floors unchanged. No result or modelreport due yet.
+>
+> On completion inspect four l72-impact-learning1 receipts plus data_verified,
+> trained/results_verified; outer review_impact_learning1.py is prepared outside
+> frozenleaf, not executed. Report all six auxiliaries once after independent
+> review; no comparable R1e prediction score/new gameplay exists. Keep scope clear.
+> On failure preserve originalsource/output/receipt, no automatic resume. All
+> finalN2-N7/material/component/physical/gameplay/untouched/statistical/Q4/Q5 OPEN.
+> OwnerSTOP13:39:32 intact/no live restart. Tuesday04Z cutoff unchanged. Tonight's
+> newsletter already delivered and must not be resent; daily schedule separate.
+
 > ## 2026-10-05 21:58 EDT -- MOVING BODY AND CROWN INSTRUMENT QUALIFIED
 > Read moving_impact_readiness_v3/REVIEW and moving_impact_readiness_v4
 > PLAN/METRICS/GATES/REVIEW/report/verified/reviewed under L72/improvement_loop.
