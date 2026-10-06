@@ -1,3 +1,29 @@
+## 2026-10-06 11:04 EDT - owner adds learned counter retention objective
+
+Read scratchpad/gauntlet/L72/improvement_loop/COUNTER_RETENTION_AMENDMENT_20261006.md.
+The exact owner message is preserved there. Learn the future value of keeping an
+important response available after an enemy threat is publicly revealed: examples
+Log/Barrel, Tesla/named win conditions, and Rocket/Pump/large pushes/backline troops.
+These are contextual examples, not a hard-coded matchup table or exclusive-counter
+claim. A decisively better immediate play must remain possible through learned
+value, without a reservation mask, fixed logit rule or holding-frequency reward.
+Holding one card can coexist with playing others; avoid passive hoarding.
+
+Source inspection confirms own hand/next card and public opponent history/cycle
+are already model inputs. Existing WAIT supervision predicts the next expert
+played card, not counter retention while taking other actions. Information
+availability is not proof of effective use or a missing-feature diagnosis.
+Pro retention evidence and benefit remain UNMEASURED. Proposed next analysis
+keeps full decision sequences, both retain/spend cases and justified exceptions,
+public uncertainty, resource/cycle recovery and delayed consequences; no inferred
+intent labels or hindsight input. Future replay associations alone are not causal.
+
+This turn records the objective and proposed investigation ONLY. No dataset audit,
+model inference, training, policy/runtime edit, live action, Discord model report
+or worker restart occurred. The overnight worker remains paused and STOP intact.
+Existing failed models, quarantines, evidence splits and final floors are unchanged.
+The actual-Adam diagnostic proposal remains separate from this temporal habit.
+
 ## 2026-10-06 09:00 EDT - owner cutoff reached; worker heartbeat paused
 
 The overnight work window has ended. The same worker heartbeat
