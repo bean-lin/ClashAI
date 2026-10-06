@@ -1,4 +1,17 @@
-# Active public-input effect learnability chain
+# Failed public-input effect learnability collection
+
+October5 approximately22:36EDT: original collection exited1 after844.975583seconds,
+before any independent data check or optimizer. 152roots/2736raw branches saved;
+root152's second setup command returned7 NO_DEPLOY. Saved command135000,531000
+is inside its own king footprint126000,486000,198000,558000; no elixir charged.
+Separate saved-evidence diagnosis in sibling impact_learnability_1_failure passes
+1positive4corruption controls and binds all partial hashes and original receipt.
+This is not independent qualification of152roots, a learnability result, or a
+waiver of the failed gate. Bound original Python/PLAN/METRICS remain unchanged.
+No automatic resume, no model report due. Original active snapshot follows.
+
+The owner later extended overnight work through09:00EDT via a new amendment;
+this failed experiment's frozen04Z source cutoff is deliberately unchanged.
 
 October 5, 2026, 22:25 EDT. Registered PLAN/METRICS/GATES and all six Python
 sources before launch. Syntax inspection and gate lint pass; this is preparation,

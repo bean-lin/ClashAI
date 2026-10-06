@@ -1,5 +1,71 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 22:56 EDT -- SETUPS VERIFIED; REPRESENTATION RECOVERY ACTIVE
+> impact_learnability_2 P1/P2 COMPLETE:192roots288commands, prepare124.150114s/
+> independent3.468902s exit0/token;192positive7corruptions. Original collector
+> FAILED6.559501s on first root's combined native-byte/frame equality, before any
+> branch or optimizer. Preserve originalsource/receipt/chain_failed; no rerun.
+> Read impact_learnability_2_restore PLAN/GATES/REVIEW/report: all192restores keep
+> EXACT nativebytes and EXACT savedJSONvalues, only tuple/list types differ;
+>24.383791s exit0/token,192positive4corruptions,ZEROreset/step/action. Original
+> in-memory equality remains FALSE192/192; not retroactively waived or passed.
+>
+> Separate impact_learnability_2_recovery PLAN/METRICS/GATES are registered.
+> Same preparedroots reused, no setup repeat; nativebyteexact plus losslessJSON
+> framecomparison, no numeric tolerance. New4job chain collect/data-independent/
+> train/results-independent, l72-impact-learning2-recovery-* receipts. Launched
+>22:55:25 launcher50352/chain10908, sixof192roots collected22:55:48, no error then.
+> Sharedchain.lock across allstages, CPUonly; inspect actualprocess/logs first,
+> neverduplicate or editboundPython/PLAN/METRICS. Sourcebindings includeoriginal
+> correctedPython/PLAN/METRICS,preparation/verification,diagnosis,failedreceipt.
+> Futurehelpers OUTSIDEleaf. Outerreview_impact_learning2_recovery.py prepared,
+> NOTexecuted; after4successes runONCE l72-impact-learning2-recovery-reviewed-evidence
+> with IMPACT_LEARNING_EVIDENCE_REVIEWED. It binds4newreceipts+2completedpreparation
+> receipts+originalfailure. No model/report dueyet; reportall6auxiliariesONCEafter
+> independentreview, unavailableR1eassayscore/nohead-to-headgameplay/nodeployment.
+> Priorreview_impact_learning2.py is obsolete/unexecuted; use recoveryhelperonly.
+> Owner's overnight extension below supersedes old04Z: workthrough13Z/09:00EDT,
+> acceptedNEWcandidate maydeploy via start_live.sh without furtherapproval. All
+> finalfloorsremain; STOPintact/nofallbackrestart. Newsletteralreadydelivered.
+
+> ## 2026-10-05 22:48 EDT -- OWNER EXTENDS WORK OVERNIGHT; CONDITIONAL LIVE AUTHORITY
+> Read L72/improvement_loop/OWNER_OVERNIGHT_EXTENSION_20261005.md. The owner is
+> going to bed and explicitly requests continued overnight model work, rethinking
+> approaches after repeated failures, and live deployment via start_live.sh if a
+> NEW candidate beats R1e on the agreed target metrics. This supersedes the prior
+> Tuesday04Z cutoff. Extend the SAME heartbeat through Oct6 09:00EDT/13:00Z; daily
+> newsletter unchanged. Actual owner/Claude takeover still ends worker authority.
+> No additional deploy approval required after existing replacement gates pass.
+> STOP remains until a qualifying new model; no R1e fallback restart. Inspect the
+> live entrypoint at deployment and verify exact checkpoint, one worker, public
+> audit, confirmed plays/latency and measured live results. All final floors stay.
+>
+> impact_learnability_1 is no longer ACTIVE: collection FAILED after152 completed
+> roots at root152's second setup command; receipt844.975583s,exit1/tokenfalse.
+> Saved status7=NO_DEPLOY, Giant at135000,531000 inside its own king footprint
+>126000,486000,198000,558000; zero cost. No data verifier, optimizer or model.
+> Original bound sources/PLAN/METRICS/receipts and2736raw branches preserved.
+> Read impact_learnability_1_failure/PLAN,GATES,report/inventory: saved-evidence
+> diagnosis25.208837s exit0/token,1positive4corruptions; all original source hashes
+> match. This does NOT independently qualify the preceding152roots or pass D1.
+>
+> Separate impact_learnability_2 is registered: all192setups prepared/independently
+> checked BEFORE branch collection; second body consistently one tile OUTWARD,
+> newseeds2026101300..1491, no dropped families/old partial data. Collector restores
+> exact prepared root bytes/frames. Same24family split,16candidatepoints+2WAIT,
+> public features, static/motion arms,3pairedseeds,1000updates, original filters.
+> Read its PLAN/METRICS/GATES and current launch/chain/progress for actual state.
+> Auxiliary predictors cannot play matches; no comparable R1e assay score and no
+> policy/deployment claim. No new model report due until independent completion.
+> Launched22:48:20EDT launcher17160/chain24788, one CPU chain with shared lock.
+> At22:49:55,151of192setup roots complete/no reported failure; all gates pending.
+> Existing worker schedule ACTIVE through13Z, exact persisted prompt/rrule checked.
+> Outer review_impact_learning2.py is prepared outside leaf; run ONCE only after
+> all six receipts and chain_complete, with l72-impact-learning2-reviewed-evidence
+> and IMPACT_LEARNING_EVIDENCE_REVIEWED. Preserve single modelreport delivery.
+> New helpers remain outside any active bound leaf. Every failed prior gate stays
+> failed. Newsletter-Oct5 already delivered; never resend it.
+
 > ## 2026-10-05 22:25 EDT -- PUBLIC EFFECT LEARNABILITY CHAIN ACTIVE
 > Read impact_learnability_1/PLAN,METRICS,GATES,REVIEW,started/launch/chain_started
 > and current progress.json/chain.out/.err under L72/improvement_loop. Registered

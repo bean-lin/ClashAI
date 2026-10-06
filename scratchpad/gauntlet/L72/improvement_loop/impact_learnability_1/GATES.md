@@ -6,6 +6,12 @@ OWNS: scratchpad/gauntlet/L72/improvement_loop/impact_learnability_1/**, icebow/
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/impact_learnability_1/collect.py
   EXPECT: IMPACT_LEARNING_DATA_COLLECTED
   EVIDENCE: pending
+
+ABANDON: D1 Original collection failed at root152 setup with status7 NO_DEPLOY; l72-impact-learning1-collect exit1/tokenfalse. Original source and152completed roots preserved, not independently qualified.
+ABANDON: D2 No complete data artifact; original collection cannot qualify.
+ABANDON: L1 No optimizer launched after failed collection.
+ABANDON: L2 No trained model/probabilities exist.
+ABANDON: R1 No auxiliary models produced to report. Failure documented in sibling impact_learnability_1_failure and HANDOFF; do not send a model report.
 - [ ] D2: Independent raw effects, public projection and grouped split pass controls.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/impact_learnability_1/verify_data.py
   EXPECT: IMPACT_LEARNING_DATA_VERIFIED
