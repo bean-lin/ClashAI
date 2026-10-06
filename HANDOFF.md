@@ -1,5 +1,27 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 06:50 EDT -- LATTICE CORRECTION COMPLETE; DROPOUT FIT REGISTERED
+> lattice_label_audit C1/V1/R1 complete2.173848/7.343948/.627555s,all0/token.
+>4096cachedPLAYrecords/1024savedscore rows,originalrawlabels andlattice mapping,
+>3positive12bad,0inference/backward/optimizer. DoNOTrepeat. Correctedlocalcell
+> latticeexact400/411of512 vsfloor312/324; actualtargetCE .499099714/.491061556
+> vsoldfloor9.2507501/7.9079612. Originalfloor descriptors preserved and flagged.
+> Continuousaim424/426,Rocket51/49;fullPLAY424/425 remain unchangedFAILEDfit.
+> Rocket11/13misses justabove1tile remain MISSES;no epsilon/metric waiver.
+> New dropout_free_fit REGISTEREDNOTRUN. Onefactor trainingdropout.1->0,
+> includingattention;freshordinary_v5,ORIGINALarchitecture,no localcellbranch/
+> quarantinedweights. Exact1024sample/524288draws/4096steps/batch128/AdamW1e-5/
+> originalmirror/loss/fp32. Newweightsforeverquarantined. P1originalsample+
+> initialeval/roundtrip exact+trainingseedinvariance/stochasticcontrol+finite
+> backward0optimizer. V1independentBEFORE E1new2048views;3oldcontrolcachesreused.
+> V2originalcounts/perreplay/control9positive12bad. FullPLAY90%,Rocketcard/aim95%,
+> WAIT95% andretain512card/WAIT EACHorientation unchanged. Finalonly,norescue.
+> Commonlock5jobs,cutoff13Z;outside review_dropout_free_fit.py and
+> close_dropout_free_fit_report.py preparedUNEXECUTED. StablemodelreportID
+> model-dropout-free-fit-v5-diagnostic,onlyafterall5successfuljobs+outerreview.
+> STOP13:39:32intact;allfinalgatesOPEN;objectiveunmet.
+
+
 > ## 2026-10-06 06:42 EDT -- CONTRIBUTION AUDIT COMPLETE; LABEL-DESCRIPTOR CORRECTION REGISTERED
 > local_cell_contribution C1/V1/R1 complete64.119421/12.592147/.592879s,all0/token.
 > 2048forwardviews/1024PLAYrecords,exactONcachechoices/decomposition/unchangedweights;

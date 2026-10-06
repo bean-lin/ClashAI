@@ -9,3 +9,6 @@ Separate ../lattice_label_audit is registered to independently reconstruct actua
 labels from the original raw sample and cached predictions/logits. No inference
 or optimization. Continuous <=1tile aim, full-action/card/WAIT counts, original
 failed fit verdicts and permanent checkpoint quarantine are unchanged.
+
+The separate lattice_label_audit is now COMPLETE; see its REVIEW.md and
+reviewed.json. Original continuous aim and failed fit verdicts are unchanged.
