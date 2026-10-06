@@ -1,5 +1,33 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 06:34 EDT -- LOCAL-CELL FIT COMPLETE/FAILED; CONTRIBUTION AUDIT REGISTERED
+> All5local_cell_fit jobs complete06:14:09EDT,4096finiteupdates/524288draws/
+>100optimizerstates each4096steps/2048newviews+6144cachedcontrolviews reconcile.
+> Train717.011881s/training-independent6.835611s/eval53.485715s/recount7.800923s
+> all0/token;1positive8logbad/9positive12predictionbad. Neverrerun orresend.
+> CorrectedR1e/v5/priorfit/localcell fullPLAY69/80/417/424native and75/83/418/425
+> mirroredof512; WAIT381/398/512/512 and378/395/512/512. Rocketaim20/20/51/51
+> and16/17/49/49 of64; full3/7/51/51 and2/7/49/49;latefull2/3/15/15 and
+>2/4/15/15 of21. Allcard512/512 bothfittedmodels/orientations. NewPLAYerrors
+>1gate0card87aim and1gate0card86aim. Meanloss4.89413875to.80144491(first/last256).
+> FullPLAY90%/Rocketaim95%FAILboth; otherprotectionsPASScannotrescue.
+> DiagnosticweightsFOREVERquarantined,NOTACCEPTED/NOTDEPLOYED. FinalSHA
+> dc19a61771642ee08ac83ac91d9b5130a169ccef408ff2d93740ae514e97e935.
+> Outsidereview.591363s/delivery1.372552s/closeout.086237s0/token. ReportDELIVERED
+> ONCE06:27:34EDT3HTTP200,stableID model-local-cell-fit-v5-diagnostic;IDs
+>1556976199878705214,1556976201904422983,1556976202869379206.
+> reviewed_results binds exactmessage/delivery/IDs/all7priorreceipts. NEVERresend.
+> New local_cell_contribution PLAN/METRICS/GATES/source REGISTEREDNOTRUN.
+> Samefinalcheckpoint ON/OFFresidualdiagnostic,exact coefficients1/0;2048new
+> forwards tosavepreviouslyunsavedactivations/logits,1024PLAYrecords;0backward/
+> optimizer/newcheckpoint/development/nativegame/livework. OriginalONchoices
+> mustmatchsavedcaches. Independentfloat64score/label/geometry/perreplayrecount
+> andcorruptions;prospective atol5e-4rtol2e-5 ONLYforfloat64vsGPUscorearithmetic,
+> neverwaivespriorgates. FixedtrainedtrunkOFFisNOTordinary_v5/priorfitcontrol.
+> Commonlock2jobs;outside review_local_cell_contribution.py preparedUNEXECUTED.
+> No newmodelreportdue; no successortrainingregistered. STOP13:39:32intact,
+>13Z/09EDTownerextension,allfinalcriteriaOPEN;objectiveunmet.
+
 > ## 2026-10-06 06:02 EDT -- LOCAL-CELL PREFLIGHT PASS; TRAINING ACTIVE
 > One chain launched05:59:40EDT launcher42200/chain54424. Read local_cell_fit
 > PLAN/METRICS/GATES/REVIEW/prepared/launch/chain_started/training_started/

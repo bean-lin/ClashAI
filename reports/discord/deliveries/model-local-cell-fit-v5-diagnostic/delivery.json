@@ -1,0 +1,36 @@
+{
+  "report_id": "model-local-cell-fit-v5-diagnostic",
+  "created_at": "2026-10-06T10:27:33.470632+00:00",
+  "text_sha256": "baa829d4f3c7cc45cdeb673bf37b9ab9acf60a1db3c56d67ea4bee7f598104f6",
+  "status": "delivered",
+  "chunks": [
+    {
+      "index": 1,
+      "sha256": "69dcf4d3332f8105f887fd6945c5cede3866abdc5aaaa478d16c730c96b11797",
+      "status": "delivered",
+      "started_at": "2026-10-06T10:27:33.473275+00:00",
+      "http_status": 200,
+      "message_id": "1556976199878705214",
+      "completed_at": "2026-10-06T10:27:33.992942+00:00"
+    },
+    {
+      "index": 2,
+      "sha256": "55f9364bb79ce52ba3ca9bdcaaffa73463b94af3bc20d11dfde990ce9b24fecc",
+      "status": "delivered",
+      "started_at": "2026-10-06T10:27:33.994820+00:00",
+      "http_status": 200,
+      "message_id": "1556976201904422983",
+      "completed_at": "2026-10-06T10:27:34.244728+00:00"
+    },
+    {
+      "index": 3,
+      "sha256": "fccf6c7636da81c10de85b36c3ded480c17c95168b403667930fb7ff14840879",
+      "status": "delivered",
+      "started_at": "2026-10-06T10:27:34.247721+00:00",
+      "http_status": 200,
+      "message_id": "1556976202869379206",
+      "completed_at": "2026-10-06T10:27:34.695556+00:00"
+    }
+  ],
+  "completed_at": "2026-10-06T10:27:34.697618+00:00"
+}
