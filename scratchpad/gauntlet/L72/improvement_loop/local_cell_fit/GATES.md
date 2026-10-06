@@ -2,10 +2,10 @@
 
 OWNS: scratchpad/gauntlet/L72/improvement_loop/local_cell_fit/**, icebow/data/bench/local_cell_fit_20261006/**
 
-- [ ] P1: Mapping, initial parity, roundtrip, mechanism and finite unchanged-weight backward controls pass.
+- [x] P1: Mapping, initial parity, roundtrip, mechanism and finite unchanged-weight backward controls pass.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/local_cell_fit/prepare.py
   EXPECT: LOCAL_CELL_FIT_PREPARED
-  EVIDENCE: pending
+  EVIDENCE: l72-local-cell-fit-prepare.json, exit0/token, 81.601860285s; prepared.json binds90sources, exactinitial/roundtrip/mechanism/2304mapping, finiteunchangedCPUbackward, zerooptimizer.
 - [ ] T1: Exactly4096 finite updates produce the quarantined final diagnostic checkpoint.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/local_cell_fit/train.py
   EXPECT: LOCAL_CELL_FIT_TRAINED

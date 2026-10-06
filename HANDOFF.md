@@ -1,6 +1,30 @@
 # HANDOFF — ClashBot
 
-> ## 2026-10-06 06:05 EDT -- AIM AUDIT COMPLETE; LOCAL-CELL ASSAY REGISTERED
+> ## 2026-10-06 06:02 EDT -- LOCAL-CELL PREFLIGHT PASS; TRAINING ACTIVE
+> One chain launched05:59:40EDT launcher42200/chain54424. Read local_cell_fit
+> PLAN/METRICS/GATES/REVIEW/prepared/launch/chain_started/training_started/
+> currentprogress/chain.out/err FIRST. P1complete81.601860s exit0/token;
+>90sources,exactprior1024sample/798replays/524288draws(260352native/263936mirror).
+>2positive6bad sample controls;all2304mappingcells+1positive3bad mappingtests.
+> Exactinitialallheads/roundtrip,localpatch+querydependence,zero-mean/scalargather
+> pass. CPUbackward5.726444244384766,finitegradients,weightsunchanged,0optimizer.
+> At06:02:27EDT training200/4096,finite loss4.6183977127075195;trainers23160/44872.
+> T1ACTIVE,V1/E1/V2/R1pending. Shared chain.lock spansall5jobs;no duplicates,
+> source edits, healthyworker kills or gap use. Frozen source/PLAN/METRICS.
+> DiagnosticONLY: freshordinary_v5parent, genericlocalcell residual,4096updates
+> unchangedloss/lr/batch/draws/mirror. Neveruseoldquarantinedweights; newweights
+> alsoNEVERpolicyparent/liveeligible. New2048views only;3oldcontrolcachesreused.
+> Outside review_local_cell_fit.py UNEXECUTED:after5successes runONCE via
+> l72-local-cell-fit-reviewed-evidence / LOCAL_CELL_FIT_EVIDENCE_REVIEWED.
+> ReadDISCORD_REPORTING/checkledger;one diagnosticmodelreport stableID
+> model-local-cell-fit-v5-diagnostic;then close_local_cell_fit_report.py ONCE
+> via l72-local-cell-fit-reviewed / LOCAL_CELL_FIT_REPORT_REVIEWED.
+> No report whilepending. Failclosed/preservefailure/no unchangedretry.
+> Registration+aim-auditclosurepushb55bef3;STOP13:39:32 intact,no liveworker.
+>13Z/09EDTownerextension;allfinalN2-N7/statistical/physical/component/gameplay/
+> public/Q4/Q5remainOPEN. Original objective not achieved.
+
+> ## 2026-10-06 05:59 EDT -- AIM AUDIT COMPLETE; LOCAL-CELL ASSAY REGISTERED
 > Cached small_set_aim_audit C1/V1/R1 complete;3072PLAY records, original labels/
 > all6caches/perreplaycounts reconcile;1positive10corruptions,2304mapping and
 >144patch algebra controls. Collection1.197635s/independent2.722164s/review.577483s
