@@ -1,5 +1,30 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 21:27 EDT -- OWNER DISCORD REPORTING CHANGE AND DAILY NEWSLETTER
+> Read `DISCORD_REPORTING.md` before writing any new Discord report. The owner
+> requested plain wording, all relevant work, findings plus interpretation,
+> explicit verdicts/deployment status, next steps, and clearly separated sections.
+> The supplied newsletter document is a style reference, not text to copy.
+>
+> ACTIVE daily schedule: **ClashAI daily newsletter**, automation ID
+> `clashai-daily-newsletter`, every day at **9:30 PM America/New_York** (Eastern).
+> It runs in this Codex thread and uses the same existing owner's webhook.
+> Direct owner authorization includes automatic sending without draft approval.
+> This reporting schedule continues beyond Tuesday's temporary experiment cutoff
+> and Claude's return. It grants no additional training or live-play authority.
+>
+> Claude: follow the new writing guide for individual reports too; do not create
+> a competing daily schedule. Read the shared dated delivery ledger before sending.
+> Save editions at `reports/discord/newsletters/YYYY-MM-DD.md` plus `.sources.json`.
+> New companion sender: `scratchpad/gauntlet/L69/discord/send_report.py`, using the
+> unchanged existing webhook configuration. It disables mentions, splits readable
+> parts, requests Discord message IDs, and records exact text/hashes/status/IDs at
+> `reports/discord/deliveries/ID/`. Completed IDs are skipped; incomplete attempts
+> require delivery reconciliation, not blind resend. Historical `post.py`, receipts,
+> and frozen model reports remain unchanged. No setup/test message was posted.
+> Newsletter ID is `newsletter-YYYY-MM-DD` in Eastern time. See the guide for the
+> command and coverage rules. Machine and Codex must be running for this local task.
+
 > ## 2026-10-05 21:17 EDT -- LAMBDA1 RL COMPLETE/REJECTED; IMPACT INSTRUMENT QUALIFIED
 > Supersedes all active development_rl_2 snapshots. Read its REVIEW,results_verified,
 > reviewed_results and target_impact_readiness/PLAN,METRICS,GATES,REVIEW,report,
