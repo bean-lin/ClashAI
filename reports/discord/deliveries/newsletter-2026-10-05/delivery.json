@@ -1,0 +1,36 @@
+{
+  "report_id": "newsletter-2026-10-05",
+  "created_at": "2026-10-06T01:37:20.748426+00:00",
+  "text_sha256": "47a96801d6556c9913093ba23df0d20c5ee9c9290163cb003def6800ad15d4b4",
+  "status": "delivered",
+  "chunks": [
+    {
+      "index": 1,
+      "sha256": "4a1522faa1be54c19b76e3bcb2539320d7d2be44248d829c471fe4919b6708c4",
+      "status": "delivered",
+      "started_at": "2026-10-06T01:37:20.751143+00:00",
+      "http_status": 200,
+      "message_id": "1556842767886454836",
+      "completed_at": "2026-10-06T01:37:21.042571+00:00"
+    },
+    {
+      "index": 2,
+      "sha256": "c4b474052dd6adc566934aab8ac8284a847d62bd6426f32369ca26817513ba91",
+      "status": "delivered",
+      "started_at": "2026-10-06T01:37:21.045387+00:00",
+      "http_status": 200,
+      "message_id": "1556842768762933271",
+      "completed_at": "2026-10-06T01:37:21.406937+00:00"
+    },
+    {
+      "index": 3,
+      "sha256": "c9152e7785d7a09541b5d2ab740007ce2f0e448c1bf4d896c89c9441c05bf795",
+      "status": "delivered",
+      "started_at": "2026-10-06T01:37:21.409638+00:00",
+      "http_status": 200,
+      "message_id": "1556842770100912212",
+      "completed_at": "2026-10-06T01:37:21.666490+00:00"
+    }
+  ],
+  "completed_at": "2026-10-06T01:37:21.668493+00:00"
+}

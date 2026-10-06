@@ -1,5 +1,33 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 21:39 EDT -- DAILY NEWSLETTER SENT MANUALLY; MOVING FIXTURES FAILED
+> Owner reported that the9:30PM newsletter did not arrive and explicitly requested
+> a manual send plus a GitHub push to test their new GitHub webhook. No prior dated
+> delivery record existed. The newsletter was sent at21:37:21EDT through the same
+> existing webhook:3parts, each HTTP200 with a Discord message ID. Exact text,
+> sources/window/hashes and delivery receipts are saved under `reports/discord/`.
+> Newsletter ID `newsletter-2026-10-05` is DELIVERED; any queued scheduled run must
+> skip it. Daily automation remains ACTIVE. The missed scheduling cause has not
+> been established or repaired by a successful manual send. Do not duplicate it.
+>
+> Moving-body instrument remains UNQUALIFIED. `moving_impact_readiness` failed its
+> first root after6branches: ordinary tower projectiles at442(WAIT)/437(forward4)
+> violated the registered through446 isolation window. A separate v2 used new
+> fixed seeds, ended396, and distinguished requested versus native tile-snapped
+> aim. It also failed after6first-root branches: snapshot/forward2 Rockets caused
+> 342HP to the nearby enemy princess, violating the declared zero-crown-effects
+> assumption. Forward4 caused1484KnightHP at323; sideways6/WAIT no damage. No
+> ordinary projectile frames in the v2 inspected window. These are preserved
+> partial-trace descriptions, not a full independently verified96branch result.
+> Both sources/PLAN/METRICS/nonzero receipts/raw outputs are intact; no independent
+> verifier or model ran. Read both REVIEW/GATES and v2 failure_diagnosis.json.
+>
+> Next research scope must account for both body and crown effects while proving
+> no ordinary combat. No third collection or joint-targeting training is registered
+> or active. Final model objective remains unmet; all acceptance gates unchanged.
+> Owner STOP13:39:32 remains intact, no live restart. The daily newsletter accurately
+> describes v2 as not yet run at its21:36:09EDT reporting cutoff; failure came later.
+
 > ## 2026-10-05 21:27 EDT -- OWNER DISCORD REPORTING CHANGE AND DAILY NEWSLETTER
 > Read `DISCORD_REPORTING.md` before writing any new Discord report. The owner
 > requested plain wording, all relevant work, findings plus interpretation,

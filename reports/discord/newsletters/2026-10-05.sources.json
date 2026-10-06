@@ -1,0 +1,61 @@
+{
+  "edition_date": "2026-10-05",
+  "timezone": "America/New_York",
+  "window_start": "2026-10-04T21:36:09-04:00",
+  "window_end": "2026-10-05T21:36:09-04:00",
+  "trigger": "Direct owner request for manual send after scheduled edition did not arrive",
+  "claim_sources": {
+    "deployment_and_live_status": [
+      "HANDOFF.md"
+    ],
+    "tower_representation_and_gameplay": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\development_iteration_5\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\development_gameplay_1\\REVIEW.md"
+    ],
+    "both_rl_runs": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\development_rl_1\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\development_rl_2\\REVIEW.md"
+    ],
+    "wait_play_and_gradient_diagnoses": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_failure_audit\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_gradient_audit\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_credit_audit\\REVIEW.md"
+    ],
+    "impact_measurements_and_failed_attempt": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\target_impact_readiness\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\target_impact_readiness\\verified.json",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\moving_impact_readiness\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\moving_impact_readiness_v2\\PLAN.md"
+    ],
+    "terminal_adapter": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\terminal_wrapper\\REVIEW.md",
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\terminal_wrapper_policy\\REVIEW.md"
+    ],
+    "coverage_correction": [
+      "scratchpad\\gauntlet\\L72\\improvement_loop\\coverage_recheck\\REVIEW.md"
+    ],
+    "reporting_schedule": [
+      "DISCORD_REPORTING.md"
+    ]
+  },
+  "source_sha256": {
+    "DISCORD_REPORTING.md": "32368460457deb1f140282e2e0399b08c2e1266fda828bf6985616ba6779322e",
+    "HANDOFF.md": "8276261197acce2e61dc5cc7f5f487fce8c18d7fcaf638d15253679dad773b91",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\coverage_recheck\\REVIEW.md": "53a619149100ec09eb9122b324d3f060dd63bfff9f9d460d707a1bd2c5b7f45c",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\development_gameplay_1\\REVIEW.md": "63166395a023380af85ad6f9f383afa2b075198bc6cb59344e477272857317b2",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\development_iteration_5\\REVIEW.md": "f2151e395fb98954a5957b4abc07f2eca667822f5aa40f7b2e3c27f36ec7edc4",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\development_rl_1\\REVIEW.md": "3b09feee111838608acbaa7625f64c9e68033056db0d77bd3492b548cfe148bf",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\development_rl_2\\REVIEW.md": "3f4938722fa53a494f490719e860a4a383b006442cd9cdeda078d7b4eb013698",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\moving_impact_readiness\\REVIEW.md": "2262822566cad51e8b8d51b1036fbed3bd78ee7b5d8dd05e7c08623823a02aaa",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\moving_impact_readiness_v2\\PLAN.md": "47a734c0d847bc2c31eb861c7f15366c6912e95fc06cece1ad2946c0123582bc",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_credit_audit\\REVIEW.md": "597f2ab1021382e0783a0e4297aa2d13740a2abe12b7acf0bec3eb040342f5de",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_failure_audit\\REVIEW.md": "574625b7b38c1702bc9003a3bf9985806224b7738f887634e91b83f8614f86a9",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\rl_gradient_audit\\REVIEW.md": "9ab140dd15da5f97165c89d23eecd89425bd53b3bf611feb72c9256b49d73210",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\target_impact_readiness\\REVIEW.md": "2e917da72a2fd92208e000a2332cd2be1d383a87f3281510800174339446b071",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\target_impact_readiness\\verified.json": "730e9b7cfec24d0cbea4b8374de388adda92d7a3f5bc7f27c63406d0b50ead48",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\terminal_wrapper\\REVIEW.md": "749ccd1660a45d560fe664ea7930cadd1eac19474e2bd7cd1821bb723f5dd256",
+    "scratchpad\\gauntlet\\L72\\improvement_loop\\terminal_wrapper_policy\\REVIEW.md": "7298371a070f58a1749a641aafe4426df86c5c1523e4f50ca7691677d6636b51"
+  },
+  "message_sha256": "47a96801d6556c9913093ba23df0d20c5ee9c9290163cb003def6800ad15d4b4",
+  "review": "Claims checked against newest measured reviews; no fresh model/live performance inferred; v2 instrument registered but not run at cutoff; no verified daily trophy or clip result claimed."
+}
