@@ -1,5 +1,43 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 20:38 EDT -- TRAINING-CREDIT AUDIT COMPLETE; FULL-RETURN RL ACTIVE
+> Read rl_credit_audit/PLAN,METRICS,GATES,REVIEW,report,verified,reviewed under
+> L72/improvement_loop. C1-C3 COMPLETE:producer3.54s/independent8.64s/review.17s
+> exit0/token;73783rows/32updates/256matches/112groups and all per-match/update
+> counts reconcile,5positive9corruptions. No inference/optimization/native replay.
+> Do NOT repeat. Warmup10632rows/40matches;policy63151rows/216matches=9433PLAY+
+> 53718WAIT,9357accepted/15refused/61unlanded/zero unknown. PolicyRocket253rows/
+> 139matches,252accepted/1unlanded,135positive118negative advantages. Rocket lag
+> median97.75s/112 remaining rows;9at<=10s,31>10..30s,43>30..60s,170>60s.
+> Direct terminal GAE coefficient median.00280814 overall/.000133945 at>60s.
+> Critic bootstraps may still carry outcome information; no causal credit bug or
+> physical Rocket-benefit claim. Initial gate-logit score PLAY-.21377/WAIT+.11759,
+> net-.09618/Rocket-.00361,not actual neural/Adam effects or harmful-passivity proof.
+> ACTIVE development_rl_2 outcome_lambda1_v5:read PLAN/METRICS/GATES/REVIEW,
+> prepared/launch/chain_started/training_started/progress/chain.out/.err.
+> Prelaunch5.23s exit0/token,7positive5corruptions;config changes ONLYlambda.95->1,
+> reused original256 setups/native-byte/form proofs;zero optimizer/native resets.
+> Launcher58264/chain14892 started20:37:06,trainer26544/45116 at20:37:16.
+> At20:38:48 update2/32,16/256games complete,finite/no guardstop;warmup only.
+> OneGPUlock across prelaunch/train/eval/independent;failclosed/noautoresume.
+> Do NOT duplicate or edit/add bound Python/PLAN/METRICS/pipeline/data. Helpers
+> OUTSIDE active leaf. Ignored outputs icebow/data/bench/development_rl_2_20261005.
+> Sameoriginalv5parent/control,32x8games,5criticwarmup27policy,final32only;seeds
+> 2026110000..255/training scenarios already exposed,not confirmation. Sameupdated
+> runtime/publicsampler/26delay/extrap/abilitiesv2/terminaladapter/rewards/optimizer/
+> guards;no rejectedweights/newlabels/tacticalrule/frequencyreward/recipe mixtures.
+> Known strict form-map normalization retained. Canonical probability summary from
+> saved float64 NumPy arrays plus original Torch maximum/guard;both<1e-4,exact
+> canonical logged/recount equality required. Original RL1 exactness stays FAILED.
+> After complete32 only:54723 dev predictions/no baseline inference;independent
+> all256 outcomes/GAE/probabilities/every filter/per-replay counts. SameRocket
+> +5/+2/+2pp vs v5 and all protections. Receipts l72-outcome-lambda1-prepare/train/
+> eval/independent;on failure preserve/detect before corrected driver,no fallback.
+> No new report due yet;once finalreviewed,report NEWmodel once via intendedsender,
+> R1e/v5/priorRL stats and NOTACCEPTED pending all finalgates. OwnerSTOP13:39:32
+> intact,native5560idle,no liveworker/restart. N2-N7/physical/material/gameplay/
+> untouched/statistical/Q4/Q5 remain OPEN;Tuesday04Z cutoff preserved.
+
 > ## 2026-10-05 20:23 EDT -- CACHED RL FAILURE AND GRADIENT DIAGNOSES COMPLETE
 > Read rl_failure_audit/PLAN,METRICS,GATES,REVIEW,report,verified,reviewed and
 > bindings_verified under L72/improvement_loop. D1-D3 complete:130.45s producer/
