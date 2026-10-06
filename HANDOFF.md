@@ -1,5 +1,28 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 04:41 EDT -- ADDITIONAL ORDINARY-FIT CHAIN ACTIVE
+> Read development_iteration_9/PLAN,METRICS,GATES,REVIEW,prepared,launch,
+> chain_started,training_started,current progress and chain logs FIRST.
+> P1 complete74.417735s exit0/token,80source hashes,2positive6malformed controls.
+> Fixed1024000draws (510080native/513920mirrored),212145unique training rows.
+> New-driver CPU backward finite,weights unchanged,zero smoke optimizer updates.
+> T1 ACTIVE: launcher34904/chain52308/physicaltrainer30116;launched04:38:36EDT.
+> Verified ordinary_v5 start,freshAdamW1e-5/weightdecay.01/clip1,8000additional
+> updates,batch128,seed2026100609,original losses/uniform draws/mirroring/model.
+> Final8000only. No original1000job rerun,baseline inference or rejected mixtures.
+> Fresh optimizer is disclosed; no exact continuation of old Adam state claimed.
+>
+> Shared development_iteration_1 lock spans all5jobs. No duplicate launches,
+> frozen-source edits or subprocess-gap use. V1 BEFORE any development inference;
+> then one54723-row evaluation and independent raw-label/mask/replay recount.
+> V1/E1/V2/R1 pending. After all jobs pass, outside review_development9.py ONCE,
+> fresh l72-development9-reviewed-evidence / ORDINARY_EXTENDED_EVIDENCE_REVIEWED,
+> then ONE new-model report via intended sender,bind exact delivery/receipts in
+> reviewed_results. No report due now. On failure preserve everything first.
+> Original+5/+2/+2pp Rocket and all protection floors unchanged; finalgatesOPEN.
+> STOP13:39:32 intact,no live/fallbackrestart;13Z/09:00EDTownerextension.
+> Completed fit diagnosis below publishedff60157;RL3 report deliveredONCE.
+
 > ## 2026-10-06 04:32 EDT -- TRAINING-FIT DIAGNOSTIC COMPLETE
 > Read training_fit_audit/REVIEW,GATES,collected,verified,reviewed. All267305
 > fresh training views and54723cached development views independently reconcile.

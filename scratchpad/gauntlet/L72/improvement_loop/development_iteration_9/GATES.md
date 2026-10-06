@@ -2,10 +2,10 @@
 
 OWNS: scratchpad/gauntlet/L72/improvement_loop/development_iteration_9/**, icebow/data/bench/development_iteration_9_20261006/**
 
-- [ ] P1: Frozen training-only schedule and new-driver controls reconcile.
+- [x] P1: Frozen training-only schedule and new-driver controls reconcile.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/development_iteration_9/prepare.py
   EXPECT: ORDINARY_EXTENDED_PREPARED
-  EVIDENCE: pending
+  EVIDENCE: prepared.json;80source/input hashes,1024000draws/212145unique rows,2positive6malformed controls,finite new-driver backward probe with exact unchanged weights and zero optimizer updates; l72-development9-prepare74.417735s exit0/token.
 - [ ] T1: Exactly8000 finite updates produce only the final candidate under frozen bindings.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/development_iteration_9/train.py
   EXPECT: ORDINARY_EXTENDED_TRAINED
