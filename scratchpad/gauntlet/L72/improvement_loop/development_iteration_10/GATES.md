@@ -2,10 +2,10 @@
 
 OWNS: scratchpad/gauntlet/L72/improvement_loop/development_iteration_10/**, icebow/data/bench/development_iteration_10_20261006/**
 
-- [ ] P1: Prepared bindings, exact prior schedule, unchanged initial EVAL and finite dropout-free backward pass.
+- [x] P1: Prepared bindings, exact prior schedule, unchanged initial EVAL and finite dropout-free backward pass.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/development_iteration_10/prepare.py
   EXPECT: ORDINARY_NO_DROPOUT_PREPARED
-  EVIDENCE: pending
+  EVIDENCE: prepared.json and l72-development10-prepare.json/.out; exit0/token,72.823836s;93source bindings,original1024000draws exact,initial EVAL/roundtrip exact,finite backward with unchanged weights and0optimizer.
 - [ ] T1: Exactly8000 finite updates start fresh ordinary_v5 and disable only training dropout.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/development_iteration_10/train.py
   EXPECT: ORDINARY_NO_DROPOUT_TRAINED
