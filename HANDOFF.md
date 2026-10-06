@@ -1,3 +1,20 @@
+## 2026-10-06 09:00 EDT - owner cutoff reached; worker heartbeat paused
+
+The overnight work window has ended. The same worker heartbeat
+continue-clashbot-acceptance-and-deployment is now PAUSED; its original13Z end
+was preserved and its final prompt binds the completed gradient audit and this
+UNFINISHED objective. The active-state update at08:58 was rejected because the
+schedule had no future occurrence before its end; after09:00 the paused update
+succeeded and persisted prompt equality/status were verified. This was scheduler
+validation, not an execution failure or a changed experimental deadline.
+
+All experiment/diagnostic jobs were already complete; no ClashBot Python worker
+was present at08:58:52. No new experiment or live work was launched. Owner STOP
+remains unchanged. Daily newsletter automation was not touched. Resume model work
+only after renewed authority or actual owner/Claude continuation. No replacement
+qualified; all final requirements remain open. See adc7171 and the08:57 entry for
+complete measured findings, limits, receipts and proposed future work.
+
 ## 2026-10-06 08:57 EDT - overnight unfinished handoff; gradient audit complete
 
 The owner-bounded overnight window ends09:00EDT/13Z. No new experiment is being
