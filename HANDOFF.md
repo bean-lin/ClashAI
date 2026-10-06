@@ -1,3 +1,41 @@
+## 2026-10-06 12:53 EDT - owner-supervised hand/retention successor registered
+
+The owner is awake and explicitly renewed hand reader, learned hold/play and model
+integration work. This supersedes the earlier bounded-reader-only scope for the
+present direct request; the overnight heartbeat remains paused. No assistant live
+startup/STOP removal, candidate acceptance or R1e fallback restart occurred.
+Owner live_play.py --tau 0.35 launcher/child 58680/61060 remain running; leave
+healthy processes and active live-bound sources alone.
+
+Read hand_retention_integration PLAN/GATES/HAND_METRICS and sequence_data
+PLAN/METRICS/GATES. L1 tower loader compatibility complete: exact frozen tower
+architecture, all tensors and 128 real training-row predictions; legacy R1e/v5
+parity; four malformed checkpoints rejected. l72-tower-live-loader 83.153367s
+exit0/token. First live-check used research venv without cv2 and failed; original
+receipt retained. l72-tower-live-check-v2 used normal icebow venv, 5.515257s
+exit0/LIVE_CHECK_PASS, CPU, tau .35, public audit on, anti-leak/sampling/area aim off.
+Owner was given tower_spatial_v7 candidate path (SHA 2feffe4f0990d93721ceb0b6661338f52e7f935e85b80e29535ea713ad6569a0).
+This is strongest Rocket/Barrel development combination, NOT accepted or tested
+better gameplay; ordinary_v5 remains best measured new model 42/64 vs R1e45/64.
+Prior tower failures and previously delivered report remain unchanged.
+
+New pipeline/opponent_hand_v2.py normalizes consecutive genuine identical public
+plays as Mirror conditionally on standard cycle, with contradiction/unknown/tie/
+gap handling. Eight tests passed l72-hand-successor 2.530877s. Does not repair
+missed/merged public play events or claim command-time memory visibility.
+Explicit 8x6 hand tokens and five quality flags, no hidden deck/hand inputs.
+
+S1 sequence_data registered, not launched at this entry. Existing 268718 original
+train/development rows and 1978 sources only; reuse 160 cached public streams.
+Future response windows are descriptive audit fields in a SEPARATE archive,
+never inputs or changed expert labels. Independent scalar reference preflight
+passes 55 prefixes/3 windows/18 corruptions (l72-hand-sequence-preflight).
+One serial collect/verify chain uses common development_iteration_1 chain.lock.
+Model extension, matched learning comparison, independent model verification and
+new-model report remain PENDING. No training budget or recipe authorized by this
+registration until its own prospective metrics are frozen. Final N2-N7 and all
+statistical/physical/gameplay/component/public/Q4/Q5 acceptance remain OPEN.
+
 ## 2026-10-06 11:54 EDT - public opponent hand reader implemented and audited
 
 New direct owner request after overnight cutoff authorized this bounded reader and
