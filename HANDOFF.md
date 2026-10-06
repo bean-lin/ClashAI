@@ -1,5 +1,36 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 21:58 EDT -- MOVING BODY AND CROWN INSTRUMENT QUALIFIED
+> Read moving_impact_readiness_v3/REVIEW and moving_impact_readiness_v4
+> PLAN/METRICS/GATES/REVIEW/report/verified/reviewed under L72/improvement_loop.
+> V3 failed after one root's six branches: it batched two same-team setup plays;
+> native source explicitly rejects the second. Actual failed status was not saved,
+> so the diagnosis is source-based. Original sources/started/receipt/raws preserved,
+> no v3 report or independent run. Receipt1.075143s,exit1/tokenfalse.
+>
+> Separate v4 registered sequential setup Knight180/Giant181, individual saved
+> command results/costs, same absolute root240; new seeds2026101000..1015.
+> All16syntheticroots/96branches/15072frames independently reconcile. All64Rocket
+> casts accepted/charged6elixir:8no-damage,12body-only,32crown-only,12body-and-crown;
+> 24casts hit a moving body,8hit both bodies. Level11/14 hit damage1484/1966body,
+> 342/453crown. Sideways6 hits an enemy king in two-body scenes; included explicitly.
+> WAIT/repeatedWAIT frames/fullfinalbytes exact; allentities alive/present,
+> movingWAITbodies, unchangedWAITHP/friendlyHP; zeroordinaryprojectiles/nonidle
+> attackphases throughout. Every curve's final10frames plateau. Source/raw/setup/
+> UID/crown/HP/cost/membership controls:16positive17corruptions.
+> Collection6.441845s/independent3.072859s/closeout.161378s exit0/tokenmatched;
+> l72-moving-impact-v4 receipts and reviewed.json bind all hashes. Do NOT rerun.
+>
+> Engineering pass only for fixed isolated scenes. No model/inference/optimization,
+> expert/reserved data/native-client replay, tactical benefit or real-client parity.
+> No new model report due. Next is separately registered public-input targeting
+> learnability with grouped scene splits; no such training registered/launched yet.
+> All final acceptance gates remain open; STOP13:39:32 intact, no live restart.
+>
+> Newsletter reminder: October5 edition already delivered3parts at21:37:21EDT.
+> The scheduled heartbeat arrived21:40EDT and skipped the completed dated ledger.
+> Trigger lateness cause remains unknown; manual delivery did not repair it.
+
 > ## 2026-10-05 21:39 EDT -- DAILY NEWSLETTER SENT MANUALLY; MOVING FIXTURES FAILED
 > Owner reported that the9:30PM newsletter did not arrive and explicitly requested
 > a manual send plus a GitHub push to test their new GitHub webhook. No prior dated
