@@ -1,3 +1,58 @@
+## 2026-10-06 11:54 EDT - public opponent hand reader implemented and audited
+
+New direct owner request after overnight cutoff authorized this bounded reader and
+past-match check. Read pipeline/opponent_hand.py and
+scratchpad/gauntlet/L72/improvement_loop/opponent_hand_reader/{PLAN,METRICS,GATES,README,REVIEW}.md,
+started/collected/verified/reviewed/details.json. T1/C1/V1/R1 complete. Do not rerun
+completed collection/verifier/review. No model or live work was authorized by this
+reader request; overnight heartbeat stays paused, original STOP remains intact.
+
+New HandBelief and opt-in PublicHandObserver infer standard8-card/4-hand FIFO
+identities from public plays. Four later plays return a card, partial revealed
+knowledge stays partial. Equal-tick order, unknown identity, gap/reset, duplicate
+events, contradictions, abilities, forms, unsupported rules and Mirror-slot
+identity are explicit. No hidden opponent hand/deck/next/elixir, future reveal,
+counter table or hold/play rule enters inference. Public board adapter is ALWAYS
+certified=false: no detected contradiction does not establish completeness.
+Existing PublicObserver/v4 policy tensors are unchanged; no model consumes this
+new separate belief API yet. Champions use normal cycle after official Oct2025
+rework; historical/special deck rules abstain. Mirror body attribution unqualified.
+
+18 tests pass, including all1680 starting hand-set/queue configurations x48plays
+=80640 direct queue states, independent possible worlds, privacy/future controls
+and byte-identical v4 features. Original test receipt failed an incorrect manual
+fixture expectation, preserved; corrected tests-v2 passes3.968763s, no old result
+relabeled. C1collect36.133480s/V1independent11.357863s/R1review4.890720s all0/token.
+Independent3positive8corruption controls; sources and EVERY query/count reconcile.
+
+Fixed already exposed cohort32training+128development native re-drives, bothsides.
+13047logentries:12696usable four-card hands,351missing/non-four. EVERY usable
+hand_before exactly equals separate play-frame playerhand;0oracle conflicts.
+Training ideal/full1058/1058 over2272queries; public980/1008 full (97.22%) at44.37%
+coverage. Development ideal4692/4692 over10424queries; public4245/4354full(97.50%)
+at41.77%coverage. Public in-hand28448/28611(99.43%), out38370/38620(99.35%). Ideal
+in/out allcorrect bothcohorts. Unknown claims excluded fromprecision, not counted
+correct. All8revealed only4428/10424developmentqueries; no final-deck filling.
+109wrongfullestimates across48devreplays; only15hadexplicitissue. Savedexample
+tick5641 Skeletons issued5636, detectorhistory endsKnight5591: temporarily stale
+hand, not wrongcyclearithmetic. Detailed example streams/cardcounts in details.
+
+These are reconstructed native pastmatches, NOT original video/client or current
+live-hand validation. Ideal command-event arm diagnoses rotation only and is NOT
+public model input. Actual arm uses regular publicframes, stripped ofprivate
+fields; command-timedplayframes/hiddenhands are scorer-only. Queryobservations
+withinreplays correlated; no statisticallybetterpolicyclaim. OneMirrordeckside
+incohort is insufficient Mirror-specific qualification. Unit controls treat known
+Mirror slot correctly but cannot certify body-to-Mirror detection.
+
+Next: qualify event latency/misses/Mirror on authorized live recordings with an
+independent oracle where available, then separately version/train/test explicit
+public beliefs +uncertainty for learned response-retention value. Include justified
+immediate spending and measure damage/resources/wins, not hold frequency. Reader
+engineering passed; better model decisions remain unmeasured. All final floors,
+reserved confirmation, prior failures/quarantines unchanged. No training/inference,
+checkpoint/deployment/Discord modelreport/workerrestart, and no fallback liveplay.
+
 ## 2026-10-06 11:04 EDT - owner adds learned counter retention objective
 
 Read scratchpad/gauntlet/L72/improvement_loop/COUNTER_RETENTION_AMENDMENT_20261006.md.
