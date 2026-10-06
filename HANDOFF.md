@@ -1,5 +1,25 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 05:18 EDT -- SMALL-SET FIT ASSAY REGISTERED; NOT YET LAUNCHED
+> Read small_set_fit/PLAN,METRICS,GATES,REVIEW. Diagnostic-only fit test from
+> verified ordinary_v5; fixed1024 training rows (64PLAY per8cards,512WAIT),
+> at most one row/replay/stratum,seed2026100610. Original losses/network/1e-5
+> freshAdamW/mirroring,4096updates/128batch/finalonly. No rejected model reuse.
+> Five serial jobs under commonlock: prepare/train/training-independent/eval/
+> results-independent. New preparation CPUbackward must pass with unchanged
+> weights before any optimizer; independent training proof BEFORE inference.
+> Three checkpoints then predict each native/mirrored view of same1024rows:
+> assay,v5,corrected-inputR1e. No development/reserved/native-game/live work.
+> Prospective fit floors eachorientation:90%fullPLAY,95%Rocketcard/aim,95%WAIT.
+> Passing only establishes fit on this sample; failure not capacity impossibility.
+> Quarantined weights NEVER eligible for policy/learningparent/deployment.
+> Outside review_small_set_fit.py prepared UNEXECUTED; after all5jobs succeed
+> runONCE with l72-small-set-fit-reviewed-evidence/SMALL_SET_FIT_EVIDENCE_REVIEWED,
+> then one diagnostic-model report, binddelivery, updatehandoff. No report yet.
+> Priortrial9complete/reportdeliveredONCE/published275aead; never repeat.
+> STOP13:39:32 intact;13Z/09:00EDTownerextension;finalfloors unchanged/open.
+
+
 > ## 2026-10-06 05:07 EDT -- ADDITIONAL ORDINARY FIT COMPLETE; REJECTED
 > Read development_iteration_9/REVIEW,GATES,trained,training_verified,evaluated,
 > results_verified,reviewed_evidence,reviewed_results,chain_complete. All5jobs
