@@ -1,3 +1,49 @@
+## 2026-10-06 08:57 EDT - overnight unfinished handoff; gradient audit complete
+
+The owner-bounded overnight window ends09:00EDT/13Z. No new experiment is being
+launched in the remaining minutes. At08:55inspection all ClashBot Python model/
+diagnostic/native replay/live workers had exited; STOP remains the original
+Oct5 13:39:32.8774474 zero-byte file. No fallback restart or deployment occurred.
+The overall NEW model materially/statistically better than R1e objective remains
+UNFINISHED. All final N2-N7/statistical/component/physical/gameplay/public/Q4/Q5
+requirements remain OPEN; no sampled diagnostic pass closes them.
+
+il_gradient_audit C1/V1/R1 COMPLETE. Do not rerun/resend. All32 fixed EVAL model/
+batch gradients/4096 model-row views/2038unique source rows reconcile against
+original8000draws, original/corrected labels and all70 sources. Collection160.699687s,
+independent24.850928s, outerreview0.644249s all0/token.3positive7bad independent
+controls; exact original losses, unchanged weights, no optimizer/newcheckpoint.
+Both v5/no-dropout show cell/rest opposition8/16, but cell/total opposition0/16
+on both all/shared scopes. Shared cosines[-.12967235,+.13078369] and
+[-.09989913,+.09534171], medians+.00735735/-.00118224. Combined infinitesimal
+unpreconditioned cell-descent direction remains favorable in all sampled batches.
+No actualAdam/finite-step/Rocket-only/population/causal-gameplay claim follows.
+See il_gradient_audit/REVIEW,DETAILS,collected,verified,reviewed and EVERYreceipt.
+No NEWmodelreportdue. Prior model rejections/fit quarantines remain permanent.
+
+Evidence-based continuation proposals AFTER renewed work authority, not registered
+or launched: qualify an actual Adam update/optimizer-state response instrument on
+fixed training batches with unchanged original objective, matched no-update control
+and separate held-out TRAINING batches, before selecting any learning-rate change.
+This would distinguish local batch descent from cross-batch improvement; current
+raw Euclidean gradients cannot answer it. Do not launch a blind grid, extra-budget
+rescue, rejected-weight continuation or combine failed recipes. Any trial needs
+fresh eligible parent, independent controls, fixed budget/selection and unchanged
+final floors. Missing public history, joint card/aim learning and closed-loop
+late-game curricula remain hypotheses, not implemented remedies.
+
+Final evidence acquisition remains unresolved: preserve ALL183 unused exact-Icebow
+confirmation groups, missing Barrel source coverage and measured physical/gameplay/
+power limitations. Do not substitute exposed history, simulation or bot actions as
+untouched expert evidence. Prior acquisition challenges remain unbypassed; no
+unchanged pulls/repeated owner question. No candidate currently qualifies for new
+matched gameplay or live deployment. Sampling/aim options remain OFF.
+
+No pending job or new model report remains. All original failures/raws/receipts,
+related commits and once-only deliveries remain preserved. The worker heartbeat
+keeps its existing13Z expiration; the separate daily newsletter continues unchanged.
+Do not interpret this unfinished handoff as model acceptance or renewed authority.
+
 ## 2026-10-06 08:47 EDT - imitation-gradient audit ACTIVE
 
 
