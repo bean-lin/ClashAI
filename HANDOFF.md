@@ -1,3 +1,46 @@
+## 2026-10-06 07:24 EDT — dropout-free diagnostic PASS; broader development comparison registered, not launched
+
+Owner overnight extension through09:00EDT/13Z supersedes older04Z text.
+Dropout_free_fit ALL5jobs complete07:03:33EDT and evidence/report closeout COMPLETE.
+Read dropout_free_fit/REVIEW.md,results_verified.json,reviewed_evidence.json,
+reviewed_results.json and every receipt. Never rerun or resend. 4096finiteupdates,
+524288draws,96optimizerstates each4096,2048newviews+6144cachedcontrols reconcile.
+Native/mirror correctedR1e/v5/priorfit/dropoutfree fullPLAY69/80/417/468 and75/83/418/474
+of512; Rocket aim20/20/51/64 and16/17/49/63of64; full3/7/51/64 and2/7/49/63.
+Allcard512/512andWAIT512/512 retained in both orientations. First-failure breakdown
+1gate0card43aim and1gate0card37aim. First/last256loss4.768166170455515/.304945615993347.
+Original fit criteria allPASS, not generalization or gameplay/physical proof.
+FinalSHA c6d07d85bbc2922f0a22d4f22ae738962fc04420db2715f5c521d00b05b51550.
+ALL fit weights FOREVER QUARANTINED, never policy/learningparent/live.
+NOT ACCEPTED/NOT DEPLOYED; all final N2-N7/statistical/component/physical/gameplay/
+public/Q4/Q5 OPEN. Report deliveredONCE07:19:41EDT3HTTP200,stableID
+model-dropout-free-fit-v5-diagnostic,IDs1556989315786219562,1556989317501685872,
+1556989318843605084. reviewed_results binds exacttext/delivery/all7prior receipts.
+
+Separately registered development_iteration_10 ordinary_no_dropout_v5:
+PLAN/METRICS/GATES/REVIEW and eight Python drivers plus hidden launcher written,
+source reviewed, syntax parsed, gate lint PASS (manual R1 warning expected).
+No job launched yet. Test training dropout ONLY, original architecture/no localcell,
+FRESH verified ordinary_v5 parentSHA c0ba1ab910df50fdcbe1fcf4191aedd584c86fe94c5a6d3248359bda059db419.
+Match completed development9 exact8000updates/1024000draw+mirror schedule,seed2026100609,
+batch128,AdamW1e-5wd.01clip1/fp32/original labels/loss; finalonly, no rescue.
+All16dropoutattrs .1->0 via isolated loader; production unchanged. P1 newdriver
+exact initialEVAL/roundtrip/backward withoutupdates; bind prior mechanism instead
+of repeating it. V1 fullschedule/log/tensor/96optimizerstates8000,1positive9bad,
+BEFORE E1 finalonly54723dev predictions; cached3controls reused. V2 original
+rawlabels/masks/perreplay/PLAY-WAIT recount2positive10bad. Preserve original5/2/2pp
+Rocket/latefloors and ALL protections versus BOTH ordinary_v5 and matched-budget
+ordinary_extended_v5; correctedR1e context. Parent exposure disclosed.
+
+Launch once via development_iteration_10/launch.ps1 after freshprocess/GPU/lock
+inspection. Sharedchain.lock spans allFIVE l72-development10 stages. Never edit
+boundPython/PLAN/METRICS or use subprocessgaps. Onfailure preserveoriginalevidence,
+no unchangedretry. Outside review_development10.py andclose_development10_report.py
+PREPAREDUNEXECUTED, run only after all5successes/confirmedreport respectively.
+StablefutureID model-ordinary-no-dropout-v5-final. No report whilepending.
+No quarantined/rejected parent reuse, reserved/oldvalidation/nativegame/livework.
+STOP13:39:32intact; no live/fallbackrestart. Objective remains unmet.
+
 # HANDOFF — ClashBot
 
 > ## 2026-10-06 06:52 EDT -- DROPOUT-FREE ASSAY PREFLIGHT PASS; TRAINING ACTIVE

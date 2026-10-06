@@ -1,0 +1,36 @@
+{
+  "report_id": "model-dropout-free-fit-v5-diagnostic",
+  "created_at": "2026-10-06T11:19:40.636867+00:00",
+  "text_sha256": "02e225de1867c284bba47f92499de492f61b41cdcccecd24abeebb1fc0a0e5df",
+  "status": "delivered",
+  "chunks": [
+    {
+      "index": 1,
+      "sha256": "bdfb4872d0391f514f380ce208a7fffc1d328af6057d143a82add9d9008133bb",
+      "status": "delivered",
+      "started_at": "2026-10-06T11:19:40.639729+00:00",
+      "http_status": 200,
+      "message_id": "1556989315786219562",
+      "completed_at": "2026-10-06T11:19:40.990543+00:00"
+    },
+    {
+      "index": 2,
+      "sha256": "1208f4864fe020c1dd81f29bac6a0dabfb52ba9c8f0badd0494ab8925e0bde17",
+      "status": "delivered",
+      "started_at": "2026-10-06T11:19:40.992995+00:00",
+      "http_status": 200,
+      "message_id": "1556989317501685872",
+      "completed_at": "2026-10-06T11:19:41.303793+00:00"
+    },
+    {
+      "index": 3,
+      "sha256": "6fb3e771e4cd6db944d1178666f29c4ac4d83b4fd9e9ad6e1e7ebbfd3d516e5a",
+      "status": "delivered",
+      "started_at": "2026-10-06T11:19:41.306608+00:00",
+      "http_status": 200,
+      "message_id": "1556989318843605084",
+      "completed_at": "2026-10-06T11:19:41.565952+00:00"
+    }
+  ],
+  "completed_at": "2026-10-06T11:19:41.569017+00:00"
+}
