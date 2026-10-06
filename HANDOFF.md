@@ -1,5 +1,79 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 23:30 EDT -- ORIGINAL LATE COHORT FAILED; FRESH64 ACTIVE
+> This supersedes the original16-game ACTIVE snapshot immediately below.
+> late_game_readiness collection FAILED104.688055s after all16games:4late games/
+>91contributingrows versus256required. No probability/backward/model/optimizer
+> or independent verifier ran. Original sources/PLAN/METRICS/failedreceipt/raws
+> preserved; collected.json complete means rawcollection only, NOT C1 pass.
+> Original V1/R1 abandoned; older review_late_game_readiness.py remains unexecuted.
+> Separate late_game_readiness_coverage0.541343s exit0/token independently verifies
+> all16memberships and every projected history/action field,1positive8corruptions.
+> No nativegames/inference/optimization in diagnosis; original failure unchanged.
+>
+> Read late_game_readiness_2/PLAN,METRICS,GATES,REVIEW,started/launch/chain_started/
+> currentprogress/chain.out/.err FIRST. NEW fixed64freshgames,seeds2026101500..563,
+>32gen32S1/balancedsides,same8exposedgen decks fixedcycle. No oldgame repeats.
+> Same public phase boundary regular+overtime//2 (standard4800),4late-game/256row
+> minimum. If insufficient again,reassess distribution; no automaticlargercohort,
+> boundary change or omitted games. Four simultaneous fullgames in oneGPUchain.
+> Actual native termination before suffixprojection; retain all full publichistory,
+> earlyemptygames,originaldecisions/pending outcomes,initial/finalnativebytes.
+> Same sampler tau.35/T.5/26delay/extrap/noiseoff/updatedruntime/abilitiesv2/
+> qualifiedterminaladapter. ZEROoptimizer/newmodel. Raw sharedrowGAE/features/
+> actions exact; original jointprobratio<1e-4,independentweights/normalization,
+>15corruptioncontrols,finiteactorcriticbackward,unchangedweights required.
+> Separately recomputed criticbatchdiff<1e-5 prospectiveonly; same fullsavedvalues
+> used for exact recurrencecomparison. No old exactness waiver. Coverage minimum
+> is engineering only, not acceptance power or proof of strategic opportunities.
+> Launched23:28:09EDT launcher34384/chain53952,collector28208/13996. Sharedlock
+> spans bothjobs; inspect actualprogress. Neverduplicate/editboundPython/PLAN/
+> METRICS/killhealthyjobs; subprocessgapsnotavailability. FuturehelpersOUTSIDEleaf.
+> Prepared review_late_game_readiness2.py NOTexecuted: after report/verified/
+> chain_complete and bothsuccessreceipts, runONCE l72-late-game-readiness2-reviewed
+> with LATE_GAME_READINESS_REVIEWED. Olderhelperabandoned. No model reportdue.
+> impact_learnability_2_recovery REJECTED/alreadyreported ONCE as below; never
+> resend it or Oct5newsletter. Owner13Z/09:00EDTextension/allfinalfloors remain;
+> STOPintact,no liveworker/fallbackrestart. No accepted replacement policy.
+
+> ## 2026-10-05 23:25 EDT -- AUXILIARY RECIPE REJECTED; LATE-GAME READINESS ACTIVE
+> impact_learnability_2_recovery is COMPLETE, superseding every older active
+> snapshot. All192roots/3456branches/542592frames/13824queries reconcile;
+>16trainfamilies9216rows,8developmentfamilies4608rows. Collection485.296423s,
+> data-independent177.156634s,training35.128636s,results-independent12.948921s,
+> outside evidence review0.255875s: all exit0/token.6000finiteupdates across six
+> auxiliary models;82944predictions independently match. Data controls192positive/
+>16corruptions/4privateinvariance; results6positive/8corruptions. DO NOT rerun.
+> Static vs motion mean development body balancedBrier0.08355921 vs0.12609941,
+>50.91025%worse,0of3seeds improve. Trainingbody0.02550191 vs0.01666132 improves;
+> development crown0.00020817 vs0.00022271. Original body absolute/relative/seed
+> filters FAIL, crown protection passes; continuation REJECTED. No causal reason
+> proved. Predictors cannot play; no comparable R1e assay/gameplay/acceptance/live.
+> One compound model report ALREADY DELIVERED23:12:17EDT,3parts/allHTTP200,
+> model-impact-learning2-aux-final; reviewed_results binds exact message/delivery/
+> IDs/receipts. Never resend it or the already delivered Oct5 newsletter.
+>
+> Changed next hypothesis: complete late-game outcome learning with full preceding
+> public history. Read late_game_readiness/PLAN,METRICS,GATES,REVIEW and actual
+> launch/chain_started/progress/chain.out/.err FIRST. Registered16fresh full games,
+> ordinary_v5 versus8gen/8S1,balanced sides,seeds2026101400..415. Updated runtime,
+> abilitiesv2,terminal adapter,public sampler tau.35/T.5,26delay/extrap,noiseoff.
+> AFTER native termination, select learning rows tick>=regular+overtime//2
+> (standard4800). Full original histories/decisions/pending outcomes remain;
+> early terminal games yield empty late views, never resampled. Zero optimizer.
+> Require4late games/256contributingrows, exact projection/GAE and original
+> probability bound, independent controls/finite backwards/unchangedweights.
+> This is readiness only, not strategic improvement or a new policy candidate.
+> Launched23:22:12,launcher49060/chain60240,collector35940/55576;12of16games at
+> latest23:25inspection,noerror. Sharedlock across bothjobs. Do NOT duplicate,
+> edit boundPython/PLAN/METRICS or kill healthyjobs; gaps are not availability.
+> Prepared outside review_late_game_readiness.py NOTexecuted: after two successful
+> receipts and chain_complete, runONCE l72-late-game-readiness-reviewed with
+> LATE_GAME_READINESS_REVIEWED. Futurehelpers outside leaf. No model reportdue.
+> On failure preserve originalsource/receipt/results, diagnose separately.
+> Owner overnight extension13Z/09:00EDT remains; all finalfloorsOPEN,STOPintact,
+> no liveworker/fallbackrestart. Only qualifying NEWcandidate mayuse start_live.sh.
+
 > ## 2026-10-05 22:56 EDT -- SETUPS VERIFIED; REPRESENTATION RECOVERY ACTIVE
 > impact_learnability_2 P1/P2 COMPLETE:192roots288commands, prepare124.150114s/
 > independent3.468902s exit0/token;192positive7corruptions. Original collector
