@@ -1,5 +1,60 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 00:06 EDT -- LATE READINESS COMPLETE; MATCHED CURRICULUM ACTIVE
+> This supersedes the prior active late_game_readiness_2 snapshot. C1/V1/R1
+> COMPLETE: collection445.394942s/independent1.898031s/review.174590s exit0/token.
+> All64fullgames/18995contributingrows and24nonemptylategames/1047rows reconcile;
+> late408PLAY,40emptygames retained. Medianlag119.5s full/31.6s late,maxlate67.05s.
+> Raw lambda.95/1 shared-row returns exact on same saved full critic values.
+> Joint probability max9.212475e-6<1e-4; separate criticdifference4.622654e-7<1e-5.
+> Public history/actions/weights/native outcomes independently exact,1positive
+>15corruptions,finitebackward/unchangedweights,ZEROoptimizer/newmodel. Do NOT
+> repeat collection/verifier/closeout. Original16game91rowfailure remainsFAILED.
+> Readiness is engineering only, not strategy/power/safe-cycle/policy improvement.
+>
+> Read development_rl_3/PLAN,METRICS,GATES,REVIEW,prepared/launch/chain_started/
+> training_started/currentprogress/chain.out/.err FIRST. One new serial GPU chain
+> launched00:05:43EDT,launcher58208/chain32296,training16976/60572. P1 COMPLETE
+>15.206882s exit0/token:1024fresh initialnative states/forms,7positive8malformed
+> controls,zerooptimizer. Excluded fixeddraw integration1937unique full/810unique
+> late rows of2048draws; no oldgame/inference reruns. T1 ACTIVE; no model verdict.
+> Shared development_iteration_1 chain.lock spans preparation/train/training-
+> independent/eval/results-independent. Do not duplicate/edit boundPython/PLAN/
+> METRICS orkillhealthyjobs; childgapsnotavailability. FuturehelpersOUTSIDEleaf.
+>
+> New one-factor comparison full_budget_v5 versus late_budget_v5, both reset
+> verifiedordinary_v5.16updates x64complete nativegames per arm,2048games total,
+>1024same prepared initialsetups/seeds2026102000..3023 acrossarms;32gen32S1 per
+> update,balanced sides,same8exposedgen decks. Fourgames/batch/oneprocess. Each
+> currentpolicy plays entireprefix/suffix with fullpublichistory toactualnative
+> end; training only selects full or tick>=regular+overtime//2 (4800). No tactical
+> switch/reset/outcomeselector. Emptylateviews retained.>=4eligiblegames/256rows
+> per arm-update orfailclosed; no resampling/changedboundary/largercohort.
+> Same2048equal-match rowdraws perupdate,paireduniforms,2passes/batch256=16Adam
+> steps,512totalsteps for both arms;5critic-head-only/11policyupdates,finalu016.
+> Compute full eligible GAE beforedrawing; saveallmembership/features/draws/
+> probabilities/values/returns. Sameoutcome-only+1/-1/0,gamma.99994/lambda.95,
+> Adam1e-5/clip.5/beta.3adaptive/sharedcritictrunk afterwarmup/oldguards. Updated
+> MAINruntime/abilitiesv2/qualifiedterminaladapter/tau.35/T.5/26delayandextrap/
+> noiseoff. No newfeatures/rejectedweights/cardrules/frequencyreward; no expert/
+> reserved/oldvalidation/botlabels in training. Parent exposure retained.
+>
+> Independent training verifier must reconcileall2048games/32armupdates/512steps,
+> publicrows/nativeoutcomes/GAE/draws/weights/probabilities and17corruptions BEFORE
+> any development evaluation. Then final2x54723rows/originallabels/perreplaycounts.
+> Late continuation requires original+5ppaim/+2ppRocketaction/+2pplateRocket and
+> all protections versus BOTH matchedfullcontrol andordinary_v5. Fullcontrol has
+> same floors versusparent. No bestarm/checkpointrescue orfinalfloor waiver.
+> Outside review_late_curriculum.py prepared, NOTEXECUTED; after all5jobs succeed,
+> runONCE l72-late-curriculum-reviewed-evidence/LATE_CURRICULUM_EVIDENCE_REVIEWED.
+> Then ONEcompound newmodelreport perDISCORD_REPORTING with botharms/R1econtext,
+> limits/verdict,exactmessage/deliveryreceipts; no new reportdue while pending.
+> Priorauxiliaryreport/Oct5newsletter ALREADYdelivered,neverresend.
+>
+> Owner STOP13:39:32 intact,noliveworker/fallbackrestart. Overnightextension13Z/
+>09:00EDT supersedes everyold04Zreference. No modelacceptance/deployment/physical/
+> strategic proof; finalN2-N7/statistical/gameplay/public/Q4/Q5 stillOPEN.
+
 > ## 2026-10-05 23:30 EDT -- ORIGINAL LATE COHORT FAILED; FRESH64 ACTIVE
 > This supersedes the original16-game ACTIVE snapshot immediately below.
 > late_game_readiness collection FAILED104.688055s after all16games:4late games/

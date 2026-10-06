@@ -1,28 +1,23 @@
-# Active: fresh64-game late readiness cohort
+# Complete: full-history late-game readiness, October6
 
-Launched October5 23:28:09EDT, launcher34384/chain53952, collector28208/13996.
-Latest inspected progress12of64games, no error. One GPU chain/shared lock spans
-collection and independent verifier; no optimizer/new policy. Inspect actual
-process/logs first, never duplicate or edit bound Python/PLAN/METRICS. Source
-bindings include the original failed16-game cohort and capacity diagnosis.
+C1/V1/R1 COMPLETE. Collection445.394942s, independent1.898031s, outside review
+0.174590s all exit0/token. All64full games/18995contributing rows reconcile;
+24games supply1047late rows, including408PLAY. Other40games retained with empty
+late views. Median terminal lag119.5s full versus31.6s late, maximum67.05s late.
+No optimizer/new model: every parameter unchanged after finite actor/critic
+backward probes. Both original lambda.95/1 shared-row recurrences exact using
+same full saved critic values. Maximum probability ratio deviation9.212475e-6
+passes1e-4. Separate critic batch difference4.622654e-7 passes prospective1e-5.
+Independent membership/history/actions/native outcomes/weights/returns reconcile,
+1positive15corruptions. Reviewed sources and both receipt/output hashes bound.
 
-Original late_game_readiness FAILED104.688055s after16games at4late games/91rows
-versus256required. No probability/backward checks ran. Separate saved projection
-recount0.541343s exit0/token,1positive8corruptions. Original failure stays failed.
+This qualifies the learning-view instrument only. It does not establish safe
+cycles, tactical opportunity counts, statistical power, or a better policy.
+Original16-game failure remains FAILED:4games/91rows below256. No jobs rerun.
+The obsolete original outside helper stays unexecuted; new helper ran ONCE.
 
-New fixed64freshgames, seeds2026101500..563,32gen/32S1,balanced sides and the same
-8exposed gen decks cycled by fixed index. Same public sampler/runtime/abilities/
-terminal handling; all games finish before learning-view projection. Same late
-boundary regular+overtime//2 (4800), minimum4late games/256rows. No resampling,
-changed boundary, outcome filtering or old-game rerun. If insufficient again,
-reassess distribution; no automatic larger cohort. Registration prose23:29 was
-an approximate drafting timestamp; actual launch above is authoritative.
-
-C1/V1/R1 pending. On full success, run outside review_late_game_readiness2.py
-ONCE with fresh l72-late-game-readiness2-reviewed, expected
-LATE_GAME_READINESS_REVIEWED. It checks64games, both receipts/source bindings,
-15corruptions and zero updates. The older outside helper is abandoned/unexecuted.
-No model report due; the previous auxiliary report already delivered once.
-Owner STOP13:39:32 intact, no live worker. Overnight extension13Z and all final
-replacement floors remain. Readiness alone cannot qualify policy training or
-replacement; register the next recipe separately after reviewing actual results.
+Next separately registered development_rl_3 compares whole-game and late-row
+outcome learning with matched game/optimizer budgets. New16x64games per arm,
+finalonly, unchanged acceptance floors. No NEWmodel report due from readiness.
+Auxiliary model report and Oct5newsletter already delivered once; never resend.
+Owner STOP13:39:32 intact, no live restart; extension13Z remains in force.
