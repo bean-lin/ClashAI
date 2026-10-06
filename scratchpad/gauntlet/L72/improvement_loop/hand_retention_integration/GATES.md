@@ -10,8 +10,8 @@ OWNS: pipeline/model_tower.py, pipeline/model_gen.py, pipeline/opponent_hand_v2.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/hand_retention_integration/check_hand.py
   EXPECT: HAND_SUCCESSOR_VERIFIED
   EVIDENCE: l72-hand-successor exit0/token, eight tests; live event completeness remains conditional.
-- [ ] S1: Original expert sequences and public beliefs are joined and independently verified without future/private input.
-  EVIDENCE: pending; freeze membership and metrics before collection.
+- [x] S1: Original expert sequences and public beliefs are joined and independently verified without future/private input.
+  EVIDENCE: sequence_data/reviewed.json; 268718 rows, all labels/features/windows/replays exact.
 - [ ] M1: Versioned learned representation preserves initial eligible-parent predictions and supports strict load/save/live inputs.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/hand_retention_integration/check_model.py
   EXPECT: HAND_MODEL_QUALIFIED
