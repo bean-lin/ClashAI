@@ -1,5 +1,40 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-05 20:23 EDT -- CACHED RL FAILURE AND GRADIENT DIAGNOSES COMPLETE
+> Read rl_failure_audit/PLAN,METRICS,GATES,REVIEW,report,verified,reviewed and
+> bindings_verified under L72/improvement_loop. D1-D3 complete:130.45s producer/
+> 11.41s independent/.55s review/.15s source-binding supplement exit0/token.
+> All54723rows/405replays/3caches/19groups/955Rocketdetails reconcile,2positive8negative.
+> No new inference/optimization in that leaf. Do NOT repeat completed jobs.
+> v5->RL totalaction+722 = correctWAIT+859 minus correctPLAY137. Defense+81 =
+> WAIT+86/PLAY-5;Witch+3=+4/-1,NW+5=+7/-2,Furnace+7=+14/-7,late+65=+77/-12.
+> Better WAIT agreement is legitimate but does not prove better defensive PLAY
+> execution or physical value. Twelve previously correct Rockets lost:5gateSTOP,
+> 4wrongcard,3aim;3gained (1card/2aim). Late loses one per head,no gains.
+> Rocket gates845->816,cards269->253,aim292->288;arithmetic hybrid counts77,76,74,
+> 73,72,71,69,68. Retaining the old gate alone cannot restore control77. Hybrids
+> are not new models/gameplay. Original verdict REJECTED; report already sent once.
+> Outer review's slash-prefix source branch missed Windows paths; separate exact
+> Path.parts supplement binds them without counter rerun. No failed metric waived.
+> rl_gradient_audit G1-G3 COMPLETE:read PLAN/GATES/REVIEW/report/verified/reviewed.
+> Collection244.85s/independent5.38s/review1.40s exit0/token. All27 fixed policy-
+> update starts6..32,pre-checkpointsu005..u031,6912 original training rows reconcile.
+> Weighted critic norm smaller than actor+KL in27/27;share2.824%-12.905%,median7.430%.
+> Shared dot negative13/27,cosine[-.164625,+.155918],median+.002850. No measured
+> critic domination; source reach/opposition does not establish final causation.
+> These are fixed256-row start samples,not all minibatches/Adam effects/gameplay.
+> Allweights unchanged;exact detachednonvalue/actorvaluehead zero gradients.
+> Independent3positive8corruptions plus outer membership1positive4corruptions.
+> No optimizer/newcheckpoint/developmentprediction/nativegame. Do NOT repeat.
+> All gradient workers exited; no active model/native replay/live worker. Native5560
+> idle,owner STOP13:39:32 intact,no fallbackrestart. No new model report due.
+> Next: register cached training-credit scope before analysis of original sampled
+> PLAY/WAIT/Rocket decisions, saved advantages/returns, terminal distance and GAE
+> direct terminal contribution. All32updates,5criticwarmup distinct from27policy;
+> retain failed/unlanded commands. No such diagnosis registered/executed yet.
+> No detach/lambda remedy chosen; no blind parameter grid/rejectedrecipe mixture.
+> Final N2-N7/material/physical/gameplay/untouched/statistical/Q4/Q5 remain OPEN.
+
 > ## 2026-10-05 19:55 EDT -- OUTCOME RL COMPLETE; CANDIDATE REJECTED; REPORT DELIVERED ONCE
 > Supersedes all active training/recount snapshots below. Read development_rl_1/
 > REVIEW.md,results_verified.json,reviewed_results.json and development_rl_1_recount/
