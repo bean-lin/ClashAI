@@ -1,5 +1,26 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 04:32 EDT -- TRAINING-FIT DIAGNOSTIC COMPLETE
+> Read training_fit_audit/REVIEW,GATES,collected,verified,reviewed. All267305
+> fresh training views and54723cached development views independently reconcile.
+> Preparation2.672112s,collection198.023819s,independent15.603543s,review.355999s
+> all exit0/token. Controls2positive6malformed,then4positive10corruptions.
+> All68source hashes/weights/orientations/row and replay counts agree. ZERO
+> optimizer/backward/development inference/new models; all workers exited.
+> Do NOT rerun any completed audit job. No new model report due.
+>
+> Actual weighted training Rocket full175/2366,aim674/2366,card628/2366 versus
+> development77/955,292/955,269/955. Native expertPLAY9957/67106 versus
+> development2602/17192. Final train fit is weak with no large inner-split gap;
+> no proof of cause, capacity, physical benefit or untouched generalization.
+> New development_iteration_9 PLAN/METRICS/GATES registered before optimization:
+> additional ordinary IL from verifiedv5 with freshAdam,8000updates,finalonly,
+> original labels/split/architecture/learningrate; no rejected recipe mixture.
+> Preparation/implementation pending. No training launched yet. Original1000
+> job is not repeated; fresh optimizer disclosed. All continuation/final floors
+> unchanged;STOP13:39:32 intact;13Zownerextension. RL3 remains rejected/reported.
+
+
 > ## 2026-10-06 04:18 EDT -- PAIRED CURRICULUM COMPLETE; BOTH MODELS REJECTED
 > Supersedes the active development_rl_3 snapshot below. Read its REVIEW/GATES,
 > trained/training_verified/evaluated/results_verified/reviewed_evidence/
