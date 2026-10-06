@@ -2,10 +2,10 @@
 
 OWNS: scratchpad/gauntlet/L72/improvement_loop/small_set_fit/**, icebow/data/bench/small_set_fit_20261006/**
 
-- [ ] P1: Original sample labels, fixed schedule and finite unchanged-weight preparation probe reconcile.
+- [x] P1: Original sample labels, fixed schedule and finite unchanged-weight preparation probe reconcile.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/small_set_fit/prepare.py
   EXPECT: SMALL_SET_FIT_PREPARED
-  EVIDENCE: pending
+  EVIDENCE: prepared.json and l72-small-set-fit-prepare;67.421289s exit0/token.74source bindings,1024rows/798replays/524288draws,2positive6malformed controls,finite CPU backward5.726444 with exact unchanged weights and zero optimizer.
 - [ ] T1: Exactly 4096 finite updates produce the quarantined final assay model.
   CHECK: research/ext/Royale/.venv/Scripts/python.exe scratchpad/gauntlet/L72/improvement_loop/small_set_fit/train.py
   EXPECT: SMALL_SET_FIT_TRAINED

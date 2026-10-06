@@ -1,5 +1,21 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 05:20 EDT -- SMALL-SET FIT PREPARATION PASSED; TRAINING ACTIVE
+> One serial chain launched05:17:54EDT launcher31652/chain53864/trainer59036/41204.
+> small_set_fit P1 complete67.421289s exit0/SMALL_SET_FIT_PREPARED:74bindings,
+>1024sample rows/798replays,524288draws(260352native/263936mirror),2positive6bad
+> controls. Original labels/splits reconcile; finite CPUbackward5.726444244384766,
+> allweightsunchanged/zerooptimizer. T1ACTIVE;V1/E1/V2/R1pending,no report due.
+> Read PLAN/METRICS/GATES/REVIEW/prepared/launch/chain_started/training_started/
+> currentprogress/chain.out/err FIRST. Shared development_iteration_1 chain.lock
+> spans ALL5jobs. No duplicates/active-source edits/healthyworker kills/gap use.
+> Outside review_small_set_fit.py and close_small_set_fit_report.py PREPARED,
+> UNEXECUTED. RunreviewONCE onlyafter5successes,reportONCE,bindreceipts/delivery.
+> Quarantined weights NEVER policy/learningparent/live eligible; no development
+> inference or nativegames. STOP13:39:32 intact;13Z/09EDTcutoff/finalfloorsOPEN.
+> Registration pushed0afc0a5; trial9rejection/reportpublished275aead complete.
+
+
 > ## 2026-10-06 05:18 EDT -- SMALL-SET FIT ASSAY REGISTERED; NOT YET LAUNCHED
 > Read small_set_fit/PLAN,METRICS,GATES,REVIEW. Diagnostic-only fit test from
 > verified ordinary_v5; fixed1024 training rows (64PLAY per8cards,512WAIT),
