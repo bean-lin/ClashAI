@@ -1,5 +1,34 @@
 # HANDOFF — ClashBot
 
+> ## 2026-10-06 04:18 EDT -- PAIRED CURRICULUM COMPLETE; BOTH MODELS REJECTED
+> Supersedes the active development_rl_3 snapshot below. Read its REVIEW/GATES,
+> trained/training_verified/evaluated/results_verified/reviewed_evidence/
+> reviewed_results and chain_complete. All2048games/32arm-updates/512finite steps
+> independently reconcile;32positive17corruptions,warmupnonvalueexact,noguardstop.
+> Full291838eligible rows; late13667rows/296eligiblegames,728emptyviews retained.
+> Train13810.484160s,training-independent58.893233s,eval152.885233s,
+> results-independent52.114778s all exit0/token; chain ended04:00:35EDT.
+> No reruns or frozen source edits. Both finalu016 only; no best-arm substitution.
+>
+> Corrected R1e/v5/full/late Rocket aim290/292/298/293 of955; full actions
+>54/77/85/81; lateRocket14/22/23/25 of320. ALL original+5/+2/+2pp material
+> contrasts FAIL. Late also fails Witch/Furnace/defense/late-all vsordinary_v5;
+> its protections versus degraded fullcontrol pass but cannot rescue it.
+> Defense3952/4011/3849/3916 of8183; late-all1949/1984/1832/1929 of6422.
+> Barrelcorrect36/40/38/41,wrong20/22/23/21,nonfired7/1/2/1 of63.
+> Both REJECTED,NOTACCEPTED,NOTDEPLOYED. No new gameplay test qualifies.
+> Recorded-coordinate/action agreement is not physical impact, safe cycling,
+> strategy, statistical superiority or original-live R1e equivalence.
+>
+> Outside evidence review completedONCE. Compound report deliveredONCE04:16EDT,
+>3parts/allHTTP200,ID model-late-curriculum-pair-final. reviewed_results binds
+> exact message/delivery/messageIDs/receipts; NEVER resend. No model/GPU/native
+> replay/live workers at04:13. Owner STOP13:39:32 intact. Next diagnostic proposed:
+> training fit and joint card/placement errors before any further learning recipe.
+> Owner extension through13Z/09:00EDT supersedes04Z. All finalN2-N7,physical,
+> component,statistical,gameplay,public,Q4/Q5 gates remain OPEN; objective unmet.
+
+
 > ## 2026-10-06 00:06 EDT -- LATE READINESS COMPLETE; MATCHED CURRICULUM ACTIVE
 > This supersedes the prior active late_game_readiness_2 snapshot. C1/V1/R1
 > COMPLETE: collection445.394942s/independent1.898031s/review.174590s exit0/token.
